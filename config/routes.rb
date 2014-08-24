@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root to: 'comments#index'
 
   resource :comments
+  resource :activities
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
