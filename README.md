@@ -2,7 +2,9 @@
 
 ## Description
 
-collagree is a opinion collection app.
+collagree is a opinion collection app.  
+
+New_Collagree removes dependent of outdated gems in Collagree
 
 ## Installation
 
@@ -35,3 +37,9 @@ $ bundle exec spring rails s
 ## LICENCE
 
 好きなライセンスをちゃんいみパイセンが
+
+## 伊美先輩TODO
+
+* カラムの説明
+* ネガポジのアルゴリズム
+* テーブルの構造
