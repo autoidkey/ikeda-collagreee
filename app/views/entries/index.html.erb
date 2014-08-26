@@ -1,0 +1,6 @@
+<% @entries.each do |entry| %>
+  <%= entry.title %>
+  <%= entry.body %>
+  <%= link_to 'show', entry %>
+  <br />
+<% end %>
