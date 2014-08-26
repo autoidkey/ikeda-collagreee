@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826041933) do
+ActiveRecord::Schema.define(version: 20140826100047) do
 
   create_table "activities", force: true do |t|
     t.string   "info"
@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 20140826041933) do
     t.string   "title"
     t.string   "body"
     t.integer  "parent_id"
-    t.integer  "np",           default: 0
+    t.integer  "np"
     t.integer  "user_id"
-    t.boolean  "facilitation", default: false
-    t.boolean  "invisible",    default: false
-    t.boolean  "top_fix",      default: false
+    t.boolean  "facilitation"
+    t.boolean  "invisible"
+    t.boolean  "top_fix"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140826041933) do
     t.boolean  "secret"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "admin_id"
   end
 
   create_table "users", force: true do |t|

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :entries
   has_many :activities
+  has_many :themes
 
   def self.admin?(type)
     type == 0
