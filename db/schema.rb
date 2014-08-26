@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826101957) do
+ActiveRecord::Schema.define(version: 20140826130415) do
 
   create_table "activities", force: true do |t|
-    t.string   "info"
     t.string   "atype"
-    t.string   "read",       default: "0"
-    t.integer  "user_id",                  null: false
+    t.boolean  "read",       default: false
+    t.integer  "user_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "theme_id"
+    t.integer  "entry_id"
   end
 
   create_table "entries", force: true do |t|
