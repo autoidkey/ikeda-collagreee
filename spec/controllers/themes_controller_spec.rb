@@ -15,6 +15,19 @@ RSpec.describe ThemesController, :type => :controller do
       get :show, id: theme.id
       expect(response.status).to eq(200)
     end
+
+    context 'if has associated entries' do
+      let(:entry) { FactoryGirl.create(:entry) }
+
+      before do
+        entry.update_attribute(:theme_id, theme.id)
+      end
+
+      it 'display entries' do
+        get :show, id: theme.id
+        expect(assigns[:entries]).to match_array [entry]
+      end
+    end
   end
 
   describe '#new' do

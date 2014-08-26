@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826100047) do
+ActiveRecord::Schema.define(version: 20140826101957) do
 
   create_table "activities", force: true do |t|
     t.string   "info"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140826100047) do
     t.boolean  "top_fix"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "theme_id"
   end
 
   create_table "exclusions", force: true do |t|

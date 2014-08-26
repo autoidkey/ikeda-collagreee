@@ -1,13 +1,13 @@
-class EntriesController < ApplicationController
-  before_action :set_entry, only: [:show]
+ class EntriesController < ApplicationController
+  before_action :set_entry, only: %i(show)
 
   def index
     @entries = Entry.all
   end
 
   def show
-    @entry = Entry.new { |obj| obj.parent_id = @contact.id }
-    @entries = Entry.where(parent_id: @contact.id)
+    @new_entry = Entry.new { |obj| obj.parent_id = @entry.id }
+    @entries = Entry.where(parent_id: @entry.id)
   end
 
   def new
@@ -19,8 +19,8 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       if @entry.save
-        format.html { redirect_to @entry, notice: '投稿しました' }
-        format.json { render action: 'show', status: :created, location: @entry }
+        format.html { redirect_to theme_path(@entry.theme), notice: '投稿しました' }
+        format.json { render 'show', status: :created, location: @entry }
       else
         format.html { render action: 'new' }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
@@ -31,10 +31,10 @@ class EntriesController < ApplicationController
   private
 
   def set_entry
-    @contact = Entry.find(params[:id])
+    @entry = Entry.find(params[:id])
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np)
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id)
   end
 end

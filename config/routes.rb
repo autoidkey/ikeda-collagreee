@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :entries
   resources :activities
+  resources :themes
 
   # home routes
   get 'home/collagree'

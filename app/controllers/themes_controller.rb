@@ -6,6 +6,8 @@ class ThemesController < ApplicationController
   end
 
   def show
+    @entry = Entry.new
+    @entries = Entry.in_theme(@theme.id)
   end
 
   def new
