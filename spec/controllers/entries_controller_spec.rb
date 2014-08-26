@@ -18,10 +18,18 @@ RSpec.describe EntriesController, :type => :controller do
   end
 
   describe '#create' do
-    let(:entry) { FactoryGirl.attributes_for(:entry) }
-    before { post :create, entry: entry }
+    let(:theme) { FactoryGirl.create(:theme) }
+    let(:entry) { FactoryGirl.attributes_for(:entry, theme_id: theme) }
+
+    before do
+      post :create, entry: entry
+    end
 
     it { expect(Entry.all.count).to eq 1 }
+
+    it 'create activity log' do
+      expect(Activity.all.count).to eq 1
+    end
   end
 
   describe '#show' do

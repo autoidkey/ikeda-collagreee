@@ -3,9 +3,7 @@ FactoryGirl.define do
     title 'title'
     body 'body'
     np 1
-
-    # after(:user_id) do |ui|
-    #   ui = FactoryGirl.create(:user).id
-    # end
+    user_id 0                   # 取り敢えず
+    theme_id 0
   end
 end
