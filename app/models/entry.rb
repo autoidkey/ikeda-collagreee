@@ -4,19 +4,28 @@ class Entry < ActiveRecord::Base
 
   # default_scope -> { order('created_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
+  scope :children, ->(parent_id) { where(parent_id: parent_id) }
 
   after_save :logging_activity
 
-  def activity_type
-    Activity.type(self)
+  def root_post
+    parent_id.nil? ? self : Entry.find(parent_id)
   end
 
+  def root_user
+    root_post.user
+  end
+
+  def thread_entries
+    Entry.children(root_post.id)
+  end
+
+  def thread_posted_user
+    thread_entries.map(&:user).uniq
+  end
+
+  # 場所
   def logging_activity
-    activity = Activity.new
-    activity.theme_id = theme_id
-    activity.user_id = user_id
-    activity.entry_id = id
-    activity.atype = activity_type
-    activity.save
+    Activity.logging(self)
   end
 end

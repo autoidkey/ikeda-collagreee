@@ -1,9 +1,10 @@
 FactoryGirl.define do
   factory :entry do
-    title 'title'
-    body 'body'
-    np 1
-    user_id 0                   # 取り敢えず
-    theme_id 0
+    title 'entry_title'
+    body 'entry_body'
+    np 50
+
+    association :user, factory: :user
+    association :theme, factory: :theme
   end
 end
