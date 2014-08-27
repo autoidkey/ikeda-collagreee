@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'natto', '~> 0.9.6'
 gem 'devise', '~> 3.3.0'
+gem 'cancancan'
 gem 'bootstrap-sass', '~> 3.2.0'
 
 group :development do
