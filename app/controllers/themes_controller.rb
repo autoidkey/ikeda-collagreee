@@ -7,7 +7,7 @@ class ThemesController < ApplicationController
 
   def show
     @entry = Entry.new
-    @entries = Entry.in_theme(@theme.id)
+    @entries = Entry.in_theme(@theme.id).root
   end
 
   def new

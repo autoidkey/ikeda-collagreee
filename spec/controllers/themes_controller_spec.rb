@@ -18,14 +18,18 @@ RSpec.describe ThemesController, :type => :controller do
 
     context 'if has associated entries' do
       let(:entry) { FactoryGirl.create(:entry) }
+      let!(:entry2) { FactoryGirl.create(:entry) }
+      let!(:child_entry) { FactoryGirl.create(:entry, parent_id: entry2.id) }
 
       before do
         entry.update_attribute(:theme_id, theme.id)
+        entry2.update_attribute(:theme_id, theme.id)
+        child_entry.update_attribute(:theme_id, theme.id)
       end
 
       it 'display entries' do
         get :show, id: theme.id
-        expect(assigns[:entries]).to match_array [entry]
+        expect(assigns[:entries]).to match_array [entry, entry2]
       end
     end
   end

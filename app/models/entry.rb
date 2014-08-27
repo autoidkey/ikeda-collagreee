@@ -5,6 +5,7 @@ class Entry < ActiveRecord::Base
   # default_scope -> { order('created_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id) }
+  scope :root, -> { where(parent_id: nil) }
 
   after_save :logging_activity
 
