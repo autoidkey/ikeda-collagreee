@@ -1,4 +1,13 @@
-<%= entry.user.name %>@<%= entry.created_at %>
+<% if current_user.image? %>
+  <% if entry.facilitation? %>
+    <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+    ファシリテーター@<%= entry.created_at %>
+  <% else %>
+    <%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %>
+    <%= entry.user.name %>@<%= entry.created_at %>
+  <% end %>
+<% end %>
+
 <p class="lead"><%= entry.title %></p>
 <p><%= entry.body %></p>
 
