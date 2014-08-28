@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :themes, through: :joins
   has_many :joins
 
+  ACTIVITY_COUNT = 10
+
   def self.admin?(type)
     type == 0
   end
@@ -30,6 +32,10 @@ class User < ActiveRecord::Base
 
   def password_changed?(password)
     !password.blank?            # blankだっけ？
+  end
+
+  def acitivities_in_theme(theme)
+    activities.select { |a| a.in_theme?(theme.id) }.take(ACTIVITY_COUNT)
   end
 
   # def email_changed?(email)

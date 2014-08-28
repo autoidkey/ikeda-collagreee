@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h3>Activity / あなたの活動</h3>
-    <% current_user.activities.select{ |a| a.in_theme?(@theme.id) }.each do |activity| %>
+    <% current_user.acitivities_in_theme(@theme).each do |activity| %>
       <%= activity.created_at %>
       <%= activity.type %>
       <br />

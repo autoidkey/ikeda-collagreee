@@ -3,7 +3,7 @@ class Activity < ActiveRecord::Base
   belongs_to :entry
   belongs_to :theme
 
-  # default_scope -> { order('created_at DESC') }
+  default_scope -> { order('updated_at DESC') }
 
   scope :user,  ->(id) { where(user_id: id) }
 
