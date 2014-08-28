@@ -7,7 +7,11 @@ class Activity < ActiveRecord::Base
 
   scope :user,  ->(id) { where(user_id: id) }
 
-  CONTENT = %w(投稿しました。 返信しました。).freeze
+  CONTENT = %w(投稿しました。 返信しました。 返信されました。).freeze
+
+  def type
+    CONTENT[atype]
+  end
 
   def self.type(entry)
     entry.parent_id.nil? ? 0 : 1 # CONTENT
@@ -20,5 +24,9 @@ class Activity < ActiveRecord::Base
     activity.entry_id = entry.id
     activity.atype = Activity.type(entry)
     activity.save
+  end
+
+  def in_theme?(theme_id)
+    self.theme_id == theme_id
   end
 end
