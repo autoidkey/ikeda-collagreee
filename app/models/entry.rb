@@ -2,7 +2,7 @@ class Entry < ActiveRecord::Base
   belongs_to :user
   belongs_to :theme
 
-  # default_scope -> { order('created_at DESC') }
+  default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id) }
   scope :root, -> { where(parent_id: nil) }
@@ -25,8 +25,11 @@ class Entry < ActiveRecord::Base
     thread_entries.map(&:user).uniq
   end
 
-  # 場所
   def logging_activity
     Activity.logging(self)
+  end
+
+  def parent?
+    parent_id.nil?
   end
 end
