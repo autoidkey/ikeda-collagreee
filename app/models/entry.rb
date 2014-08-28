@@ -1,6 +1,6 @@
 class Entry < ActiveRecord::Base
   belongs_to :user
-  belongs_to :theme
+  belongs_to :theme , touch: true
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }

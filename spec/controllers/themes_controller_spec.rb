@@ -8,6 +8,21 @@ RSpec.describe ThemesController, :type => :controller do
       get :index
       expect(response.status).to eq(200)
     end
+
+    context '投稿があれば' do
+      let(:theme2) { FactoryGirl.create(:theme) }
+      let(:entry) { FactoryGirl.create(:entry, theme_id: theme) }
+      before do
+        theme2
+        Timecop.scale(60)
+        entry
+      end
+
+      it 'update_at順になる表示される（最新の投稿順）' do
+        get :index
+        expect(assigns[:themes]).to eq [theme, theme2]
+      end
+    end
   end
 
   describe '#show' do

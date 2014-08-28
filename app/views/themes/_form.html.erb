@@ -3,17 +3,17 @@
     <%= f.label :title %><br>
     <%= f.text_field :title %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :body %><br>
     <%= f.text_field :body %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :color %><br>
     <%= f.text_field :color %>
   </div>
   <%= f.hidden_field :admin_id, { :value => current_user.id } %>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit '作成', class: 'btn btn-default' %>
   </div>
 <% end %>

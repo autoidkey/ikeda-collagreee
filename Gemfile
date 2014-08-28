@@ -35,6 +35,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'guard', '~> 2.6.0'
   gem 'guard-rspec', '~> 4.2.8'
+  gem 'timecop'
 end
 
 # Use unicorn as the app server
