@@ -2,6 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$(document).on 'click',  '#facilitation a', (e) ->
+$(document).on 'click',  '.facilitation-phrase a', (e) ->
   e.preventDefault()
-  console.log($('#entry_body').val($(@).text()))
+  $(@).parents('.tab-pane').find('textarea').val($(@).text())

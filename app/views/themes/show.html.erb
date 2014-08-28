@@ -4,12 +4,12 @@
     <%= render 'top_form' %>
     </div>
     <hr />
-    <% @entries.each do |entry| %>
+    <% @entries.each_with_index do |entry, i| %>
       <div class="panel panel-default">
         <div class="panel-body">
           <%= render 'entry', entry: entry %>
           <hr />
-          <%= render 'reply_form', e: entry %>
+          <%= render 'reply_form', {entry: entry, i: i}%>
         </div>
       </div>
     <% end %>

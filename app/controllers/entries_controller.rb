@@ -36,6 +36,6 @@
    end
 
    def entry_params
-     params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image)
+     params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
    end
  end

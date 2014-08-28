@@ -1,2 +1,5 @@
 <%= child.created_at %>
 <%= child.body %>
+<% if child.image? %>
+  <%= image_tag child.image.entry_thumb.url %>
+<% end %>

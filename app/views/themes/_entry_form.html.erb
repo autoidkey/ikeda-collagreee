@@ -11,5 +11,6 @@
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => @entry.parent_id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+  <%= f.hidden_field :facilitation, { :value => false } %>
   <%= f.submit '投稿', class: 'btn btn-default' %>
 <% end %>
