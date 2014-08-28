@@ -1,0 +1,17 @@
+<div id="facilitation">
+
+  <% @facilitations.each do |facilitation| %>
+    <h4><%= facilitation['heading'] %></h4>
+
+    <ul class="list-unstyled">
+      <% facilitation['scenes'].each_with_index do |fac, i| %>
+        <li><small><%= fac['scene'] %></small></li>
+        <ul>
+          <% fac['phrases'].each_with_index do |phrase,j| %>
+            <li><small><%= link_to phrase, '#', id: "phrase-#{i}-#{j}"%></small></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
