@@ -11,6 +11,7 @@ class ThemesController < ApplicationController
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
     @facilitations = Facilitations
+    @theme.join!(current_user) unless @theme.join?(current_user)
   end
 
   def new

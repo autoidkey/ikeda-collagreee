@@ -15,12 +15,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <% if current_user.image? %>
-            <li><%= image_tag current_user.image.thumb.url, class: 'user-icon img-circle' %></li>
-          <% else %>
-            <li><%= image_tag 'people_icon.png', class: 'user-icon' %></li>
-          <% end %>
-
+          <li><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
           <li><%= link_to "ようこそ、#{ current_user.name }さん", edit_user_registration_path %></li>
           <li><%=  %></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete  %></li>
