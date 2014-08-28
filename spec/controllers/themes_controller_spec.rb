@@ -47,6 +47,34 @@ RSpec.describe ThemesController, :type => :controller do
         expect(assigns[:entries]).to match_array [entry, entry2]
       end
     end
+
+    describe '他にthemeがあるとき' do
+      let(:theme0) { FactoryGirl.create(:theme) }
+      let(:theme1) { FactoryGirl.create(:theme) }
+      let(:theme2) { FactoryGirl.create(:theme) }
+      let(:theme3) { FactoryGirl.create(:theme) }
+      let(:theme4) { FactoryGirl.create(:theme) }
+      let(:theme5) { FactoryGirl.create(:theme) }
+
+      before do
+        theme0
+        Timecop.scale(3600)
+        theme1
+        Timecop.scale(3600)
+        theme2
+        Timecop.scale(3600)
+        theme3
+        Timecop.scale(3600)
+        theme4
+        Timecop.scale(3600)
+        theme5
+      end
+
+      it '上位5つを出力する' do
+        get :show, id: theme.id
+        expect(assigns[:other_themes]).to eq [theme5, theme4, theme3, theme2, theme1]
+      end
+    end
   end
 
   describe '#new' do

@@ -8,6 +8,7 @@ class ThemesController < ApplicationController
   def show
     @entry = Entry.new
     @entries = Entry.in_theme(@theme.id).root
+    @other_themes = Theme.others(@theme.id)
   end
 
   def new
