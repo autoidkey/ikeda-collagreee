@@ -8,6 +8,12 @@
   <div class="form-group">
     <%= f.file_field :image %>
   </div>
+
+  <% @theme.issues.each do |issue| %>
+    <%= check_box 'issues', issue.id %>
+    <%= issue.name %>
+  <% end %>
+
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => @entry.parent_id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>

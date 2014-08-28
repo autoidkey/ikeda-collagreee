@@ -3,6 +3,8 @@ class Entry < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :theme , touch: true
+  has_many :issues, through: :tagged_entries
+  has_many :tagged_entries
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
@@ -33,5 +35,9 @@ class Entry < ActiveRecord::Base
 
   def parent?
     parent_id.nil?
+  end
+
+  def tagging!(tag)
+    issues << tag
   end
 end

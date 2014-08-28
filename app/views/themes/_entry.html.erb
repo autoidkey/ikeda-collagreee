@@ -11,6 +11,10 @@
 <p class="lead"><%= entry.title %></p>
 <p><%= entry.body %></p>
 
+<% entry.issues.each do |issue| %>
+  <span class="label label-default"><%= issue.name %></span>
+<% end %>
+
 <% if entry.image? %>
   <%= image_tag entry.image.entry_thumb.url %>
 <% end %>
