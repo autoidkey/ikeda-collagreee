@@ -1,6 +1,7 @@
 class Theme < ActiveRecord::Base
   has_many :entries, dependent: :destroy
-  has_many :activity, dependent: :destroy # けす？
+  has_many :activities, dependent: :destroy # けす？
+  has_many :issues, dependent: :destroy # けす？
   belongs_to :admin, class_name: 'User'
 
   default_scope -> { order('updated_at DESC') }

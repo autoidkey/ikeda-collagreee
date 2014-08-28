@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :entries
   resources :activities
   resources :themes
+  resources :issues, only: [:create]
 
   # home routes
   get 'home/collagree'

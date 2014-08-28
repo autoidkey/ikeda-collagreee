@@ -1,0 +1,22 @@
+class IssuesController < ApplicationController
+
+  def create
+    @issue = Issue.new(issue_params)
+
+    respond_to do |format|
+      if @issue.save
+        format.html { redirect_to theme_path(@issue.theme), notice: 'tagを作成しました' }
+        format.json { render action: 'show', status: :created, location: @issue }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @issue.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  private
+
+  def issue_params
+    params.require(:issue).permit(:theme_id, :name)
+  end
+end

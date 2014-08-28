@@ -9,6 +9,7 @@ class ThemesController < ApplicationController
     @entry = Entry.new
     @entries = Entry.in_theme(@theme.id).root
     @other_themes = Theme.others(@theme.id)
+    @issue = Issue.new
   end
 
   def new
