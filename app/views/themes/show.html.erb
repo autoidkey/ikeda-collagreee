@@ -1,16 +1,21 @@
-<h3><%= @theme.title %></h3>
+<div class="row">
+  <div class="col-md-8">
+    <div class="well">
+    <%= render 'entry_form' %>
+    </div>
+    <hr />
 
-<h5>new entry</h5>
-<%= render 'entry_form' %>
-
-
-
-<br />
-
-<% @entries.each do |theme| %>
-  <%= theme.title %>
-  <%= theme.body %>
-
-  <%= link_to 'show', theme %>
-  <br />
-<% end %>
+    <% @entries.each do |entry| %>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= render 'entry', entry: entry %>
+          <hr />
+          <%= render 'reply_form', e: entry %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <h3><%= @theme.title %></h3>
+  </div>
+</div>

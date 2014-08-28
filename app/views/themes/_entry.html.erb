@@ -1,0 +1,8 @@
+<%= entry.user.name %>@<%= entry.created_at %>
+<p class="lead"><%= entry.title %></p>
+<p><%= entry.body %></p>
+<hr />
+
+<% entry.thread_entries.each do |child| %>
+  <%= render 'child_entry', child: child %>
+<% end %>

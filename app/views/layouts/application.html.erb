@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
-    <%= stylesheet_link_tag "application", media: "all",
-                                           "data-turbolinks-track" => true %>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
     <%= csrf_meta_tags %>
   </head>
+
   <body>
-    <div class="container">
+    <%= render 'layouts/header' %>
+
+    <div class="container-fluid">
       <% flash.each do |key, value| %>
         <%= content_tag(:div, value, class: "alert alert-#{key}") %>
       <% end %>
+
       <%= yield %>
+
+      <%= render 'layouts/footer' %>
       <%= debug(params) if Rails.env.development?  %>
     </div>
   </body>
