@@ -27,6 +27,7 @@ $ bundle exec db:migrate
 * ruby-2.1.1
 * mysql 5.6.x
 * mecab 0.966
+* ImageMagick 6.8.9-x
 
 ## How to Start
 

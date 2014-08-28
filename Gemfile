@@ -12,9 +12,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 gem 'natto', '~> 0.9.6'
+gem 'carrierwave', '~> 0.10.0'
+gem 'rmagick', '~> 2.13.3',  :require => 'RMagick'
 gem 'devise', '~> 3.3.0'
 gem 'cancancan'
 gem 'bootstrap-sass', '~> 3.2.0'
+# gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
 group :development do
   gem 'spring', '~> 1.1.2'

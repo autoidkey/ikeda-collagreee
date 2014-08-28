@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h3>Theme / テーマ</h3>
+    <h3><%= @theme.title %></h3>
+    <% if @theme.image? %>
+      <%= image_tag @theme.image.url %>
+    <% else %>
+      <%= image_tag 'noimage.gif' %>
+    <% end %>
+  </div>
+</div>

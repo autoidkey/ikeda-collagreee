@@ -1,6 +1,10 @@
 <%= entry.user.name %>@<%= entry.created_at %>
 <p class="lead"><%= entry.title %></p>
 <p><%= entry.body %></p>
+
+<% if entry.image? %>
+  <%= image_tag entry.image.entry_thumb.url %>
+<% end %>
 <hr />
 
 <% entry.thread_entries.each do |child| %>

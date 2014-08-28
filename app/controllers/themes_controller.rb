@@ -37,6 +37,6 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:title, :body, :color, :admin_id)
+    params.require(:theme).permit(:title, :body, :color, :admin_id, :image)
   end
 end

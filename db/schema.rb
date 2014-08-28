@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826130415) do
+ActiveRecord::Schema.define(version: 20140828060254) do
 
   create_table "activities", force: true do |t|
-    t.string   "atype"
+    t.integer  "atype"
     t.boolean  "read",       default: false
     t.integer  "user_id",                    null: false
     t.datetime "created_at"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140826130415) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "theme_id"
+    t.string   "image"
   end
 
   create_table "exclusions", force: true do |t|
@@ -69,6 +70,7 @@ ActiveRecord::Schema.define(version: 20140826130415) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "admin_id"
+    t.string   "image"
   end
 
   create_table "users", force: true do |t|
@@ -93,6 +95,7 @@ ActiveRecord::Schema.define(version: 20140826130415) do
     t.string   "move"
     t.boolean  "remind",                 default: true
     t.integer  "mail_format",            default: 0
+    t.string   "image"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

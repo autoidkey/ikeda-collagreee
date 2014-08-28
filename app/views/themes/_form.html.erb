@@ -11,6 +11,9 @@
     <%= f.label :color %><br>
     <%= f.text_field :color %>
   </div>
+  <div id="form-group">
+    <%= f.file_field :image %>
+  </div>
   <%= f.hidden_field :admin_id, { :value => current_user.id } %>
 
   <div class="actions">

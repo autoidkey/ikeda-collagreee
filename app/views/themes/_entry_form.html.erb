@@ -5,6 +5,9 @@
   <div class="form-group">
     <%= f.text_area :body , class: 'form-control', placeholder: 'あなたはどんな意見ですか' %>
   </div>
+  <div class="form-group">
+    <%= f.file_field :image %>
+  </div>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => @entry.parent_id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>

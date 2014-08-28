@@ -16,9 +16,10 @@
     <% end %>
   </div>
   <div class="col-md-4">
-    <h3><%= @theme.title %></h3>
+    <%= render 'theme_info' %>
     <%= render 'activity' %>
     <%= render 'other_themes' %>
+    <%= render 'users' %>
     <%= render 'tags' %>
   </div>
 </div>
