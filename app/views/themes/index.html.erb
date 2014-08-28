@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>Theme<small>/テーマ</small></h1>
-  <%= link_to 'テーマ追加', new_theme_path, class: 'btn btn-default'%>
+  <%= link_to 'テーマ追加', new_theme_path, class: 'btn btn-default' if user_signed_in? && current_user.admin? %>
 </div>
 
 <% @themes.each do |theme| %>

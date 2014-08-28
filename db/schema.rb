@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20140828151448) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "realname",                              null: false
-    t.integer  "role",                   default: 1
+    t.integer  "role",                   default: 2
     t.string   "name",                                  null: false
     t.integer  "gender"
     t.integer  "age"

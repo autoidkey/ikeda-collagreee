@@ -1,4 +1,5 @@
 class IssuesController < ApplicationController
+  load_and_authorize_resource
 
   def create
     @issue = Issue.new(issue_params)

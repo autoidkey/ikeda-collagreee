@@ -1,4 +1,6 @@
  class EntriesController < ApplicationController
+   load_and_authorize_resource
+
    before_action :set_entry, only: %i(show)
 
    def index

@@ -1,5 +1,5 @@
 class ChangeRoleToUSers < ActiveRecord::Migration
   def change
-    change_column :users, :role, :integer,  defalut: 0
+    change_column :users, :role, :integer, default: 2
   end
 end

@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :themes, through: :joins
   has_many :joins
 
+  enum role: %i(admin facilitator nomal)
+
   ACTIVITY_COUNT = 10
 
   def self.admin?(type)
