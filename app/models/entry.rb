@@ -12,17 +12,18 @@ class Entry < ActiveRecord::Base
   scope :root, -> { where(parent_id: nil) }
 
   after_save :logging_activity
+  after_save :update_parent_entry_time, unless: :parent?
 
-  def root_post
+  def root_entry
     parent_id.nil? ? self : Entry.find(parent_id)
   end
 
   def root_user
-    root_post.user
+    root_entry.user
   end
 
   def thread_entries
-    Entry.children(root_post.id)
+    Entry.children(root_entry.id)
   end
 
   def thread_posted_user
@@ -39,5 +40,9 @@ class Entry < ActiveRecord::Base
 
   def tagging!(tag)
     issues << tag
+  end
+
+  def update_parent_entry_time
+    root_entry.touch
   end
 end

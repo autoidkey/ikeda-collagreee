@@ -7,5 +7,15 @@ FactoryGirl.define do
     password_confirmation 'testtest'
     gender 0
     age 10
+    role 2
+
+    factory :admin do
+      role 0
+    end
+
+    factory :facilitator do
+      role 1
+    end
   end
+
 end

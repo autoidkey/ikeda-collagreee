@@ -1,4 +1,5 @@
  class EntriesController < ApplicationController
+   before_action :authenticate_user!
    load_and_authorize_resource
 
    def create
@@ -8,7 +9,6 @@
        if @entry.save
          tags = Issue.checked(params[:issues])
          @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
-         @entry.root_post.touch unless @entry.parent?
 
          format.html { redirect_to theme_path(@entry.theme), notice: '投稿しました' }
          format.json { render 'show', status: :created, location: @entry }

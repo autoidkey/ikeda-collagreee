@@ -1,7 +1,8 @@
 class ThemesController < ApplicationController
-  # before_filter :authenticate_user!,:only => [:index,:new,:create,:show,:destroy]
-  load_and_authorize_resource
   before_action :set_theme, only: %i(show)
+  before_action :authenticate_user!, only: %i(create, new)
+
+  load_and_authorize_resource
 
   def index
     @themes = Theme.all
@@ -13,7 +14,7 @@ class ThemesController < ApplicationController
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
     @facilitations = Facilitations
-    @theme.join!(current_user) if user_signed_in? && !@theme.join?(current_user)
+    @theme.join!(current_user) if user_join?
   end
 
   def new
@@ -35,6 +36,10 @@ class ThemesController < ApplicationController
   end
 
   private
+
+  def user_join?
+    user_signed_in? && !@theme.join?(current_user) && !current_user.facilitator?
+  end
 
   def set_theme
     @theme = Theme.find(params[:id])

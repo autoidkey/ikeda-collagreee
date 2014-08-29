@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :themes, through: :joins
   has_many :joins
 
-  enum role: %i(admin facilitator nomal)
+  enum role: %i(admin facilitator normal)
 
   ACTIVITY_COUNT = 10
 
@@ -26,10 +26,6 @@ class User < ActiveRecord::Base
     else
       update_without_password(user_data)
     end
-  end
-
-  def admin?
-    role == 0
   end
 
   def password_changed?(password)

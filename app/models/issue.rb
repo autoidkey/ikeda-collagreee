@@ -6,7 +6,6 @@ class Issue < ActiveRecord::Base
   scope :to_object, ->(ids) { where(id: ids) }
 
   def self.checked(params)
-    params.select { |_, v| v == '1' }.keys
+    (params || {}).select { |_, v| v == '1' }.keys
   end
-
 end
