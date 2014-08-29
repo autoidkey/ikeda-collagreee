@@ -14,6 +14,8 @@ class Entry < ActiveRecord::Base
   after_save :logging_activity
   after_save :update_parent_entry_time, unless: :parent?
 
+  NP_THRESHOLD = 50
+
   def root_entry
     parent_id.nil? ? self : Entry.find(parent_id)
   end
@@ -26,6 +28,10 @@ class Entry < ActiveRecord::Base
     Entry.children(root_entry.id)
   end
 
+  def thared_np_count
+    thead_entries.partition(&:positive?)
+  end
+
   def thread_posted_user
     thread_entries.map(&:user).uniq
   end
@@ -35,6 +41,10 @@ class Entry < ActiveRecord::Base
     Activity.logging(self)
     # 2は返信
     Activity.logging(root_entry, 2) unless parent? || root?
+  end
+
+  def positive?
+    np >= NP_THRESHOLD
   end
 
   def root?
