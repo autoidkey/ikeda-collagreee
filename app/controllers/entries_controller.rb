@@ -1,21 +1,6 @@
  class EntriesController < ApplicationController
    load_and_authorize_resource
 
-   before_action :set_entry, only: %i(show)
-
-   def index
-     @entries = Entry.all
-   end
-
-   def show
-     @new_entry = Entry.new { |obj| obj.parent_id = @entry.id }
-     @entries = Entry.where(parent_id: @entry.id)
-   end
-
-   def new
-     @entry = Entry.new
-   end
-
    def create
      @entry = Entry.new(entry_params)
 
@@ -35,10 +20,6 @@
    end
 
    private
-
-   def set_entry
-     @entry = Entry.find(params[:id])
-   end
 
    def entry_params
      params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)

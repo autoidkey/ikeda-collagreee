@@ -5,10 +5,9 @@ Rails.application.routes.draw do
 
   root to: 'themes#index'
 
-  resources :entries
-  resources :activities
   resources :themes
   resources :issues, only: [:create]
+  resources :entries, only: [:create]
 
   # home routes
   get 'home/collagree'
