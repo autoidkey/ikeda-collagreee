@@ -1,0 +1,40 @@
+<%= render 'header' %>
+
+<section class="padding bck">
+  <div class="row">
+    <div class="column_10 offset_1 text book white">
+      <h2 class="color theme bold text margin-bottom">操作方法</h2>
+      <div class="text">
+        <h4 class="margin-bottom">
+          <%= link_to '各種説明', homes_intro_display_path %>
+        </h4>
+        <h4 class="margin-bottom">
+          <%= link_to 'アカウント登録、ログイン、ログアウト', homes_intro_account_path %>
+        </h4>
+        <h4 class="margin-bottom">
+          <%= link_to '議論の仕方、各種機能', homes_intro_discuss_path %>
+        </h4>
+        <% if current_user && !current_user.normal? %>
+          <h4>
+            <%= link_to 'ファシリテーター支援機能', homes_intro_facilitation_path   %>
+          </h4>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section class="padding bck">
+  <div class="row margin-bottom">
+    <div class="column_10 offset_1 text book">
+      <h2 class="color theme bold text margin-bottom">ファシリテーターとは</h2>
+      <h3 class="margin-top">ファシリテーター</h3>
+      <p class="text book">
+        ファシリテーターとは、中立的な立場から議論を進めてくれる議論進行役です。たくさんの人の議論を円滑に進めるために、適切にアドバイスをしてくれます。
+      </p>
+      <%= image_tag 'intro/intro_faci.png' %>
+    </div>
+  </div>
+</section>

@@ -14,6 +14,18 @@ class HomesController < ApplicationController
   def introduction
   end
 
+  def intro_display
+  end
+
+  def intro_account
+  end
+
+  def intro_discuss
+  end
+
+  def intro_facilitation
+  end
+
   def privacy
   end
 

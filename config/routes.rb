@@ -10,20 +10,20 @@ Rails.application.routes.draw do
   resources :entries, only: [:create]
 
   # home routes
-  get 'home/collagree'
-  get 'home/admin'
-  get 'home/about'
-  get 'home/statistic'
-  get 'home/introduction'
-  get 'home/agreement'
-  get 'home/privacy'
-  get 'home/project'
+  get 'homes/collagree'
+  get 'homes/admin'
+  get 'homes/about'
+  get 'homes/statistic'
+  get 'homes/agreement'
+  get 'homes/privacy'
+  get 'homes/project'
+  get 'homes/ua_error'
 
-  get 'home/ua_error'
-  get 'home/intro_account'
-  get 'home/intro_discuss'
-  get 'home/intro_display'
-  get 'home/intro_faci'
+  get 'homes/introduction'
+  get 'homes/intro_account'
+  get 'homes/intro_discuss'
+  get 'homes/intro_display'
+  get 'homes/intro_facilitation'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
