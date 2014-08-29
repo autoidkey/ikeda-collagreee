@@ -31,7 +31,14 @@ class Entry < ActiveRecord::Base
   end
 
   def logging_activity
+    retrun if facilitation? && user.admin?
     Activity.logging(self)
+    # 2は返信
+    Activity.logging(root_entry, 2) unless parent? || root?
+  end
+
+  def root?
+    user.id == root_entry.user.id
   end
 
   def parent?
