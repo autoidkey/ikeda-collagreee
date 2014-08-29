@@ -9,6 +9,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
 
+  def authenticate_admin_user!
+    authenticate_user!
+    unless current_user.admin?
+      flash[:alert] = 'adminユーザのみ利用可能です'
+      redirect_to root_path
+    end
+  end
+
   protected
 
   def configure_permitted_parameters

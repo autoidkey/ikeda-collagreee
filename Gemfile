@@ -6,7 +6,7 @@ gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 
-gem 'jquery-rails', '~> 2.0.0'
+gem 'jquery-rails', '~> 3.0.0'
 gem 'turbolinks', '~> 1.3.1'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
@@ -18,6 +18,7 @@ gem 'devise', '~> 3.3.0'
 gem 'devise-i18n'
 gem 'cancancan'
 gem 'bootstrap-sass', '~> 3.2.0'
+gem 'activeadmin', github: 'activeadmin'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
 group :development do
