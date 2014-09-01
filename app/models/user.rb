@@ -13,6 +13,12 @@ class User < ActiveRecord::Base
   has_many :joins
 
   enum role: %i(admin facilitator normal)
+  enum gender: %i(男性 女性)
+  enum age: %i(10代未満 10代 20代 30代 40代 50代 60代 70代以上)
+  enum home: %i(名古屋市在住 名古屋市以外在住)
+  enum move: %i(名古屋市へ通勤・通学している 名古屋市へ通勤・通学していない)
+  enum remind: %i(お知らせメールを受け取る お知らせメールを受け取らない)
+  enum mail_format: %i(HTMLメール TEXTメール)
 
   ACTIVITY_COUNT = 10
 

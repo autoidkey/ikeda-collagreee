@@ -18,32 +18,32 @@
 
   <div>
     <%= f.label :gender, '性別' %><br />
-    <%= f.text_field :gender, autocomplete: "off" %>
+    <%= f.select :name, User.genders %>
   </div>
 
   <div>
     <%= f.label :age, '年齢' %><br />
-    <%= f.text_field :age, autocomplete: "off" %>
+    <%= f.select :name, User.ages %>
   </div>
 
   <div>
     <%= f.label :home, '住まい' %><br />
-    <%= f.text_field :home, autocomplete: "off" %>
+    <%= f.select :name, User.homes %>
   </div>
 
   <div>
     <%= f.label :move, '通勤・通学' %><br />
-    <%= f.text_field :move, autocomplete: "off" %>
+    <%= f.select :name, User.moves %>
   </div>
 
   <div>
     <%= f.label :remind, 'お知らせメール' %><br />
-    <%= f.text_field :remind, autocomplete: "off" %>
+    <%= f.select :name, User.reminds %>
   </div>
 
   <div>
     <%= f.label :mail_format, 'メール形式' %><br />
-    <%= f.text_field :mail_format, autocomplete: "off" %>
+    <%= f.select :name, User.mail_formats %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
