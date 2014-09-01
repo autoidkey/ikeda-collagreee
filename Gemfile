@@ -19,6 +19,7 @@ gem 'devise-i18n'
 gem 'cancancan'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'activeadmin', github: 'activeadmin'
+gem 'rails-i18n', '~> 4.0.0'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
 group :development do
