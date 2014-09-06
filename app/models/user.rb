@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   enum remind: %i(お知らせメールを受け取る お知らせメールを受け取らない)
   enum mail_format: %i(HTMLメール TEXTメール)
 
-  ACTIVITY_COUNT = 10
+  ACTIVITY_COUNT = 5
 
   def self.admin?(type)
     type == 0
