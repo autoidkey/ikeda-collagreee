@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829091410) do
+ActiveRecord::Schema.define(version: 20140906025524) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -42,11 +42,11 @@ ActiveRecord::Schema.define(version: 20140829091410) do
     t.string   "title"
     t.string   "body"
     t.integer  "parent_id"
-    t.integer  "np"
+    t.integer  "np",           default: 0
     t.integer  "user_id"
-    t.boolean  "facilitation"
-    t.boolean  "invisible"
-    t.boolean  "top_fix"
+    t.boolean  "facilitation", default: false
+    t.boolean  "invisible",    default: false
+    t.boolean  "top_fix",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "theme_id"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20140829091410) do
     t.integer  "disagree"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "theme_id"
   end
 
   create_table "tagged_entries", force: true do |t|

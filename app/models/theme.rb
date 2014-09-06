@@ -2,6 +2,7 @@ class Theme < ActiveRecord::Base
   has_many :entries, dependent: :destroy
   has_many :activities, dependent: :destroy # けす？
   has_many :issues, dependent: :destroy # けす？
+  has_many :keywords, dependent: :destroy # けす？
   has_many :users, through: :joins
   has_many :joins
   belongs_to :admin, class_name: 'User'
@@ -17,5 +18,9 @@ class Theme < ActiveRecord::Base
 
   def join?(user)
     users.include?(user)
+  end
+
+  def visible_entries
+    entries.where(invisible: false)
   end
 end
