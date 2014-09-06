@@ -39,12 +39,27 @@ class Entry < ActiveRecord::Base
   def logging_activity
     retrun if facilitation? && user.admin?
     Activity.logging(self)
+
     # 2は返信
     Activity.logging(root_entry, 2) unless parent? || root?
+    logged = []
+    thread_entries.each do |entry|
+      next if entry.mine?(user) || entry.root_user? || logged.include?(entry.user)
+      logged << entry.user
+      Activity.logging(entry, 2)
+    end
+  end
+
+  def mine?(user)
+    self.user == user
   end
 
   def positive?
     np >= NP_THRESHOLD
+  end
+
+  def root_user?
+    user == root_user
   end
 
   def root?

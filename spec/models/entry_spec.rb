@@ -40,17 +40,23 @@ describe Entry, :type => :model do
     let(:user2) { FactoryGirl.create(:user) }
     let!(:child1) { FactoryGirl.create(:entry, parent_id: entry.id, user: user2) }
     let!(:child2) { FactoryGirl.create(:entry, parent_id: entry.id, user: user2) }
+    let!(:child3) { FactoryGirl.create(:entry, parent_id: entry.id, user: user) }
 
     it 'リプライからルートノードを取ることができる' do
       expect(child1.root_user).to eq user
     end
 
     it 'すべてのリプライを取得できる' do
-      expect(entry.thread_entries).to match_array [child1, child2]
+      expect(entry.thread_entries).to match_array [child1, child2, child3]
     end
 
     it 'リプライしたすべてのユーザも取得出来る' do
-      expect(entry.thread_posted_user).to eq [user2]
+      expect(entry.thread_posted_user).to eq [user2, user]
+    end
+
+    it 'スレッドに投稿したユーザ全てに通知が行く' do
+      expect(user.activities.map(&:atype)).to match_array %w(投稿しました。 返信されました。 返信されました。 返信しました。)
+      expect(user2.activities.map(&:atype)).to match_array %w(返信しました。 返信しました。 返信されました。)
     end
   end
 end
