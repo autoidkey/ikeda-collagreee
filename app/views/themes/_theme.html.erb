@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><%= link_to theme.title, theme %></div>
+  <div class="panel-body">
+    <!-- パーシャル使えないか -->
+    <% if theme.image? %>
+      <%= image_tag theme.image.user_thumb.url %>
+    <% else %>
+      <%= image_tag 'noimage.gif' %>
+    <% end %>
+    <%= theme.color %>
+    <%= theme.body %>
+  </div>
+</div>

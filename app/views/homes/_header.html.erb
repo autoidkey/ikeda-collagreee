@@ -1,0 +1,10 @@
+<section class="bck light">
+  <div class="row text center">
+    <nav data-tuktuk="menu" class="column_12 padding text bold white">
+      <%= link_to '画面説明', homes_intro_display_path %>
+      <%= link_to 'アカウント', homes_intro_account_path %>
+      <%= link_to '議論', homes_intro_discuss_path %>
+      <%= link_to 'ファシリテーター', homes_intro_facilitation_path if current_user && !current_user.normal? %>
+    </nav>
+  </div>
+</section>

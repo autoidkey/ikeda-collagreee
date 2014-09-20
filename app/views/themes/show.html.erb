@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="well">
+      <%= render 'top_form' if user_signed_in? %>
+    </div>
+    <hr />
+    <% @entries.each_with_index do |entry, i| %>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= render 'entry', entry: entry %>
+          <hr />
+          <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <%= render 'theme_info' %>
+    <%= render 'activity' if user_signed_in? %>
+    <%= render 'other_themes' %>
+    <%= render 'users' %>
+    <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+  </div>
+</div>

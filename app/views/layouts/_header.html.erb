@@ -1,0 +1,32 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="<%= root_path %>">Collagree</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to '運営主体', homes_about_path %></li>
+        <li><%= link_to '操作方法', homes_introduction_path %></li>
+
+        <% if user_signed_in? %>
+          <li><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
+          <li><%= link_to "ようこそ、#{ current_user.name }さん", edit_user_registration_path %></li>
+          <li><%= link_to '管理者', admin_root_path if current_user.admin? %></li>
+          <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete  %></li>
+        <% else %>
+          <li><%= link_to '新規登録', new_user_registration_path %></li>
+          <li><%= link_to 'ログイン', new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

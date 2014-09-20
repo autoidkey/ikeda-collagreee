@@ -1,14 +1,30 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-  root to: 'home#index'
+  root to: 'themes#index'
 
-  resource :comments
-  resource :activities
+  resources :themes
+  resources :issues, only: [:create]
+  resources :entries, only: [:create]
+
+  # home routes
+  get 'homes/collagree'
+  get 'homes/admin'
+  get 'homes/about'
+  get 'homes/statistic'
+  get 'homes/agreement'
+  get 'homes/privacy'
+  get 'homes/project'
+  get 'homes/ua_error'
+
+  get 'homes/introduction'
+  get 'homes/intro_account'
+  get 'homes/intro_discuss'
+  get 'homes/intro_display'
+  get 'homes/intro_facilitation'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

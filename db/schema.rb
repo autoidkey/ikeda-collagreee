@@ -11,44 +11,121 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140824161548) do
+ActiveRecord::Schema.define(version: 20140906025524) do
 
-  create_table "activities", force: true do |t|
-    t.string   "info"
-    t.string   "atype"
-    t.string   "read",       default: "0"
-    t.integer  "user_id",                  null: false
+  create_table "active_admin_comments", force: true do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.integer  "author_id"
+    t.string   "author_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "comments", force: true do |t|
-    t.string   "content",      default: ""
-    t.integer  "np",           default: 0
-    t.boolean  "root_node",    default: false
-    t.string   "form",         default: ""
-    t.boolean  "facilitation", default: false
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "activities", force: true do |t|
+    t.integer  "atype"
+    t.boolean  "read",       default: false
+    t.integer  "user_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",                      null: false
+    t.integer  "theme_id"
+    t.integer  "entry_id"
+  end
+
+  create_table "entries", force: true do |t|
+    t.string   "title"
+    t.string   "body"
+    t.integer  "parent_id"
+    t.integer  "np",           default: 0
+    t.integer  "user_id"
+    t.boolean  "facilitation", default: false
+    t.boolean  "invisible",    default: false
+    t.boolean  "top_fix",      default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "theme_id"
+    t.string   "image"
+  end
+
+  create_table "exclusions", force: true do |t|
+    t.string   "word"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "issues", force: true do |t|
+    t.string   "name"
+    t.integer  "theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "joins", force: true do |t|
+    t.integer  "theme_id",   null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "keywords", force: true do |t|
+    t.string   "word"
+    t.float    "score",      limit: 24
+    t.integer  "agree"
+    t.integer  "disagree"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "theme_id"
+  end
+
+  create_table "tagged_entries", force: true do |t|
+    t.integer  "entry_id",   null: false
+    t.integer  "issue_id",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "themes", force: true do |t|
+    t.string   "title"
+    t.string   "body"
+    t.string   "color"
+    t.boolean  "facilitation", default: false
+    t.boolean  "nolink",       default: false
+    t.boolean  "secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "admin_id"
+    t.string   "image"
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",   null: false
+    t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                            null: false
-    t.string   "realname",                            null: false
-    t.integer  "role",                   default: 1
+    t.string   "realname",                              null: false
+    t.integer  "role",                   default: 2
+    t.string   "name",                                  null: false
+    t.integer  "gender"
+    t.integer  "age"
+    t.string   "home"
+    t.string   "move"
+    t.boolean  "remind",                 default: true
+    t.integer  "mail_format",            default: 0
+    t.string   "image"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -1,0 +1,23 @@
+<% if entry.facilitation? %>
+  <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+  ファシリテーター@<%= entry.created_at %>
+<% else %>
+  <%= image_tag user_icon_path(entry.user), class: 'user-icon img-circle' %>
+  <%= entry.user.name %>@<%= entry.created_at %>
+<% end %>
+
+<p class="lead"><%= entry.title %></p>
+<p><%= entry.body %></p>
+
+<% entry.issues.each do |issue| %>
+  <span class="label label-default"><%= issue.name %></span>
+<% end %>
+
+<% if entry.image? %>
+  <%= image_tag entry.image.entry_thumb.url %>
+<% end %>
+<hr />
+
+<% entry.thread_entries.each do |child| %>
+  <%= render 'child_entry', child: child %>
+<% end %>

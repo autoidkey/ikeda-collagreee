@@ -1,0 +1,38 @@
+<%= render 'header' %>
+
+<section class="padding bck">
+  <div class="row margin-bottom">
+    <div class="column_10 offset_1 text book">
+      <h1 class="color theme bold text">各種画面の説明</h1>
+      <h3 class="margin-top">テーマ画面</h3>
+      <p class="text book">
+        本システムのトップ画面です。アカウント登録や議論中のテーマの確認を行うことができます。気になるテーマを選択し、議論に参加しましょう。
+      </p>
+      <%= image_tag 'intro/intro_theme_new.png' %>
+      <div class="text right">
+        <h5 class="margin-bottom">
+          <%= link_to 'アカウントの新規登録・編集、ログイン・ログアウトの説明へ', homes_intro_account_path %>
+        </h5>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<section class="padding bck">
+  <div class="row margin-bottom">
+    <div class="column_10 offset_1 text book">
+      <h3 class="">議論画面</h3>
+      <p class="text book">
+        本システムの議論画面です。左側には投稿フォームと投稿一覧があります。右側にはテーマの詳細、キーワード、アクティビティ、他のテーマの情報などがあります。
+      </p>
+      <%= image_tag 'intro/intro_discuss.png' %>
+      <div class="text right">
+        <h5 class="margin-bottom">
+          <%= link_to '議論の仕方、各種機能の説明へ', homes_intro_discuss_path %>
+        </h5>
+      </div>
+    </div>
+  </div>
+</section>
