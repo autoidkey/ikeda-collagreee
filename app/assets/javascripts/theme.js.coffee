@@ -5,3 +5,6 @@
 $(document).on 'click',  '.facilitation-phrase a', (e) ->
   e.preventDefault()
   $(@).parents('.tab-pane').find('textarea').val($(@).text())
+
+$(document).on 'click',  '.facilitation-phrase h4', (e) ->
+  $(@).next().toggle()
