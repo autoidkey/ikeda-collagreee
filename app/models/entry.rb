@@ -37,7 +37,7 @@ class Entry < ActiveRecord::Base
   end
 
   def logging_activity
-    retrun if facilitation? && user.admin?
+    return if facilitation? && user.admin?
     Activity.logging(self)
 
     # 2は返信
