@@ -8,6 +8,8 @@
 
 <%= child.created_at %>
 <%= child.body %>
+by <%= child.user.name %>
+
 <% if child.image? %>
   <%= image_tag child.image.entry_thumb.url %>
 <% end %>

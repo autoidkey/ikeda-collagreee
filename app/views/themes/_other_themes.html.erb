@@ -2,7 +2,14 @@
   <div class="panel-body">
     <h3>Other theme / 他のテーマ</h3>
     <% @other_themes.each do |theme| %>
+      <% if theme.image? %>
+        <%= image_tag theme.image.user_thumb.url %>
+      <% else %>
+        <%= image_tag 'noimage.gif' %>
+      <% end %>
       <%= link_to theme.title, theme_path(theme) %>
+      <%= theme.color %>too
+      <%= theme.body %>
     <% end %>
   </div>
 </div>
