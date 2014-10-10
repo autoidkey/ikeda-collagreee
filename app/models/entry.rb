@@ -28,12 +28,20 @@ class Entry < ActiveRecord::Base
     Entry.children(root_entry.id)
   end
 
-  def thared_np_count
-    thead_entries.partition(&:positive?)
+  def thread_np_count
+    thread_entries.partition(&:positive?)
   end
 
   def thread_posted_user
     thread_entries.map(&:user).uniq
+  end
+
+  def thread_positive_count
+    thread_np_count[0].count
+  end
+
+  def thread_negative_count
+    thread_np_count[1].count
   end
 
   def logging_activity
