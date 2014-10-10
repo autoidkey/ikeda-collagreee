@@ -1,3 +1,4 @@
+<p>
 <% if user_signed_in? && current_user.image? %>
   <% if child.facilitation? %>
     <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
@@ -8,8 +9,9 @@
 
 <%= child.created_at %>
 <%= child.body %>
-by <%= child.user.name %>
+by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
 
 <% if child.image? %>
   <%= image_tag child.image.entry_thumb.url %>
 <% end %>
+</p>
