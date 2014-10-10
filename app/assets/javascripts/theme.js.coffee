@@ -14,3 +14,20 @@ $(document).on 'mouseenter', '.user-icon', (e) ->
 
 $(document).on 'mouseleave', '.user-icon', (e) ->
   $(@).popover('hide')
+
+$ ->
+  $(".slider").slider
+    orientation: "horizontal",
+    animate: "fast"
+    range: "min",
+    max: 100,
+    value: 50,
+
+    change: (e, ui) ->
+      $("#num").val ui.value
+      return
+
+    # 4スライダーの初期化時に、その値をテキストボックスにも反映
+    create: (e, ui) ->
+      $("#num").val $(this).slider("option", "value")
+      return

@@ -2,6 +2,7 @@
   <div class="form-group">
     <%= f.text_area :body , class: 'form-control', placeholder: 'コメントします' %>
   </div>
+  <div class="slider"></div>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
