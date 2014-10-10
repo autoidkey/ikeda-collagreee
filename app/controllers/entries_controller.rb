@@ -4,17 +4,19 @@
 
    def create
      @entry = Entry.new(entry_params)
+     @entry_new = Entry.new
+
+     @theme = Theme.find(entry_params[:theme_id])
+     @facilitations = Facilitations
+     @count = @theme.entries.root.count
 
      respond_to do |format|
        if @entry.save
          tags = Issue.checked(params[:issues])
          @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
-
-         format.html { redirect_to theme_path(@entry.theme), notice: '投稿しました' }
-         format.json { render 'show', status: :created, location: @entry }
+         format.js
        else
-         format.html { render action: 'new' }
-         format.json { render json: @entry.errors, status: :unprocessable_entity }
+         render json: 'json error'
        end
      end
    end

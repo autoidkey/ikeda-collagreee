@@ -4,15 +4,17 @@
       <%= render 'top_form' if user_signed_in? %>
     </div>
     <hr />
-    <% @entries.each_with_index do |entry, i| %>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <%= render 'entry', entry: entry %>
-          <hr />
-          <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
+    <div id="entry-tl">
+      <% @entries.each_with_index do |entry, i| %>
+        <div class="panel panel-default" id="entry-<%= entry.id %>">
+          <div class="panel-body">
+            <%= render 'entry', entry: entry %>
+            <hr />
+            <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
   <div class="col-md-4">
     <%= render 'theme_info' %>

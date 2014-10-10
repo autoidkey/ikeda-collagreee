@@ -1,0 +1,17 @@
+<div>
+<% if user_signed_in? && current_user.image? %>
+  <% if child.facilitation? %>
+    <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+  <% else %>
+    <%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %>
+  <% end %>
+<% end %>
+
+<%= child.created_at %>
+<%= child.body %>
+by <%= child.user.name %>
+
+<% if child.image? %>
+  <%= image_tag child.image.entry_thumb.url %>
+<% end %>
+</div>

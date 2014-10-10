@@ -1,0 +1,26 @@
+<%= form_for(@entry) do |f| %>
+  <div class="form-group">
+    <%= f.text_area :body , class: 'form-control', placeholder: 'コメントします' %>
+  </div>
+  <%= f.hidden_field :user_id, { :value => current_user.id } %>
+  <%= f.hidden_field :parent_id, { :value => entry.id } %>
+  <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+  <%= f.hidden_field :facilitation, { :value => true } %>
+  <%= f.submit 'ファシリテーターとして投稿', class: 'btn btn-default' %>
+<% end %>
+
+<div class="facilitation-phrase">
+  <% @facilitations.each do |facilitation| %>
+    <h4><%= facilitation['heading'] %></h4>
+    <ul class="list-unstyled">
+      <% facilitation['scenes'].each_with_index do |fac, i| %>
+        <li><small><%= fac['scene'] %></small></li>
+        <ul>
+          <% fac['phrases'].each_with_index do |phrase,j| %>
+            <li><small><%= link_to phrase, '#', id: "phrase-#{i}-#{j}-#{k}"%></small></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

@@ -1,0 +1,5 @@
+if(<%= @entry.parent? %>) {
+ $('#entry-tl').prepend($("<%=j render 'show', entry: @entry %>").hide().fadeIn('slow'));
+} else {
+ $('#entry-<%= @entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
+}
