@@ -83,7 +83,7 @@ class Entry < ActiveRecord::Base
   end
 
   def grandchild?
-    Entry.find(parent_id).parent_id.present? if parent_id.present?
+    parent_id.present? ? Entry.find(parent_id).parent_id.present? : false
   end
 
   # change to 'is_root?'
