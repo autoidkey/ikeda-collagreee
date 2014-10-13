@@ -1,5 +1,8 @@
-if(<%= @entry.parent? %>) {
- $('#entry-tl').prepend($("<%=j render 'show', entry: @entry %>").hide().fadeIn('slow'));
+if(<%= @entry.is_root? %>) {
+  $('#entry-tl').prepend($("<%=j render 'show', entry: @entry %>").hide().fadeIn('slow'));
+} else if(<%= @entry.grandchild? %>) {
+  $('#entry-<%= @entry.parent_id %> .replies').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
 } else {
- $('#entry-<%= @entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
+  $('#entry-<%= @entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
+
 }

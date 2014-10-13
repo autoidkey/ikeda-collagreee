@@ -22,6 +22,8 @@
 
 <div class="children">
   <% entry.thread_entries.each do |child| %>
-    <%= render 'child_entry', child: child %>
+    <div class="thread">
+      <%= render 'child_entry', child: child %>
+    </div>
   <% end %>
 </div>

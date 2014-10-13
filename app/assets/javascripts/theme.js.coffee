@@ -9,6 +9,10 @@ $(document).on 'click', '.facilitation-phrase a', (e) ->
 $(document).on 'click', '.facilitation-phrase h4', (e) ->
   $(@).next().toggle()
 
+$(document).on 'click', '.reply-label', (e) ->
+  $(@).next().next('form').toggle()
+
+
 $(document).on 'mouseenter', '.user-icon', (e) ->
   $(@).popover('show')
 

@@ -12,9 +12,13 @@ class Entry < ActiveRecord::Base
   scope :root, -> { where(parent_id: nil) }
 
   after_save :logging_activity
-  after_save :update_parent_entry_time, unless: :parent?
+  after_save :update_parent_entry_time, unless: :is_root?
 
   NP_THRESHOLD = 50
+
+  def parent
+    parent_id.nil? ? self : Entry.find(parent_id)
+  end
 
   def root_entry
     parent_id.nil? ? self : Entry.find(parent_id)
@@ -26,6 +30,10 @@ class Entry < ActiveRecord::Base
 
   def thread_entries
     Entry.children(root_entry.id)
+  end
+
+  def thread_childrens
+    Entry.children(id)
   end
 
   def thread_np_count
@@ -49,7 +57,7 @@ class Entry < ActiveRecord::Base
     Activity.logging(self)
 
     # 2は返信
-    Activity.logging(root_entry, 2) unless parent? || root?
+    Activity.logging(root_entry, 2) unless is_root? || root?
     logged = []
     thread_entries.each do |entry|
       next if entry.mine?(user) || entry.root_user? || logged.include?(entry.user)
@@ -74,7 +82,16 @@ class Entry < ActiveRecord::Base
     user.id == root_entry.user.id
   end
 
-  def parent?
+  def grandchild?
+    Entry.find(parent_id).parent_id.present? if parent_id.present?
+  end
+
+  # change to 'is_root?'
+  # def parent?
+  #   parent_id.nil?
+  # end
+
+  def is_root?
     parent_id.nil?
   end
 
