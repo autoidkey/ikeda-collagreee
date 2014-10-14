@@ -19,17 +19,21 @@
     <%= image_tag child.image.entry_thumb.url %>
   <% end %>
 
-  <div class="replies"></div>
-
   <%= form_for @entry_new, :html => {:class => 'reply-form'}, remote: true do |f| %>
     <div class="form-group">
       <%= f.text_field :body , class: 'form-control', placeholder: 'コメントします' %>
     </div>
+    <div class="form-group">
+      <%= f.file_field :image %>
+    </div>
+
     <%= f.hidden_field :user_id, { :value => current_user.id } %>
     <%= f.hidden_field :parent_id, { :value => child.id } %>
     <%= f.hidden_field :theme_id, { :value => @theme.id } %>
     <%= f.hidden_field :facilitation, { :value => false } %>
     <%= f.submit '投稿', class: 'btn btn-default' %>
   <% end %>
+
+  <div class="replies"></div>
 
 </div>

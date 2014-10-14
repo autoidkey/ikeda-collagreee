@@ -1,38 +1,42 @@
-  <div id="entry-<%= child.id %>" class="child">
-    <% if user_signed_in? && current_user.image? %>
-      <% if child.facilitation? %>
-        <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-      <% else %>
-        <%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %>
-      <% end %>
+<div id="entry-<%= child.id %>" class="child">
+  <% if user_signed_in? && current_user.image? %>
+    <% if child.facilitation? %>
+      <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+    <% else %>
+      <%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %>
     <% end %>
+  <% end %>
 
-    <% if child.grandchild? %>
-      <span class="glyphicon glyphicon-chevron-right small"></span>
-    <% end %>
-    <%= child.created_at %>
-    <%= child.body %>
-    by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
-    <span class="label label-default reply-label">返信</span>
+  <% if child.grandchild? %>
+    <span class="glyphicon glyphicon-chevron-right small"></span>
+  <% end %>
+  <%= child.created_at %>
+  <%= child.body %>
+  by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+  <span class="label label-default reply-label">返信</span>
 
-    <% if child.image? %>
-      <%= image_tag child.image.entry_thumb.url %>
-    <% end %>
+  <% if child.image? %>
+    <%= image_tag child.image.entry_thumb.url %>
+  <% end %>
 
-    <div class="replies"></div>
+  <%= form_for @entry, :html => {:class => 'reply-form'}, remote: true do |f| %>
+    <div class="form-group">
+      <%= f.text_field :body , class: 'form-control', placeholder: 'コメントします' %>
+    </div>
+    <div class="form-group">
+      <%= f.file_field :image %>
+    </div>
 
-    <%= form_for @entry, :html => {:class => 'reply-form'}, remote: true do |f| %>
-      <div class="form-group">
-        <%= f.text_field :body , class: 'form-control', placeholder: 'コメントします' %>
-      </div>
-      <%= f.hidden_field :user_id, { :value => current_user.id } %>
-      <%= f.hidden_field :parent_id, { :value => child.id } %>
-      <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-      <%= f.hidden_field :facilitation, { :value => false } %>
-      <%= f.submit '投稿', class: 'btn btn-default' %>
-    <% end %>
+    <%= f.hidden_field :user_id, { :value => current_user.id } %>
+    <%= f.hidden_field :parent_id, { :value => child.id } %>
+    <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+    <%= f.hidden_field :facilitation, { :value => false } %>
+    <%= f.submit '投稿', class: 'btn btn-default' %>
+  <% end %>
 
-    <% child.thread_childrens.each do |c| %>
-      <%= render 'child_entry', child: c %>
-    <% end %>
-  </div>
+  <div class="replies"></div>
+
+  <% child.thread_childrens.each do |c| %>
+    <%= render 'child_entry', child: c %>
+  <% end %>
+</div>

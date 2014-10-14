@@ -10,14 +10,14 @@ $(document).on 'click', '.facilitation-phrase h4', (e) ->
   $(@).next().toggle()
 
 $(document).on 'click', '.reply-label', (e) ->
-  $(@).next().next('form').toggle()
+  $(@).nextAll('.reply-form').toggle()
 
-
-$(document).on 'mouseenter', '.user-icon', (e) ->
-  $(@).popover('show')
-
-$(document).on 'mouseleave', '.user-icon', (e) ->
-  $(@).popover('hide')
+$(document).on
+  mouseenter: (e) ->
+    $(@).popover('show')
+  mouseleave: (e) ->
+    $(@).popover('hide')
+  '.user-icon'
 
 $ ->
   $(".slider").slider
