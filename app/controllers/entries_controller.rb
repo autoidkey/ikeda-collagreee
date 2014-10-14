@@ -2,6 +2,8 @@
    before_action :authenticate_user!
    load_and_authorize_resource
 
+   include Np::Core
+
    def create
      @entry = Entry.new(entry_params)
      @entry_new = Entry.new
@@ -19,6 +21,10 @@
          render json: 'json error'
        end
      end
+   end
+
+   def np
+     ap "calcultating np..."
    end
 
    private

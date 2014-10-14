@@ -47,6 +47,11 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
+nego_dict:
+  <<: *default
+  database: nego_dict
+
 production:
   <<: *default
   database: new_collagree_production
