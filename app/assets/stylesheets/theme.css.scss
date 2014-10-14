@@ -26,5 +26,14 @@
   cursor: pointer;
 }
 
+nav.pagination {
+  display: none;
+}
+
+#icon-loading {
+  display: none;
+  text-align: center;
+}
+
 .slider .ui-slider-range { background: #8ae234; }
 .slider .ui-slider-handle { border-color: #8ae234; }

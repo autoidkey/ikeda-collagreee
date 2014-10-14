@@ -29,9 +29,17 @@ $ ->
 
     change: (e, ui) ->
       $("#num").val ui.value
-      return
 
     # 4スライダーの初期化時に、その値をテキストボックスにも反映
     create: (e, ui) ->
       $("#num").val $(this).slider("option", "value")
-      return
+
+$ ->
+  $.autopager
+    autoLoad: true
+    content: "#entry-tl > .panel"
+    link: ".next a"
+    start: (current, next) ->
+      $("#icon-loading").css "display", "block"
+    load: (current, next) ->
+      $("#icon-loading").css "display", "none"

@@ -23,6 +23,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'rails-i18n', '~> 4.0.0'
 gem 'clockwork', '~> 1.0.0'
 gem 'enum_help'
+gem 'kaminari'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
 group :development do

@@ -10,7 +10,8 @@ class ThemesController < ApplicationController
 
   def show
     @entry = Entry.new
-    @entries = Entry.in_theme(@theme.id).root
+    # @entries = Entry.in_theme(@theme.id).root
+    @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(20)
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
     @facilitations = Facilitations

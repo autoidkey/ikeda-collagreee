@@ -4,6 +4,7 @@
       <%= render 'top_form' if user_signed_in? %>
     </div>
     <hr />
+
     <div id="entry-tl">
       <% @entries.each_with_index do |entry, i| %>
         <div class="panel panel-default" id="entry-<%= entry.id %>">
@@ -14,6 +15,10 @@
           </div>
         </div>
       <% end %>
+    </div>
+    <%= paginate @entries %>
+    <div id="icon-loading">
+      <%= image_tag 'theme/icon-loading.gif' %>
     </div>
   </div>
   <div class="col-md-4">
