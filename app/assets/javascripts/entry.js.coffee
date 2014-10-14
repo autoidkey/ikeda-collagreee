@@ -6,12 +6,18 @@
 INTERVAL = 400
 timeout = 0
 
-init_timer = ->
+init_timer = (e) ->
   clearTimeout(timeout) if timeout
-  timeout = setTimeout content_change, INTERVAL
+  timeout = setTimeout(
+    (->
+      content_change e
+    ), INTERVAL
+  )
 
-content_change = ->
-  console.log 'calculating...'
+content_change = (e) ->
+  data = e.target.value
+  console.log 'calculating... ' + data
 
+# event binding
 $(document).on 'keyup', '.reply-entry-form', (e) ->
-  init_timer()
+  init_timer(e)
