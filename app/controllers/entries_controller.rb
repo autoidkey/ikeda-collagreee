@@ -2,7 +2,7 @@
    before_action :authenticate_user!
    load_and_authorize_resource
 
-   include Np::Core
+   include Np
 
    def create
      @entry = Entry.new(entry_params)
@@ -24,13 +24,17 @@
    end
 
    def np
+     calc_np(params[:text])
      respond_to do |format|
        format.json { render :json => "{\"np\": 100}" }
      end
    end
 
-   private
+   def calc_np(text)
+     calculate(text)
+   end
 
+   private
    def entry_params
      params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
    end

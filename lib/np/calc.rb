@@ -1,6 +1,5 @@
 module Np
-  module Core
-    include NattoWrapper
+  class Calc
     def calculate(text)
       targets = Np::NattoWrapper.np_nodes(text)
 
@@ -11,6 +10,10 @@ module Np
         # positive_result =
 
       end
+    end
+
+    def test
+      p "!!!!!!!!!!!!!!!"
     end
   end
 end
