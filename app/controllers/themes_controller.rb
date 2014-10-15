@@ -18,6 +18,19 @@ class ThemesController < ApplicationController
     @theme.join!(current_user) if user_join?
   end
 
+  def order
+    @entry = Entry.new
+    @issue = Issue.new
+    @facilitations = Facilitations
+    sort = params[:sort]
+    if sort == "time"
+      @entries = Entry.in_theme(@theme.id).root.sort_time.page(params[:page]).per(20)
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def new
     @theme = Theme.new
   end
@@ -43,6 +56,7 @@ class ThemesController < ApplicationController
   end
 
   def set_theme
+    p params
     @theme = Theme.find(params[:id])
   end
 

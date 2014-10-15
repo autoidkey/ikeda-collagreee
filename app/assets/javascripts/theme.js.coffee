@@ -12,6 +12,13 @@ $(document).on 'click', '.facilitation-phrase h4', (e) ->
 $(document).on 'click', '.reply-label', (e) ->
   $(@).nextAll('.reply-form').toggle()
 
+$(document).on 'click', 'button#order-time', (e) ->
+  $('#entry-tl').html("")
+
+$(document).on 'click', 'button#order-popular', (e) ->
+  $('#entry-tl').html("")
+
+
 $(document).on
   mouseenter: (e) ->
     $(@).popover('show')

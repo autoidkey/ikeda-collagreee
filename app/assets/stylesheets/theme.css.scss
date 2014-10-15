@@ -10,6 +10,19 @@
   display: none;
 }
 
+#tl-tool {
+  overflow: hidden;
+}
+
+#tl-order {
+  float: left;
+}
+
+#issues {
+  float: left;
+  margin-left: 20px;
+}
+
 .child {
   margin-left: 20px;
 }

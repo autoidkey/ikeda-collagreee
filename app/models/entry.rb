@@ -10,6 +10,7 @@ class Entry < ActiveRecord::Base
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id) }
   scope :root, -> { where(parent_id: nil) }
+  scope :sort_time, -> { order('updated_at DESC') }
 
   after_save :logging_activity
   after_save :update_parent_entry_time, unless: :is_root?

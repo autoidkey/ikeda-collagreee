@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :entries, only: [:create]
 
   post 'entries/np' => 'entries#np'
+  get 'themes/order/:id' => 'themes#order'
 
   # home routes
   get 'homes/collagree'
