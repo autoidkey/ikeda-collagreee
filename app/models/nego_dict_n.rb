@@ -1,2 +1,0 @@
-class NegoDictN < NegoDict
-end

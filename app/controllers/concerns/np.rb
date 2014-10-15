@@ -6,9 +6,23 @@ module Np
   extend ActiveSupport::Concern
   included do
     def calculate(text)
-      p NDict.all
-      p PDict.all
-      np_nodes(text)
+      e = 0.000001
+      np = 0
+      hits = 0
+
+      np_nodes(text).each do |node|
+        n_result = NDict.where({word: node}).first
+        p_result = PDict.where({word: node}).first
+
+        n_occur = n_result.nil? ? 0 : n_result['count']
+        p_occur = p_result.nil? ? 0 : p_result['count']
+
+        next if n_occur + p_occur <= 0
+        node_np = p_occur / (n_occur + p_occur + e)
+        np += node_np
+        hits += 1
+      end
+      hits > 0 ? (np / hits) * 100 : 50
     end
   end
 
@@ -29,9 +43,5 @@ module Np
       ret << e
     end
     ret
-  end
-
-  def natto_test
-    p "natto!"
   end
 end

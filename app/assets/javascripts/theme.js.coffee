@@ -28,7 +28,7 @@ $ ->
     value: 50,
 
     change: (e, ui) ->
-      $("#num").val ui.value
+      $(".np-input").val ui.value
 
     # 4スライダーの初期化時に、その値をテキストボックスにも反映
     create: (e, ui) ->

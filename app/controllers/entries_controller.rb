@@ -24,9 +24,10 @@
    end
 
    def np
-     calc_np(params[:text])
+     data = { np: calc_np(params[:text]), entry_id: params[:entry_id]}
      respond_to do |format|
-       format.json { render :json => "{\"np\": 100}" }
+       # format.json { render :json => "{\"np\": #{calc_np(params[:text])}}" }
+       format.json { render :json => data.to_json }
      end
    end
 

@@ -14,12 +14,13 @@ init_timer = (e) ->
     ), INTERVAL
   )
 
-content_change = (e) ->
-  data = {text: e.target.value}
+content_change = (e) =>
+  data = {text: e.target.value, entry_id: e.target.dataset.id}
   url = "/entries/np"
   $.post(url, data, (
     (json) =>
-      console.log json.np
+      $('#slider-' + json.entry_id).slider 'value', json.np
+      $('#np-input' + json.entry_id).val json.np
       ),
     'JSON'
     )
