@@ -6,7 +6,8 @@ module Np
   extend ActiveSupport::Concern
   included do
     def calculate(text)
-      p text
+      p NDict.all
+      p PDict.all
       np_nodes(text)
     end
   end

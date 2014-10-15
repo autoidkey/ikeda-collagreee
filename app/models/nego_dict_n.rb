@@ -1,0 +1,2 @@
+class NegoDictN < NegoDict
+end
