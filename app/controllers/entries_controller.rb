@@ -24,7 +24,9 @@
    end
 
    def np
-     ap "calcultating np..."
+     respond_to do |format|
+       format.json { render :json => "{\"np\": 100}" }
+     end
    end
 
    private

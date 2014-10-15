@@ -15,8 +15,14 @@ init_timer = (e) ->
   )
 
 content_change = (e) ->
-  data = e.target.value
-  console.log 'calculating... ' + data
+  data = {text: e.target.value}
+  url = "/entries/np"
+  $.post(url, data, (
+    (json) =>
+      console.log json.np
+      ),
+    'JSON'
+    )
 
 # event binding
 $(document).on 'keyup', '.reply-entry-form', (e) ->

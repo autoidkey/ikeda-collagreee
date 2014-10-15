@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :issues, only: [:create]
   resources :entries, only: [:create]
 
+  post 'entries/np' => 'entries#np'
+
   # home routes
   get 'homes/collagree'
   get 'homes/admin'
