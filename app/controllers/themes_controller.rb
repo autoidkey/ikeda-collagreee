@@ -24,7 +24,9 @@ class ThemesController < ApplicationController
     @facilitations = Facilitations
     sort = params[:sort]
     if sort == "time"
-      @entries = Entry.in_theme(@theme.id).root.sort_time.page(params[:page]).per(20)
+      @entries = Entry.in_theme(@theme.id).sort_time.page(params[:page]).per(20)
+    elsif sort == "popular"
+      @entries = Kaminari.paginate_array(Entry.in_theme(@theme.id).popular).page(params[:page]).per(20)
     end
     respond_to do |format|
       format.js
