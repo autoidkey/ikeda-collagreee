@@ -18,7 +18,6 @@ $(document).on 'click', 'button#order-time', (e) ->
 $(document).on 'click', 'button#order-popular', (e) ->
   $('#entry-tl').html("")
 
-
 $(document).on
   mouseenter: (e) ->
     $(@).popover('show')
