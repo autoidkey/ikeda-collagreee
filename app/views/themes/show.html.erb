@@ -6,17 +6,15 @@
     <hr />
 
     <div class="well" id="tl-tool">
-      <%= link_to "新着", {controller: "themes", action: "order", id: @theme.id, sort: "time"}, :remote=> true %>
-      <%= link_to "人気", {controller: "themes", action: "order", id: @theme.id, sort: "popular"}, :remote=> true %>
-      <div class="btn-group" id="tl-order">
-        <button type="button" class="btn btn-default" id="order-time"><span class="glyphicon glyphicon-time"></span> 新着</button>
-        <button type="button" class="btn btn-default" id="order-popular"><span class="glyphicon glyphicon-star-empty"></span> 人気</button>
+      <div id="tl-order">
+        <%= link_to "新着", {controller: "themes", action: "order", id: @theme.id, sort: "time"}, :remote=> true %>
+        <%= link_to "人気", {controller: "themes", action: "order", id: @theme.id, sort: "popular"}, :remote=> true %>
       </div>
 
       <div id="issues">
         論点タグ
         <% @theme.issues.each do |issue| %>
-          <span class="label label-default"><%= issue.name %></span>
+          <span class="label label-default" data-id="<%= issue.id %>"><%= issue.name %></span>
         <% end %>
       </div>
     </div>

@@ -10,7 +10,7 @@
 <p><%= entry.body %></p>
 
 <% entry.issues.each do |issue| %>
-  <span class="label label-default"><%= issue.name %></span>
+  <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
 <% end %>
 
 <% if entry.image? %>
