@@ -12,11 +12,14 @@ class Entry < ActiveRecord::Base
   scope :root, -> { where(parent_id: nil) }
   scope :sort_time, -> { root.order('updated_at DESC') }
   scope :popular, -> { root.sort_by{|e| Entry.children(e.id).count}.reverse }
+  scope :search_issues, ->(issues) {root.select{|e| issues.map{|i| e.tagged_entries.map{|t| t.issue_id.to_s}.include?(i)}.include?(true)} if issues.present?}
 
   after_save :logging_activity
   after_save :update_parent_entry_time, unless: :is_root?
 
   NP_THRESHOLD = 50
+
+
 
   def parent
     parent_id.nil? ? self : Entry.find(parent_id)
