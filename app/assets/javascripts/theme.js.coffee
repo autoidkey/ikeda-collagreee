@@ -2,8 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-class @SetTool
-  set_slider: ->
+class @Slider
+  set: ->
     $(".slider").slider
       orientation: "horizontal",
       animate: "fast"
@@ -18,7 +18,8 @@ class @SetTool
       create: (e, ui) ->
         $("#num").val $(this).slider("option", "value")
 
-  set_autopager: ->
+class @AutoPager
+  set: ->
     $.autopager
       autoLoad: true
       content: "#entry-tl > .panel"
@@ -27,6 +28,16 @@ class @SetTool
         $("#icon-loading").css "display", "block"
       load: (current, next) ->
         $("#icon-loading").css "display", "none"
+        slider.set()
+
+class @SetTools
+  set: ->
+    slider.set()
+    autopager.set()
+
+@slider = new Slider()
+@autopager = new AutoPager()
+@settools = new SetTools()
 
 $(document).on 'click', '.facilitation-phrase a', (e) ->
   e.preventDefault()
@@ -51,7 +62,7 @@ $(document).on 'click', '#issues', (e) ->
   issue_arr = $('#issues .label.active').map(->
     $(this).data('id').toString()
   )
-  if issue_arr.count == 0
+  if issue_arr.length == 0
     $('.panel').css 'display', 'block'
   else
     $('.panel').each ->
@@ -60,6 +71,7 @@ $(document).on 'click', '#issues', (e) ->
       $(@).find('.issue-label').each ->
         if !($.inArray(this.dataset.id, issue_arr))
           $(_this).css 'display', 'block'
+  settools.set()
 
 $(document).on
   mouseenter: (e) ->
@@ -69,7 +81,5 @@ $(document).on
   '.user-icon'
 
 $ ->
-  tool.set_autopager()
-  tool.set_slider()
-
-@tool = new SetTool()
+  slider.set()
+  autopager.set()

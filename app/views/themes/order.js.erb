@@ -1,16 +1,3 @@
 $('#entry-tl').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
-
-<!-- 外部に関数として取り出したい -->
-$(function() {
-    return $.autopager({
-      autoLoad: true,
-      content: "#entry-tl > .panel",
-      link: ".next a",
-      start: function(current, next) {
-        return $("#icon-loading").css("display", "block");
-      },
-      load: function(current, next) {
-        return $("#icon-loading").css("display", "none");
-      }
-    });
-  });
+slider.set();
+autopager.set();
