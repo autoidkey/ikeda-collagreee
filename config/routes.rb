@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   post 'entries/np' => 'entries#np'
   get 'themes/order/:id' => 'themes#order'
+  get 'themes/search_entry/:id' => 'themes#search_entry'
 
   # home routes
   get 'homes/collagree'

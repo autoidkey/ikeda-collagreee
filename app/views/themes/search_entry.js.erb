@@ -1,0 +1,4 @@
+console.log('search!');
+$('#entry-tl').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+$('#kaminari').html($("<%=j render 'pagenation' %>"))
+settools.set();

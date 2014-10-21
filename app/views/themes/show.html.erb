@@ -17,6 +17,18 @@
           <span class="label label-default" data-id="<%= issue.id %>"><%= issue.name %></span>
         <% end %>
       </div>
+
+      <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
+        <%= f.radio_button :order, 'time', {:checked => true} %> 新着
+        <%= f.radio_button :order, 'popular' %> 人気
+
+        <% @theme.issues.each do |issue| %>
+          <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
+        <% end %>
+        <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+
+        <%= f.submit '検索' %>
+      <% end %>
     </div>
 
     <div id="entry-tl">
@@ -30,7 +42,9 @@
         </div>
       <% end %>
     </div>
-    <%= paginate @entries %>
+    <div id="kaminari">
+      <%= paginate @entries %>
+    </div>
     <div id="icon-loading">
       <%= image_tag 'theme/icon-loading.gif' %>
     </div>
