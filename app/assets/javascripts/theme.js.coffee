@@ -23,7 +23,7 @@ class @AutoPager
     $.autopager
       autoLoad: true
       content: "#entry-tl > .panel"
-      link: ".next a"
+      link: "#next a"
       start: (current, next) ->
         $("#icon-loading").css "display", "block"
       load: (current, next) ->
@@ -82,4 +82,4 @@ $(document).on
 
 $ ->
   slider.set()
-  autopager.set()
+  # autopager.set()

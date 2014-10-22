@@ -12,6 +12,7 @@ class ThemesController < ApplicationController
     @entry = Entry.new
     @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(3)
     @search_entry = SearchEntry.new
+
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
     @facilitations = Facilitations
@@ -38,7 +39,13 @@ class ThemesController < ApplicationController
     @issue = Issue.new
     @facilitations = Facilitations
 
-    @search_entry = SearchEntry.new params[:search_entry]
+    @search_entry = SearchEntry.new params[:search_entry] if params[:search_entry].present?
+    # else
+    #   p = {
+    #     order: "popular"
+    #   }
+    #   @search_entry = SearchEntry.new p
+    # end
     @entries = @search_entry.search_issues
     @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(3)
 

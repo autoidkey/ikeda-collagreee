@@ -1,1 +1,1 @@
-<%= paginate @entries %>
+<%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link', params: params  %>

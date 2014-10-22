@@ -42,9 +42,7 @@
         </div>
       <% end %>
     </div>
-    <div id="kaminari">
-      <%= paginate @entries %>
-    </div>
+    <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
     <div id="icon-loading">
       <%= image_tag 'theme/icon-loading.gif' %>
     </div>
