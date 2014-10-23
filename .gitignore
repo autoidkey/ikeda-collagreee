@@ -6,3 +6,4 @@
 /vendor/bundle
 /Gemfile.lock
 /public/uploads
+/config/database.yml
