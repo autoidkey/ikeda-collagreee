@@ -2,9 +2,10 @@ class Entry < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
   belongs_to :user
-  belongs_to :theme , touch: true
+  belongs_to :theme, touch: true
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
+  has_many :likes
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
@@ -18,8 +19,6 @@ class Entry < ActiveRecord::Base
   after_save :update_parent_entry_time, unless: :is_root?
 
   NP_THRESHOLD = 50
-
-
 
   def parent
     parent_id.nil? ? self : Entry.find(parent_id)

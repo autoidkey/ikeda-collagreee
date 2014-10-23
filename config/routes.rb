@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :entries, only: [:create]
 
   post 'entries/np' => 'entries#np'
+  post 'entries/like/:id' => 'entries#like'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
 
