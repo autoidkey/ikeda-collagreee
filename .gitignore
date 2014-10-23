@@ -6,3 +6,5 @@
 /vendor/bundle
 /Gemfile.lock
 /public/uploads
+.ruby-version
+/config/database.yml

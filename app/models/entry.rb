@@ -74,6 +74,10 @@ class Entry < ActiveRecord::Base
     self.user == user
   end
 
+  def liked?
+    Like.liked_user(user, self).present?
+  end
+
   def positive?
     np >= NP_THRESHOLD
   end

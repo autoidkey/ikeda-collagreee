@@ -31,4 +31,19 @@ describe EntriesController, :type => :controller do
       end
     end
   end
+
+  describe '#like' do
+    let(:theme) {FactoryGirl.create(:theme)}
+    let(:entry) {FactoryGirl.create(:entry)}
+    # let(:like) {FactoryGirl.attributes_for(entry_id: entry.id, theme_id: theme.id, user_id: user.id)}
+
+    context 'ユーザがsign_inしている時' do
+      before { sign_in user}
+
+      it 'likeが作成される' do
+        expect {post :like, id: entry.id }.to change { Like.count }.by(1)
+      end
+    end
+  end
+
 end

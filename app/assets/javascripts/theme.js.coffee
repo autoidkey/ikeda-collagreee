@@ -58,6 +58,21 @@ $(document).on 'click', 'button#order-popular', (e) ->
 $(document).on 'click', '#issues .label', (e) ->
   $(e.target).toggleClass "active"
 
+
+# like!
+$(document).on 'click', '.like_button', (e) ->
+  status = $(@).data('status')
+  url = "/entries/like"
+  data = {id: $(@).data('id'), status: status}
+  $.post(url, data)
+
+  if status  == 'remove'
+    $(@).data('status', 'attach')
+    $(@).text "Like!"
+  else if status == 'attach'
+    $(@).data('status', 'remove')
+    $(@).text "Like!を取り消す"
+
 $(document).on 'click', '#issues', (e) ->
   issue_arr = $('#issues .label.active').map(->
     $(this).data('id').toString()
