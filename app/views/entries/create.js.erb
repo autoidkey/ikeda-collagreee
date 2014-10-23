@@ -4,5 +4,5 @@ if(<%= @entry.is_root? %>) {
   $('#entry-<%= @entry.parent_id %> > .replies').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
 } else {
   $('#entry-<%= @entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
-
 }
+slider.set();
