@@ -4,7 +4,7 @@ class PointHistory < ActiveRecord::Base
   belongs_to :users
   belongs_to :activities
 
-  enum type: %i(active passive)
+  enum atype: %i(active passive)
   enum action: %i(entry reply like replied liked)
 
   scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
@@ -17,13 +17,13 @@ class PointHistory < ActiveRecord::Base
   REPLIED_POINT = 10.00
   LIKED_POINT = 10.00
 
-  def self.pointing_post(entry, action)
+  def self.pointing_post(entry, atype, action)
     point = action ? REPLY_POINT : ENTRY_POINT
     params = {
       entry_id: entry.id,
       user_id: entry.user_id,
       theme_id: entry.theme_id,
-      atype: 0,
+      atype: atype,
       action: action,
       point: point
     }
@@ -59,7 +59,6 @@ class PointHistory < ActiveRecord::Base
           depth: depth,
           point: LIKED_POINT/(2**depth)
         }
-        p LIKED_POINT/(2**depth)
         PointHistory.save_point(params)
       end
 

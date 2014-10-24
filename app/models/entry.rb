@@ -73,7 +73,10 @@ class Entry < ActiveRecord::Base
 
   def adding_point
     action = self.is_root? ? 0 : 1
-    PointHistory.pointing_post(self, action)
+    PointHistory.pointing_post(self, 0, action)
+    if action == 1
+      PointHistory.pointing_post(self.parent, 1, 3) unless  self.parent.mine?(self.user)
+    end
   end
 
   def point
