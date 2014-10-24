@@ -26,7 +26,7 @@ class Like < ActiveRecord::Base
   end
 
   def logging_like_point
-    PointHistory.pointing_like(self)
+    PointHistory.pointing_like(self) unless Entry.find(self.entry_id).mine?(self.user)
   end
 
   def logging_liked_point

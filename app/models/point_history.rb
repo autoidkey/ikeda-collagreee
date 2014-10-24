@@ -33,19 +33,23 @@ class PointHistory < ActiveRecord::Base
     entry = Entry.find(like.entry_id)
     depth = 0
 
+
     loop {
-      params = {
-        like_id: like.id,
-        entry_id: entry.id,
-        user_id: entry.user_id,
-        theme_id: entry.theme_id,
-        atype: 1,
-        action: 4,
-        depth: depth,
-        point: LIKED_POINT/(2**depth)
-      }
-      p LIKED_POINT/(2**depth)
-      PointHistory.save_point(params)
+      unless entry.mine?(like.user)
+        params = {
+          like_id: like.id,
+          entry_id: entry.id,
+          user_id: entry.user_id,
+          theme_id: entry.theme_id,
+          atype: 1,
+          action: 4,
+          depth: depth,
+          point: LIKED_POINT/(2**depth)
+        }
+        p LIKED_POINT/(2**depth)
+        PointHistory.save_point(params)
+      end
+
       depth += 1
       break if entry.is_root?
       entry = entry.parent
