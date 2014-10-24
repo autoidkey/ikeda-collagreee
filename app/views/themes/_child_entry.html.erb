@@ -16,7 +16,7 @@
   <span class="label label-default reply-label">返信</span>
 
   <% unless child.mine?(current_user) %>
-    <% if child.liked? %>
+    <% if child.liked?(current_user) %>
       <%= button_tag "Like!を取り消す", data: {id: child.id, status: "remove"}, class: "like_button btn btn-default btn-xs" %>
     <% else %>
       <%= button_tag "Like!", data: {id: child.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
@@ -30,19 +30,21 @@
     <%= image_tag child.image.entry_thumb.url %>
   <% end %>
 
-  <%= form_for @entry, :html => {:class => 'reply-form'}, remote: true do |f| %>
-    <div class="form-group">
-      <%= f.text_field :body , class: 'form-control', placeholder: 'コメントします' %>
-    </div>
-    <div class="form-group">
-      <%= f.file_field :image %>
-    </div>
+  <% if user_signed_in? %>
+    <%= form_for @entry, :html => {:class => 'reply-form'}, remote: true do |f| %>
+      <div class="form-group">
+        <%= f.text_field :body , class: 'form-control', placeholder: 'コメントします' %>
+      </div>
+      <div class="form-group">
+        <%= f.file_field :image %>
+      </div>
 
-    <%= f.hidden_field :user_id, { :value => current_user.id } %>
-    <%= f.hidden_field :parent_id, { :value => child.id } %>
-    <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-    <%= f.hidden_field :facilitation, { :value => false } %>
-    <%= f.submit '投稿', class: 'btn btn-default' %>
+      <%= f.hidden_field :user_id, { :value => current_user.id } %>
+      <%= f.hidden_field :parent_id, { :value => child.id } %>
+      <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+      <%= f.hidden_field :facilitation, { :value => false } %>
+      <%= f.submit '投稿', class: 'btn btn-default' %>
+    <% end %>
   <% end %>
 
   <div class="replies"></div>

@@ -11,9 +11,11 @@ class Ability
       can :read, Theme
       can :manage, Issue
       can :create, Entry
+      can :like, Entry
     when 'normal'
       can :read, Theme
       can :create, Entry
+      can :like, Entry
     else                        # guest
       can :read, Theme
     end

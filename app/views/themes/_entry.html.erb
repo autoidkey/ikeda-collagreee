@@ -20,7 +20,7 @@
 <span class="glyphicon glyphicon-thumbs-up"></span> <%= entry.thread_positive_count %> / <span class="glyphicon glyphicon-thumbs-down"></span> <%= entry.thread_negative_count %>
 
 <% unless entry.mine?(current_user) %>
-  <% if entry.liked? %>
+  <% if entry.liked?(current_user) %>
     <%= button_tag "Like!を取り消す", data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
   <% else %>
     <%= button_tag "Like!", data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>

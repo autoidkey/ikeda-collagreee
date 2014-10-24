@@ -7,7 +7,7 @@ class Like < ActiveRecord::Base
 
   default_scope -> { order('updated_at DESC') }
 
-  scope :liked_user, ->(user, entry) { where(entry_id: entry, user_id: user) }
+  scope :liked_user, ->(user, entry) { where(user_id: user, entry_id: entry ) }
 
   after_save :logging_like_point, :logging_liked_point
   after_destroy :destroy_point
@@ -17,9 +17,9 @@ class Like < ActiveRecord::Base
       like = Like.where(entry_id: entry.id, user_id: user)
       like.destroy_all
     else
-      like =  Like.new
+      like = Like.new
       like.entry_id = entry.id
-      like.user_id = entry.user_id
+      like.user_id = user.id
       like.theme_id = entry.theme_id
       like.save
     end

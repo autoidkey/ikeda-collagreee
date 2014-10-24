@@ -7,7 +7,7 @@ class PointHistory < ActiveRecord::Base
   enum type: %i(active passive)
   enum action: %i(entry reply like replied liked)
 
-  scope :entry_point, ->(entry) { where( entry_id: entry ) }
+  scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
   scope :like_point, ->(like) { where( like_id: like ) }
 
   ENTRY_POINT = 10.00
@@ -32,7 +32,6 @@ class PointHistory < ActiveRecord::Base
   def self.pointing_liked(like)
     entry = Entry.find(like.entry_id)
     depth = 0
-
 
     loop {
       unless entry.mine?(like.user)

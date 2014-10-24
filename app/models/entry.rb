@@ -79,7 +79,7 @@ class Entry < ActiveRecord::Base
     self.user == user
   end
 
-  def liked?
+  def liked?(user)
     Like.liked_user(user, self).present?
   end
 
