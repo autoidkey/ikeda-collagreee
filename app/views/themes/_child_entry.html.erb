@@ -23,12 +23,14 @@
     <% end %>
   <% end %>
 
-  <span class="point"><%= child.point %></span>
-
+  <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= child.like_count %></span>
+  <span class="glyphicon glyphicon-usd"></span><span class="point"><%= child.point %></span>
 
   <% if child.image? %>
     <%= image_tag child.image.entry_thumb.url %>
   <% end %>
+
+  <div class="replies"></div>
 
   <% if user_signed_in? %>
     <%= form_for @entry, :html => {:class => 'reply-form'}, remote: true do |f| %>
@@ -46,8 +48,6 @@
       <%= f.submit '投稿', class: 'btn btn-default' %>
     <% end %>
   <% end %>
-
-  <div class="replies"></div>
 
   <% child.thread_childrens.each do |c| %>
     <%= render 'child_entry', child: c %>

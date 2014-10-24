@@ -9,6 +9,7 @@ class PointHistory < ActiveRecord::Base
 
   scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
   scope :like_point, ->(like) { where( like_id: like ) }
+  scope :user_point, ->(user, atype, action) { where( user_id: user, atype: atype, action: action ) }
 
   ENTRY_POINT = 10.00
   REPLY_POINT = 10.00

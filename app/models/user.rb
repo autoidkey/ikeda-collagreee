@@ -24,6 +24,18 @@ class User < ActiveRecord::Base
 
   ACTIVITY_COUNT = 5
 
+  def like_point
+    calculating_point(0, 2)
+  end
+
+  def liked_point
+    calculating_point(1, 4)
+  end
+
+  def calculating_point(atype, action)
+    PointHistory.user_point(self, atype, action).inject(0){ |sum, history| sum + history.point }
+  end
+
   def self.admin?(type)
     type == 0
   end

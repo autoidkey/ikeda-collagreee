@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h3>Point / ポイントデバッグ</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>atype</th>
+          <th>action</th>
+          <th>point</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>active</td>
+          <td>like</td>
+          <td><%= current_user.like_point %></td>
+        </tr>
+        <tr>
+          <td>passive</td>
+          <td>liked</td>
+          <td><%= current_user.liked_point %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
