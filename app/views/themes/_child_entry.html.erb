@@ -15,13 +15,16 @@
   by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
   <span class="label label-default reply-label">返信</span>
 
-  <% if child.liked? %>
-    <%= button_tag "Like!を取り消す", data: {id: child.id, status: "remove"}, class: "like_button btn btn-default btn-xs" %>
-  <% else %>
-    <%= button_tag "Like!", data: {id: child.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
+  <% unless child.mine?(current_user) %>
+    <% if child.liked? %>
+      <%= button_tag "Like!を取り消す", data: {id: child.id, status: "remove"}, class: "like_button btn btn-default btn-xs" %>
+    <% else %>
+      <%= button_tag "Like!", data: {id: child.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
+    <% end %>
   <% end %>
 
   <span class="point"><%= child.point %></span>
+
 
   <% if child.image? %>
     <%= image_tag child.image.entry_thumb.url %>
