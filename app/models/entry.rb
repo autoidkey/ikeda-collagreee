@@ -16,7 +16,7 @@ class Entry < ActiveRecord::Base
   scope :popular, -> { root.sort_by{|e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) {root.select{|e| issues.map{|i| e.tagged_entries.map{|t| t.issue_id.to_s}.include?(i)}.include?(true)} if issues.present?}
 
-  after_save :logging_activity
+  after_save :logging_activity, :adding_point
   after_save :update_parent_entry_time, unless: :is_root?
 
   NP_THRESHOLD = 50
@@ -69,6 +69,11 @@ class Entry < ActiveRecord::Base
       logged << entry.user
       Activity.logging(entry, 2)
     end
+  end
+
+  def adding_point
+    action = self.is_root? ? 0 : 1
+    PointHistory.pointing_post(self, action)
   end
 
   def point

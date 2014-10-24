@@ -17,6 +17,19 @@ class PointHistory < ActiveRecord::Base
   REPLIED_POINT = 10.00
   LIKED_POINT = 10.00
 
+  def self.pointing_post(entry, action)
+    point = action ? REPLY_POINT : ENTRY_POINT
+    params = {
+      entry_id: entry.id,
+      user_id: entry.user_id,
+      theme_id: entry.theme_id,
+      atype: 0,
+      action: action,
+      point: point
+    }
+    PointHistory.save_point(params)
+  end
+
   def self.pointing_like(like)
     params = {
       like_id: like.id,

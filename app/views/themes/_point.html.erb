@@ -12,8 +12,23 @@
       <tbody>
         <tr>
           <td>active</td>
+          <td>entry</td>
+          <td><%= current_user.entry_point %></td>
+        </tr>
+        <tr>
+          <td>active</td>
+          <td>reply</td>
+          <td><%= current_user.reply_point %></td>
+        </tr>
+        <tr>
+          <td>active</td>
           <td>like</td>
           <td><%= current_user.like_point %></td>
+        </tr>
+        <tr>
+          <td>passive</td>
+          <td>replied</td>
+          <td><%= current_user.replied_point %></td>
         </tr>
         <tr>
           <td>passive</td>

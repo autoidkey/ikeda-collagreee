@@ -24,8 +24,20 @@ class User < ActiveRecord::Base
 
   ACTIVITY_COUNT = 5
 
+  def entry_point
+    calculating_point(0, 0)
+  end
+
+  def reply_point
+    calculating_point(0, 1)
+  end
+
   def like_point
     calculating_point(0, 2)
+  end
+
+  def replied_point
+    calculating_point(1, 3)
   end
 
   def liked_point
