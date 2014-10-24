@@ -2,6 +2,7 @@ class Activity < ActiveRecord::Base
   belongs_to :user
   belongs_to :entry
   belongs_to :theme
+  has_many :point_histories
 
   default_scope -> { order('updated_at DESC') }
 

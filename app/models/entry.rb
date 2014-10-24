@@ -6,6 +6,7 @@ class Entry < ActiveRecord::Base
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
   has_many :likes
+  has_many :point_histories
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
@@ -68,6 +69,10 @@ class Entry < ActiveRecord::Base
       logged << entry.user
       Activity.logging(entry, 2)
     end
+  end
+
+  def point
+    PointHistory.entry_point(self).present? ? PointHistory.entry_point(self).inject(0) { |sum, history| sum + history.point } : 0
   end
 
   def mine?(user)

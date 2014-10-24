@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
   has_many :themes
   has_many :themes, through: :joins
   has_many :joins
-  has_many :like
+  has_many :likes
+  has_many :point_histories
 
   enum role: %i(admin facilitator normal)
   enum gender: %i(男性 女性)

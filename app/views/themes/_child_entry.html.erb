@@ -21,6 +21,8 @@
     <%= button_tag "Like!", data: {id: child.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
   <% end %>
 
+  <span class="point"><%= child.point %></span>
+
   <% if child.image? %>
     <%= image_tag child.image.entry_thumb.url %>
   <% end %>
