@@ -10,11 +10,12 @@ class Like < ActiveRecord::Base
   scope :liked_user, ->(user, entry) { where(entry_id: entry, user_id: user) }
 
   after_save :logging_like_point, :logging_liked_point
+  after_destroy :destroy_point
 
   def self.like!(entry, status, user)
     if status == "remove"
       like = Like.where(entry_id: entry.id, user_id: user)
-      like.delete_all
+      like.destroy_all
     else
       like =  Like.new
       like.entry_id = entry.id
@@ -30,6 +31,10 @@ class Like < ActiveRecord::Base
 
   def logging_liked_point
     PointHistory.pointing_liked(self)
+  end
+
+  def destroy_point
+    PointHistory.destroy_like_point(self)
   end
 
   def self.remove_like!

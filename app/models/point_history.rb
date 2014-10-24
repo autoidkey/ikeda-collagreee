@@ -7,13 +7,14 @@ class PointHistory < ActiveRecord::Base
   enum type: %i(active passive)
   enum action: %i(entry reply like replied liked)
 
-  scope :entry_point, ->(entry) { where(entry_id: entry) }
+  scope :entry_point, ->(entry) { where( entry_id: entry ) }
+  scope :like_point, ->(like) { where( like_id: like ) }
 
-  ENTRY_POINT = 10
-  REPLY_POINT = 10
-  LIKE_POINT = 10
-  REPLIED_POINT = 10
-  LIKED_POINT = 10
+  ENTRY_POINT = 10.00
+  REPLY_POINT = 10.00
+  LIKE_POINT = 10.00
+  REPLIED_POINT = 10.00
+  LIKED_POINT = 10.00
 
   def self.pointing_like(like)
     params = {
@@ -43,11 +44,16 @@ class PointHistory < ActiveRecord::Base
         depth: depth,
         point: LIKED_POINT/(2**depth)
       }
+      p LIKED_POINT/(2**depth)
       PointHistory.save_point(params)
       depth += 1
       break if entry.is_root?
       entry = entry.parent
     }
+  end
+
+  def self.destroy_like_point(like)
+    PointHistory.like_point(like).delete_all
   end
 
   def self.save_point(params)
