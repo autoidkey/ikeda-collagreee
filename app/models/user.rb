@@ -24,32 +24,32 @@ class User < ActiveRecord::Base
 
   ACTIVITY_COUNT = 5
 
-  def entry_point
-    calculating_point(0, 0)
+  def entry_point(theme)
+    calculating_point(0, 0, theme)
   end
 
-  def reply_point
-    calculating_point(0, 1)
+  def reply_point(theme)
+    calculating_point(0, 1, theme)
   end
 
-  def like_point
-    calculating_point(0, 2)
+  def like_point(theme)
+    calculating_point(0, 2, theme)
   end
 
-  def replied_point
-    calculating_point(1, 3)
+  def replied_point(theme)
+    calculating_point(1, 3, theme)
   end
 
-  def liked_point
-    calculating_point(1, 4)
+  def liked_point(theme)
+    calculating_point(1, 4, theme)
   end
 
-  def active_point
-    PointHistory.user_active_point(self)
+  def active_point(theme)
+    PointHistory.user_active_point(self, theme)
   end
 
-  def calculating_point(atype, action)
-    PointHistory.user_point(self, atype, action).inject(0){ |sum, history| sum + history.point }
+  def calculating_point(atype, action, theme)
+    PointHistory.user_point(self, atype, action, theme).inject(0){ |sum, history| sum + history.point }
   end
 
   def self.admin?(type)

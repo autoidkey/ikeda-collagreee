@@ -59,7 +59,6 @@ class ThemesController < ApplicationController
   end
 
   def set_theme
-    p params
     @theme = Theme.find(params[:id])
   end
 

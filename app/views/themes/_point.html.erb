@@ -13,27 +13,27 @@
         <tr>
           <td>active</td>
           <td>entry</td>
-          <td><%= current_user.entry_point %></td>
+          <td><%= current_user.entry_point(@theme) %></td>
         </tr>
         <tr>
           <td>active</td>
           <td>reply</td>
-          <td><%= current_user.reply_point %></td>
+          <td><%= current_user.reply_point(@theme) %></td>
         </tr>
         <tr>
           <td>active</td>
           <td>like</td>
-          <td><%= current_user.like_point %></td>
+          <td><%= current_user.like_point(@theme) %></td>
         </tr>
         <tr>
           <td>passive</td>
           <td>replied</td>
-          <td><%= current_user.replied_point %></td>
+          <td><%= current_user.replied_point(@theme) %></td>
         </tr>
         <tr>
           <td>passive</td>
           <td>liked</td>
-          <td><%= current_user.liked_point %></td>
+          <td><%= current_user.liked_point(@theme) %></td>
         </tr>
       </tbody>
     </table>
@@ -45,7 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        <% current_user.active_point.each do |ap| %>
+        <% current_user.active_point(@theme).each do |ap| %>
         <tr>
           <td>
             $<%= ap.point %>
@@ -57,9 +57,9 @@
             <% when "Like" %>
             <%= ap.entry.user.name %>さんの投稿にLikeしました (Like No.<%= ap.like_id %>)
             <% when "返信され" %>
-            <%= ap.entry.parent.user.name %>さんの投稿に返信されました (投稿　No.<%= ap.entry_id %>)
+            投稿(No.<%= ap.entry_id %>)に返信されました (投稿　No.<%= ap.entry_id %>)
             <% when "Likeされ" %>
-            <%= ap.like.user.name %>さんに投稿(No.<%= ap.entry_id %>)がLikeされました (Like No.<%= ap.like_id %>)
+            投稿(No.<%= ap.entry_id %>)が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
             <% end %>
           </td>
         </tr>

@@ -10,8 +10,8 @@ class PointHistory < ActiveRecord::Base
 
   scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
   scope :like_point, ->(like) { where( like_id: like ) }
-  scope :user_point, ->(user, atype, action) { where( user_id: user, atype: atype, action: action ) }
-  scope :user_active_point, ->(user) {where( user_id: user ) }
+  scope :user_point, ->(user, atype, action, theme) { where( user_id: user, atype: atype, action: action, theme_id: theme ) }
+  scope :user_active_point, ->(user, theme) {where( user_id: user, theme_id: theme ) }
 
   ENTRY_POINT = 10.00
   REPLY_POINT = 10.00
@@ -57,7 +57,7 @@ class PointHistory < ActiveRecord::Base
     depth = 0
 
     loop {
-      unless entry.mine?(like.user)
+      unless entry.mine?(like.user) && depth == 0
         params = {
           like_id: like.id,
           entry_id: entry.id,
