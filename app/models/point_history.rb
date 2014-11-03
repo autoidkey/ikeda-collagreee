@@ -1,15 +1,17 @@
 class PointHistory < ActiveRecord::Base
-  belongs_to :entries
-  belongs_to :themes
-  belongs_to :users
-  belongs_to :activities
+  belongs_to :entry
+  belongs_to :theme
+  belongs_to :user
+  belongs_to :like
+  belongs_to :activity
 
   enum atype: %i(active passive)
-  enum action: %i(entry reply like replied liked)
+  enum action: %i(投稿 返信 Like 返信され Likeされ)
 
   scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
   scope :like_point, ->(like) { where( like_id: like ) }
   scope :user_point, ->(user, atype, action) { where( user_id: user, atype: atype, action: action ) }
+  scope :user_active_point, ->(user) {where( user_id: user ) }
 
   ENTRY_POINT = 10.00
   REPLY_POINT = 10.00
@@ -18,7 +20,14 @@ class PointHistory < ActiveRecord::Base
   LIKED_POINT = 10.00
 
   def self.pointing_post(entry, atype, action)
-    point = action ? REPLY_POINT : ENTRY_POINT
+    point = case action
+              when 0
+              REPLY_POINT
+              when 1
+              ENTRY_POINT
+              when 3
+              REPLIED_POINT
+            end
     params = {
       entry_id: entry.id,
       user_id: entry.user_id,

@@ -37,5 +37,35 @@
         </tr>
       </tbody>
     </table>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_user.active_point.each do |ap| %>
+        <tr>
+          <td>
+            $<%= ap.point %>
+            <% case ap.action
+               when "投稿" %>
+            投稿しました (投稿 No.<%= ap.entry_id %>)
+            <% when "返信" %>
+            <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry_id %>)
+            <% when "Like" %>
+            <%= ap.entry.user.name %>さんの投稿にLikeしました (Like No.<%= ap.like_id %>)
+            <% when "返信され" %>
+            <%= ap.entry.parent.user.name %>さんの投稿に返信されました (投稿　No.<%= ap.entry_id %>)
+            <% when "Likeされ" %>
+            <%= ap.like.user.name %>さんに投稿(No.<%= ap.entry_id %>)がLikeされました (Like No.<%= ap.like_id %>)
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
   </div>
 </div>

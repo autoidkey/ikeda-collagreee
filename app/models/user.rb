@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     calculating_point(1, 4)
   end
 
+  def active_point
+    PointHistory.user_active_point(self)
+  end
+
   def calculating_point(atype, action)
     PointHistory.user_point(self, atype, action).inject(0){ |sum, history| sum + history.point }
   end
