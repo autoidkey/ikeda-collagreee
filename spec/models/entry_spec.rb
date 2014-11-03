@@ -8,6 +8,10 @@ describe Entry, :type => :model do
     it '投稿Activityが作成される' do
       expect { entry }.to change { Activity.count }.by(1)
     end
+
+    it 'ENTRY_POINTが与えられる' do
+      expect { entry }.to change {PointHistory.count}.by(1)
+    end
   end
 
   describe '親エントリーに対してリプライした時' do
@@ -17,6 +21,10 @@ describe Entry, :type => :model do
     context '親エントリを自分が作った時' do
       it '投稿Activityが作成される' do
         expect { child }.to change { Activity.count }.by(1)
+      end
+
+      it 'REPRY_POINTが与えられるが、REPRIED_POINTは与えられない' do
+        expect { child }.to change {PointHistory.count}.by(1)
       end
     end
 
@@ -32,6 +40,10 @@ describe Entry, :type => :model do
 
       it '投稿ActivityとリプライActivityが作成される' do
         expect { child }.to change { Activity.count }.by(2)
+      end
+
+      it 'REPRY_POINTが与えられる。親投稿にREPRIED_POINTが与えられる' do
+        expect { child }.to change {PointHistory.count}.by(2)
       end
     end
   end

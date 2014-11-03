@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20140906025524) do
+=======
+ActiveRecord::Schema.define(version: 20141024071738) do
+>>>>>>> development
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -81,6 +85,29 @@ ActiveRecord::Schema.define(version: 20140906025524) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "theme_id"
+  end
+
+  create_table "likes", force: true do |t|
+    t.integer  "entry_id"
+    t.integer  "user_id"
+    t.integer  "theme_id"
+    t.integer  "activity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "point_histories", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "entry_id"
+    t.integer  "theme_id"
+    t.integer  "activity_id"
+    t.float    "point",       limit: 24
+    t.integer  "atype"
+    t.integer  "action"
+    t.integer  "depth"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "like_id"
   end
 
   create_table "tagged_entries", force: true do |t|

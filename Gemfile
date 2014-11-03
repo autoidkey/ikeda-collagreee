@@ -36,6 +36,7 @@ group :development do
   gem 'hirb'
   gem 'hirb-unicode'
   gem 'sextant'
+  gem 'binding_of_caller'
 end
 
 group :development, :test do

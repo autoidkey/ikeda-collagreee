@@ -18,15 +18,20 @@
          @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
          format.js
        else
-         render json: 'json error'
+         format.json {render json: 'json error'}
        end
      end
+   end
+
+   def like
+     render nothing: true
+     entry = Entry.find(params[:id])
+     Like.like!(entry, params[:status], current_user)
    end
 
    def np
      data = { np: calc_np(params[:text]), entry_id: params[:entry_id]}
      respond_to do |format|
-       # format.json { render :json => "{\"np\": #{calc_np(params[:text])}}" }
        format.json { render :json => data.to_json }
      end
    end

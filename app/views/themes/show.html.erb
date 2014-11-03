@@ -6,18 +6,6 @@
     <hr />
 
     <div class="well" id="tl-tool">
-      <div id="tl-order">
-        <%= link_to "新着", {controller: "themes", action: "order", id: @theme.id, sort: "time"}, :remote=> true %>
-        <%= link_to "人気", {controller: "themes", action: "order", id: @theme.id, sort: "popular"}, :remote=> true %>
-      </div>
-
-      <div id="issues">
-        論点タグ
-        <% @theme.issues.each do |issue| %>
-          <span class="label label-default" data-id="<%= issue.id %>"><%= issue.name %></span>
-        <% end %>
-      </div>
-
       <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
         <%= f.radio_button :order, 'time', {:checked => true} %> 新着
         <%= f.radio_button :order, 'popular' %> 人気
@@ -42,15 +30,14 @@
         </div>
       <% end %>
     </div>
-    <div id="kaminari">
-      <%= paginate @entries %>
-    </div>
+    <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
     <div id="icon-loading">
       <%= image_tag 'theme/icon-loading.gif' %>
     </div>
   </div>
   <div class="col-md-4">
     <%= render 'theme_info' %>
+    <%= render 'point' if user_signed_in? %>
     <%= render 'activity' if user_signed_in? %>
     <%= render 'other_themes' %>
     <%= render 'users' %>

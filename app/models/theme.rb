@@ -5,6 +5,8 @@ class Theme < ActiveRecord::Base
   has_many :keywords, dependent: :destroy # けす？
   has_many :users, through: :joins
   has_many :joins
+  has_many :likes
+  has_many :point_histories
   belongs_to :admin, class_name: 'User'
 
   mount_uploader :image, ImageUploader

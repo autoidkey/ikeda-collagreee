@@ -10,27 +10,13 @@ class ThemesController < ApplicationController
 
   def show
     @entry = Entry.new
-    @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(3)
+    @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(20)
     @search_entry = SearchEntry.new
+
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
     @facilitations = Facilitations
     @theme.join!(current_user) if user_join?
-  end
-
-  def order
-    @entry = Entry.new
-    @issue = Issue.new
-    @facilitations = Facilitations
-    sort = params[:sort]
-    if sort == "time"
-      @entries = Entry.in_theme(@theme.id).sort_time.page(params[:page]).per(3)
-    elsif sort == "popular"
-      @entries = Kaminari.paginate_array(Entry.in_theme(@theme.id).popular).page(params[:page]).per(3)
-    end
-    respond_to do |format|
-      format.js
-    end
   end
 
   def search_entry
@@ -38,9 +24,10 @@ class ThemesController < ApplicationController
     @issue = Issue.new
     @facilitations = Facilitations
 
-    @search_entry = SearchEntry.new params[:search_entry]
+    @search_entry = SearchEntry.new params[:search_entry] if params[:search_entry].present?
+    @page = params[:page] || 1
     @entries = @search_entry.search_issues
-    @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(3)
+    @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(20)
 
     respond_to do |format|
       format.js

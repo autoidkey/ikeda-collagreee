@@ -2,9 +2,11 @@ class Entry < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
   belongs_to :user
-  belongs_to :theme , touch: true
+  belongs_to :theme, touch: true
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
+  has_many :likes
+  has_many :point_histories
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
@@ -14,12 +16,10 @@ class Entry < ActiveRecord::Base
   scope :popular, -> { root.sort_by{|e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) {root.select{|e| issues.map{|i| e.tagged_entries.map{|t| t.issue_id.to_s}.include?(i)}.include?(true)} if issues.present?}
 
-  after_save :logging_activity
+  after_save :logging_activity, :adding_point
   after_save :update_parent_entry_time, unless: :is_root?
 
   NP_THRESHOLD = 50
-
-
 
   def parent
     parent_id.nil? ? self : Entry.find(parent_id)
@@ -71,8 +71,28 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  def adding_point
+    action = self.is_root? ? 0 : 1
+    PointHistory.pointing_post(self, 0, action)
+    if action == 1
+      PointHistory.pointing_post(self.parent, 1, 3) unless self.parent.mine?(self.user)
+    end
+  end
+
+  def point
+    PointHistory.entry_point(self).present? ? PointHistory.entry_point(self).inject(0) { |sum, history| sum + history.point } : 0
+  end
+
   def mine?(user)
     self.user == user
+  end
+
+  def liked?(user)
+    Like.liked_user(user, self).present?
+  end
+
+  def like_count
+    Like.all_likes(self).count
   end
 
   def positive?
