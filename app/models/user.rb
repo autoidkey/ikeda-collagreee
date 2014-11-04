@@ -45,7 +45,19 @@ class User < ActiveRecord::Base
   end
 
   def active_point(theme)
-    PointHistory.user_active_point(self, theme)
+    entry_point(theme) + reply_point(theme) + like_point(theme)
+  end
+
+  def passive_point(theme)
+    replied_point(theme) + liked_point(theme)
+  end
+
+  def sum_point(theme)
+    active_point(theme) + passive_point(theme)
+  end
+
+  def point_history(theme)
+    PointHistory.point_history(self, theme)
   end
 
   def calculating_point(atype, action, theme)

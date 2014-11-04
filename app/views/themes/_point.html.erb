@@ -1,42 +1,44 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h3>Point / ポイントデバッグ</h3>
+    <h3><small>あなたの議論ポイントは</small> <%= current_user.sum_point(@theme) %> <small>ポイントです</small></h3>
     <table class="table">
       <thead>
         <tr>
-          <th>atype</th>
-          <th>action</th>
-          <th>point</th>
+          <th>投稿</th>
+          <th>返信</th>
+          <th>Like</th>
+          <th>アクティブポイント</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>active</td>
-          <td>entry</td>
           <td><%= current_user.entry_point(@theme) %></td>
-        </tr>
-        <tr>
-          <td>active</td>
-          <td>reply</td>
           <td><%= current_user.reply_point(@theme) %></td>
-        </tr>
-        <tr>
-          <td>active</td>
-          <td>like</td>
           <td><%= current_user.like_point(@theme) %></td>
-        </tr>
-        <tr>
-          <td>passive</td>
-          <td>replied</td>
-          <td><%= current_user.replied_point(@theme) %></td>
-        </tr>
-        <tr>
-          <td>passive</td>
-          <td>liked</td>
-          <td><%= current_user.liked_point(@theme) %></td>
+          <td><%= current_user.active_point(@theme) %></td>
         </tr>
       </tbody>
     </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>返信された</th>
+          <th>Likeされた</th>
+          <th></th>
+          <th>パッシブポイント</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= current_user.replied_point(@theme) %></td>
+          <td><%= current_user.liked_point(@theme) %></td>
+          <td></td>
+          <td><%= current_user.passive_point(@theme) %></td>
+        </tr>
+      </tbody>
+    </table>
+
 
     <table class="table">
       <thead>
@@ -45,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <% current_user.active_point(@theme).each do |ap| %>
+        <% current_user.point_history(@theme).each do |ap| %>
         <tr>
           <td>
             $<%= ap.point %>
@@ -59,7 +61,11 @@
             <% when "返信され" %>
             投稿(No.<%= ap.entry_id %>)に返信されました (投稿　No.<%= ap.entry_id %>)
             <% when "Likeされ" %>
-            投稿(No.<%= ap.entry_id %>)が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
+            <% if ap.depth == 0 %>
+              投稿(No.<%= ap.entry_id %>)が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
+            <% else %>
+              投稿(No.<%= ap.entry_id %>)に関連する投稿が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
+            <% end %>
             <% end %>
           </td>
         </tr>
