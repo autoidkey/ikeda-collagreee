@@ -33,7 +33,11 @@ class User < ActiveRecord::Base
   end
 
   def like_point(theme)
-    calculating_point(0, 2, theme)
+    calculating_point(0, 2, theme)  +  calculating_point(0, 6, theme)
+  end
+
+  def destroy_like_point(theme)
+    calculating_point(0, 6, theme)
   end
 
   def replied_point(theme)
@@ -41,7 +45,11 @@ class User < ActiveRecord::Base
   end
 
   def liked_point(theme)
-    calculating_point(1, 4, theme)
+    calculating_point(1, 4, theme) + calculating_point(1, 6, theme)
+  end
+
+  def destroy_liked_point(theme)
+    calculating_point(1, 6, theme)
   end
 
   def active_point(theme)

@@ -66,6 +66,8 @@
             <% else %>
               投稿(No.<%= ap.entry_id %>)に関連する投稿が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
             <% end %>
+            <% when "Likeを削除され" %>
+              投稿(No.<%= ap.entry_id %>)への<%= ap.like.user.name %>さんのLikeが削除されました (Like No.<%= ap.like_id %>)
             <% end %>
           </td>
         </tr>

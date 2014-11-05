@@ -2,14 +2,14 @@ class PointHistory < ActiveRecord::Base
   belongs_to :entry
   belongs_to :theme
   belongs_to :user
-  belongs_to :like
   belongs_to :activity
+  belongs_to :like
 
   enum atype: %i(active passive)
-  enum action: %i(投稿 返信 Like 返信され Likeされ)
+  enum action: %i(投稿 返信 Like 返信され Likeされ Likeを削除 Likeを削除され)
 
   scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
-  scope :like_point, ->(like) { where( like_id: like ) }
+  scope :like_point, ->(like, version) { where( like_id: like, version_id: version ) }
   scope :user_point, ->(user, atype, action, theme) { where( user_id: user, atype: atype, action: action, theme_id: theme ) }
   scope :point_history, ->(user, theme) {where( user_id: user, theme_id: theme ) }
 
@@ -47,7 +47,8 @@ class PointHistory < ActiveRecord::Base
       theme_id: like.theme_id,
       atype: 0,
       action: 2,
-      point: LIKE_POINT
+      point: LIKE_POINT,
+      version_id: like.version_id
     }
     PointHistory.save_point(params)
   end
@@ -66,7 +67,8 @@ class PointHistory < ActiveRecord::Base
           atype: 1,
           action: 4,
           depth: depth,
-          point: LIKED_POINT/(2**depth)
+          point: LIKED_POINT/(2**depth),
+          version_id: like.version_id
         }
         PointHistory.save_point(params)
       end
@@ -78,7 +80,13 @@ class PointHistory < ActiveRecord::Base
   end
 
   def self.destroy_like_point(like)
-    PointHistory.like_point(like).delete_all
+    PointHistory.like_point(like, like.version_id).each do |history|
+      destory_history = history.copy_attr_for_create
+      destory_history.action = destory_history.atype ? 6 : 5
+      destory_history.point = -destory_history.point
+      destory_history.version_id = like.version_id + 1
+      destory_history.save
+    end
   end
 
   def self.save_point(params)
@@ -86,4 +94,28 @@ class PointHistory < ActiveRecord::Base
     point_history.save
   end
 
+  def self.logging_destory(like)
+    params = {
+      like_id: like.id,
+      entry_id: like.entry_id,
+      user_id: like.user_id,
+      theme_id: like.theme_id,
+      atype: 0,
+      action: 5,
+      point: 0
+    }
+    PointHistory.save_point(params)
+  end
+
+  def copy_attr_for_create
+    history = PointHistory.new
+    PointHistory.accessible_attributes.each do |attr|
+      history.send("#{attr}=", self.send("#{attr}")) if attr.length > 0
+    end
+    history
+  end
+
+  def self.accessible_attributes
+    ["like_id", "entry_id", "user_id", "theme_id", "atype", "action", "depth", "point"]
+  end
 end
