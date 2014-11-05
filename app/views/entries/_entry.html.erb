@@ -13,9 +13,14 @@
   <span class="label label-default"><%= issue.name %></span>
 <% end %>
 
+<span class="glyphicon glyphicon-thumbs-up"></span> <%= entry.thread_positive_count %> / <span class="glyphicon glyphicon-thumbs-down"></span> <%= entry.thread_negative_count %>
 <% if entry.image? %>
   <%= image_tag entry.image.entry_thumb.url %>
 <% end %>
+
+<span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= entry.like_count %></span>
+<span class="glyphicon glyphicon-usd"></span><span class="point"><%= entry.point %></span>
+
 <hr />
 
 <div class="children">

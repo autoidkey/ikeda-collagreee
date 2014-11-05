@@ -29,12 +29,14 @@ class Like < ActiveRecord::Base
         like.save
         Like.logging(like)
       else
-        like = Like.new
-        like.entry_id = entry.id
-        like.user_id = user.id
-        like.theme_id = entry.theme_id
-        like.status = 1
-        like.version_id = 0
+        params = {
+          entry_id: entry.id,
+          user_id: user.id,
+          theme_id: entry.theme_id,
+          status: 1,
+          version_id: 0,
+        }
+        like = Like.new(params)
         like.save
         Like.logging(like)
       end
