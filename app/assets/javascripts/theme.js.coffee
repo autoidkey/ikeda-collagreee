@@ -81,7 +81,22 @@ class @PointCount
     $('#sum_point').text(sum_point).hide().fadeIn 'slow'
 
   animation: ->
-    $('#object').addClass('expandUp');
+    $('#object').css 'display', 'block'
+    $('#object').addClass 'expandUp'
+    setTimeout (->
+      $('#object').css 'display', 'none'
+      $('#object').removeClass 'expandUp'
+      return
+    ), 2500
+
+  parent: (entry)->
+    parent = entry.parents('div[id^="entry-"]').first()
+    point = parent.find('.point').first()
+    new_point = (parseFloat(point.text()) + REPLIED_POINT).toFixed(1)
+    point.text(new_point).hide().fadeIn 'slow'
+
+    # $('#object').delay(700).css 'display', 'none'
+    # $('#object').deley(700).removeClass 'expandUp'
 
     # $.get('/users/sum_point?theme_id=' + theme, (json) ->
     #   $('#sum_point').text(json.point).hide().fadeIn 'slow'
