@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
     else
       params = {
         entry_id: entry.id,
-        user_id: user.id,
+        user_id: self.id,
         theme_id: entry.theme_id,
         status: 1,
         version_id: 0,
