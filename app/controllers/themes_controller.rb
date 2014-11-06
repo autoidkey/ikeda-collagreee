@@ -24,7 +24,7 @@ class ThemesController < ApplicationController
     @issue = Issue.new
     @facilitations = Facilitations
 
-    @search_entry = SearchEntry.new params[:search_entry] if params[:search_entry].present?
+    @search_entry = SearchEntry.new(params[:search_entry]) if params[:search_entry].present?
     @page = params[:page] || 1
     @entries = @search_entry.search_issues
     @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(20)

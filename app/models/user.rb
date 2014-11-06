@@ -92,6 +92,35 @@ class User < ActiveRecord::Base
     activities.select { |a| a.in_theme?(theme.id) }.take(ACTIVITY_COUNT)
   end
 
+  def like!(entry)
+    like = Like.find_by(entry_id: entry, user_id: self)
+    if like.present?
+      like.status = 1
+      like.version_id += 1
+      like.save
+      Like.logging(like)
+    else
+      params = {
+        entry_id: entry.id,
+        user_id: user.id,
+        theme_id: entry.theme_id,
+        status: 1,
+        version_id: 0,
+      }
+      like = Like.new(params)
+      like.save
+      Like.logging(like)
+    end
+  end
+
+  def unlike!(entry)
+    like = Like.find_by(entry_id: entry, user_id: self)
+    Like.logging_destroy(like)
+    like.version_id += 1
+    like.status = 0
+    like.save
+  end
+
   # def email_changed?(email)
   #   self.email != email
   # end

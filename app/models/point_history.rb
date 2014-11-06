@@ -8,10 +8,10 @@ class PointHistory < ActiveRecord::Base
   enum atype: %i(active passive)
   enum action: %i(投稿 返信 Like 返信され Likeされ Likeを削除 Likeを削除され)
 
-  scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
-  scope :like_point, ->(like, version) { where( like_id: like, version_id: version ) }
-  scope :user_point, ->(user, atype, action, theme) { where( user_id: user, atype: atype, action: action, theme_id: theme ) }
-  scope :point_history, ->(user, theme) { where( user_id: user, theme_id: theme ).order('updated_at DESC') }
+  scope :entry_point, ->(entry) { where(entry_id: entry, atype: 1) }
+  scope :like_point, ->(like, version) { where(like_id: like, version_id: version) }
+  scope :user_point, ->(user, atype, action, theme) { where(user_id: user, atype: atype, action: action, theme_id: theme) }
+  scope :point_history, ->(user, theme) { where(user_id: user, theme_id: theme).order('updated_at DESC') }
 
   ENTRY_POINT = 10.00
   REPLY_POINT = 10.00
@@ -21,11 +21,11 @@ class PointHistory < ActiveRecord::Base
 
   def self.pointing_post(entry, atype, action)
     point = case action
-              when 0
+            when 0
               REPLY_POINT
-              when 1
+            when 1
               ENTRY_POINT
-              when 3
+            when 3
               REPLIED_POINT
             end
     params = {
@@ -108,14 +108,24 @@ class PointHistory < ActiveRecord::Base
   end
 
   def copy_attr_for_create
-    history = PointHistory.new
-    PointHistory.accessible_attributes.each do |attr|
-      history.send("#{attr}=", self.send("#{attr}")) if attr.length > 0
+    # history = PointHistory.new
+    # PointHistory.accessible_attributes.each do |attr|
+    #   history.send("#{attr}=", self.send("#{attr}")) if attr.length > 0
+    # end
+    # history
+
+
+    PointHistory.new do |ph|
+      CALL_FUNC.each do |func|
+        ph.send("#{func}=", send(func))
+      end
     end
-    history
   end
 
-  def self.accessible_attributes
-    ["like_id", "entry_id", "user_id", "theme_id", "atype", "action", "depth", "point"]
-  end
+  CALL_FUNC = %w(like_id entry_id user_id theme_id atype action depth point)
+
+
+  # def self.accessible_attributes
+  #   ["like_id", "entry_id", "user_id", "theme_id", "atype", "action", "depth", "point"]
+  # end
 end

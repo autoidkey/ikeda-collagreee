@@ -14,36 +14,7 @@ class Like < ActiveRecord::Base
 
   # after_save :logging_like_point, :logging_liked_point
 
-  def self.like!(entry, status, user)
-    if status == "remove"
-      like = Like.find_by(entry_id: entry.id, user_id: user)
-      Like.logging_destroy(like)
-      like.version_id += 1
-      like.status = 0
-      like.save
-    else
-      like = Like.find_by(entry_id: entry.id, user_id: user)
-      if like.present?
-        like.status = 1
-        like.version_id += 1
-        like.save
-        Like.logging(like)
-      else
-        params = {
-          entry_id: entry.id,
-          user_id: user.id,
-          theme_id: entry.theme_id,
-          status: 1,
-          version_id: 0,
-        }
-        like = Like.new(params)
-        like.save
-        Like.logging(like)
-      end
-    end
-  end
-
-  def self.logging(like)
+ def self.logging(like)
     logging_like_point(like)
     logging_liked_point(like)
   end

@@ -18,7 +18,7 @@
          @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
          format.js
        else
-         format.json {render json: 'json error'}
+         format.json { render json: 'json error' }
        end
      end
    end
@@ -27,16 +27,22 @@
      # render nothing: true
      entry = Entry.find(params[:id])
      @status = params[:status]
-     Like.like!(entry, @status, current_user)
+     if @status == 'remove'
+       current_user.unlike! entry
+     else
+       current_user.like! entry
+     end
+     # @status = params[:status]
+     # Like.like!(entry, @status, current_user)
      respond_to do |format|
        format.js
      end
    end
 
    def np
-     data = { np: calc_np(params[:text]), entry_id: params[:entry_id]}
+     data = { np: calc_np(params[:text]), entry_id: params[:entry_id] }
      respond_to do |format|
-       format.json { render :json => data.to_json }
+       format.json { render json: data.to_json }
      end
    end
 
@@ -45,6 +51,7 @@
    end
 
    private
+
    def entry_params
      params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
    end
