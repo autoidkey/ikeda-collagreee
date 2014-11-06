@@ -11,7 +11,7 @@ class PointHistory < ActiveRecord::Base
   scope :entry_point, ->(entry) { where( entry_id: entry, atype: 1 ) }
   scope :like_point, ->(like, version) { where( like_id: like, version_id: version ) }
   scope :user_point, ->(user, atype, action, theme) { where( user_id: user, atype: atype, action: action, theme_id: theme ) }
-  scope :point_history, ->(user, theme) {where( user_id: user, theme_id: theme ) }
+  scope :point_history, ->(user, theme) { where( user_id: user, theme_id: theme ).order('updated_at DESC') }
 
   ENTRY_POINT = 10.00
   REPLY_POINT = 10.00

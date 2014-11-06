@@ -2,6 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#object {
+  display: block;
+  height: 250px;
+  width: 250px;
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+  /*margin-bottom: 100px;*/
+  background: url('http://www.justinaguilar.com/animations/images/ross-v2.png') no-repeat center;
+  background-size: contain;
+  visibility: hidden;
+}
+
 .facilitation-phrase h4 {
   cursor: pointer;
 }
@@ -52,5 +64,5 @@ nav.pagination {
   text-align: center;
 }
 
-.slider .ui-slider-range { background: #8ae234; }
-.slider .ui-slider-handle { border-color: #8ae234; }
+.slider .ui-slider-range { background: #a3a3a3; }
+.slider .ui-slider-handle { border-color: #a3a3a3; }

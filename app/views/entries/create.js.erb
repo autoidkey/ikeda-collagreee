@@ -1,8 +1,15 @@
 if(<%= @entry.is_root? %>) {
-  $('#entry-tl').prepend($("<%=j render 'show', entry: @entry %>").hide().fadeIn('slow'));
+  $('#timeline').prepend($("<%=j render 'show', entry: @entry %>").hide().fadeIn('slow'));
+  point.entry();
 } else if(<%= @entry.grandchild? %>) {
   $('#entry-<%= @entry.parent_id %> > .replies').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
+  <% unless @entry.user == @entry.parent.user %>
+    point.reply();
+  <% end %>
 } else {
   $('#entry-<%= @entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
+  <% unless @entry.user == @entry.parent.user %>
+    point.reply();
+  <% end %>
 }
 slider.set();

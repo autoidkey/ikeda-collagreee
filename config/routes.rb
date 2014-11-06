@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
 
+  # api
+  get 'users/entry_point' =>  'users#entry_point'
+  get 'users/sum_point' =>  'users#sum_point'
+
   # home routes
   get 'homes/collagree'
   get 'homes/admin'

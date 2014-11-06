@@ -1,7 +1,14 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <h3>Point / ポイントデバッグ</h3>
-    <h3><small>あなたの議論ポイントは</small> <%= current_user.sum_point(@theme) %> <small>ポイントです</small></h3>
+    <span id="">あなたの議論ポイントは</span>
+    <span id="sum_point">  <%= current_user.sum_point(@theme) %></span>
+    <span id="">ポイントです</span>
+
+    <div class="" id="object">
+      <h1 style="color:red;" class="">10 point get!!</h1>
+    </div>
+
     <table class="table">
       <thead>
         <tr>
@@ -13,10 +20,10 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= current_user.entry_point(@theme) %></td>
-          <td><%= current_user.reply_point(@theme) %></td>
-          <td><%= current_user.like_point(@theme) %></td>
-          <td><%= current_user.active_point(@theme) %></td>
+          <td id="entry_point"><%= current_user.entry_point(@theme) %></td>
+          <td id="reply_point"><%= current_user.reply_point(@theme) %></td>
+          <td id="like_point"><%= current_user.like_point(@theme) %></td>
+          <td id="active_point"><%= current_user.active_point(@theme) %></td>
         </tr>
       </tbody>
     </table>
@@ -31,10 +38,10 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= current_user.replied_point(@theme) %></td>
-          <td><%= current_user.liked_point(@theme) %></td>
+          <td id="replied_point"><%= current_user.replied_point(@theme) %></td>
+          <td id="liked_point"><%= current_user.liked_point(@theme) %></td>
           <td></td>
-          <td><%= current_user.passive_point(@theme) %></td>
+          <td id="passive_point"><%= current_user.passive_point(@theme) %></td>
         </tr>
       </tbody>
     </table>

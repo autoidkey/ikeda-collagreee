@@ -24,9 +24,13 @@
    end
 
    def like
-     render nothing: true
+     # render nothing: true
      entry = Entry.find(params[:id])
-     Like.like!(entry, params[:status], current_user)
+     @status = params[:status]
+     Like.like!(entry, @status, current_user)
+     respond_to do |format|
+       format.js
+     end
    end
 
    def np
