@@ -18,7 +18,7 @@
         <li><%= link_to '操作方法', homes_introduction_path %></li>
 
         <% if user_signed_in? %>
-          <li><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
+          <li><%= image_tag current_user.image_url(:thumb), class: 'user-icon img-circle' %></li>
           <li><%= link_to "ようこそ、#{ current_user.name }さん", edit_user_registration_path %></li>
           <li><%= link_to '管理者', admin_root_path if current_user.admin? %></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete  %></li>

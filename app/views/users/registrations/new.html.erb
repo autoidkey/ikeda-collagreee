@@ -46,6 +46,12 @@
     <%= f.select :mail_format, User.mail_formats.keys.to_a %>
   </div>
 
+  <div>
+    <label for="user_image">アイコン</label>
+    <%= f.file_field :image %>
+  </div>
+
+
   <div><%= f.label :password %> <% if @validatable %><i>(<%= @minimum_password_length %> characters minimum)</i><% end %><br />
     <%= f.password_field :password, autocomplete: "off" %></div>
 
