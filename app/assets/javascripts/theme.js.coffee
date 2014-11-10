@@ -95,13 +95,6 @@ class @PointCount
     new_point = (parseFloat(point.text()) + REPLIED_POINT).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
 
-    # $('#object').delay(700).css 'display', 'none'
-    # $('#object').deley(700).removeClass 'expandUp'
-
-    # $.get('/users/sum_point?theme_id=' + theme, (json) ->
-    #   $('#sum_point').text(json.point).hide().fadeIn 'slow'
-    # )
-
 @slider = new Slider()
 @autopager = new AutoPager()
 @settools = new SetTools()
@@ -127,7 +120,7 @@ $(document).on 'click', '#issues .label', (e) ->
   $(e.target).toggleClass "active"
 
 
-# like!
+# like操作
 $(document).on 'click', '.like_button', (e) ->
   status = $(@).data('status')
   url = "/entries/like"

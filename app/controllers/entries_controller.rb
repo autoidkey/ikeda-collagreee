@@ -27,6 +27,7 @@
      # render nothing: true
      entry = Entry.find(params[:id])
      @status = params[:status]
+     @theme = entry.theme
      if @status == 'remove'
        current_user.unlike! entry
      else

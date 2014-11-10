@@ -6,7 +6,8 @@ class Entry < ActiveRecord::Base
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
   has_many :likes
-  has_many :point_histories
+  has_many :point_histories, :class_name => 'PointHistory', :foreign_key => 'entry_id'
+  has_many :point_histories_reply, :class_name => 'PointHistory', :foreign_key => 'reply_id'
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
@@ -77,7 +78,7 @@ class Entry < ActiveRecord::Base
       PointHistory.pointing_post(self, 0, action)
     elsif !self.parent.mine?(self.user) # Reply
       PointHistory.pointing_post(self, 0, action)
-      PointHistory.pointing_post(self.parent, 1, 3)
+      PointHistory.pointing_replied(self, 1, 3)
     end
   end
 

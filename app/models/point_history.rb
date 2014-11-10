@@ -1,5 +1,6 @@
 class PointHistory < ActiveRecord::Base
-  belongs_to :entry
+  belongs_to :entry, class_name: 'Entry'
+  belongs_to :reply, class_name: 'Entry'
   belongs_to :theme
   belongs_to :user
   belongs_to :activity
@@ -30,8 +31,8 @@ class PointHistory < ActiveRecord::Base
             end
     params = {
       entry_id: entry.id,
-      user_id: entry.user_id,
-      theme_id: entry.theme_id,
+      user_id: entry.user.id,
+      theme_id: entry.theme.id,
       atype: atype,
       action: action,
       point: point
@@ -39,12 +40,26 @@ class PointHistory < ActiveRecord::Base
     PointHistory.save_point(params)
   end
 
+  def self.pointing_replied(entry, atype, action)
+    point = REPLIED_POINT
+    params = {
+      entry_id: entry.parent.id,
+      user_id: entry.parent.user.id,
+      theme_id: entry.parent.theme.id,
+      atype: atype,
+      action: action,
+      point: point,
+      reply_id: entry.id
+    }
+    PointHistory.save_point(params)
+  end
+
   def self.pointing_like(like)
     params = {
       like_id: like.id,
-      entry_id: like.entry_id,
-      user_id: like.user_id,
-      theme_id: like.theme_id,
+      entry_id: like.entry.id,
+      user_id: like.user.id,
+      theme_id: like.theme.id,
       atype: 0,
       action: 2,
       point: LIKE_POINT,
@@ -62,12 +77,12 @@ class PointHistory < ActiveRecord::Base
         params = {
           like_id: like.id,
           entry_id: entry.id,
-          user_id: entry.user_id,
-          theme_id: entry.theme_id,
+          user_id: entry.user.id,
+          theme_id: entry.theme.id,
           atype: 1,
           action: 4,
           depth: depth,
-          point: LIKED_POINT/(2**depth),
+          point: LIKED_POINT / (2**depth),
           version_id: like.version_id
         }
         PointHistory.save_point(params)
@@ -97,9 +112,9 @@ class PointHistory < ActiveRecord::Base
   def self.logging_destory(like)
     params = {
       like_id: like.id,
-      entry_id: like.entry_id,
-      user_id: like.user_id,
-      theme_id: like.theme_id,
+      entry_id: like.entry.id,
+      user_id: like.user.id,
+      theme_id: like.theme.id,
       atype: 0,
       action: 5,
       point: 0
@@ -108,13 +123,6 @@ class PointHistory < ActiveRecord::Base
   end
 
   def copy_attr_for_create
-    # history = PointHistory.new
-    # PointHistory.accessible_attributes.each do |attr|
-    #   history.send("#{attr}=", self.send("#{attr}")) if attr.length > 0
-    # end
-    # history
-
-
     PointHistory.new do |ph|
       CALL_FUNC.each do |func|
         ph.send("#{func}=", send(func))
@@ -123,7 +131,6 @@ class PointHistory < ActiveRecord::Base
   end
 
   CALL_FUNC = %w(like_id entry_id user_id theme_id atype action depth point)
-
 
   # def self.accessible_attributes
   #   ["like_id", "entry_id", "user_id", "theme_id", "atype", "action", "depth", "point"]

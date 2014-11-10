@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   # api
   get 'users/entry_point' =>  'users#entry_point'
   get 'users/sum_point' =>  'users#sum_point'
+  get 'users/liked_point' =>  'users#liked_point'
 
   # home routes
   get 'homes/collagree'

@@ -60,21 +60,21 @@
                 $<%= ap.point %>
                 <% case ap.action
                    when "投稿" %>
-                投稿しました (投稿 No.<%= ap.entry_id %>)
+                投稿しました (投稿 No.<%= ap.entry.id %>)
                 <% when "返信" %>
-                <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry_id %>)
+                <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry.id %>)
                 <% when "Like" %>
-                <%= ap.entry.user.name %>さんの投稿にLikeしました (Like No.<%= ap.like_id %>)
+                <%= ap.entry.user.name %>さんの投稿にLikeしました (Like No.<%= ap.like.id %>)
                 <% when "返信され" %>
-                投稿(No.<%= ap.entry_id %>)に返信されました (投稿　No.<%= ap.entry_id %>)
+                <%= ap.reply.user.name if ap.reply.present? %>さんに返信されました (投稿 No.<%= ap.entry.id %>)
                 <% when "Likeされ" %>
                 <% if ap.depth == 0 %>
-                  投稿(No.<%= ap.entry_id %>)が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
+                  投稿(No.<%= ap.entry.id %>)が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like.id %>)
                 <% else %>
-                  投稿(No.<%= ap.entry_id %>)に関連する投稿が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like_id %>)
+                  投稿(No.<%= ap.entry.id %>)に関連する投稿が<%= ap.like.user.name %>さんにLikeされました (Like No.<%= ap.like.id %>)
                 <% end %>
                 <% when "Likeを削除され" %>
-                投稿(No.<%= ap.entry_id %>)への<%= ap.like.user.name %>さんのLikeが削除されました (Like No.<%= ap.like_id %>)
+                投稿(No.<%= ap.entry.id %>)への<%= ap.like.user.name %>さんのLikeが削除されました (Like No.<%= ap.like.id %>)
           <% end %>
 </td>
 </tr>

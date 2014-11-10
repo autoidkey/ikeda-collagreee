@@ -14,7 +14,7 @@ class Like < ActiveRecord::Base
 
   # after_save :logging_like_point, :logging_liked_point
 
- def self.logging(like)
+  def self.logging(like)
     logging_like_point(like)
     logging_liked_point(like)
   end
