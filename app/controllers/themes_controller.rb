@@ -23,6 +23,8 @@ class ThemesController < ApplicationController
     @entry = Entry.new
     @issue = Issue.new
     @facilitations = Facilitations
+
+    # @search_entry = SearchEntry.new(params[:search_entry]) if params[:search_entry].present?
     @page = params[:page] || 1
 
     if params[:search_entry][:order] == 'time'
