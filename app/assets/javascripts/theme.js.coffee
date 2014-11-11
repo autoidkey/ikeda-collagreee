@@ -94,10 +94,18 @@ class @PointCount
     new_point = (parseFloat(point.text()) + REPLIED_POINT).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
 
+class @Modal
+  set: ->
+    $("a[rel*=leanModal]").leanModal
+      top: 50 # #modal-windowの縦位置
+      overlay: 0.7 # #modal-windowの背面の透明度
+      closeButton: ".modal_close" # #modal-windowを閉じるボタンのdivのclass
+
 @slider = new Slider()
 @autopager = new AutoPager()
 @settools = new SetTools()
 @point = new PointCount()
+@modal = new Modal()
 
 $(document).on 'click', '.facilitation-phrase a', (e) ->
   e.preventDefault()
