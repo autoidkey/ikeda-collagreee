@@ -43,19 +43,24 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_fill => [60, 60]
   end
 
+  version :reply_thumb do
+    process :resize_to_fill => [20, 20]
+  end
+
+
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
     %w(jpg jpeg gif png)
   end
 
-  def filename
-    super.chomp(File.extname(super)) + '.jpg' if original_filename.present?
-  end
+  # def filename
+  #   super.chomp(File.extname(super)) + '.jpg' if original_filename.present?
+  # end
 
-  def filename
-    time = Time.now
-    name = time.strftime('%Y%m%d%H%M%S') + '.jpg'
-    name.downcase
-  end
+  # def filename
+  #   time = Time.now
+  #   name = time.strftime('%Y%m%d%H%M%S') + '.jpg'
+  #   name.downcase
+  # end
 end

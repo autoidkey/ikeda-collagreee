@@ -21,6 +21,38 @@
 
 
 img.user-icon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+}
+
+#lean_overlay {
+  position: fixed;
+  z-index:100;
+  top: 0px;
+  left: 0px;
+  height:100%;
+  width:100%;
+  background: #000;
+  display: none;
+}
+
+.modal-window {
+	background-color: #FFFFFF;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+	display: none;
+	padding: 30px;
+	width: 780px;
+	height: 300px;
+}
+
+.modal_close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	display: block;
+	/* widthとheightは閉じるボタンの画像の幅を指定 */
+	width: 28px;
+	height: 28px;
+	/* 閉じるボタンの画像は自分で用意 */
+	z-index: 2;
 }

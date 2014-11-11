@@ -18,3 +18,13 @@
 //= require bootstrap-sprockets
 //= require jquery-ui/slider
 //= require jquery.autopager-1.0.0
+//= require jquery.leanModal.min
+
+// jquery.leanModal
+$(function() {
+  $( 'a[rel*=leanModal]').leanModal({
+    top: 50,                     // #modal-windowの縦位置
+    overlay : 0.7,               // #modal-windowの背面の透明度
+    closeButton: ".modal_close"  // #modal-windowを閉じるボタンのdivのclass
+  });
+});

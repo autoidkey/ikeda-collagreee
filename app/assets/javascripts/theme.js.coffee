@@ -9,7 +9,6 @@ UNLIKE_POINT = -10.00
 REPLIED_POINT = 10.00
 LIKED_POINT = 10.00
 
-
 class @Slider
   set: ->
     $(".slider").slider
