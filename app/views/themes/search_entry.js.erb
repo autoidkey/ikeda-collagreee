@@ -1,7 +1,7 @@
 if(<%= @page == 1 %>) {
-  $('#entry-tl').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+  $('#timeline').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
 } else {
-  $('#entry-tl').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+  $('#timeline').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
 }
 
 $('#next').html($("<%=j render 'pagenation' %>"))

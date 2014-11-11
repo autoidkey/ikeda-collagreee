@@ -6,16 +6,16 @@ class Entry < ActiveRecord::Base
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
   has_many :likes
-  has_many :point_histories, :class_name => 'PointHistory', :foreign_key => 'entry_id'
-  has_many :point_histories_reply, :class_name => 'PointHistory', :foreign_key => 'reply_id'
+  has_many :point_histories, class_name: 'PointHistory', foreign_key: 'entry_id'
+  has_many :point_histories_reply, class_name: 'PointHistory', foreign_key: 'reply_id'
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id) }
   scope :root, -> { where(parent_id: nil) }
-  scope :sort_time, -> { root.order('updated_at DESC') }
-  scope :popular, -> { root.sort_by{|e| Entry.children(e.id).count}.reverse }
-  scope :search_issues, ->(issues) {root.select{|e| issues.map{|i| e.tagged_entries.map{|t| t.issue_id.to_s}.include?(i)}.include?(true)} if issues.present?}
+  scope :sort_time, -> { order('updated_at DESC') }
+  # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
+  scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
 
   after_save :logging_activity, :adding_point
   after_save :update_parent_entry_time, unless: :is_root?

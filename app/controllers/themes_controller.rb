@@ -23,10 +23,14 @@ class ThemesController < ApplicationController
     @entry = Entry.new
     @issue = Issue.new
     @facilitations = Facilitations
-
-    @search_entry = SearchEntry.new(params[:search_entry]) if params[:search_entry].present?
     @page = params[:page] || 1
-    @entries = @search_entry.search_issues
+
+    if params[:search_entry][:order] == 'time'
+      @entries = @theme.newer_entries(params[:search_entry][:issues])
+    elsif params[:search_entry][:order] == 'popular'
+      @entries = @theme.popular_entries(params[:search_entry][:issues])
+    end
+
     @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(20)
 
     respond_to do |format|
