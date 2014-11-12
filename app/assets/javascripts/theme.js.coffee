@@ -43,33 +43,32 @@ class @SetTools
     autopager.set()
 
 class @PointCount
-
   entry: (theme) ->
     point = (parseFloat( $('#entry_point').text() ) + ENTRY_POINT).toFixed(1)
     $('#entry_point').text(point).hide().fadeIn 'slow'
     @sum(ENTRY_POINT)
     @active(ENTRY_POINT)
-    @animation()
+    @animation('entry')
 
   reply: (theme) ->
     point = (parseFloat( $('#reply_point').text() ) + REPLY_POINT).toFixed(1)
     $('#reply_point').text(point).hide().fadeIn 'slow'
     @sum(REPLY_POINT)
     @active(REPLY_POINT)
+    @animation('reply')
 
   like: ->
     point = (parseFloat( $('#like_point').text() ) + LIKE_POINT).toFixed(1)
     $('#like_point').text(point).hide().fadeIn 'slow'
     @sum(LIKE_POINT)
     @active(LIKE_POINT)
-    @animation()
+    @animation('like')
 
   unlike: ->
     point = (parseFloat( $('#like_point').text() ) + UNLIKE_POINT).toFixed(1)
     $('#like_point').text(point).hide().fadeIn 'slow'
     @sum(UNLIKE_POINT)
     @active(UNLIKE_POINT)
-
 
   active:(point) ->
     point = (parseFloat( $('#active_point').text() ) + point).toFixed(1)
@@ -79,13 +78,21 @@ class @PointCount
     sum_point = (parseFloat( $('#sum_point').text() ) + point).toFixed(1)
     $('#sum_point').text(sum_point).hide().fadeIn 'slow'
 
-  animation: ->
-    $('#object').css 'display', 'block'
-    $('#object').addClass 'expandUp'
+  animation: (action) ->
+    switch action
+      when 'entry'
+        comment = "投稿ポイント" + ENTRY_POINT + " pt 獲得！！"
+      when 'reply'
+        comment = "返信ポイント" + REPLY_POINT + " pt 獲得！！"
+      when 'like'
+        comment = "Likeポイント" + LIKE_POINT + " pt 獲得！！"
+
+    $('#header-alert').css 'display', 'block'
+    $('#point-alert').text(comment)
+    $('#point-alert').addClass 'expandUp'
     setTimeout (->
-      $('#object').css 'display', 'none'
-      $('#object').removeClass 'expandUp'
-      return
+      $('#header-alert').fadeOut 'fast'
+      $('#point-alert').removeClass 'expandUp'
     ), 2500
 
   parent: (entry)->

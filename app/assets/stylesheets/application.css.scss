@@ -20,6 +20,29 @@
 @import "bootstrap";
 
 
+#header-alert {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: 10000;
+  background-color: black;
+  text-align: center;
+  display: none;
+}
+
+#header-alert #point-alert {
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+  text-align: left;
+  color: whitesmoke;
+}
+
 img.user-icon {
   width: 40px;
   height: 40px;
