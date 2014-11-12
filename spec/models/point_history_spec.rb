@@ -18,10 +18,17 @@ describe PointHistory, type: :model do
 
     context '返信する時' do
       it '返信ポイントが加算される' do
-        expect { PointHistory.pointing_post(entry, 1, 0) }.to change { PointHistory.count }.by(1)
+        expect { PointHistory.pointing_post(entry, 0, 1) }.to change { PointHistory.count }.by(1)
       end
     end
   end
+
+  describe '#pointing_replied' do
+    it '返信されたポイントが加算される' do
+      expect { PointHistory.pointing_replied(entry, 1, 3) }.to change { PointHistory.count }.by(1)
+    end
+  end
+
 
   describe '#pointing_like' do
     it 'likeポイントが加算される' do
@@ -35,8 +42,8 @@ describe PointHistory, type: :model do
         expect { PointHistory.pointing_liked(like) }.to change { PointHistory.count }.by(2)
       end
 
-      it 'Likeされた人にメールが送られる' do
-        expect { PointHistory.pointing_liked(like) }.to change { ActionMailer::Base.deliveries.count }.by(2)
+      it 'Likeされた投稿のユーザーにメールが送られる' do
+        expect { PointHistory.pointing_liked(like) }.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
     end
 
@@ -44,6 +51,11 @@ describe PointHistory, type: :model do
       it 'Likeされる投稿以外の投稿にLikeポイントが加算される' do
         expect { PointHistory.pointing_liked(like2) }.to change { PointHistory.count }.by(1)
       end
+
+      it 'メールは送られない' do
+        expect { PointHistory.pointing_liked(like2) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      end
+
     end
   end
 end

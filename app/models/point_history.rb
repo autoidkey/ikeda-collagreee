@@ -97,7 +97,7 @@ class PointHistory < ActiveRecord::Base
   def self.destroy_like_point(like)
     PointHistory.like_point(like, like.version_id).each do |history|
       destory_history = history.copy_attr_for_create
-      destory_history.action = destory_history.atype ? 6 : 5
+      destory_history.action = destory_history.atype ? 6 : 5 # 要チェック
       destory_history.point = -destory_history.point
       destory_history.version_id = like.version_id + 1
       destory_history.save
@@ -112,10 +112,10 @@ class PointHistory < ActiveRecord::Base
 
   def self.sending_notice(point_history)
     case point_history.action
-    when 3
-      NoticeMailer.reply_notice.deliver(point_history)
-    when 4
-      NoticeMailer.like_notice.deliver(point_history)
+    when "返信され"
+      NoticeMailer.reply_notice(point_history).deliver
+    when "Likeされ"
+      NoticeMailer.like_notice(point_history).deliver if point_history.depth == 0
     end
   end
 
