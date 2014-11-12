@@ -6,7 +6,7 @@ RSpec.describe NoticeMailer, :type => :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Entry notice")
-      expect(mail.to).to eq(["to@example.org"])
+      expect(mail.to).to eq(["imi.yuma@itolab.nitech.ac.jp"])
       expect(mail.from).to eq(["from@example.com"])
     end
 
@@ -20,7 +20,7 @@ RSpec.describe NoticeMailer, :type => :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Reply notice")
-      expect(mail.to).to eq(["to@example.org"])
+      expect(mail.to).to eq(["imi.yuma@itolab.nitech.ac.jp"])
       expect(mail.from).to eq(["from@example.com"])
     end
 
@@ -34,7 +34,7 @@ RSpec.describe NoticeMailer, :type => :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Like notice")
-      expect(mail.to).to eq(["to@example.org"])
+      expect(mail.to).to eq(["imi.yuma@itolab.nitech.ac.jp"])
       expect(mail.from).to eq(["from@example.com"])
     end
 

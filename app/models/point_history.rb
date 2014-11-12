@@ -107,6 +107,16 @@ class PointHistory < ActiveRecord::Base
   def self.save_point(params)
     point_history = PointHistory.new(params)
     point_history.save
+    PointHistory.sending_notice(point_history)
+  end
+
+  def self.sending_notice(point_history)
+    case point_history.action
+    when 3
+      NoticeMailer.reply_notice.deliver(point_history)
+    when 4
+      NoticeMailer.like_notice.deliver(point_history)
+    end
   end
 
   def self.logging_destory(like)

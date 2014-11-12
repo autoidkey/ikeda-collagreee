@@ -17,10 +17,14 @@ class NoticeMailer < ActionMailer::Base
   #
   #   en.notice_mailer.reply_notice.subject
   #
-  def reply_notice
+  def reply_notice(point_history)
     @greeting = "Hi"
+    @from = point_history.reply.user
+    @to = point_history.entry.user
+    @entry = point_history.entry
+    @reply = point_history.reply
 
-    mail to: "imi.yuma@itolab.nitech.ac.jp"
+    mail to: @to.email
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -28,9 +32,12 @@ class NoticeMailer < ActionMailer::Base
   #
   #   en.notice_mailer.like_notice.subject
   #
-  def like_notice
+  def like_notice(point_history)
     @greeting = "Hi"
+    @from = point_history.like.user
+    @to = point_history.user
+    @entry = point_history.entry
 
-    mail to: "imi.yuma@itolab.nitech.ac.jp"
+    mail to: @to.email
   end
 end

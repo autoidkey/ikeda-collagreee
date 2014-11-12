@@ -34,6 +34,10 @@ describe PointHistory, type: :model do
       it 'Likeされる投稿を含むルートまでの投稿にLikeポイントが加算される' do
         expect { PointHistory.pointing_liked(like) }.to change { PointHistory.count }.by(2)
       end
+
+      it 'Likeされた人にメールが送られる' do
+        expect { PointHistory.pointing_liked(like) }.to change { ActionMailer::Base.deliveries.count }.by(2)
+      end
     end
 
     context 'LikeするユーザーとLikeされる投稿ユーザーが同じ時' do
