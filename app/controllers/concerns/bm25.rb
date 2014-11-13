@@ -73,7 +73,7 @@ module Bm25
       nm = Natto::MeCab.new
       ret = []
       nm.parse(text) do |e|
-        ret << e
+        ret << e if e.surface.present? && e.surface.length > 1
       end
       ret
     end
