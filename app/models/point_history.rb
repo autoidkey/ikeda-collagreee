@@ -112,6 +112,8 @@ class PointHistory < ActiveRecord::Base
 
   def self.sending_notice(point_history)
     case point_history.action
+    # when '投稿'
+    #   NoticeMailer.facilitation_notice(point_history).deliver if point_history.entry.facilitations
     when '返信され'
       NoticeMailer.reply_notice(point_history).deliver
     when 'Likeされ'

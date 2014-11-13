@@ -1,8 +1,9 @@
 class ThemesController < ApplicationController
   before_action :set_theme, only: %i(show)
   before_action :authenticate_user!, only: %i(create, new)
-
   load_and_authorize_resource
+
+  include Bm25
 
   def index
     @themes = Theme.all
@@ -11,7 +12,9 @@ class ThemesController < ApplicationController
   def show
     @entry = Entry.new
     @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(20)
+    @all_entries = Entry.in_theme(@theme.id)
     @search_entry = SearchEntry.new
+    @bm25 = bm25_calc(@all_entries)
 
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
@@ -56,6 +59,10 @@ class ThemesController < ApplicationController
         format.json { render json: @theme.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def bm25_calc(entries)
+    calculate(entries)
   end
 
   private

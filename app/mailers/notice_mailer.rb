@@ -7,7 +7,7 @@ class NoticeMailer < ActionMailer::Base
   #
   #   en.notice_mailer.entry_notice.subject
   #
-  def entry_notice
+  def facilitation_notice
     @greeting = 'Hi'
 
     mail to: 'imi.yuma@itolab.nitech.ac.jp'

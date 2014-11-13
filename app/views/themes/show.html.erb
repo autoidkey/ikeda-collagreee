@@ -34,12 +34,15 @@
     <div id="icon-loading">
       <%= image_tag 'theme/icon-loading.gif' %>
     </div>
+    <p>
+      <%= @bm25 %>
+    </p>
   </div>
   <div class="col-md-4">
     <%= render 'theme_info' %>
     <%= render 'point' if user_signed_in? %>
     <%= render 'activity' if user_signed_in? %>
-    <%= render 'other_themes' %>
+    <%#= render 'other_themes' %>
     <%= render 'users' %>
     <%= render 'tags' if user_signed_in? && !current_user.normal? %>
   </div>
