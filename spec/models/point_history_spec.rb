@@ -29,7 +29,6 @@ describe PointHistory, type: :model do
     end
   end
 
-
   describe '#pointing_like' do
     it 'likeポイントが加算される' do
       expect { PointHistory.pointing_like(like) }.to change { PointHistory.count }.by(1)

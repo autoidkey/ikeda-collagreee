@@ -24,7 +24,6 @@
    end
 
    def like
-     # render nothing: true
      entry = Entry.find(params[:id])
      @status = params[:status]
      @theme = entry.theme
@@ -33,8 +32,6 @@
      else
        current_user.like! entry
      end
-     # @status = params[:status]
-     # Like.like!(entry, @status, current_user)
      respond_to do |format|
        format.js
      end

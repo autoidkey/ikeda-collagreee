@@ -111,11 +111,13 @@ class PointHistory < ActiveRecord::Base
   end
 
   def self.sending_notice(point_history)
-    case point_history.action
-    when "返信され"
-      NoticeMailer.reply_notice(point_history).deliver
-    when "Likeされ"
-      NoticeMailer.like_notice(point_history).deliver if point_history.depth == 0
+    Thread.new do
+      case point_history.action
+      when '返信され'
+        NoticeMailer.reply_notice(point_history).deliver
+      when 'Likeされ'
+        NoticeMailer.like_notice(point_history).deliver if point_history.depth == 0
+      end
     end
   end
 
