@@ -27,6 +27,10 @@ describe PointHistory, type: :model do
     it '返信されたポイントが加算される' do
       expect { PointHistory.pointing_replied(entry, 1, 3) }.to change { PointHistory.count }.by(1)
     end
+
+    it '返信されたユーザーにメールが送られる' do
+      expect { PointHistory.pointing_replied(entry, 1, 3) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
   end
 
   describe '#pointing_like' do

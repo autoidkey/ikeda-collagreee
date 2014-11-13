@@ -27,7 +27,7 @@
   <% end %>
 
   <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= child.like_count %></span>
-  <span class="glyphicon glyphicon-usd"></span><span class="point"><%= child.point %></span>
+  <span class="glyphicon glyphicon-usd"></span><span class="point"><%= "%.1f" % child.point %></span>
 
   <% if child.image? %>
     <%= image_tag child.image.entry_thumb.url %>

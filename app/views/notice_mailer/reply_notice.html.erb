@@ -1,5 +1,5 @@
-<h1>返信ポイント<%= @point %>pt 獲得！</h1>
-<p>あなたの投稿「<%= cut_off(@entry.body, 10) %>」が<%= @from.name %>さんに返信されました。</p>
+<h1>返信ポイント<%= "%.1f" % @point %>pt 獲得！</h1>
+<p>あなたの投稿「<%= cut_off(@entry.body, 20) %>」が<%= @from.name %>さんに返信されました。</p>
 
-<h5>返信内容</h5>
+<h3>返信内容</h3>
 <p><%= @reply.body %></p>

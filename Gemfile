@@ -27,6 +27,10 @@ gem 'enum_help'
 gem 'kaminari'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
+gem "delayed_job"
+gem "delayed_job_active_record"
+gem "daemons"
+
 group :development do
   gem 'spring', '~> 1.1.2'
   gem 'spring-commands-rspec'

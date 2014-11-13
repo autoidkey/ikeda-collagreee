@@ -19,12 +19,11 @@ class NoticeMailer < ActionMailer::Base
   #   en.notice_mailer.reply_notice.subject
   #
   def reply_notice(point_history)
-    @greeting = 'Hi'
-    @from = point_history.reply.user
-    @to = point_history.entry.user
     @entry = point_history.entry
     @reply = point_history.reply
     @point = point_history.point
+    @from = @reply.user
+    @to = @entry.user
 
     mail to: @to.email, subject: '[COLLAGREE] 返信ポイント獲得！'
   end
@@ -35,7 +34,6 @@ class NoticeMailer < ActionMailer::Base
   #   en.notice_mailer.like_notice.subject
   #
   def like_notice(point_history)
-    @greeting = 'Hi'
     @from = point_history.like.user
     @to = point_history.user
     @entry = point_history.entry

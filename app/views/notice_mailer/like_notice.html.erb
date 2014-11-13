@@ -1,4 +1,4 @@
-<h1>Likeポイント<%= @point %>pt 獲得！</h1>
+<h1>Likeポイント<%= "%.1f" % @point %>pt 獲得！</h1>
 <p>
   あなたの投稿「<%= cut_off(@entry.body, 20) %>」が<%= @from.name %>さんにLikeされました。
 </p>
