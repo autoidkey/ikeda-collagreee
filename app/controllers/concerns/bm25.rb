@@ -3,7 +3,7 @@ module Bm25
   Exculution = Regexp.new('[!-\/:-@\[-`{-~]').freeze
   Norm = Regexp.new('^名詞').freeze
 
-  TEST_TEXTS = ['リンゴとレモンとレモン', 'リンゴとミカン']
+  # TEST_TEXTS = ['リンゴとレモンとレモン', 'リンゴとミカン']
 
   K = 2.0
   B = 0.75
@@ -14,34 +14,41 @@ module Bm25
 
     def calculate(entries)
       freq = {} # 単語出現回数
-      idf = {} # 単語出現文書数
+      df = {} # 単語出現文書数
       bm25 = {} # BM25値
-      sum_words = 0.0
       all_words = %w()
+      sum_words = 0.0
       n = entries.count.to_f # 全ドキュメント数
 
       entries.each do |text|
         norms = norm_nodes(text.body)
         sum_words += all_word_count(text.body)
 
-        norms.each do |node|
-          freq[node] ||= 0
-          freq[node] += 1
-        end
-
-        norms.uniq.each do |node|
-          idf[node] ||= 0
-          idf[node] += 1
-          all_words << node
-        end
+        freq_calc(norms, freq)
+        df_calc(norms, df, all_words)
       end
 
       avg_word_count = sum_words / n
 
       all_words.uniq.each do |node|
-        bm25[node] = idf(idf[node], n) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count)))
+        bm25[node] = idf(df[node], n) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count)))
       end
-      bm25.sort_by{|key,val| -val}
+      bm25.sort_by { |key,val| -val }
+    end
+
+    def freq_calc(norms, freq)
+      norms.each do |node|
+        freq[node] ||= 0
+        freq[node] += 1
+      end
+    end
+
+    def df_calc(norms, idf, all_words)
+      norms.uniq.each do |node|
+        idf[node] ||= 0
+        idf[node] += 1
+        all_words << node
+      end
     end
 
     def idf(df, n)

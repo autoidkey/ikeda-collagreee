@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h3>Keywords / キーワード</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>キーワード</th>
+          <th>BM25値</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bm25.each do |key,value| %>
+          <tr>
+            <td id=""><%= key %></td>
+            <td id=""><%= value %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

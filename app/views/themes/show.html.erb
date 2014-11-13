@@ -42,6 +42,7 @@
     <%= render 'theme_info' %>
     <%= render 'point' if user_signed_in? %>
     <%= render 'activity' if user_signed_in? %>
+    <%= render 'keywords' if user_signed_in? %>
     <%#= render 'other_themes' %>
     <%= render 'users' %>
     <%= render 'tags' if user_signed_in? && !current_user.normal? %>
