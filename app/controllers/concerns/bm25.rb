@@ -21,7 +21,7 @@ module Bm25
       n = entries.count.to_f # 全ドキュメント数
 
       entries.each do |text|
-        norms = norm_nodes(text.body)
+        norms = two_norms_nodes(text.body)
         sum_words += all_word_count(text.body)
 
         freq_calc(norms, freq)
@@ -69,14 +69,28 @@ module Bm25
       parse_to_list(text).select { |e| Norm.match(e.feature) }.map(&:surface)
     end
 
-    def parse_to_list(text)
-      nm = Natto::MeCab.new
+    def two_norms_nodes(text)
+      last = nil
+      lastlast = nil
+
       ret = []
-      nm.parse(text) do |e|
-        ret << e if e.surface.present? && e.surface.length > 1
+      parse_to_list(text).each do |e|
+        if past.present? && Norm.match(e.feature) && Norm.match(past.feature)
+          ret << past.surface + e.surface if past.present?
+        end
+        last = e
       end
       ret
     end
 
+    def parse_to_list(text)
+      nm = Natto::MeCab.new
+      ret = []
+      nm.parse(text) do |e|
+        # ret << e if e.surface.present? && e.surface.length > 1
+        ret << e if e.surface.present?
+      end
+      ret
+    end
   end
 end
