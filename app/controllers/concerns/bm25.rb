@@ -21,7 +21,7 @@ module Bm25
       n = entries.count.to_f # 全ドキュメント数
 
       entries.each do |text|
-        norms = two_norms_nodes(text.body)
+        norms = norm_connection(text.body)
         sum_words += all_word_count(text.body)
 
         freq_calc(norms, freq)
@@ -78,6 +78,22 @@ module Bm25
           ret << last.surface + e.surface if last.present?
         end
         last = e
+      end
+      ret
+    end
+
+    def norm_connection(text)
+      count = 0
+      norms = parse_to_list(text)
+      ret = []
+
+      norms.each_with_index do |e, idx|
+        if Norm.match(e.feature)
+          count += 1
+        else
+          ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 1
+          count = 0
+        end
       end
       ret
     end
