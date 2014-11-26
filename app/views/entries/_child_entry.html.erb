@@ -1,16 +1,8 @@
 <div class="thread">
   <div id="entry-<%= child.id %>" class="child">
-    <% if user_signed_in? && current_user.image? %>
-      <% if child.facilitation? %>
-        <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-      <% else %>
-        <%= image_tag child.user.image_url(:user_thumb), class: 'user-icon img-circle' %>
-      <% end %>
-    <% end %>
+    <%= render 'themes/user_icon', entry: child %>
 
-    <% if child.grandchild? %>
-      <span class="glyphicon glyphicon-chevron-right small"></span>
-    <% end %>
+    <span class="glyphicon glyphicon-chevron-right small"></span>
     <%= child.created_at %>
     <%= child.body %>
     by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
@@ -19,18 +11,10 @@
       <a rel="leanModal" href="#reply-modal-<%= child.id %>">
         <button class="btn btn-default btn-xs">返信する</button>
       </a>
-
-      <% unless child.mine?(current_user) %>
-        <% if child.liked?(current_user) %>
-          <%= button_tag "Like!を取り消す", data: {id: child.id, status: "remove"}, class: "like_button btn btn-default btn-xs" %>
-        <% else %>
-          <%= button_tag "Like!", data: {id: child.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
-        <% end %>
-      <% end %>
+      <%= render 'themes/like_button', entry: child %>
     <% end %>
 
-    <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= child.like_count %></span>
-    <span class="glyphicon glyphicon-usd"></span><span class="point"><%= child.point %></span>
+    <%= render 'themes/information', entry: child %>
 
     <% if child.image? %>
       <%= image_tag child.image.entry_thumb.url %>
@@ -42,29 +26,15 @@
       <div class="modal-window" id="reply-modal-<%= child.id %>">
         <div class="modal_close"></div>
         <div class="reply-modal-parent">
-          <% if user_signed_in? && current_user.image? %>
-            <% if child.facilitation? %>
-              <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-            <% else %>
-              <%= image_tag child.user.image_url(:user_thumb), class: 'user-icon img-circle' %>
-            <% end %>
-          <% end %>
+          <%= render 'themes/user_icon', entry: child %>
 
           <% if child.grandchild? %>
             <span class="glyphicon glyphicon-chevron-right small"></span>
           <% end %>
+
           <%= child.created_at %>
           <%= child.body %>
           by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
-          <span class="label label-default reply-label">返信</span>
-
-          <% unless child.mine?(current_user) %>
-            <% if child.liked?(current_user) %>
-              <%= button_tag "Like!を取り消す", data: {id: child.id, status: "remove"}, class: "like_button btn btn-default btn-xs" %>
-            <% else %>
-              <%= button_tag "Like!", data: {id: child.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
-            <% end %>
-          <% end %>
 
           <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= child.like_count %></span>
           <span class="glyphicon glyphicon-usd"></span><span class="point"><%= child.point %></span>
@@ -93,6 +63,5 @@
         </div>
       </div>
     <% end %>
-
   </div>
 </div>

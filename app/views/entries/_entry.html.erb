@@ -1,8 +1,8 @@
 <% if entry.facilitation? %>
-  <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+  <%= render 'themes/user_icon', entry: entry %>
   ファシリテーター@<%= entry.created_at %>
 <% else %>
-  <%= image_tag user_icon_path(entry.user), class: 'user-icon img-circle' %>
+  <%= render 'themes/user_icon', entry: entry %>
   <%= entry.user.name %>@<%= entry.created_at %>
 <% end %>
 
@@ -13,13 +13,16 @@
   <span class="label label-default"><%= issue.name %></span>
 <% end %>
 
-<span class="glyphicon glyphicon-thumbs-up"></span> <%= entry.thread_positive_count %> / <span class="glyphicon glyphicon-thumbs-down"></span> <%= entry.thread_negative_count %>
 <% if entry.image? %>
   <%= image_tag entry.image.entry_thumb.url %>
 <% end %>
 
-<span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= entry.like_count %></span>
-<span class="glyphicon glyphicon-usd"></span><span class="point"><%= entry.point %></span>
+<%= render 'themes/thumb', entry: entry %>
+<%= render 'themes/information', entry: entry %>
+
+<% if user_signed_in? %>
+  <%= render 'themes/like_button', entry: entry %>
+<% end %>
 
 <hr />
 
