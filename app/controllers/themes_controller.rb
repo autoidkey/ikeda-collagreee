@@ -15,6 +15,7 @@ class ThemesController < ApplicationController
     @all_entries = Entry.in_theme(@theme.id)
     @search_entry = SearchEntry.new
     @bm25 = bm25_calc(@all_entries)
+    @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new

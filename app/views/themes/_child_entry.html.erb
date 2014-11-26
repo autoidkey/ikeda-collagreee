@@ -1,11 +1,5 @@
 <div id="entry-<%= child.id %>" class="child">
-  <% if user_signed_in? && current_user.image? %>
-    <% if child.facilitation? %>
-      <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-    <% else %>
-      <%= image_tag child.user.image_url(:user_thumb), class: 'user-icon img-circle' %>
-    <% end %>
-  <% end %>
+  <%= render 'user_icon', entry: child %>
 
   <span class="glyphicon glyphicon-chevron-right small"></span>
   <%= child.created_at %>
@@ -66,9 +60,9 @@
 
         <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= child.like_count %></span>
         <span class="glyphicon glyphicon-usd"></span><span class="point"><%= child.point %></span>
-      <% if child.image? %>
-        <%= image_tag child.image.entry_thumb.url %>
-      <% end %>
+        <% if child.image? %>
+          <%= image_tag child.image.entry_thumb.url %>
+        <% end %>
       </div>
 
       <hr />

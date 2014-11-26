@@ -1,8 +1,8 @@
 <% if entry.facilitation? %>
-  <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+  <%= render 'user_icon', entry: entry %>
   ファシリテーター@<%= entry.created_at %>
 <% else %>
-  <%= image_tag entry.user.image_url(:user_thumb), class: 'user-icon img-circle' %>
+  <%= render 'user_icon', entry: entry %>
   <%= entry.user.name %>@<%= entry.created_at %>
 <% end %>
 
@@ -19,17 +19,19 @@
 
 <span class="glyphicon glyphicon-thumbs-up"></span> <%= entry.thread_positive_count %> / <span class="glyphicon glyphicon-thumbs-down"></span> <%= entry.thread_negative_count %> /
 
-<% unless entry.mine?(current_user) %>
-  <% if entry.liked?(current_user) %>
-    <%= button_tag "Like!を取り消す", data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
-  <% else %>
-    <%= button_tag "Like!", data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
+<% if user_signed_in? %>
+  <% unless entry.mine?(current_user) %>
+    <% if entry.liked?(current_user) %>
+      <%= button_tag "Like!を取り消す", data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
+    <% else %>
+      <%= button_tag "Like!", data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
+    <% end %>
   <% end %>
 <% end %>
 
-  <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= entry.like_count %> / </span>
-  <!-- <span class="glyphicon glyphicon-usd"></span> -->
-  <span class="point"><%= "%.1f" % entry.point %>pt</span>
+<span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= entry.like_count %> / </span>
+<!-- <span class="glyphicon glyphicon-usd"></span> -->
+<span class="point"><%= "%.1f" % entry.point %>pt</span>
 
 <hr />
 

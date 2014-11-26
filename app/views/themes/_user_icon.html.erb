@@ -1,0 +1,5 @@
+<% if entry.facilitation? %>
+  <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
+<% else %>
+  <%= link_to (image_tag entry.user.image_url(:user_thumb), class: 'user-icon img-circle'), '/users/' + entry.user.id.to_s %>
+<% end %>
