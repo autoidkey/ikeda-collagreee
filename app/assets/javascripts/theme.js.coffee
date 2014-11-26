@@ -199,5 +199,6 @@ $(document).on
     $(@).popover('hide')
   '.user-icon'
 
-$ ->
+$(document).on 'ready page:load', ->
   slider.set()
+  modal.set()

@@ -14,7 +14,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'natto', '~> 0.9.6'
 gem 'carrierwave', '~> 0.10.0'
 gem 'remotipart', '~> 1.2'
-gem 'rmagick', '~> 2.13.3',  :require => 'RMagick'
+gem 'rmagick', '~> 2.13.3',  require: 'RMagick'
 gem 'devise', '~> 3.3.0'
 gem 'devise-i18n'
 gem 'cancancan'
@@ -27,9 +27,9 @@ gem 'enum_help'
 gem 'kaminari'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
-gem "delayed_job"
-gem "delayed_job_active_record"
-gem "daemons"
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'daemons'
 
 group :development do
   gem 'spring', '~> 1.1.2'
