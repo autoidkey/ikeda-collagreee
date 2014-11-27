@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :joins
   has_many :likes
   has_many :point_histories
+  has_many :notices
 
   enum role: %i(admin facilitator normal)
   enum gender: %i(男性 女性)
@@ -82,6 +83,10 @@ class User < ActiveRecord::Base
     else
       update_without_password(user_data)
     end
+  end
+
+  def delete_notice(theme)
+    Notice.old_notice(self, theme).delete_all
   end
 
   def password_changed?(password)

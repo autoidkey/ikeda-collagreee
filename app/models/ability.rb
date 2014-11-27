@@ -13,12 +13,14 @@ class Ability
       can :create, Entry
       can :np, Entry
       can :search_entry, Theme
+      can :check_new, Theme
     when 'normal'
       can :read, Theme
       can :create, Entry
       can :like, Entry
       can :np, Entry
       can :search_entry, Theme
+      can :check_new, Theme
     else                        # guest
       can :read, Theme
       can :search_entry, Theme

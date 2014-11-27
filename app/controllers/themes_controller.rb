@@ -21,6 +21,8 @@ class ThemesController < ApplicationController
     @issue = Issue.new
     @facilitations = Facilitations
     @theme.join!(current_user) if user_join?
+
+    current_user.delete_notice(@theme)
   end
 
   def search_entry
@@ -64,6 +66,11 @@ class ThemesController < ApplicationController
 
   def bm25_calc(entries)
     calculate(entries)
+  end
+
+  def check_new
+    data = { notice: Notice.new_notice(current_user, params[:id]) }
+    render json: data.to_json
   end
 
   private

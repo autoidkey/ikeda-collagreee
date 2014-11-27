@@ -19,6 +19,7 @@ class Entry < ActiveRecord::Base
 
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
+  after_save :notice_entry, if: :is_root?
 
   NP_THRESHOLD = 50
 
@@ -82,18 +83,18 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  # def logging_point
-  #   action = self.is_root? ? 0 : 1
-  #   post_point = PointHistory.new
-  #   if action == 0 # 0はPost
-  #     post_point.logging_post(self, 0, action)
-  #   elsif !self.parent.mine?(self.user) # Reply
-  #     post_point.logging_post(self, 0, action)
-
-  #     replied_point = PointHistory.new
-  #     replied_point.pointing_replied(self, 1, 3)
-  #   end
-  # end
+  def notice_entry
+    theme.joins.each do |join|
+      params = {
+        user_id: join.user.id,
+        ntype: 0,
+        read: false,
+        theme_id: theme.id
+      }
+      notice = Notice.new(params)
+      notice.save
+    end
+  end
 
   def point
     PointHistory.entry_point(self).present? ? PointHistory.entry_point(self).inject(0) { |sum, history| sum + history.point } : 0

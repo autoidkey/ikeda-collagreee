@@ -78,11 +78,16 @@ change_point = (target, count, base_point) ->
     change_point(obj, count, base_point)
 
 check_new = () ->
+  theme_id = location.href.match(".+/(.+?)$")[1]
+  url = '/themes/check_new/' + theme_id
+
   setTimeout(
       (=>
         console.log 'checking...'
+        $.get url, (data)->
+          console.log data
         check_new()
-      ), 1000)
+      ), 10000)
 
 @point = new PointCount()
 

@@ -5,6 +5,7 @@ class PointHistory < ActiveRecord::Base
   belongs_to :user
   belongs_to :activity
   belongs_to :like
+  belongs_to :notice
 
   enum atype: %i(active passive)
   enum action: %i(投稿 返信 Like 返信され Likeされ Likeを削除 Likeを削除され)

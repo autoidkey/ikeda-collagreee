@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post 'entries/like' => 'entries#like'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
+  get 'themes/check_new/:id' => 'themes#check_new'
 
   # api
   get 'users/:id' =>  'users#show'
