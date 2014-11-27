@@ -86,6 +86,9 @@ check_new = () ->
         console.log 'checking...'
         $.get url, (data)->
           console.log data
+          if data.notice.length > 0
+            $('#entry_notice').css 'display', 'block'
+            $('#entry_notice_count').text data.notice.length
         check_new()
       ), 10000)
 
