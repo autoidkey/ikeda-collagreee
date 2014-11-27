@@ -9,39 +9,6 @@ UNLIKE_POINT = -10.00
 REPLIED_POINT = 10.00
 LIKED_POINT = 10.00
 
-class @Slider
-  set: ->
-    $(".slider").slider
-      orientation: "horizontal",
-      animate: "fast"
-      range: "min",
-      max: 100,
-      value: 50,
-
-      change: (e, ui) ->
-        $(".np-input").val ui.value
-
-      # 4スライダーの初期化時に、その値をテキストボックスにも反映
-      create: (e, ui) ->
-        $("#num").val $(this).slider("option", "value")
-
-class @AutoPager
-  set: ->
-    $.autopager
-      autoLoad: true
-      content: "#timeline > .panel"
-      link: "#next a"
-      start: (current, next) ->
-        $("#icon-loading").css "display", "block"
-      load: (current, next) ->
-        $("#icon-loading").css "display", "none"
-        slider.set()
-
-class @SetTools
-  set: ->
-    slider.set()
-    autopager.set()
-
 class @PointCount
   entry: (theme) ->
     point = (parseFloat( $('#entry_point').text() ) + ENTRY_POINT).toFixed(1)
@@ -101,18 +68,23 @@ class @PointCount
     new_point = (parseFloat(point.text()) + REPLIED_POINT).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
 
-class @Modal
-  set: ->
-    $("a[rel*=leanModal]").leanModal
-      top: 50 # #modal-windowの縦位置
-      overlay: 0.7 # #modal-windowの背面の透明度
-      closeButton: ".modal_close" # #modal-windowを閉じるボタンのdivのclass
+change_point = (target, count, base_point) ->
+  obj = target.parents('div[id^="entry-"]').first()
+  unless obj.length == 0
+    point = obj.find('.point').first()
+    new_point = (parseFloat(point.text()) + base_point / count).toFixed(2)
+    point.text(new_point).hide().fadeIn 'slow'
+    count = count * 2
+    change_point(obj, count, base_point)
 
-@slider = new Slider()
-@autopager = new AutoPager()
-@settools = new SetTools()
+check_new = () ->
+  setTimeout(
+      (=>
+        console.log 'checking...'
+        check_new()
+      ), 1000)
+
 @point = new PointCount()
-@modal = new Modal()
 
 $(document).on 'click', '.facilitation-phrase a', (e) ->
   e.preventDefault()
@@ -168,15 +140,6 @@ $(document).on 'click', '.like_button', (e) ->
     _this = $(@).parents('div[id^="entry-"]').first()
     change_point(_this, count, LIKE_POINT)
 
-change_point = (target, count, base_point) ->
-  obj = target.parents('div[id^="entry-"]').first()
-  unless obj.length == 0
-    point = obj.find('.point').first()
-    new_point = (parseFloat(point.text()) + base_point / count).toFixed(2)
-    point.text(new_point).hide().fadeIn 'slow'
-    count = count * 2
-    change_point(obj, count, base_point)
-
 $(document).on 'click', '#issues', (e) ->
   issue_arr = $('#issues .label.active').map(->
     $(this).data('id').toString()
@@ -200,5 +163,4 @@ $(document).on
   '.user-icon'
 
 $(document).on 'ready page:load', ->
-  slider.set()
-  modal.set()
+  check_new()

@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# for NP calculate
+# For NP calculate
 INTERVAL = 400
 timeout = 0
 
@@ -28,3 +28,52 @@ content_change = (e) =>
 # event binding
 $(document).on 'keyup', '.reply-entry-form', (e) ->
   init_timer(e)
+
+class @Slider
+  set: ->
+    $(".slider").slider
+      orientation: "horizontal",
+      animate: "fast"
+      range: "min",
+      max: 100,
+      value: 50,
+
+      change: (e, ui) ->
+        $(".np-input").val ui.value
+
+      # 4スライダーの初期化時に、その値をテキストボックスにも反映
+      create: (e, ui) ->
+        $("#num").val $(this).slider("option", "value")
+
+class @AutoPager
+  set: ->
+    $.autopager
+      autoLoad: true
+      content: "#timeline > .panel"
+      link: "#next a"
+      start: (current, next) ->
+        $("#icon-loading").css "display", "block"
+      load: (current, next) ->
+        $("#icon-loading").css "display", "none"
+        slider.set()
+
+class @SetTools
+  set: ->
+    slider.set()
+    autopager.set()
+
+class @Modal
+  set: ->
+    $("a[rel*=leanModal]").leanModal
+      top: 50 # #modal-windowの縦位置
+      overlay: 0.7 # #modal-windowの背面の透明度
+      closeButton: ".modal_close" # #modal-windowを閉じるボタンのdivのclass
+
+@slider = new Slider()
+@autopager = new AutoPager()
+@settools = new SetTools()
+@modal = new Modal()
+
+$(document).on 'ready page:load', ->
+  slider.set()
+  modal.set()
