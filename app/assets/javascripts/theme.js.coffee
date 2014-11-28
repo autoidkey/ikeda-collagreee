@@ -77,6 +77,18 @@ change_point = (target, count, base_point) ->
     count = count * 2
     change_point(obj, count, base_point)
 
+render_new = (data, theme_id) ->
+  render_url = '/entries/render_new/'
+  delete_url = '/users/delete_notice?theme_id=' + theme_id
+
+  $('#entry_notice').css 'display', 'block'
+  $('#entry_notice_count').text data.notice.length
+  $.each data.notice, ->
+    $.post render_url + this.entry_id + '?theme_id=' + theme_id
+  $.post delete_url
+  $('#entry_notice').css 'display', 'none'
+  $('#entry_notice_count').text 0
+
 check_new = () ->
   theme_id = location.href.match(".+/(.+?)$")[1]
   url = '/themes/check_new/' + theme_id
@@ -87,8 +99,7 @@ check_new = () ->
         $.get url, (data)->
           console.log data
           if data.notice.length > 0
-            $('#entry_notice').css 'display', 'block'
-            $('#entry_notice_count').text data.notice.length
+            render_new(data, theme_id)
         check_new()
       ), 10000)
 
@@ -113,6 +124,8 @@ $(document).on 'click', 'button#order-popular', (e) ->
 $(document).on 'click', '#issues .label', (e) ->
   $(e.target).toggleClass "active"
 
+$(document).on 'click', '#next a', (e) ->
+  $('#icon-loading').css "display", "block"
 
 # like操作
 $(document).on 'click', '.like_button', (e) ->

@@ -23,6 +23,18 @@
      end
    end
 
+   def render_new
+     @entry = Entry.find(params[:id])
+     @entry_new = Entry.new
+
+     @theme = Theme.find(params[:theme_id])
+     @facilitations = Facilitations
+
+     respond_to do |format|
+       format.js
+     end
+   end
+
    def like
      entry = Entry.find(params[:id])
      @status = params[:status]

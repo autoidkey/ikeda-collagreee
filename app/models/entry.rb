@@ -8,6 +8,7 @@ class Entry < ActiveRecord::Base
   has_many :likes
   has_many :point_histories, class_name: 'PointHistory', foreign_key: 'entry_id'
   has_many :point_histories_reply, class_name: 'PointHistory', foreign_key: 'reply_id'
+  has_many :notices
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
@@ -89,7 +90,8 @@ class Entry < ActiveRecord::Base
         user_id: join.user.id,
         ntype: 0,
         read: false,
-        theme_id: theme.id
+        theme_id: theme.id,
+        entry_id: id
       }
       notice = Notice.new(params)
       notice.save

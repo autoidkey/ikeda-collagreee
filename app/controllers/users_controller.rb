@@ -15,4 +15,9 @@ class UsersController < ApplicationController
   def bm25(entries)
     calculate(entries)
   end
+
+  def delete_notice
+    render nothing: true
+    current_user.delete_notice(params[:theme_id])
+  end
 end

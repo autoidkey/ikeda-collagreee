@@ -1,4 +1,5 @@
 console.log('page!');
-$('#entry-tl').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+$('#timeline').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
 $('#next').html($("<%=j render 'pagenation' %>"))
+$('#icon-loading').css("display","none");
 slider.set();
