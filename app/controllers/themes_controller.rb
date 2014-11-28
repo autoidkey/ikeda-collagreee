@@ -69,7 +69,12 @@ class ThemesController < ApplicationController
   end
 
   def check_new
-    data = { notice: Notice.new_notice(current_user, params[:id]) }
+    notice = Notice.new_notice(current_user, params[:id])
+    data = {
+      entry: notice.select { |n| n.ntype == 0 },
+      reply: notice.select { |n| n.ntype == 1 },
+      like: notice.select { |n| n.ntype == 2 }
+    }
     render json: data.to_json
   end
 

@@ -78,16 +78,32 @@ change_point = (target, count, base_point) ->
     change_point(obj, count, base_point)
 
 render_new = (data, theme_id) ->
+  console.log 'rendering...'
   render_url = '/entries/render_new/'
   delete_url = '/users/delete_notice?theme_id=' + theme_id
 
   $('#entry_notice').css 'display', 'block'
-  $('#entry_notice_count').text data.notice.length
-  $.each data.notice, ->
+  $('#entry_notice_count').text data.entry.length
+  $.each data.entry, ->
     $.post render_url + this.entry_id + '?theme_id=' + theme_id
   $.post delete_url
   $('#entry_notice').css 'display', 'none'
   $('#entry_notice_count').text 0
+
+reply_notice = (reply, theme_id) ->
+  read_reply_url = '/users/read_reply_notice?theme_id=' + theme_id
+
+  $('#reply_notice').css 'display', 'block'
+  $('#reply_notice_count').text reply.length
+
+  new PNotify(
+    title: "返信されました"
+    text: "あなたの投稿に返信されました"
+    icon: "glyphicon glyphicon-share-alt"
+  )
+
+  $.post read_reply_url
+
 
 check_new = () ->
   theme_id = location.href.match(".+/(.+?)$")[1]
@@ -98,8 +114,8 @@ check_new = () ->
         console.log 'checking...'
         $.get url, (data)->
           console.log data
-          if data.notice.length > 0
-            render_new(data, theme_id)
+          render_new(data, theme_id) if data.entry.length > 0
+          reply_notice(data.reply, theme_id) if data.reply.length > 0
         check_new()
       ), 10000)
 

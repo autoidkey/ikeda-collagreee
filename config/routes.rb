@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # api
   get 'users/:id' =>  'users#show'
   post 'users/delete_notice' =>  'users#delete_notice'
+  post 'users/read_reply_notice' =>  'users#read_reply_notice'
 
   # home routes
   get 'homes/collagree'

@@ -20,4 +20,10 @@ class UsersController < ApplicationController
     render nothing: true
     current_user.delete_notice(params[:theme_id])
   end
+
+  def read_reply_notice
+    render nothing: true
+    current_user.read_reply_notice(params[:theme_id])
+  end
+
 end

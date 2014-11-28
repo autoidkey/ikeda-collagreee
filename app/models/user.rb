@@ -89,6 +89,12 @@ class User < ActiveRecord::Base
     Notice.old_notice(self, theme).delete_all
   end
 
+  def read_reply_notice(theme)
+    Notice.old_reply_notice(self, theme).each do |n|
+      n.update(read: true)
+    end
+  end
+
   def password_changed?(password)
     !password.blank?            # blankだっけ？
   end

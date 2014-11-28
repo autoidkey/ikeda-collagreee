@@ -108,13 +108,15 @@ class PointHistory < ActiveRecord::Base
   def self.save_point(params)
     point_history = PointHistory.new(params)
     point_history.save
+    case point_history.action
+    when '返信され'
+      Notice.reply!(point_history)
+    end
     PointHistory.delay.sending_notice(point_history)
   end
 
   def self.sending_notice(point_history)
     case point_history.action
-    # when '投稿'
-    #   NoticeMailer.facilitation_notice(point_history).deliver if point_history.entry.facilitations
     when '返信され'
       NoticeMailer.reply_notice(point_history).deliver
     when 'Likeされ'
