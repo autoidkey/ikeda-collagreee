@@ -96,14 +96,24 @@ reply_notice = (reply, theme_id) ->
   $('#reply_notice').css 'display', 'block'
   $('#reply_notice_count').text reply.length
 
-  new PNotify(
-    title: "返信されました"
-    text: "あなたの投稿に返信されました"
-    icon: "glyphicon glyphicon-share-alt"
-  )
-
+  $.each reply, ->
+    new PNotify(
+      title: "返信されました No." + this.id
+      text: "あなたの投稿に返信されました"
+      icon: "glyphicon glyphicon-share-alt"
+    )
   $.post read_reply_url
 
+like_notice = (like, theme_id) ->
+  read_like_url = '/users/read_like_notice?theme_id=' + theme_id
+
+  $.each like, ->
+    new PNotify(
+      title: "賛同されました No."+ this.id
+      text: "あなたの投稿に賛同されました"
+      icon: "glyphicon glyphicon-thumbs-up"
+    )
+  $.post read_like_url
 
 check_new = () ->
   theme_id = location.href.match(".+/(.+?)$")[1]
@@ -116,6 +126,7 @@ check_new = () ->
           console.log data
           render_new(data, theme_id) if data.entry.length > 0
           reply_notice(data.reply, theme_id) if data.reply.length > 0
+          like_notice(data.like, theme_id) if data.like.length > 0
         check_new()
       ), 10000)
 

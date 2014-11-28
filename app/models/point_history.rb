@@ -108,9 +108,12 @@ class PointHistory < ActiveRecord::Base
   def self.save_point(params)
     point_history = PointHistory.new(params)
     point_history.save
+
     case point_history.action
     when '返信され'
       Notice.reply!(point_history)
+    when 'Likeされ'
+      Notice.like!(point_history) if point_history.depth == 0
     end
     PointHistory.delay.sending_notice(point_history)
   end

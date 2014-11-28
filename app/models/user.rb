@@ -95,6 +95,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def read_like_notice(theme)
+    Notice.old_like_notice(self, theme).each do |n|
+      n.update(read: true)
+    end
+  end
+
+
   def password_changed?(password)
     !password.blank?            # blankだっけ？
   end
