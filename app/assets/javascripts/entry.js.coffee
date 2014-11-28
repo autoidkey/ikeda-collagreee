@@ -76,4 +76,3 @@ class @Modal
 
 $(document).on 'ready page:load', ->
   slider.set()
-  modal.set()
