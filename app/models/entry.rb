@@ -78,7 +78,7 @@ class Entry < ActiveRecord::Base
     action = self.is_root? ? 0 : 1
     if action == 0 # 0はPost
       PointHistory.pointing_post(self, 0, action)
-    elsif !self.parent.mine?(self.user) # Reply
+    elsif !parent.mine?(user) # Reply
       PointHistory.pointing_post(self, 0, action)
       PointHistory.pointing_replied(self, 1, 3)
     end
@@ -86,6 +86,7 @@ class Entry < ActiveRecord::Base
 
   def notice_entry
     theme.joins.each do |join|
+      next if join.user == user
       params = {
         user_id: join.user.id,
         ntype: 0,
