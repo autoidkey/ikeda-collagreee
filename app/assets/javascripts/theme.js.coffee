@@ -93,13 +93,13 @@ render_new = (data, theme_id) ->
 reply_notice = (reply, theme_id) ->
   read_reply_url = '/users/read_reply_notice?theme_id=' + theme_id
 
-  $('#reply_notice').css 'display', 'block'
-  $('#reply_notice_count').text reply.length
+  # $('#reply_notice').css 'display', 'block'
+  # $('#reply_notice_count').text reply.length
 
   $.each reply, ->
     new PNotify(
-      title: "返信されました No." + this.id
-      text: "あなたの投稿に返信されました"
+      title: "返信されました No." + this.notice.id
+      text: "あなたの以下の投稿に返信されました！\n\n" + this.entry + '\n　↓\n' + this.reply
       icon: "glyphicon glyphicon-share-alt"
     )
   $.post read_reply_url
@@ -109,8 +109,8 @@ like_notice = (like, theme_id) ->
 
   $.each like, ->
     new PNotify(
-      title: "賛同されました No."+ this.id
-      text: "あなたの投稿に賛同されました"
+      title: "賛同されました No."+ this.notice.id
+      text: "あなたの以下の投稿に賛同されました！\n\n" + this.entry
       icon: "glyphicon glyphicon-thumbs-up"
     )
   $.post read_like_url

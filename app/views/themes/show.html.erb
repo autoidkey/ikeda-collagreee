@@ -9,11 +9,6 @@
       <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
     </div>
 
-    <div class="well" id="reply_notice">
-      <span>返信が</span><span id="reply_notice_count">0</span>件あります
-    </div>
-
-
     <div class="well" id="tl-tool">
       <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
         <%= f.radio_button :order, 'time', {:checked => true} %> 新着

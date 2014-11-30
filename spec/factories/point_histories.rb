@@ -7,8 +7,12 @@ FactoryGirl.define do
     theme_id 1
     activity_id 1
     point 1.5
-    type 1
+    atype 1
     action 1
     depth 1
+
+    association :user, factory: :user
+    association :theme, factory: :theme
+
   end
 end

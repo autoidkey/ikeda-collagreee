@@ -1,4 +1,5 @@
 class ThemesController < ApplicationController
+  add_template_helper(ApplicationHelper)
   before_action :set_theme, only: %i(show)
   before_action :authenticate_user!, only: %i(create, new)
   load_and_authorize_resource
@@ -22,7 +23,7 @@ class ThemesController < ApplicationController
     @facilitations = Facilitations
     @theme.join!(current_user) if user_join?
 
-    current_user.delete_notice(@theme)
+    current_user.delete_notice(@theme) if user_signed_in?
   end
 
   def search_entry
@@ -72,8 +73,8 @@ class ThemesController < ApplicationController
     notice = Notice.new_notice(current_user, params[:id])
     data = {
       entry: notice.select { |n| n.ntype == 0 },
-      reply: notice.select { |n| n.ntype == 1 },
-      like: notice.select { |n| n.ntype == 2 }
+      reply: notice.select { |n| n.ntype == 1 }.map { |n| { notice: n, entry: n.point_history.entry.body, reply: n.point_history.reply.body } },
+      like: notice.select { |n| n.ntype == 2 }.map { |n| { notice: n, entry: n.point_history.entry.body } }
     }
     render json: data.to_json
   end
