@@ -5,7 +5,7 @@
     <% @keyword.each do |key, value| %>
       <h3><%= key %></h3>
       <% value.sort_by { |k| -k.score }.each do |word| %>
-        <span class="user_keyword"><%= word.word %></span>
+        <span class="user_keyword"><%= word.word %>(<%= word.score %>)</span>
       <% end %>
     <% end %>
   </div>
