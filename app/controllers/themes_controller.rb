@@ -15,7 +15,7 @@ class ThemesController < ApplicationController
     @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(20)
     @all_entries = Entry.in_theme(@theme.id)
     @search_entry = SearchEntry.new
-    @keyword = @theme.keywords.sort_by { |k| -k.score }. group_by { |k| k.score }
+    @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }. group_by { |k| k.score }
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
     @other_themes = Theme.others(@theme.id)

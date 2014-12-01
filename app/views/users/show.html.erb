@@ -2,8 +2,11 @@
   <div class="col-md-12">
     <h1><%= @user.name %></h1>
     <h3>興味キーワード</h3>
-    <% @bm25.each do |key, value| %>
-      <span><%= key %>: <%= value %></span>,
+    <% @keyword.each do |key, value| %>
+      <h3><%= key %></h3>
+      <% value.sort_by { |k| -k.score }.each do |word| %>
+        <span class="user_keyword"><%= word.word %></span>
+      <% end %>
     <% end %>
   </div>
 </div>
