@@ -2,6 +2,33 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.keywords .wordlist span {
+  margin-right: 15px;
+}
+
+span.keyword-0 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+span.keyword-1 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+span.keyword-2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+span.keyword-3 {
+  font-size: 16px;
+}
+
+span.keyword-4 {
+  font-size: 14px;
+}
+
 .bold {
   font-weight: bold;
 }

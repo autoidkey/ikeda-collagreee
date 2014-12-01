@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   has_many :entries
   has_many :activities
+  has_many :keywords
   has_many :themes
   has_many :themes, through: :joins
   has_many :joins

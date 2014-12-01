@@ -2,18 +2,26 @@
   <div class="panel-body">
     <h3>Keywords / キーワード</h3>
 
-    <table class="table">
+    <table class="table keywords">
       <thead>
         <tr>
+          <th></th>
           <th>キーワード</th>
           <th>BM25値</th>
         </tr>
       </thead>
       <tbody>
-        <% @bm25.each do |key,value| %>
+        <% @keyword.each_with_index do |(key, val), idx| %>
           <tr>
+            <td id=""><%= idx %></td>
             <td id=""><%= key %></td>
-            <td id=""><%= value %></td>
+            <td class="wordlist">
+                <% val.each do |wordlist| %>
+                  <span class="keyword-<%= idx %>">
+                    <%= wordlist[:word] %>
+                  </span>
+                <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

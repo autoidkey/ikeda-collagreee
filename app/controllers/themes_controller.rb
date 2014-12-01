@@ -15,7 +15,7 @@ class ThemesController < ApplicationController
     @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(20)
     @all_entries = Entry.in_theme(@theme.id)
     @search_entry = SearchEntry.new
-    @bm25 = bm25_calc(@all_entries)
+    @keyword = @theme.keywords.sort_by { |k| -k.score }. group_by { |k| k.score }
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
     @other_themes = Theme.others(@theme.id)
@@ -30,8 +30,6 @@ class ThemesController < ApplicationController
     @entry = Entry.new
     @issue = Issue.new
     @facilitations = Facilitations
-
-    # @search_entry = SearchEntry.new(params[:search_entry]) if params[:search_entry].present?
     @page = params[:page] || 1
 
     if params[:search_entry][:order] == 'time'
@@ -63,10 +61,6 @@ class ThemesController < ApplicationController
         format.json { render json: @theme.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def bm25_calc(entries)
-    calculate(entries)
   end
 
   def check_new
