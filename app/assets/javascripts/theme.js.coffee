@@ -92,9 +92,7 @@ render_new = (data, theme_id) ->
 
 reply_notice = (reply, theme_id) ->
   read_reply_url = '/users/read_reply_notice?theme_id=' + theme_id
-
-  # $('#reply_notice').css 'display', 'block'
-  # $('#reply_notice_count').text reply.length
+  console.log 'reply notify!'
 
   $.each reply, ->
     new PNotify(
@@ -105,6 +103,7 @@ reply_notice = (reply, theme_id) ->
   $.post read_reply_url
 
 like_notice = (like, theme_id) ->
+  console.log 'like notify!'
   read_like_url = '/users/read_like_notice?theme_id=' + theme_id
 
   $.each like, ->
@@ -121,7 +120,6 @@ check_new = () ->
 
   setTimeout(
       (=>
-        console.log 'checking...'
         $.get url, (data)->
           console.log data
           render_new(data, theme_id) if data.entry.length > 0
