@@ -23,6 +23,8 @@ class ThemesController < ApplicationController
     @facilitations = Facilitations
     @theme.join!(current_user) if user_join?
 
+    @point = current_user.having_point(@theme)
+    @users = @theme.joins.map(&:user).sort_by { |u| -u.having_point(@theme).entry }
     current_user.delete_notice(@theme) if user_signed_in?
   end
 
