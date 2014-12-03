@@ -6,6 +6,7 @@ require_relative 'keyword_job'
 require_relative 'user_keyword_job'
 require_relative 'point_job'
 
+
 module Clockwork
   handler do |job|
     puts "====== #{job.class} start ======="
