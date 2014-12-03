@@ -4,6 +4,7 @@ require File.expand_path('../../../config/environment', __FILE__)
 
 require_relative 'keyword_job'
 require_relative 'user_keyword_job'
+require_relative 'point_job'
 
 module Clockwork
   handler do |job|
@@ -12,6 +13,7 @@ module Clockwork
     puts "====== #{job.class} finish ======="
   end
 
-  every(5.minute, KeywordJob.new)
-  every(5.minute, UserKeywordJob.new)
+  # every(5.minute, KeywordJob.new)
+  # every(5.minute, UserKeywordJob.new)
+  every(1.minute, PointJob.new)
 end

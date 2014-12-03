@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :themes, through: :joins
   has_many :joins
   has_many :likes
+  has_many :points
   has_many :point_histories
   has_many :notices
 
