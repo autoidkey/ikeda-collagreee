@@ -103,6 +103,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def having_point(theme)
+    points.find_by(theme_id: theme, latest: true)
+  end
+
 
   def password_changed?(password)
     !password.blank?            # blankだっけ？
