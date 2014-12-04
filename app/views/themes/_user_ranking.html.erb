@@ -24,7 +24,7 @@
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>
-            <td id=""> <%= user.having_point(@theme).entry %></td>
+            <td id=""> <%= user.sum_point(theme) %> ポイント</td>
           </tr>
         <% end %>
       </tbody>

@@ -50,14 +50,8 @@
       </div>
       <div class="col-md-4">
         <%= render 'theme_info' %>
-        <%= render 'point',
-            entry: @point.entry,
-            reply: @point.reply,
-            like: @point.like,
-            replied: @point.replied,
-            liked: @point.liked,
-            created_at: @point.created_at if user_signed_in? %>
-        <%= render 'user_ranking', users: @users %>
+        <%= render 'point', user: current_user, theme: @theme if user_signed_in? %>
+        <%= render 'user_ranking', users: @users, theme: @theme %>
         <%= render 'activity' if user_signed_in? %>
         <%= render 'keywords' %>
         <%#= render 'other_themes' %>
@@ -70,7 +64,7 @@
   <div class="tab-pane" id="infomation">
     <div class="row">
       <div class="col-md-4">
-        <%= render 'user_ranking', users: @users %>
+        <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
     </div>
   </div>

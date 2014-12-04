@@ -7,14 +7,16 @@ class PointJob
         params = {
           theme_id: theme.id,
           user_id: user.id,
-          entry: user.entry_point(theme),
-          reply: user.reply_point(theme),
-          like: user.like_point(theme),
-          replied: user.replied_point(theme),
-          liked: user.liked_point(theme),
+          entry: user.calculate_entry_point(theme),
+          reply: user.calculate_reply_point(theme),
+          like: user.calculate_like_point(theme),
+          replied: user.calculate_replied_point(theme),
+          liked: user.calculate_liked_point(theme),
           latest: true
         }
-        Point.new(params).save
+        point = Point.new(params)
+        point.sum = point.entry + point.reply + point.like + point.replied + point.liked
+        point.save
       end
     end
   end

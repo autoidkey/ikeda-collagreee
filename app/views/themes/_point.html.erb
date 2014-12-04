@@ -1,8 +1,8 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <h3>Point / 議論ポイント <small>[最終更新：<%= created_at %>]</small></h3>
+    <h3>Point / 議論ポイント <small>[最終更新：<%#= created_at %>]</small></h3>
     <span id="">あなたの議論ポイントは</span>
-    <span id="sum_point">  <%= "%.1f" % (entry + reply + like + replied + liked) %></span>
+    <span id="sum_point">  <%= "%.1f" % (user.sum_point(theme)) %></span>
     <span id="">ポイントです</span>
 
     <table class="table">
@@ -16,10 +16,10 @@
       </thead>
       <tbody>
         <tr>
-          <td id="entry_point"><%= "%.1f" % entry %></td>
-          <td id="reply_point"><%= "%.1f" % reply %></td>
-          <td id="like_point"><%= "%.1f" % like %></td>
-          <td id="active_point"><%= "%.1f" % (entry + reply + like) %></td>
+          <td id="entry_point"><%= "%.1f" % user.entry_point(theme) %></td>
+          <td id="reply_point"><%= "%.1f" % user.reply_point(theme) %></td>
+          <td id="like_point"><%= "%.1f" % user.like_point(theme) %></td>
+          <td id="active_point"><%= "%.1f" % (user.entry_point(theme) + user.reply_point(theme) + user.like_point(theme)) %></td>
         </tr>
       </tbody>
     </table>
@@ -34,10 +34,10 @@
       </thead>
       <tbody>
         <tr>
-          <td id="replied_point"><%= "%.1f" % replied %></td>
-          <td id="liked_point"><%= "%.1f" % liked %></td>
+          <td id="replied_point"><%= "%.1f" % user.replied_point(theme) %></td>
+          <td id="liked_point"><%= "%.1f" % user.liked_point(theme) %></td>
           <td></td>
-          <td id="passive_point"><%= "%.1f" % (replied + liked) %></td>
+          <td id="passive_point"><%= "%.1f" % (user.replied_point(theme) + user.liked_point(theme)) %></td>
         </tr>
       </tbody>
     </table>

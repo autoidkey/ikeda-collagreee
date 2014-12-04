@@ -27,44 +27,69 @@ class User < ActiveRecord::Base
 
   ACTIVITY_COUNT = 5
 
+
   def entry_point(theme)
-    calculating_point(0, 0, theme)
+    points.user_point(self, theme).entry
   end
 
   def reply_point(theme)
-    calculating_point(0, 1, theme)
+    points.user_point(self, theme).reply
   end
 
   def like_point(theme)
+    points.user_point(self, theme).like
+  end
+
+  def replied_point(theme)
+    points.user_point(self, theme).replied
+  end
+
+  def liked_point(theme)
+    points.user_point(self, theme).liked
+  end
+
+  def sum_point(theme)
+    points.user_point(self, theme).sum
+  end
+
+  def calculate_entry_point(theme)
+    calculating_point(0, 0, theme)
+  end
+
+  def calculate_reply_point(theme)
+    calculating_point(0, 1, theme)
+  end
+
+  def calculate_like_point(theme)
     calculating_point(0, 2, theme)  +  calculating_point(0, 6, theme)
+  end
+
+  def calculate_replied_point(theme)
+    calculating_point(1, 3, theme)
+  end
+
+  def calculate_liked_point(theme)
+    calculating_point(1, 4, theme) + calculating_point(1, 6, theme)
   end
 
   def destroy_like_point(theme)
     calculating_point(0, 6, theme)
   end
 
-  def replied_point(theme)
-    calculating_point(1, 3, theme)
-  end
-
-  def liked_point(theme)
-    calculating_point(1, 4, theme) + calculating_point(1, 6, theme)
-  end
-
   def destroy_liked_point(theme)
     calculating_point(1, 6, theme)
   end
 
-  def active_point(theme)
-    entry_point(theme) + reply_point(theme) + like_point(theme)
+  def calculate_active_point(theme)
+    calculate_entry_point(theme) + calculate_reply_point(theme) + calculate_like_point(theme)
   end
 
-  def passive_point(theme)
-    replied_point(theme) + liked_point(theme)
+  def calculate_passive_point(theme)
+    calculate_replied_point(theme) + calculate_liked_point(theme)
   end
 
-  def sum_point(theme)
-    active_point(theme) + passive_point(theme)
+  def calculate_sum_point(theme)
+    calculate_active_point(theme) + calculate_passive_point(theme)
   end
 
   def point_history(theme)
@@ -106,7 +131,6 @@ class User < ActiveRecord::Base
   def having_point(theme)
     points.find_by(theme_id: theme, latest: true)
   end
-
 
   def password_changed?(password)
     !password.blank?            # blankだっけ？
