@@ -6,3 +6,58 @@
   border-radius: 4px;
   width: 75px;
 }
+
+.box {
+  float: left;
+}
+
+.boxContainer {
+	overflow: hidden;
+}
+
+.entry-icon-box {
+  width: 50px;
+}
+
+.entry-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.content {
+  margin-left: 50px;
+}
+
+.icon-margin {
+  margin-left: -50px;
+  float: left;
+}
+
+.entry-box .user-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.entry-box .timestamp {
+  color: #8899a6;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.entry-box .info-list {
+  color: #8899a6;
+  padding-top: 3px;
+}
+
+.entry-box .info-list .glyphicon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.entry-box .info-list .point {
+  font-size: 15px;
+}
+
+.entry-box .info-icon {
+  margin-right: 10px;
+}

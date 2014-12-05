@@ -1,21 +1,28 @@
 <div class="modal-window" id="reply-modal-<%= child.id %>">
   <div class="modal_close"></div>
   <div class="reply-modal-parent">
-    <%= render 'user_icon', entry: child %>
+    <div class="content">
+      <%= render 'user_icon', entry: child %>
+      <%= child.body %>
 
-    <% if child.grandchild? %>
-      <span class="glyphicon glyphicon-chevron-right small"></span>
-    <% end %>
+    <div class="info-list">
+      <% if child.np >= 50 %>
+        <span class="label label-success">賛成</span>
+      <% else %>
+        <span class="label label-warning">反対</span>
+      <% end %>
+      <span class="user-name">
+        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+      </span>
+      <span class="timestamp"> [<%= child.created_at %>]</span>
+      <%= render 'information', entry: child %>
 
-    <%= child.created_at %>
-    <%= child.body %>
-    by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+    </div>
 
-    <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= child.like_count %></span>
-    <span class="glyphicon glyphicon-usd"></span><span class="point"><%= child.point %></span>
     <% if child.image? %>
       <%= image_tag child.image.entry_thumb.url %>
     <% end %>
+    </div>
   </div>
 
   <hr />

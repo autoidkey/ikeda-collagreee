@@ -2,7 +2,7 @@
   <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
 <% else %>
   <%= link_to (image_tag user_icon_path(entry.user),
-               class: 'user-icon img-circle',
+               class: 'user-icon icon-margin set-popover',
                data: {
                  toggle: "popover",
                  placement: "right",

@@ -164,11 +164,11 @@ $(document).on 'click', '.like_button', (e) ->
     $(@).data('status', 'attach')
     $(@).text "Like!"
 
-    like = parseInt($(@).nextAll('.like_count').text()) - 1
-    $(@).nextAll('.like_count').text(like).hide().fadeIn 'slow'
+    like = parseInt($(@).prevAll('.like_count').text()) - 1
+    $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
 
-    point = (parseFloat($(@).nextAll('.point').text()) + UNLIKE_POINT).toFixed(2)
-    $(@).nextAll('.point').text(point).hide().fadeIn 'slow'
+    point = (parseFloat($(@).prevAll('.point').text()) + UNLIKE_POINT).toFixed(2)
+    $(@).prevAll('.point').text(point).hide().fadeIn 'slow'
 
     _this = $(@).parents('div[id^="entry-"]').first()
     change_point(_this, count, UNLIKE_POINT)
@@ -177,11 +177,11 @@ $(document).on 'click', '.like_button', (e) ->
     $(@).data('status', 'remove')
     $(@).text "Like!を取り消す"
 
-    like = parseInt($(@).nextAll('.like_count').text()) + 1
-    $(@).nextAll('.like_count').text(like).hide().fadeIn 'slow'
+    like = parseInt($(@).prevAll('.like_count').text()) + 1
+    $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
 
-    point = (parseFloat($(@).nextAll('.point').text()) + LIKE_POINT).toFixed(2)
-    $(@).nextAll('.point').text(point).hide().fadeIn 'slow'
+    point = (parseFloat($(@).prevAll('.point').text()) + LIKE_POINT).toFixed(2)
+    $(@).prevAll('.point').text(point).hide().fadeIn 'slow'
 
     _this = $(@).parents('div[id^="entry-"]').first()
     change_point(_this, count, LIKE_POINT)
@@ -206,7 +206,7 @@ $(document).on
     $(@).popover('show')
   mouseleave: (e) ->
     $(@).popover('hide')
-  '.user-icon'
+  '.set-popover'
 
 $(document).on 'ready page:load', ->
   check_new()

@@ -1,37 +1,40 @@
-<div id="entry-<%= child.id %>" class="child">
-  <%= render 'user_icon', entry: child %>
+<div class="content">
+  <div id="entry-<%= child.id %>" class="child">
+    <%= render 'user_icon', entry: child %>
+    <%= child.body %>
 
-  <% if child.np >= 50 %>
-    <span class="label label-success">賛成</span>
-  <% else %>
-    <span class="label label-warning">反対</span>
-  <% end %>
+    <div class="info-list">
+      <% if child.np >= 50 %>
+        <span class="label label-success">賛成</span>
+      <% else %>
+        <span class="label label-warning">反対</span>
+      <% end %>
+      <span class="user-name">
+        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+      </span>
+      <span class="timestamp"> [<%= child.created_at %>]</span>
+      <%= render 'information', entry: child %>
 
-  <span class="glyphicon glyphicon-chevron-right small"></span>
-  <%= child.created_at %>
-  <%= child.body %>
-  by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+      <% if user_signed_in? %>
+        <a rel="leanModal" href="#reply-modal-<%= child.id %>">
+          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
+        </a>
+        <%= render 'like_button', entry: child %>
+      <% end %>
+    </div>
 
-  <% if user_signed_in? %>
-    <a rel="leanModal" href="#reply-modal-<%= child.id %>">
-      <button class="btn btn-default btn-xs">返信する</button>
-    </a>
-    <%= render 'like_button', entry: child %>
-  <% end %>
+    <% if child.image? %>
+      <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
+    <% end %>
 
-  <%= render 'information', entry: child %>
+    <div class="replies"></div>
 
-  <% if child.image? %>
-    <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
-  <% end %>
+    <% if user_signed_in? %>
+      <%= render 'modal_form', child: child  %>
+    <% end %>
 
-  <div class="replies"></div>
-
-  <% if user_signed_in? %>
-    <%= render 'modal_form', child: child  %>
-  <% end %>
-
-  <% child.thread_childrens.each do |c| %>
-    <%= render 'child_entry', child: c %>
-  <% end %>
+    <% child.thread_childrens.each do |c| %>
+      <%= render 'child_entry', child: c %>
+    <% end %>
+  </div>
 </div>

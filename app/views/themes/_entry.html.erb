@@ -1,35 +1,43 @@
-<% if entry.facilitation? %>
-  <%= render 'user_icon', entry: entry %>
-  ファシリテーター@<%= entry.created_at %>
-<% else %>
-  <%= render 'user_icon', entry: entry %>
-  <%= entry.user.name %>@<%= entry.created_at %>
-<% end %>
+<div class="content">
+  <div class="entry-box">
+    <span class="entry-title"><%= entry.title %></span>
+    <%= render 'user_icon', entry: entry %>
 
-<p class="lead"><%= entry.title %></p>
-<p><%= entry.body %></p>
+    <p><%= entry.body %></p>
 
-<% entry.issues.each do |issue| %>
-  <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
-<% end %>
+    <% entry.issues.each do |issue| %>
+      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+    <% end %>
 
-<% if entry.image? %>
-  <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
-<% end %>
+    <% if entry.image? %>
+      <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
+    <% end %>
 
-<%= render 'thumb', entry: entry %>
-<%= render 'information', entry: entry %>
 
-<% if user_signed_in? %>
-  <%= render 'like_button', entry: entry %>
-<% end %>
+    <div class="info-list">
+    <span class="user-name">
+      <% if entry.facilitation? %>
+        ファシリテーター
+      <% else %>
+        <%= entry.user.name %>
+      <% end %>
+    </span>
+    <span class="timestamp"> [<%= entry.created_at %>]</span>
+      <%= render 'thumb', entry: entry %>
+      <%= render 'information', entry: entry %>
 
-<hr />
-
-<div class="children">
-  <% entry.thread_entries.each do |child| %>
-    <div class="thread">
-      <%= render 'child_entry', child: child %>
+      <% if user_signed_in? %>
+        <%= render 'like_button', entry: entry %>
+      <% end %>
     </div>
-  <% end %>
+    <hr />
+
+    <div class="children">
+      <% entry.thread_entries.each do |child| %>
+        <div class="thread">
+          <%= render 'child_entry', child: child %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
