@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h3>投稿ランキング！</h3>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>順位</th>
+          <th>投稿</th>
+          <th>投稿ユーザー</th>
+          <th>ポイント</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% entries.each_with_index do |entry, idx| %>
+          <tr>
+            <td id=""><%= idx + 1 %></td>
+            <td id="">
+              <%= cut_off(entry.body, 30) %>
+            </td>
+            <td id=""><%= entry.user.name %></td>
+            <td id=""><%= entry.point %> ポイント</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

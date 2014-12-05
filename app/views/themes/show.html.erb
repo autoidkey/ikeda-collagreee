@@ -63,9 +63,20 @@
   </div>
   <div class="tab-pane" id="infomation">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-2">
+        <h2>ユーザーランキング</h2>
         <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
+      <div class="col-md-2">
+        <h2>ポイントランキング</h2>
+        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+      </div>
+
+      <div class="col-md-4">
+        <h2>投稿ランキング</h2>
+        <%= render 'entry_ranking', entries: @entry_ranking %>
+      </div>
+
     </div>
   </div>
 </div>

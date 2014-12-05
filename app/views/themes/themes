@@ -1,0 +1,36 @@
+  /Users/13/Sites/projects/new_collagree/app/views/themes:
+  total used in directory 25 available 80917505
+  drwxr-xr-x 33 13 staff 1122 12-04 19:02 .
+  drwxr-xr-x  8 13 staff  272 11-12 16:39 ..
+  -rw-r--r--  1 13 staff  325 09-20 18:07 _activity.html.erb
+  -rw-r--r--  1 13 staff 1055 11-26 19:14 _child_entry.html.erb
+  -rw-r--r--  1 13 staff  911 11-26 19:14 _entry.html.erb
+  -rw-r--r--  1 13 staff  865 11-10 19:21 _entry_form.html.erb
+  -rw-r--r--  1 13 staff 1226 10-23 15:23 _facilitation_form.html.erb
+  -rw-r--r--  1 13 staff  542 11-05 13:55 _form.html.erb
+  -rw-r--r--  1 13 staff  168 11-26 17:38 _information.html.erb
+  -rw-r--r--  1 13 staff  762 12-01 20:22 _keywords.html.erb
+  -rw-r--r--  1 13 staff  356 11-26 16:32 _like_button.html.erb
+  -rw-r--r--  1 13 staff 1605 11-26 18:48 _modal_form.html.erb
+  -rw-r--r--  1 13 staff  430 10-23 15:23 _other_themes.html.erb
+  -rw-r--r--  1 13 staff   98 11-03 13:43 _pagenation.html.erb
+  -rw-r--r--  1 13 staff 3239 12-04 18:33 _point.html.erb
+  -rw-r--r--  1 13 staff  747 11-10 18:21 _reply_entry_form.html.erb
+  -rw-r--r--  1 13 staff 1022 10-23 15:23 _reply_facilitation_form.html.erb
+  -rw-r--r--  1 13 staff  698 11-26 17:42 _reply_form.html.erb
+  -rw-r--r--  1 13 staff  296 10-23 15:23 _sort_tl.html.erb
+  -rw-r--r--  1 13 staff  456 09-20 18:07 _tags.html.erb
+  -rw-r--r--  1 13 staff  408 12-02 14:09 _theme.html.erb
+  -rw-r--r--  1 13 staff  476 10-23 15:23 _theme_info.html.erb
+  -rw-r--r--  1 13 staff  178 11-26 17:37 _thumb.html.erb
+  -rw-r--r--  1 13 staff  602 11-26 16:11 _top_form.html.erb
+  -rw-r--r--  1 13 staff  519 11-26 19:45 _user_icon.html.erb
+  -rw-r--r--  1 13 staff 1100 12-04 19:02 _user_ranking.html.erb
+C -rw-r--r--  1 13 staff 1102 12-04 19:02 _entry_ranking.html.erb
+  -rw-r--r--  1 13 staff 1102 12-04 19:02 _user_ranking_entry.html.erb
+  -rw-r--r--  1 13 staff  346 11-26 18:22 _users.html.erb
+  -rw-r--r--  1 13 staff  287 11-11 11:56 index.html.erb
+  -rw-r--r--  1 13 staff   46 09-20 18:07 new.html.erb
+  -rw-r--r--  1 13 staff  297 11-11 21:15 search_entry.js.erb
+  -rw-r--r--  1 13 staff 3146 12-04 19:01 show.html.erb
+  -rw-r--r--  1 13 staff  219 11-28 11:27 show.js.erb

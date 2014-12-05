@@ -1,13 +1,13 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <h3>ポイントランキング！</h3>
+    <h3>投稿数ランキング！</h3>
 
     <table class="table table-striped">
       <thead>
         <tr>
           <th>順位</th>
           <th>ユーザー</th>
-          <th>ポイント</th>
+          <th>投稿件数</th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +24,7 @@
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>
-            <td id=""> <%= user.sum_point(theme) %> ポイント</td>
+            <td id=""> <%= user.entries.where(theme_id: theme).count %> 件</td>
           </tr>
         <% end %>
       </tbody>
