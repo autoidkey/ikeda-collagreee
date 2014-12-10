@@ -29,8 +29,12 @@
             <% end %>
             <%= f.hidden_field :theme_id, { :value => @theme.id } %>
 
-            <%= f.submit '検索', class: 'btn btn-default' %>
+            <%= f.submit '検索', class: 'btn btn-default', id: 'search-button' %>
           <% end %>
+        </div>
+
+        <div id="top-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
         </div>
 
         <div id="timeline">

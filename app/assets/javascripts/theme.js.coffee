@@ -152,6 +152,10 @@ $(document).on 'click', '#issues .label', (e) ->
 $(document).on 'click', '#next a', (e) ->
   $('#icon-loading').css "display", "block"
 
+$(document).on 'click', '#search-button', (e) ->
+  $('#top-loading').css "display", "block"
+  $('#timeline').css "opacity", "0.5"
+
 # like操作
 $(document).on 'click', '.like_button', (e) ->
   status = $(@).data('status')

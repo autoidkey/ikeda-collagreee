@@ -4,6 +4,9 @@ if(<%= @page == 1 %>) {
   $('#timeline').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
 }
 
+$('#top-loading').css('display','none');
+$('#timeline').css('opacity','1.0');
+
 $('#next').html($("<%=j render 'pagenation' %>"))
 slider.set();
 modal.set();

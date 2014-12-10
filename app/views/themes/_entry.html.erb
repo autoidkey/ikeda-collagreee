@@ -1,6 +1,10 @@
 <div class="content">
   <div class="entry-box">
     <span class="entry-title"><%= entry.title %></span>
+    <div class="entry-points">
+      <p class="points"><%= entry.point %></p>
+      <p class="points-text">points</p>
+    </div>
     <%= render 'user_icon', entry: entry %>
 
     <p><%= entry.body %></p>

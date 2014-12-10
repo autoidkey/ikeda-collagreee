@@ -96,10 +96,6 @@ span.keyword-4 {
   margin-top: 10px;
 }
 
-.thread {
-  margin-bottom: 25px;
-}
-
 .reply-form {
 }
 
@@ -112,6 +108,11 @@ nav.pagination {
 }
 
 #icon-loading {
+  display: none;
+  text-align: center;
+}
+
+#top-loading {
   display: none;
   text-align: center;
 }

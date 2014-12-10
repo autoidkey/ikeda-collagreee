@@ -15,6 +15,10 @@
 	overflow: hidden;
 }
 
+.thread {
+  margin-bottom: 35px;
+}
+
 .entry-icon-box {
   width: 50px;
 }
@@ -25,7 +29,7 @@
 }
 
 .content {
-  margin-left: 50px;
+  margin-left: 115px;
 }
 
 .icon-margin {
@@ -60,4 +64,57 @@
 
 .entry-box .info-icon {
   margin-right: 10px;
+}
+
+.point-box {
+  float: left;
+  margin-left: -50px;
+  font-weight: bold;
+}
+
+.entry-points {
+  float: left;
+  margin-left: -115px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.points-text {
+  margin-top: -15px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.content .points {
+  border-top: 4px solid black;
+  padding-top: 5px;
+}
+
+.child-content .points {
+  border-top: 4px solid #8899a6;
+  padding-top: 5px;
+}
+
+.child-content {
+  margin-left: 100px;
+}
+
+.child-points {
+  color: #8899a6;
+  float: left;
+  margin-left: -100px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.child-content .points-text {
+  margin-top: -15px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.replies {
+  margin-left: -47px;
 }

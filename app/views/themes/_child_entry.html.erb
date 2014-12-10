@@ -1,5 +1,10 @@
-<div class="content">
+<div class="child-content">
   <div id="entry-<%= child.id %>" class="child">
+    <div class="child-points">
+      <p class="points"><%= child.point %></p>
+      <p class="points-text">points</p>
+    </div>
+
     <%= render 'user_icon', entry: child %>
     <%= child.body %>
 
@@ -27,14 +32,15 @@
       <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
     <% end %>
 
-    <div class="replies"></div>
+    <div class="replies">
+      <% child.thread_childrens.each do |c| %>
+        <%= render 'child_entry', child: c %>
+      <% end %>
+    </div>
 
     <% if user_signed_in? %>
       <%= render 'modal_form', child: child  %>
     <% end %>
 
-    <% child.thread_childrens.each do |c| %>
-      <%= render 'child_entry', child: c %>
-    <% end %>
   </div>
 </div>
