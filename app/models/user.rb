@@ -29,27 +29,27 @@ class User < ActiveRecord::Base
 
 
   def entry_point(theme)
-    points.user_point(self, theme).entry
+    points.user_point(theme).present? ? points.user_point(theme).last.entry : 0
   end
 
   def reply_point(theme)
-    points.user_point(self, theme).reply
+    points.user_point(theme).present? ? points.user_point(theme).last.reply : 0
   end
 
   def like_point(theme)
-    points.user_point(self, theme).like
+    points.user_point(theme).present? ? points.user_point(theme).last.like : 0
   end
 
   def replied_point(theme)
-    points.user_point(self, theme).replied
+    points.user_point(theme).present? ? points.user_point(theme).last.replied : 0
   end
 
   def liked_point(theme)
-    points.user_point(self, theme).liked
+    points.user_point(theme).present? ? points.user_point(theme).last.liked : 0
   end
 
   def sum_point(theme)
-    points.user_point(self, theme).sum
+    points.user_point(theme).present? ? points.user_point(theme).last.sum : 0
   end
 
   def calculate_entry_point(theme)
