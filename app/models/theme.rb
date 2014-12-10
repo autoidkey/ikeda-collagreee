@@ -15,7 +15,7 @@ class Theme < ActiveRecord::Base
   default_scope -> { order('updated_at DESC') }
   scope :others, ->(id) { where.not(id: id).limit(5) }
 
-  def popular_entries(issues)
+  def sort_by_reply(issues)
     if issues.present?
       (entries.root.search_issues(issues).sort_by { |e| Entry.children(e.id).count }).reverse
     else
@@ -23,11 +23,19 @@ class Theme < ActiveRecord::Base
     end
   end
 
-  def newer_entries(issues)
+  def sort_by_new(issues)
     if issues.present?
       entries.root.sort_time.search_issues(issues)
     else
       entries.root.sort_time
+    end
+  end
+
+  def sort_by_points(issues)
+    if issues.present?
+      entries.root.search_issues(issues).sort_by(&:point).reverse
+    else
+      entries.root.sort_by(&:point).reverse
     end
   end
 

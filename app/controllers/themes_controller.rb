@@ -37,9 +37,11 @@ class ThemesController < ApplicationController
     @page = params[:page] || 1
 
     if params[:search_entry][:order] == 'time'
-      @entries = @theme.newer_entries(params[:search_entry][:issues])
+      @entries = @theme.sort_by_new(params[:search_entry][:issues])
     elsif params[:search_entry][:order] == 'popular'
-      @entries = @theme.popular_entries(params[:search_entry][:issues])
+      @entries = @theme.sort_by_reply(params[:search_entry][:issues])
+    elsif params[:search_entry][:order] == 'point'
+      @entries = @theme.sort_by_points(params[:search_entry][:issues])
     end
 
     @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(20)
