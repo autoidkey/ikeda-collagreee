@@ -5,7 +5,6 @@ class ThemesController < ApplicationController
   load_and_authorize_resource
 
   include Bm25
-  require 'redis'
 
   def index
     @themes = Theme.all
@@ -13,10 +12,10 @@ class ThemesController < ApplicationController
 
   def show
     @entry = Entry.new
-    @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(20)
+    @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(10)
     @all_entries = Entry.in_theme(@theme.id)
 
-    @entry_ranking = @all_entries.sort_by { |e| -e.point }. select {|e| e.point > 0 }
+    # @entry_ranking = @all_entries.sort_by { |e| -e.point }. select {|e| e.point > 0 }
     @search_entry = SearchEntry.new
     @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }. group_by { |k| k.score }
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?

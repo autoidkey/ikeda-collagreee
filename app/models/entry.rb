@@ -161,8 +161,7 @@ class Entry < ActiveRecord::Base
     Redis.current.zrevrank('entry_points', id) + 1
   end
 
-  def top_3
-    Redis.current.zrevrange("entry_points", 0, 9).map{|id| Entry.find(id)}
-  end
+  def self.top_10
+    Redis.current.zrevrange("entry_points", 0, 9).map { |id| Entry.find(id) }
   end
 end
