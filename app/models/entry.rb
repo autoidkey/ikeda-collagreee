@@ -147,4 +147,22 @@ class Entry < ActiveRecord::Base
   def update_parent_entry_time
     root_entry.touch
   end
+
+  # Redis
+  def scored(score)
+    Redis.current.zadd('entry_points', score, id)
+  end
+
+  def score
+    Redis.current.zscore('entry_points', id).to_i
+  end
+
+  def rank
+    Redis.current.zrevrank('entry_points', id) + 1
+  end
+
+  def top_3
+    Redis.current.zrevrange("entry_points", 0, 9).map{|id| Entry.find(id)}
+  end
+  end
 end
