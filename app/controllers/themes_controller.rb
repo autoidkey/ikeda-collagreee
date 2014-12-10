@@ -5,6 +5,7 @@ class ThemesController < ApplicationController
   load_and_authorize_resource
 
   include Bm25
+  require 'redis'
 
   def index
     @themes = Theme.all
@@ -28,6 +29,8 @@ class ThemesController < ApplicationController
     @users = @theme.joins.map(&:user).sort_by { |u| -u.sum_point(@theme) }
     @users_entry = @theme.joins.map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme).count }
     current_user.delete_notice(@theme) if user_signed_in?
+
+    Redis.current.set('hoge', 'fuga')
   end
 
   def search_entry

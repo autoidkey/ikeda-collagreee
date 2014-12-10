@@ -31,6 +31,8 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
 
+gem 'redis'
+
 group :development do
   gem 'spring', '~> 1.1.2'
   gem 'spring-commands-rspec'
