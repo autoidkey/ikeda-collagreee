@@ -68,11 +68,21 @@ class @PointCount
     new_point = (parseFloat(point.text()) + REPLIED_POINT).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
 
+# change_point = (target, count, base_point) ->
+#   obj = target.parents('div[id^="entry-"]').first()
+#   unless obj.length == 0
+#     point = obj.find('.point').first()
+#     new_point = (parseFloat(point.text()) + base_point / count).toFixed(2)
+#     point.text(new_point).hide().fadeIn 'slow'
+#     count = count * 2
+#     change_point(obj, count, base_point)
+
 change_point = (target, count, base_point) ->
   obj = target.parents('div[id^="entry-"]').first()
-  unless obj.length == 0
-    point = obj.find('.point').first()
-    new_point = (parseFloat(point.text()) + base_point / count).toFixed(2)
+  id = obj.data('id')
+  unless id == undefined
+    point = $('#point-' + id)
+    new_point = (parseFloat(point.text()) + base_point / count).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
     count = count * 2
     change_point(obj, count, base_point)
@@ -163,6 +173,7 @@ $(document).on 'click', '.like_button', (e) ->
   data = {id: $(@).data('id'), status: status}
   $.post(url, data)
   count = 2
+  id = $(@).data 'id'
 
   if status  == 'remove'
     $(@).data('status', 'attach')
@@ -171,8 +182,11 @@ $(document).on 'click', '.like_button', (e) ->
     like = parseInt($(@).prevAll('.like_count').text()) - 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
 
-    point = (parseFloat($(@).prevAll('.point').text()) + UNLIKE_POINT).toFixed(2)
-    $(@).prevAll('.point').text(point).hide().fadeIn 'slow'
+    # point = (parseFloat($(@).prevAll('.point').text()) + UNLIKE_POINT).toFixed(2)
+    # $(@).prevAll('.point').text(point).hide().fadeIn 'slow'
+    #
+    point = (parseFloat($('#point-' + id).text()) + UNLIKE_POINT).toFixed(1)
+    $('#point-' + id).text(point).hide().fadeIn 'slow'
 
     _this = $(@).parents('div[id^="entry-"]').first()
     change_point(_this, count, UNLIKE_POINT)
@@ -184,8 +198,8 @@ $(document).on 'click', '.like_button', (e) ->
     like = parseInt($(@).prevAll('.like_count').text()) + 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
 
-    point = (parseFloat($(@).prevAll('.point').text()) + LIKE_POINT).toFixed(2)
-    $(@).prevAll('.point').text(point).hide().fadeIn 'slow'
+    point = (parseFloat($('#point-' + id).text()) + LIKE_POINT).toFixed(1)
+    $('#point-' + id).text(point).hide().fadeIn 'slow'
 
     _this = $(@).parents('div[id^="entry-"]').first()
     change_point(_this, count, LIKE_POINT)

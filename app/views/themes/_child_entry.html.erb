@@ -1,7 +1,7 @@
 <div class="child-content">
-  <div id="entry-<%= child.id %>" class="child">
+  <div id="entry-<%= child.id %>" class="child" data-id="<%= child.id %>">
     <div class="child-points">
-      <p class="points"><%= child.score %></p>
+      <p class="points" id="point-<%= child.id %>"><%= child.score %></p>
       <p class="points-text">points</p>
     </div>
 

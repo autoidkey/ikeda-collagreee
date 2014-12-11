@@ -1,8 +1,8 @@
 <div class="content">
-  <div class="entry-box">
+  <div class="entry-box" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
     <span class="entry-title"><%= entry.title %></span>
     <div class="entry-points">
-      <p class="points"><%= entry.score %></p>
+      <p class="points" id="point-<%= entry.id %>"><%= entry.score %></p>
       <p class="points-text">points</p>
     </div>
     <%= render 'user_icon', entry: entry %>
@@ -19,14 +19,14 @@
 
 
     <div class="info-list">
-    <span class="user-name">
-      <% if entry.facilitation? %>
-        ファシリテーター
-      <% else %>
-        <%= entry.user.name %>
-      <% end %>
-    </span>
-    <span class="timestamp"> [<%= entry.created_at %>]</span>
+      <span class="user-name">
+        <% if entry.facilitation? %>
+          ファシリテーター
+        <% else %>
+          <%= entry.user.name %>
+        <% end %>
+      </span>
+      <span class="timestamp"> [<%= entry.created_at %>]</span>
       <%= render 'thumb', entry: entry %>
       <%= render 'information', entry: entry %>
 
