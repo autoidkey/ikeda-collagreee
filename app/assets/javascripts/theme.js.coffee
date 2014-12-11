@@ -228,3 +228,4 @@ $(document).on
 
 $(document).on 'ready page:load', ->
   check_new()
+  modal.set()
