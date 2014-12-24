@@ -31,5 +31,4 @@ class UsersController < ApplicationController
     render nothing: true
     current_user.read_like_notice(params[:theme_id])
   end
-
 end

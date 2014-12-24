@@ -1,6 +1,6 @@
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
-  before_action :set_theme, only: %i(show)
+  before_action :set_theme, only: %i(show, point_graph)
   before_action :authenticate_user!, only: %i(create, new)
   load_and_authorize_resource
 
@@ -80,6 +80,13 @@ class ThemesController < ApplicationController
     }
     render json: data.to_json
   end
+
+  def point_graph
+    @user = current_user if user_signed_in?
+    @points = Point.user_all_point(@user, @theme)
+    render 'point_graph', formats: [:json], handlers: [:jbuilder]
+  end
+
 
   private
 

@@ -14,6 +14,7 @@ class Ability
       can :np, Entry
       can :search_entry, Theme
       can :check_new, Theme
+      can :point_graph, Theme
       can :render_new, Entry
     when 'normal'
       can :read, Theme
@@ -22,6 +23,7 @@ class Ability
       can :np, Entry
       can :search_entry, Theme
       can :check_new, Theme
+      can :point_graph, Theme
       can :render_new, Entry
     else                        # guest
       can :read, Theme
