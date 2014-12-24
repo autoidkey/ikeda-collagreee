@@ -1,7 +1,7 @@
 <ul class="nav nav-pills" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
-  <li><a href="#infomation" role="tab" data-toggle="tab">インフォメーション</a></li>
-  <li><a href="#point_graph" role="tab" data-toggle="tab">ポイント</a></li>
+  <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
+  <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -85,14 +85,17 @@
   <div class="tab-pane" id="point_graph">
     <div class="row">
       <div class="col-md-6" id="user_point_graph">
+        <h3>あなたのポイント獲得履歴</h3>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-  myd3.set(<%= @theme.id %>)
-</script>
+<% if user_signed_in? %>
+  <script>
+    myd3.set(<%= @theme.id %>)
+  </script>
+<% end %>
 
 <%#= javascript_include_tag '/js/check_new' %>
 <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
