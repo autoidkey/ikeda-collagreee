@@ -2,7 +2,7 @@
   <div class="panel-body">
     <h3>Point / 議論ポイント <small>[最終更新：<%= point.created_at %>]</small></h3>
     <span id="">あなたの議論ポイントは</span>
-    <span id="sum_point">  <%= "%.1f" % (point.sum) %></span>
+    <span id="sum_point">  <%= "%.1f" % (@point_sum) %></span>
     <span id="">ポイントです</span>
 
     <table class="table">
