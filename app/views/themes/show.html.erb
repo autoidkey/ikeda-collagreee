@@ -1,103 +1,101 @@
-<% benchmark("===== Rendering themes/show =====") do %>
-  <ul class="nav nav-pills" role="tablist">
-    <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
-    <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
-    <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
-  </ul>
+<ul class="nav nav-pills" role="tablist">
+  <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
+  <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
+  <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
+</ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content" id="theme-show">
-    <div class="tab-pane active" id="discussion">
+<!-- Tab panes -->
+<div class="tab-content" id="theme-show">
+  <div class="tab-pane active" id="discussion">
 
-      <div class="row">
-        <div class="col-md-8">
-          <div class="well">
-            <%= render 'top_form' if user_signed_in? %>
-          </div>
-          <hr />
+    <div class="row">
+      <div class="col-md-8">
+        <div class="well">
+          <%= render 'top_form' if user_signed_in? %>
+        </div>
+        <hr />
 
-          <div class="well" id="entry_notice">
-            <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
-          </div>
+        <div class="well" id="entry_notice">
+          <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
+        </div>
 
-          <div class="well" id="tl-tool">
-            <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
-              <%= f.radio_button :order, 'time', {:checked => true} %> 新着
-              <%= f.radio_button :order, 'popular' %> 返信数
-              <%= f.radio_button :order, 'point' %> ポイント
+        <div class="well" id="tl-tool">
+          <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
+            <%= f.radio_button :order, 'time', {:checked => true} %> 新着
+            <%= f.radio_button :order, 'popular' %> 返信数
+            <%= f.radio_button :order, 'point' %> ポイント
 
-              <% @theme.issues.each do |issue| %>
-                <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
-              <% end %>
-              <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-
-              <%= f.submit '検索', class: 'btn btn-default', id: 'search-button' %>
+            <% @theme.issues.each do |issue| %>
+              <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
             <% end %>
-          </div>
+            <%= f.hidden_field :theme_id, { :value => @theme.id } %>
 
-          <div id="top-loading">
-            <%= image_tag 'theme/icon-loading.gif' %>
-          </div>
+            <%= f.submit '検索', class: 'btn btn-default', id: 'search-button' %>
+          <% end %>
+        </div>
 
-          <div id="timeline">
-            <% @entries.each_with_index do |entry, i| %>
-              <div class="panel panel-default entry-panel" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
-                <div class="panel-body">
-                  <%= render 'entry', entry: entry %>
-                  <hr />
-                  <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
-                </div>
+        <div id="top-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+
+        <div id="timeline">
+          <% @entries.each_with_index do |entry, i| %>
+            <div class="panel panel-default entry-panel" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
+              <div class="panel-body">
+                <%= render 'entry', entry: entry %>
+                <hr />
+                <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
               </div>
-            <% end %>
-          </div>
-          <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
-          <div id="icon-loading">
-            <%= image_tag 'theme/icon-loading.gif' %>
-          </div>
+            </div>
+          <% end %>
         </div>
-        <div class="col-md-4">
-          <%= render 'theme_info' %>
-          <%= render 'point', user: current_user, theme: @theme, point: @point if user_signed_in? %>
-          <%= render 'user_ranking', users: @users, theme: @theme %>
-          <%= render 'activity' if user_signed_in? %>
-          <%= render 'keywords' %>
-          <%#= render 'other_themes' %>
-          <%= render 'users' %>
-          <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+        <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
+        <div id="icon-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
         </div>
+      </div>
+      <div class="col-md-4">
+        <%= render 'theme_info' %>
+        <%= render 'point', user: current_user, theme: @theme, point: @point if user_signed_in? %>
+        <%= render 'user_ranking', users: @users, theme: @theme %>
+        <%= render 'activity' if user_signed_in? %>
+        <%= render 'keywords' %>
+        <%#= render 'other_themes' %>
+        <%= render 'users' %>
+        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+      </div>
+    </div>
+
+  </div>
+  <div class="tab-pane" id="infomation">
+    <div class="row">
+      <div class="col-md-4">
+        <%= render 'user_ranking', users: @users, theme: @theme %>
+      </div>
+      <div class="col-md-4">
+        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+      </div>
+
+      <div class="col-md-4">
+        <%#= render 'entry_ranking', entries: @entry_ranking %>
       </div>
 
     </div>
-    <div class="tab-pane" id="infomation">
-      <div class="row">
-        <div class="col-md-4">
-          <%= render 'user_ranking', users: @users, theme: @theme %>
-        </div>
-        <div class="col-md-4">
-          <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
-        </div>
-
-        <div class="col-md-4">
-          <%#= render 'entry_ranking', entries: @entry_ranking %>
-        </div>
-
-      </div>
-    </div>
-    <div class="tab-pane" id="point_graph">
-      <div class="row">
-        <div class="col-md-6" id="user_point_graph">
-          <h3>あなたのポイント獲得履歴</h3>
-        </div>
+  </div>
+  <div class="tab-pane" id="point_graph">
+    <div class="row">
+      <div class="col-md-6" id="user_point_graph">
+        <h3>あなたのポイント獲得履歴</h3>
       </div>
     </div>
   </div>
+</div>
 
-  <% if user_signed_in? %>
-    <script>
-      myd3.set(<%= @theme.id %>)
-    </script>
-  <% end %>
-
-  <%#= javascript_include_tag '/js/check_new' %>
-  <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
+<% if user_signed_in? %>
+  <script>
+    myd3.set(<%= @theme.id %>)
+  </script>
 <% end %>
+
+<%#= javascript_include_tag '/js/check_new' %>
+<%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>

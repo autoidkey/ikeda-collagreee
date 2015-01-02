@@ -20,7 +20,7 @@ class ThemesController < ApplicationController
     @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }. group_by { |k| k.score }
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
-    @point_history = current_user.point_history(@theme).includes(:entry).includes(like: [:user]).includes(:reply)
+    @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
     @point = current_user.point(@theme)
 
     @activities = current_user.acitivities_in_theme(@theme)

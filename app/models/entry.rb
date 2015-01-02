@@ -41,7 +41,7 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_childrens
-    Entry.children(id)
+    Entry.children(id).includes(:user)
   end
 
   def thread_np_count
