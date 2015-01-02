@@ -37,7 +37,7 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.children(root_entry.id)
+    Entry.children(root_entry.id).includes(:user)
   end
 
   def thread_childrens

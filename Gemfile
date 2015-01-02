@@ -34,6 +34,7 @@ gem 'daemons'
 gem 'redis'
 
 group :development do
+  gem 'bullet'
   gem 'spring', '~> 1.1.2'
   gem 'spring-commands-rspec'
   gem 'better_errors', '~> 1.1.0'

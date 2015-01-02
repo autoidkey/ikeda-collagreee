@@ -141,7 +141,7 @@ class User < ActiveRecord::Base
   end
 
   def acitivities_in_theme(theme)
-    activities.select { |a| a.in_theme?(theme.id) }.take(ACTIVITY_COUNT)
+    activities.all.includes(:entry).select { |a| a.in_theme?(theme.id) }.take(ACTIVITY_COUNT)
   end
 
   def like!(entry)

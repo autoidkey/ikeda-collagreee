@@ -50,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          <% current_user.point_history(@theme).each do |ap| %>
+          <% @point_history.each do |ap| %>
             <tr>
               <td>
                 <span class="bold"><%= ap.point %>pt </span><span class="glyphicon glyphicon-chevron-right small"></span>

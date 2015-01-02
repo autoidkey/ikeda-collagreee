@@ -12,24 +12,27 @@ class ThemesController < ApplicationController
 
   def show
     @entry = Entry.new
-    @entries = Entry.in_theme(@theme.id).root.page(params[:page]).per(10)
-    @all_entries = Entry.in_theme(@theme.id)
-
+    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    # @all_entries = Entry.in_theme(@theme.id)
     # @entry_ranking = @all_entries.sort_by { |e| -e.point }. select {|e| e.point > 0 }
+
     @search_entry = SearchEntry.new
     @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }. group_by { |k| k.score }
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
+
+    @point_history = current_user.point_history(@theme).includes(:entry).includes(like: [:user]).includes(:reply)
+    @point = current_user.point(@theme)
+
+    @activities = current_user.acitivities_in_theme(@theme)
 
     @other_themes = Theme.others(@theme.id)
     @issue = Issue.new
     @facilitations = Facilitations
     @theme.join!(current_user) if user_join?
 
-    @users = @theme.joins.map(&:user).sort_by { |u| -u.sum_point(@theme) }
-    @users_entry = @theme.joins.map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme).count }
+    @users = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.sum_point(@theme) }
+    @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme).count }
     current_user.delete_notice(@theme) if user_signed_in?
-
-    Redis.current.set('hoge', 'fuga')
   end
 
   def search_entry
