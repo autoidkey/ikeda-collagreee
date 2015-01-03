@@ -34,6 +34,7 @@ class ThemesController < ApplicationController
 
     @users = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.sum_point(@theme) }
     @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme).count }
+    @user_ranking = @theme.point_ranking
     current_user.delete_notice(@theme) if user_signed_in?
   end
 

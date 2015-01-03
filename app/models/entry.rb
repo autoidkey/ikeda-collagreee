@@ -18,7 +18,7 @@ class Entry < ActiveRecord::Base
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
 
-  after_save :logging_activity, :logging_point, :logging_score
+  after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
   after_save :notice_entry, if: :is_root?
 
@@ -81,13 +81,6 @@ class Entry < ActiveRecord::Base
     elsif !parent.mine?(user) # Reply
       PointHistory.pointing_post(self, 0, action)
       PointHistory.pointing_replied(self, 1, 3)
-    end
-  end
-
-  def logging_score
-    action = self.is_root? ? 0 : 1
-    if action == 0 # 0はPost
-      theme.scored(10, user)
     end
   end
 

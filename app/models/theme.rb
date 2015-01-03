@@ -15,7 +15,7 @@ class Theme < ActiveRecord::Base
   default_scope -> { order('updated_at DESC') }
   scope :others, ->(id) { where.not(id: id).limit(5) }
 
-  POINT_SUM = 'point.sum:'
+  THEME_POINT = 'theme.point:'
 
   def sort_by_reply(issues)
     if issues.present?
@@ -54,11 +54,16 @@ class Theme < ActiveRecord::Base
   end
 
   # Redis
-  def scored(score, user)
-    Redis.current.zincrby(POINT_SUM + id.to_s, score, user.id)
-  end
+
+  # def scored(score, user)
+  #   Redis.current.zincrby(POINT_SUM + id.to_s, score, user.id)
+  # end
 
   def score(user)
-    Redis.current.zscore(POINT_SUM + id.to_s, user.id).to_i
+    Redis.current.zscore(THEME_POINT + id.to_s + ':sum', user.id).to_i
+  end
+
+  def point_ranking
+    Redis.current.zrevrange(THEME_POINT + id.to_s + ':sum', 0, 9).map { |id| User.find(id) }
   end
 end

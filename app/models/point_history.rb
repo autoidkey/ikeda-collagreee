@@ -21,15 +21,29 @@ class PointHistory < ActiveRecord::Base
   REPLIED_POINT = 10.00
   LIKED_POINT = 10.00
 
+  def self.save_active_point(entry, point, action)
+    case action
+    when 0
+      Point.save_entry_point(entry.theme, point, entry.user)
+    when 1
+      Point.save_reply_point(entry.theme, point, entry.user)
+    when 3
+      Point.save_replied_point(entry.theme, point, entry.user)
+    end
+  end
+
   def self.pointing_post(entry, atype, action)
     point = case action
             when 0
-              REPLY_POINT
-            when 1
               ENTRY_POINT
+            when 1
+              REPLY_POINT
             when 3
               REPLIED_POINT
             end
+    PointHistory.save_active_point(entry, point, action)
+    Point.save_theme_point(entry.theme, point, entry.user)
+
     params = {
       entry_id: entry.id,
       user_id: entry.user.id,
@@ -43,6 +57,8 @@ class PointHistory < ActiveRecord::Base
 
   def self.pointing_replied(entry, atype, action)
     point = REPLIED_POINT
+    Point.save_theme_point(entry.theme, point, entry.parent.user)
+
     params = {
       entry_id: entry.parent.id,
       user_id: entry.parent.user.id,
@@ -66,6 +82,9 @@ class PointHistory < ActiveRecord::Base
       point: LIKE_POINT,
       version_id: like.version_id
     }
+
+    Point.save_like_point(like.theme, LIKE_POINT, like.user)
+    Point.save_theme_point(like.theme, LIKE_POINT, like.user)
     PointHistory.save_point(params)
   end
 
@@ -86,6 +105,9 @@ class PointHistory < ActiveRecord::Base
           point: LIKED_POINT / (2**depth),
           version_id: like.version_id
         }
+
+        Point.save_liked_point(entry.theme, LIKED_POINT / (2**depth), entry.user)
+        Point.save_theme_point(entry.theme, LIKED_POINT / (2**depth), entry.user)
         PointHistory.save_point(params)
       end
 
@@ -101,6 +123,7 @@ class PointHistory < ActiveRecord::Base
       destory_history.action = destory_history.atype ? 6 : 5 # 要チェック
       destory_history.point = -destory_history.point
       destory_history.version_id = like.version_id + 1
+      Point.save_theme_point(like.theme, -destory_history.point, like.entry.user)
       destory_history.save
     end
   end

@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
   enum mail_format: %i(HTMLメール TEXTメール)
 
   ACTIVITY_COUNT = 5
-
+  THEME_POINT = 'theme.point:'
+  USER_POINT = 'user.point'
 
   def entry_point(theme)
     points.user_point(theme).present? ? points.user_point(theme).last.entry : 0
@@ -173,7 +174,38 @@ class User < ActiveRecord::Base
     like.save
   end
 
-  # def email_changed?(email)
-  #   self.email != email
-  # end
+  # redis
+  def score(theme)
+    Redis.current.zscore(THEME_POINT + theme.id.to_s + ':sum', id).to_i
+  end
+
+  def redis_entry_point(theme)
+    key = [USER_POINT, id.to_s, theme.id.to_s, 'entry'].join(':')
+    point = Redis.current.lrange(key, -1, -1)[0]
+    point.present? ? point.to_f : 0
+  end
+
+  def redis_reply_point(theme)
+    key = [USER_POINT, id.to_s, theme.id.to_s, 'reply'].join(':')
+    point = Redis.current.lrange(key, -1, -1)[0]
+    point.present? ? point.to_f : 0
+  end
+
+  def redis_like_point(theme)
+    key = [USER_POINT, id.to_s, theme.id.to_s, 'like'].join(':')
+    point = Redis.current.lrange(key, -1, -1)[0]
+    point.present? ? point.to_f : 0
+  end
+
+  def redis_replied_point(theme)
+    key = [USER_POINT, id.to_s, theme.id.to_s, 'replied'].join(':')
+    point = Redis.current.lrange(key, -1, -1)[0]
+    point.present? ? point.to_f : 0
+  end
+
+  def redis_liked_point(theme)
+    key = [USER_POINT, id.to_s, theme.id.to_s, 'liked'].join(':')
+    point = Redis.current.lrange(key, -1, -1)[0]
+    point.present? ? point.to_f : 0
+  end
 end

@@ -29,5 +29,33 @@
         <% end %>
       </tbody>
     </table>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>順位</th>
+          <th>ユーザー</th>
+          <th>ポイント</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @user_ranking.each_with_index do |user, idx| %>
+          <tr>
+            <td id=""><%= idx + 1 %></td>
+            <td id="">
+              <%= link_to (image_tag user_icon_path(user),
+                           class: 'user-icon img-circle',
+                           data: {
+                             toggle: "popover",
+                             placement: "right",
+                             content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.count.to_s + '件'
+                           }
+                           ), '/users/' + user.id.to_s %>　<%= user.name %>
+            </td>
+            <td id=""> <%= user.score(theme) %> ポイント</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
   </div>
 </div>

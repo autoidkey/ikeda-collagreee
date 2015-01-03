@@ -2,7 +2,7 @@
   <div class="panel-body">
     <h3>Point / 議論ポイント <small>[最終更新：<%= point.created_at %>]</small></h3>
     <span id="">あなたの議論ポイントは</span>
-    <span id="sum_point">  <%= "%.1f" % (@point_sum) %></span>
+    <span id="sum_point">  <%= "%.1f" % (@point_sum) %> (<%= "%.1f" % (@point.sum) %>)</span>
     <span id="">ポイントです</span>
 
     <table class="table">
@@ -16,9 +16,9 @@
       </thead>
       <tbody>
         <tr>
-          <td id="entry_point"><%= "%.1f" % point.entry %></td>
-          <td id="reply_point"><%= "%.1f" % point.reply %></td>
-          <td id="like_point"><%= "%.1f" % point.like %></td>
+          <td id="entry_point"><%= "%.1f" % point.entry %> <%= user.redis_entry_point(theme) %></td>
+          <td id="reply_point"><%= "%.1f" % point.reply %> <%= user.redis_reply_point(theme) %></td>
+          <td id="like_point"><%= "%.1f" % point.like %> <%= user.redis_like_point(theme) %></td>
           <td id="active_point"><%= "%.1f" % (point.entry + point.reply + point.like) %></td>
         </tr>
       </tbody>
@@ -34,8 +34,8 @@
       </thead>
       <tbody>
         <tr>
-          <td id="replied_point"><%= "%.1f" % point.replied %></td>
-          <td id="liked_point"><%= "%.1f" % point.liked %></td>
+          <td id="replied_point"><%= "%.1f" % point.replied %> <%= user.redis_replied_point(theme) %></td>
+          <td id="liked_point"><%= "%.1f" % point.liked %> <%= user.redis_liked_point(theme) %></td>
           <td></td>
           <td id="passive_point"><%= "%.1f" % (point.replied + point.liked) %></td>
         </tr>
