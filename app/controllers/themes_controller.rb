@@ -1,7 +1,8 @@
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
-  before_action :set_theme, only: %i(show, point_graph)
+  before_action :set_theme, only: %i(point_graph)
   before_action :authenticate_user!, only: %i(create, new)
+  before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: %i(show)
   load_and_authorize_resource
 
   include Bm25
@@ -13,28 +14,16 @@ class ThemesController < ApplicationController
   def show
     @entry = Entry.new
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    # @all_entries = Entry.in_theme(@theme.id)
-    # @entry_ranking = @all_entries.sort_by { |e| -e.point }. select {|e| e.point > 0 }
 
     @search_entry = SearchEntry.new
-    @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }. group_by { |k| k.score }
+    @issue = Issue.new
+
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
-    @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
-    @point = current_user.point(@theme)
-
-    @activities = current_user.acitivities_in_theme(@theme)
-
     @other_themes = Theme.others(@theme.id)
-    @issue = Issue.new
     @facilitations = Facilitations
+
     @theme.join!(current_user) if user_join?
-
-    @point_sum = @theme.score(current_user)
-
-    @users = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.sum_point(@theme) }
-    @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme).count }
-    @user_ranking = @theme.point_ranking
     current_user.delete_notice(@theme) if user_signed_in?
   end
 
@@ -102,6 +91,26 @@ class ThemesController < ApplicationController
 
   def set_theme
     @theme = Theme.find(params[:id])
+  end
+
+  def set_keyword
+    @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }.group_by(&:score)
+  end
+
+  def set_point
+    @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
+    @point = current_user.point(@theme)
+    @point_sum = @theme.score(current_user)
+  end
+
+  def set_activity
+    @activities = current_user.acitivities_in_theme(@theme)
+  end
+
+  def set_ranking
+    @users = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.sum_point(@theme) }
+    @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme).count }
+    @user_ranking = @theme.point_ranking
   end
 
   def theme_params

@@ -7,11 +7,11 @@
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="post<%= i %>">
+  <div class="tab-pane active reply-tab" id="post<%= i %>">
     <%= render 'themes/reply_entry_form', entry: entry %>
   </div>
   <% if current_user.admin? || current_user.facilitator? %>
-    <div class="tab-pane" id="faciltation<%= i %>">
+    <div class="tab-pane facilitation-tab" id="faciltation<%= i %>">
       <%= render 'themes/reply_facilitation_form', { entry: entry, k: i } %>
     </div>
   <% end %>

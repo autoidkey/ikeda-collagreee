@@ -11,7 +11,7 @@
     <%= render 'entry_form' %>
   </div>
   <% if current_user.admin? || current_user.facilitator? %>
-    <div class="tab-pane" id="faciltation">
+    <div class="tab-pane facilitation-tab" id="faciltation">
       <%= render 'facilitation_form' %>
     </div>
   <% end %>

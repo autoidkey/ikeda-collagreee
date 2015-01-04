@@ -143,7 +143,7 @@ check_new = () ->
 $(document).on 'click', '.facilitation-phrase a', (e) ->
   e.preventDefault()
   # $(@).parents('.tab-pane#discussion').find('textarea').val($(@).text())
-  $(this).parents(".entry-panel").find("#faciltation0").find(".new_entry").find('textarea').val($(@).text())
+  $(this).parents(".entry-panel").find(".facilitation-tab").find(".new_entry").find('textarea').val($(@).text())
 
 $(document).on 'click', '.facilitation-phrase h4', (e) ->
   $(@).next().toggle()
