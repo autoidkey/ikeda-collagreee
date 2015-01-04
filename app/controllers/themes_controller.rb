@@ -25,6 +25,8 @@ class ThemesController < ApplicationController
 
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
+
+    render 'show_no_point' unless @theme.point_function
   end
 
   def search_entry

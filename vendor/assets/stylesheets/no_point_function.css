@@ -1,0 +1,15 @@
+.entry-points {
+    display: none;
+}
+
+.content {
+    margin-left: 50px;
+}
+
+.child-points {
+    display: none;
+}
+
+.child-content {
+    margin-left: 90px;
+}

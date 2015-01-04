@@ -1,0 +1,65 @@
+<h5>ポイント機能なし</h5>
+<!-- Tab panes -->
+<div class="tab-content" id="theme-show">
+  <div class="tab-pane active" id="discussion">
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="well entry-panel">
+          <%= render 'top_form' if user_signed_in? %>
+        </div>
+        <hr />
+
+        <div class="well" id="entry_notice">
+          <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
+        </div>
+
+        <div class="well" id="tl-tool">
+          <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
+            <%= f.radio_button :order, 'time', {:checked => true} %> 新着
+            <%= f.radio_button :order, 'popular' %> 返信数
+
+            <% @theme.issues.each do |issue| %>
+              <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
+            <% end %>
+            <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+
+            <%= f.submit '検索', class: 'btn btn-default', id: 'search-button' %>
+          <% end %>
+        </div>
+
+        <div id="top-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+
+        <div id="timeline">
+          <% @entries.each_with_index do |entry, i| %>
+            <div class="panel panel-default entry-panel" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
+              <div class="panel-body">
+                <%= render 'entry', entry: entry %>
+                <hr />
+                <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
+        <div id="icon-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <%= render 'theme_info' %>
+        <%= render 'activity' if user_signed_in? %>
+        <%= render 'keywords' %>
+        <%#= render 'other_themes' %>
+        <%= render 'users' %>
+        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'no_point_function.css' %>
