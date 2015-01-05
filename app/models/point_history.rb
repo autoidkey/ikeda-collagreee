@@ -52,13 +52,12 @@ class PointHistory < ActiveRecord::Base
       action: action,
       point: point
     }
+
     PointHistory.save_point(params)
   end
 
   def self.pointing_replied(entry, atype, action)
     point = REPLIED_POINT
-    Point.save_theme_point(entry.theme, point, entry.parent.user)
-
     params = {
       entry_id: entry.parent.id,
       user_id: entry.parent.user.id,
@@ -68,6 +67,9 @@ class PointHistory < ActiveRecord::Base
       point: point,
       reply_id: entry.id
     }
+
+    Point.save_replied_point(entry.theme, point, entry.parent.user)
+    Point.save_theme_point(entry.theme, point, entry.parent.user)
     PointHistory.save_point(params)
   end
 
@@ -123,8 +125,14 @@ class PointHistory < ActiveRecord::Base
       destory_history.action = destory_history.atype ? 6 : 5 # 要チェック
       destory_history.point = -destory_history.point
       destory_history.version_id = like.version_id + 1
-      Point.save_theme_point(like.theme, -destory_history.point, like.entry.user)
       destory_history.save
+      Point.save_theme_point(destory_history.theme, destory_history.point, destory_history.user)
+
+      if destory_history.active?
+        Point.save_like_point(destory_history.theme, destory_history.point, destory_history.user)
+      else
+        Point.save_liked_point(destory_history.theme, destory_history.point, destory_history.user)
+      end
     end
   end
 

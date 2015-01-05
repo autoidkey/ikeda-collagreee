@@ -9,8 +9,8 @@ class Like < ActiveRecord::Base
 
   default_scope -> { order('updated_at DESC') }
 
-  scope :liked_user, ->(user, entry) { where( user_id: user, entry_id: entry, status: 1 ) }
-  scope :all_likes, ->(entry) { where( entry_id: entry, status: 1 ) }
+  scope :liked_user, ->(user, entry) { where(user_id: user, entry_id: entry, status: 1) }
+  scope :all_likes, ->(entry) { where(entry_id: entry, status: 1) }
 
   # after_save :logging_like_point, :logging_liked_point
 
@@ -30,12 +30,4 @@ class Like < ActiveRecord::Base
   def self.logging_liked_point(like)
     PointHistory.pointing_liked(like)
   end
-
-  def destroy_point
-    PointHistory.destroy_like_point(self)
-  end
-
-  def self.remove_like!
-  end
-
 end

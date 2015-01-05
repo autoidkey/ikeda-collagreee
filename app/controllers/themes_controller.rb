@@ -91,6 +91,7 @@ class ThemesController < ApplicationController
 
   def json_user_point
     @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
+    @point_sum =
     render 'json_user_point', formats: [:json], handlers: [:jbuilder]
   end
 
