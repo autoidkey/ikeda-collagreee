@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'themes/search_entry/:id' => 'themes#search_entry'
   get 'themes/check_new/:id' => 'themes#check_new'
   get 'themes/:id/point_graph' => 'themes#point_graph'
+  get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'
 
   # api
   get 'users/:id' =>  'users#show'

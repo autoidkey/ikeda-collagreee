@@ -1,6 +1,6 @@
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
-  before_action :set_theme, only: %i(point_graph)
+  before_action :set_theme, only: %i(point_graph, user_point_ranking)
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: %i(show)
   load_and_authorize_resource
@@ -84,6 +84,10 @@ class ThemesController < ApplicationController
     render 'point_graph', formats: [:json], handlers: [:jbuilder]
   end
 
+  def user_point_ranking
+    @ranking = @theme.point_ranking
+    render 'user_point_ranking', formats: [:json], handlers: [:jbuilder]
+  end
 
   private
 

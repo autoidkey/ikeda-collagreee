@@ -179,6 +179,14 @@ class User < ActiveRecord::Base
     Redis.current.zscore(THEME_POINT + theme.id.to_s + ':sum', id).to_i
   end
 
+  def rank(theme)
+    Redis.current.zrevrank(THEME_POINT + theme.id.to_s + ':sum', id) + 1
+  end
+
+  def rank_point(theme)
+    Redis.current.zscore(THEME_POINT + theme.id.to_s + ':sum', id).to_i
+  end
+
   def redis_entry_point(theme)
     key = [USER_POINT, id.to_s, theme.id.to_s, 'entry'].join(':')
     point = Redis.current.lrange(key, -1, -1)[0]
