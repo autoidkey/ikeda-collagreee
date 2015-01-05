@@ -86,7 +86,9 @@
     <div class="row">
       <div class="col-md-6" id="user_point_graph">
         <h3>あなたのポイント獲得履歴</h3>
-        <label><input type="checkbox" id="sort-graph">ソートする</label>
+        <div class="" id="chart"></div>
+        <h3>ユーザポイントランキング</h3>
+        <div class="" id="ranking-chart"></div>
       </div>
     </div>
   </div>
@@ -95,7 +97,8 @@
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <% if user_signed_in? %>
   <script>
-    myd3.set(<%= @theme.id %>)
+    myc3.set_ranking(<%= @theme.id %>)
+    myc3.set(<%= @theme.id %>)
   </script>
 <% end %>
 
