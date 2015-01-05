@@ -4,13 +4,12 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @keyword = @user.keywords.group_by(&:theme_id)
-    # myentries = Entry.where(user_id: @user)
-    # myreplies = myentries.map { |e| e.parent }
-    # mylikes = Like.where(user_id: @user).map {|like| like.entry }
-
-    # text = mylikes + myreplies + myentries
-
-    # @bm25 = bm25(text)
+    @entries = @user.entries
+    @data = [
+      ['投稿', @entries.root.count],
+      ['返信', @entries.where.not(parent_id: nil).count],
+      ['賛同', @user.likes.count]
+    ]
   end
 
   def bm25(entries)

@@ -87,4 +87,33 @@ class @C3
           width: 2.0
       )
 
+  user_action_chart: (data, user_name)->
+    chart = c3.generate(
+      bindto: "#user-action-chart"
+      data:
+        columns: data
+        # columns: [
+        #     [
+        #       'data1'
+        #       30
+        #     ]
+        #     [
+        #       'data2'
+        #       120
+        #     ]
+        # ]
+        type: "donut"
+        # onclick: (d, i) ->
+        #   console.log "onclick", d, i
+
+        # onmouseover: (d, i) ->
+        #   console.log "onmouseover", d, i
+
+        # onmouseout: (d, i) ->
+        #   console.log "onmouseout", d, i
+
+      donut:
+        title: user_name + "さんの活動割合"
+    )
+
 @myc3 = new C3()

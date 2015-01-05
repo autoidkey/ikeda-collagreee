@@ -1,12 +1,35 @@
 <div class="row">
   <div class="col-md-12">
     <h1><%= @user.name %></h1>
-    <h3>興味キーワード</h3>
-    <% @keyword.each do |key, value| %>
-      <h3><%= key %></h3>
-      <% value.sort_by { |k| -k.score }.each do |word| %>
-        <span class="user_keyword"><%= word.word %>(<%= word.score %>)</span>
-      <% end %>
-    <% end %>
+    <div class="row">
+      <div class="col-md-4">
+        <h3>活動割合</h3>
+        <div id="user-action-chart"></div>
+        <table class="table table-striped">
+          <tbody>
+            <% @data.each do |d| %>
+              <tr>
+                <td id=""><%= d[0] %></td>
+                <td id=""><%= d[1] %>件</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="col-md-8">
+        <h3>テーマ別興味キーワード</h3>
+        <% @keyword.each do |key, value| %>
+          <h4>【<%= Theme.find(key).title %>】</h4>
+          <% value.sort_by { |k| -k.score }.each do |word| %>
+            <span class="user_keyword"><%= word.word %>(<%= word.score %>)</span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+  myc3.user_action_chart(<%= raw @data %>, '<%= @user.name %>')
+</script>
