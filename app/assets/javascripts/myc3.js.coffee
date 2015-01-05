@@ -22,7 +22,6 @@ class @C3
             type: 'timeseries'
           y:
             label: '合計獲得ポイント数（points）'
-
       )
 
   set_ranking: (theme_id) ->
@@ -58,5 +57,34 @@ class @C3
               name
             value: (value, ration, id, index) ->
               value
+
+  point_history_chart: (theme_id) ->
+    url = theme_id + '/json_user_point'
+    $.get url, (json)->
+      chart = c3.generate(
+        bindto: "#point-history-chart"
+        data:
+          json:
+            json
+          keys:
+            value: [
+              'point'
+              'created_at'
+            ]
+          x: 'created_at'
+          xFormat: '%Y/%m/%d %H:%M'
+          type: 'bar'
+
+        axis:
+          x:
+            label: '日時'
+            position: 'outer-middle'
+            type: 'timeseries'
+          y:
+            label: '獲得ポイント数'
+
+        bar:
+          width: 2.0
+      )
 
 @myc3 = new C3()

@@ -89,6 +89,11 @@ class ThemesController < ApplicationController
     render 'user_point_ranking', formats: [:json], handlers: [:jbuilder]
   end
 
+  def json_user_point
+    @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
+    render 'json_user_point', formats: [:json], handlers: [:jbuilder]
+  end
+
   private
 
   def user_join?

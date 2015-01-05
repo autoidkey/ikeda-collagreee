@@ -87,6 +87,8 @@
       <div class="col-md-6" id="user_point_graph">
         <h3>あなたのポイント獲得履歴</h3>
         <div class="" id="chart"></div>
+        <h3>あなたのポイント獲得履歴</h3>
+        <div class="" id="point-history-chart"></div>
         <h3>ユーザポイントランキング</h3>
         <div class="" id="ranking-chart"></div>
       </div>
@@ -99,6 +101,7 @@
   <script>
     myc3.set_ranking(<%= @theme.id %>)
     myc3.set(<%= @theme.id %>)
+    myc3.point_history_chart(<%= @theme.id %>)
   </script>
 <% end %>
 
