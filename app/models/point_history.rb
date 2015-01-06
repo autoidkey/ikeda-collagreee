@@ -41,6 +41,7 @@ class PointHistory < ActiveRecord::Base
             when 3
               REPLIED_POINT
             end
+
     PointHistory.save_active_point(entry, point, action)
     Point.save_theme_point(entry.theme, point, entry.user)
 
@@ -71,6 +72,8 @@ class PointHistory < ActiveRecord::Base
     Point.save_replied_point(entry.theme, point, entry.parent.user)
     Point.save_theme_point(entry.theme, point, entry.parent.user)
     PointHistory.save_point(params)
+
+    entry.parent.scored(entry.parent.point)
   end
 
   def self.pointing_like(like)
@@ -111,6 +114,7 @@ class PointHistory < ActiveRecord::Base
         Point.save_liked_point(entry.theme, LIKED_POINT / (2**depth), entry.user)
         Point.save_theme_point(entry.theme, LIKED_POINT / (2**depth), entry.user)
         PointHistory.save_point(params)
+        entry.scored(entry.point)
       end
 
       depth += 1
