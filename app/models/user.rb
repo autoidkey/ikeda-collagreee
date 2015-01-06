@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   end
 
   def point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last : 0
+    points.user_point(theme).present? ? points.user_point(theme).last : nil
   end
 
   def calculate_entry_point(theme)

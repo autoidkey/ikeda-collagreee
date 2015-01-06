@@ -10,6 +10,8 @@ class Entry < ActiveRecord::Base
   has_many :point_histories_reply, class_name: 'PointHistory', foreign_key: 'reply_id'
   has_many :notices
 
+  validates :title, :body, presence: true
+
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id) }
@@ -154,7 +156,7 @@ class Entry < ActiveRecord::Base
   end
 
   def score
-    Redis.current.zscore('entry_points', id).to_i
+    Redis.current.zscore('entry_points', id).to_f
   end
 
   def rank

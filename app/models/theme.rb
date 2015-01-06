@@ -60,7 +60,7 @@ class Theme < ActiveRecord::Base
   # end
 
   def score(user)
-    Redis.current.zscore(THEME_POINT + id.to_s + ':sum', user.id).to_i
+    Redis.current.zscore(THEME_POINT + id.to_s + ':sum', user.id).to_f
   end
 
   def point_ranking

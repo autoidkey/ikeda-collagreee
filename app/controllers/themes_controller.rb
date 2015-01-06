@@ -92,7 +92,7 @@ class ThemesController < ApplicationController
   def json_user_point
     @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
     @point_sum =
-    render 'json_user_point', formats: [:json], handlers: [:jbuilder]
+      render 'json_user_point', formats: [:json], handlers: [:jbuilder]
   end
 
   private
@@ -110,13 +110,23 @@ class ThemesController < ApplicationController
   end
 
   def set_point
-    @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
-    @point = current_user.point(@theme)
-    @point_sum = @theme.score(current_user)
+    if user_signed_in?
+      @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
+      # @point = current_user.point(@theme)
+      # @point_sum = @theme.score(current_user)
+      @point_list = {
+        sum: @theme.score(current_user),
+        entry: current_user.redis_entry_point(@theme),
+        reply: current_user.redis_reply_point(@theme),
+        like: current_user.redis_like_point(@theme),
+        replied: current_user.redis_replied_point(@theme),
+        liked: current_user.redis_liked_point(@theme)
+      }
+    end
   end
 
   def set_activity
-    @activities = current_user.acitivities_in_theme(@theme)
+    @activities = current_user.acitivities_in_theme(@theme) if user_signed_in?
   end
 
   def set_ranking

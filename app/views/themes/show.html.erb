@@ -1,7 +1,9 @@
 <ul class="nav nav-pills" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
-  <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
+  <% if user_signed_in? %>
+    <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
+  <% end %>
 </ul>
 
 <!-- Tab panes -->
@@ -56,7 +58,7 @@
       </div>
       <div class="col-md-4">
         <%= render 'theme_info' %>
-        <%= render 'point', user: current_user, theme: @theme, point: @point if user_signed_in? %>
+        <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%= render 'activity' if user_signed_in? %>
         <%= render 'keywords' %>
