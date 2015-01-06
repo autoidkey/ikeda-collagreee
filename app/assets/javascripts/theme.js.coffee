@@ -80,7 +80,7 @@ class @PointCount
 change_point = (target, count, base_point) ->
   obj = target.parents('div[id^="entry-"]').first()
   id = obj.data('id')
-  unless id == undefined
+  unless id == null
     point = $('#point-' + id)
     new_point = (parseFloat(point.text()) + base_point / count).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
@@ -183,9 +183,6 @@ $(document).on 'click', '.like_button', (e) ->
     like = parseInt($(@).prevAll('.like_count').text()) - 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
 
-    # point = (parseFloat($(@).prevAll('.point').text()) + UNLIKE_POINT).toFixed(2)
-    # $(@).prevAll('.point').text(point).hide().fadeIn 'slow'
-    #
     point = (parseFloat($('#point-' + id).text()) + UNLIKE_POINT).toFixed(1)
     $('#point-' + id).text(point).hide().fadeIn 'slow'
 

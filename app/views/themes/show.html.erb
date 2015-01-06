@@ -42,7 +42,7 @@
 
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <div class="panel panel-default entry-panel" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
+            <div class="panel panel-default entry-panel" data-id="<%= entry.id %>">
               <div class="panel-body">
                 <%= render 'entry', entry: entry %>
                 <hr />
