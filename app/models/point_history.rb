@@ -73,7 +73,7 @@ class PointHistory < ActiveRecord::Base
     Point.save_theme_point(entry.theme, point, entry.parent.user)
     PointHistory.save_point(params)
 
-    entry.parent.scored(entry.parent.point)
+    entry.parent.delay.scored(entry.parent.point)
   end
 
   def self.pointing_like(like)
@@ -114,7 +114,7 @@ class PointHistory < ActiveRecord::Base
         Point.save_liked_point(entry.theme, LIKED_POINT / (2**depth), entry.user)
         Point.save_theme_point(entry.theme, LIKED_POINT / (2**depth), entry.user)
         PointHistory.save_point(params)
-        entry.scored(entry.point)
+        entry.delay.scored(entry.point)
       end
 
       depth += 1
@@ -137,6 +137,7 @@ class PointHistory < ActiveRecord::Base
       else
         Point.save_liked_point(destory_history.theme, destory_history.point, destory_history.user)
       end
+      destory_history.entry.delay.scored(destory_history.entry.point)
     end
   end
 
