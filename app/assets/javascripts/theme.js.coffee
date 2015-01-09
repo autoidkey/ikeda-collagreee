@@ -68,15 +68,6 @@ class @PointCount
     new_point = (parseFloat(point.text()) + REPLIED_POINT).toFixed(1)
     point.text(new_point).hide().fadeIn 'slow'
 
-# change_point = (target, count, base_point) ->
-#   obj = target.parents('div[id^="entry-"]').first()
-#   unless obj.length == 0
-#     point = obj.find('.point').first()
-#     new_point = (parseFloat(point.text()) + base_point / count).toFixed(2)
-#     point.text(new_point).hide().fadeIn 'slow'
-#     count = count * 2
-#     change_point(obj, count, base_point)
-
 change_point = (target, count, base_point) ->
   obj = target.parents('div[id^="entry-"]').first()
   id = obj.data('id')
@@ -166,6 +157,9 @@ $(document).on 'click', '#next a', (e) ->
 $(document).on 'click', '#search-button', (e) ->
   $('#top-loading').css "display", "block"
   $('#timeline').css "opacity", "0.5"
+
+$(document).on 'submit', '#new_entry', (e) ->
+  $(@).find('textarea, :text, :image').val ''
 
 # like操作
 $(document).on 'click', '.like_button', (e) ->
