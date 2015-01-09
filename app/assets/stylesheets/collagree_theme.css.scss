@@ -32,3 +32,9 @@
   margin-bottom: 0px;
   color: white;
 }
+
+.nav-pills.nav-collagree > li.active > a,
+.nav-pills.nav-collagree > li.active > a:hover,
+.nav-pills.nav-collagree > li.active > a:focus {
+  background-color: #3498db;
+}
