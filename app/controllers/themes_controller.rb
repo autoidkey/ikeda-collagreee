@@ -80,7 +80,7 @@ class ThemesController < ApplicationController
 
   def point_graph
     @user = current_user if user_signed_in?
-    @points = Point.user_all_point(@user, @theme)
+    @points = Point.user_all_point(@user, @theme).take(40)
     render 'point_graph', formats: [:json], handlers: [:jbuilder]
   end
 

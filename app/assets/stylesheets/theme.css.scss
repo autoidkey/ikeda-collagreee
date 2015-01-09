@@ -2,9 +2,64 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.point-table td {
+.hero-image {
+  background-image: url(/images/discussion2.jpg);
+  background-size: cover;
+  margin: -20px;
+}
+
+.smoke {
+  background: rgba(0, 0, 0, 0.2);
+  padding-top: 3em;
+  padding-bottom: 3em;
+  min-height: 300px;
+}
+
+.col-md-8.hero-content {
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.hero-image h1 {
+  text-align: center;
+  color: white;
+  text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
+               0px -5px 16px rgba(255,255,255,0.3);
+}
+
+.hero-login {
+  text-align: center;
+}
+
+.hero-login span.btn {
+  width: 30%;
+  margin: 0 10px;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+}
+
+.hero-login span.btn:hover {
+  background-color: #bbb;
+}
+
+.hero-login span.btn a{
+  text-decoration: none;
+  color: white;
+}
+
+.nav.margin-bottom {
+  margin-bottom: 1em;
+}
+
+.table.point-table > tbody > tr > td {
   font-size: 20px;
   font-weight: bold;
+  vertical-align: middle;
+}
+
+.point-table td#active_point, .point-table td#passive_point {
+  font-size: 25px;
 }
 
 .user-score {
@@ -27,6 +82,7 @@
 .ranking-table td.rank-1 {
   font-size: 30px;
   font-weight: bold;
+  color: red;
 }
 
 .ranking-table td.rank-2 {
@@ -105,7 +161,7 @@ span.keyword-4 {
 
 #sum_point {
   font-weight: bold;
-  font-size: 28px;
+  font-size: 32px;
 }
 
 .facilitation-phrase h4 {

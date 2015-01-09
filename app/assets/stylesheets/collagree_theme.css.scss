@@ -1,0 +1,34 @@
+.collagree-title {
+  margin: -7px 0 0 10px;
+}
+
+.navbar.navbar-collagree {
+  background-color: #3498db;
+  border-radius: 0px;
+}
+
+.navbar-collagree .navbar-header > a {
+  color: white;
+}
+
+.navbar-collagree .navbar-nav > li > a {
+  color: white;
+}
+
+.navbar-collagree .nav > li > a:hover, .nav > li > a:focus {
+  background-color: #3498db;
+}
+
+.panel .panel-header {
+  background-color: #3498db;
+  padding: 10px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-color: #dddddd
+}
+
+.panel .panel-header h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: white;
+}

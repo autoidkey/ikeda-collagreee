@@ -1,6 +1,8 @@
 <div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users / 閲覧ユーザ</h4>
+  </div>
   <div class="panel-body">
-    <h3>Users / 閲覧ユーザ</h3>
     <% @theme.users.each do |user| %>
       <%= link_to image_tag(user_icon_path(user),
                             class: 'user-icon img-circle set-popover',

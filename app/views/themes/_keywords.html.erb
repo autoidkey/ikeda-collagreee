@@ -1,19 +1,18 @@
 <div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Keywords / キーワード</h4>
+  </div>
   <div class="panel-body">
-    <h3>Keywords / キーワード</h3>
-
     <table class="table keywords">
       <thead>
         <tr>
-          <th></th>
+          <th>スコア</th>
           <th>キーワード</th>
-          <th>BM25値</th>
         </tr>
       </thead>
       <tbody>
         <% @keyword.each_with_index do |(key, val), idx| %>
           <tr>
-            <td id=""><%= idx %></td>
             <td id=""><%= key %></td>
             <td class="wordlist">
                 <% val.each do |wordlist| %>

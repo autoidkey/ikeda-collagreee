@@ -1,3 +1,23 @@
+<div class="hero-image">
+  <div class="smoke">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 hero-content">
+        <h1>いつでも どこでも 何人でも <br />
+          Web上の議論の場
+        </h1>
+      </div>
+      <div class="col-md-6 col-md-offset-3 hero-login">
+        <%= link_to new_user_session_path do %>
+          <span class="btn btn-default">ログイン</span>
+        <% end %>
+        <%= link_to new_user_registration_path do %>
+          <span class="btn btn-default">新規登録</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="page-header">
   <h1>Theme<small>/テーマ</small></h1>
   <%= link_to 'テーマ追加', new_theme_path, { class: 'btn btn-default', id: 'theme_create_btn'} if user_admin?(current_user) %>

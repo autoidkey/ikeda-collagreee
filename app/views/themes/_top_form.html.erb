@@ -1,18 +1,26 @@
-<% if current_user.admin? || current_user.facilitator? %>
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a href="#post" role="tab" data-toggle="tab">投稿</a></li>
-    <li><a href="#faciltation" role="tab" data-toggle="tab">ファシリテーション</a></li>
-  </ul>
-<% end %>
-
-<!-- Tab panes -->
-<div class="tab-content">
-  <div class="tab-pane active" id="post">
-    <%= render 'entry_form' %>
+<div class="panel panel-default entry-panel">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Post / 投稿</h4>
   </div>
-  <% if current_user.admin? || current_user.facilitator? %>
-    <div class="tab-pane facilitation-tab" id="faciltation">
-      <%= render 'facilitation_form' %>
+
+  <div class="panel-body">
+    <% if current_user.admin? || current_user.facilitator? %>
+      <ul class="nav nav-pills margin-bottom" role="tablist">
+        <li class="active"><a href="#post" role="tab" data-toggle="tab">投稿</a></li>
+        <li><a href="#faciltation" role="tab" data-toggle="tab">ファシリテーション</a></li>
+      </ul>
+    <% end %>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="post">
+        <%= render 'entry_form' %>
+      </div>
+      <% if current_user.admin? || current_user.facilitator? %>
+        <div class="tab-pane facilitation-tab" id="faciltation">
+          <%= render 'facilitation_form' %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 </div>
