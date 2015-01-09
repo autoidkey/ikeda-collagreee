@@ -21,6 +21,9 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.padding {
+  padding: 0 40px;
+}
 
 #header-alert {
   height: 50px;

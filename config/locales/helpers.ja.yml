@@ -1,0 +1,7 @@
+ja:
+  helpers:
+    label:
+      user:
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）

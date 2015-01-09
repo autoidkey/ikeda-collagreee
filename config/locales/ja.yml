@@ -54,3 +54,9 @@ ja:
       not_found: は見つかりませんでした
       not_locked: は凍結されていません
       not_saved: '%{count}個のエラーにより%{resource}を保存することができませんでした。'
+  attributes:
+    name: 名前
+    realname: 本名
+    email: メールアドレス
+    password: パスワード
+    password_confirmation: パスワード（確認）
