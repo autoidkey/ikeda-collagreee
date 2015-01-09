@@ -2,6 +2,43 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.point-table td {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.user-score {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ranking-table .rank-image {
+  font-size: 18px;
+}
+
+/* .ranking-table .rank-score { */
+/*   line-height: 40px; */
+/* } */
+
+.table.ranking-table > tbody > tr > td {
+  line-height: 40px;
+}
+
+.ranking-table td.rank-1 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.ranking-table td.rank-2 {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.ranking-table td.rank-3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .theme-image img {
   width: 80px;
   height: 60px;

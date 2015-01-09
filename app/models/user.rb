@@ -32,27 +32,27 @@ class User < ActiveRecord::Base
   USER_POINT = 'user.point'
 
   def entry_point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last.entry : 0
+    points.user_point(theme).present? ? points.user_point(theme).last.entry : 0.0
   end
 
   def reply_point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last.reply : 0
+    points.user_point(theme).present? ? points.user_point(theme).last.reply : 0.0
   end
 
   def like_point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last.like : 0
+    points.user_point(theme).present? ? points.user_point(theme).last.like : 0.0
   end
 
   def replied_point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last.replied : 0
+    points.user_point(theme).present? ? points.user_point(theme).last.replied : 0.0
   end
 
   def liked_point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last.liked : 0
+    points.user_point(theme).present? ? points.user_point(theme).last.liked : 0.0
   end
 
   def sum_point(theme)
-    points.user_point(theme).present? ? points.user_point(theme).last.sum : 0
+    points.user_point(theme).present? ? points.user_point(theme).last.sum : 0.0
   end
 
   def point(theme)
@@ -192,30 +192,30 @@ class User < ActiveRecord::Base
   def redis_entry_point(theme)
     key = [USER_POINT, id.to_s, theme.id.to_s, 'entry'].join(':')
     point = Redis.current.lrange(key, -1, -1)[0]
-    point.present? ? point.to_f : 0
+    point.present? ? point.to_f : 0.0
   end
 
   def redis_reply_point(theme)
     key = [USER_POINT, id.to_s, theme.id.to_s, 'reply'].join(':')
     point = Redis.current.lrange(key, -1, -1)[0]
-    point.present? ? point.to_f : 0
+    point.present? ? point.to_f : 0.0
   end
 
   def redis_like_point(theme)
     key = [USER_POINT, id.to_s, theme.id.to_s, 'like'].join(':')
     point = Redis.current.lrange(key, -1, -1)[0]
-    point.present? ? point.to_f : 0
+    point.present? ? point.to_f : 0.0
   end
 
   def redis_replied_point(theme)
     key = [USER_POINT, id.to_s, theme.id.to_s, 'replied'].join(':')
     point = Redis.current.lrange(key, -1, -1)[0]
-    point.present? ? point.to_f : 0
+    point.present? ? point.to_f : 0.0
   end
 
   def redis_liked_point(theme)
     key = [USER_POINT, id.to_s, theme.id.to_s, 'liked'].join(':')
     point = Redis.current.lrange(key, -1, -1)[0]
-    point.present? ? point.to_f : 0
+    point.present? ? point.to_f : 0.0
   end
 end
