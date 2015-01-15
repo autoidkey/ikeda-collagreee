@@ -12,9 +12,7 @@
 
     <div class="row">
       <div class="col-md-8">
-        <!-- <div class="well entry-panel"> -->
           <%= render 'top_form' if user_signed_in? %>
-        <!-- </div> -->
         <hr />
 
         <div class="well" id="entry_notice">
@@ -22,18 +20,7 @@
         </div>
 
         <div class="well" id="tl-tool">
-          <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
-            <%= f.radio_button :order, 'time', {:checked => true} %> 新着
-            <%= f.radio_button :order, 'popular' %> 返信数
-            <%= f.radio_button :order, 'point' %> ポイント
-
-            <% @theme.issues.each do |issue| %>
-              <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
-            <% end %>
-            <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-
-            <%= f.submit '検索', class: 'btn btn-default', id: 'search-button' %>
-          <% end %>
+          <%= render 'search_form'  %>
         </div>
 
         <div id="top-loading">
@@ -49,11 +36,13 @@
             </div>
           <% end %>
         </div>
+
         <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
         <div id="icon-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
       </div>
+
       <div class="col-md-4">
         <%= render 'theme_info' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
@@ -65,8 +54,8 @@
         <%= render 'tags' if user_signed_in? && !current_user.normal? %>
       </div>
     </div>
-
   </div>
+
   <div class="tab-pane" id="infomation">
     <div class="row">
       <div class="col-md-4">
@@ -75,13 +64,12 @@
       <div class="col-md-4">
         <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
       </div>
-
       <div class="col-md-4">
         <%#= render 'entry_ranking', entries: @entry_ranking %>
       </div>
-
     </div>
   </div>
+
   <div class="tab-pane" id="point_graph">
     <div class="row">
       <div class="col-md-6" id="user_point_graph">
@@ -96,14 +84,6 @@
   </div>
 </div>
 
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<% if user_signed_in? %>
-  <script>
-    myc3.set_ranking(<%= @theme.id %>)
-    myc3.set(<%= @theme.id %>)
-    myc3.point_history_chart(<%= @theme.id %>)
-  </script>
-<% end %>
+<%= render 'render_c3' %>
 
-<%#= javascript_include_tag '/js/check_new' %>
 <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>

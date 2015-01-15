@@ -8,6 +8,10 @@
     <%= render 'user_icon', entry: child %>
     <%= child.body %>
 
+    <% if child.image? %>
+      <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
+    <% end %>
+
     <div class="info-list">
       <% if child.np >= 50 %>
         <span class="label label-success">賛成</span>
@@ -27,10 +31,6 @@
         <%= render 'like_button', entry: child %>
       <% end %>
     </div>
-
-    <% if child.image? %>
-      <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
-    <% end %>
 
     <div class="replies">
       <% child.thread_childrens.each do |c| %>
