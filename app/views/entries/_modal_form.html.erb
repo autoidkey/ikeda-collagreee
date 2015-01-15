@@ -5,23 +5,23 @@
       <%= render 'themes/user_icon', entry: child %>
       <%= child.body %>
 
-    <div class="info-list">
-      <% if child.np >= 50 %>
-        <span class="label label-success">賛成</span>
-      <% else %>
-        <span class="label label-warning">反対</span>
+      <div class="info-list">
+        <% if child.np >= 50 %>
+          <span class="label label-success">賛成</span>
+        <% else %>
+          <span class="label label-warning">反対</span>
+        <% end %>
+        <span class="user-name">
+          <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+        </span>
+        <span class="timestamp"> [<%= child.created_at %>]</span>
+        <%= render 'themes/information', entry: child %>
+
+      </div>
+
+      <% if child.image? %>
+        <%= image_tag child.image.entry_thumb.url %>
       <% end %>
-      <span class="user-name">
-        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
-      </span>
-      <span class="timestamp"> [<%= child.created_at %>]</span>
-      <%= render 'themes/information', entry: child %>
-
-    </div>
-
-    <% if child.image? %>
-      <%= image_tag child.image.entry_thumb.url %>
-    <% end %>
     </div>
   </div>
 
@@ -39,7 +39,7 @@
   <div class="tab-content">
     <div class="tab-pane active reply-tab" id="post<%= child.id %>">
       <div>
-        <%= form_for @entry, :html => {:class => 'reply-form'}, remote: true do |f| %>
+        <%= form_for @entry_new, :html => {:class => 'reply-form'}, remote: true do |f| %>
           <div class="form-group">
             <%= f.text_area :body , class: 'form-control reply-entry-form', placeholder: 'コメントします', :data => {:id => child.id} %>
           </div>
@@ -49,7 +49,6 @@
 
           <div class="slider" id="slider-<%= child.id %>"></div>
           <%= f.hidden_field :np, { :class=> 'np-input', :id => 'np-input-' + child.id.to_s, :value => 50 } %>
-
 
           <%= f.hidden_field :user_id, { :value => current_user.id } %>
           <%= f.hidden_field :parent_id, { :value => child.id } %>
@@ -61,9 +60,8 @@
     </div>
     <% if current_user.admin? || current_user.facilitator? %>
       <div class="tab-pane facilitation-tab" id="facilitation<%= child.id %>">
-        <%= render 'themes/reply_facilitation_form', { entry: child, k: child.id } %>
+        <%= render 'reply_facilitation_form', { entry: child, k: child.id } %>
       </div>
     <% end %>
   </div>
-
 </div>

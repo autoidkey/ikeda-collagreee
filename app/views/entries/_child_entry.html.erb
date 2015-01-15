@@ -1,5 +1,5 @@
 <div class="child-content">
-  <div id="entry-<%= child.id %>" class="child">
+  <div id="entry-<%= child.id %>" class="child post-content" data-id="<%= child.id %>">
     <div class="child-points">
       <p class="points"><%= child.point %></p>
       <p class="points-text">points</p>
@@ -35,55 +35,7 @@
     <div class="replies"></div>
 
     <% if user_signed_in? %>
-      <div class="modal-window" id="reply-modal-<%= child.id %>">
-        <div class="modal_close"></div>
-        <div class="reply-modal-parent">
-          <div class="content" id="modal-window-content">
-            <%= render 'themes/user_icon', entry: child %>
-            <%= child.body %>
-
-            <div class="info-list">
-              <% if child.np >= 50 %>
-                <span class="label label-success">賛成</span>
-              <% else %>
-                <span class="label label-warning">反対</span>
-              <% end %>
-              <span class="user-name">
-                <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
-              </span>
-              <span class="timestamp"> [<%= child.created_at %>]</span>
-              <%= render 'themes/information', entry: child %>
-
-            </div>
-
-            <% if child.image? %>
-              <%= image_tag child.image.entry_thumb.url %>
-            <% end %>
-          </div>
-        </div>
-
-        <hr />
-
-        <div>
-          <%= form_for @entry_new, :html => {:class => 'reply-form'}, remote: true do |f| %>
-            <div class="form-group">
-              <%= f.text_field :body , class: 'form-control reply-entry-form', placeholder: 'コメントします', :data => {:id => child.id} %>
-            </div>
-            <div class="form-group">
-              <%= f.file_field :image %>
-            </div>
-
-            <div class="slider" id="slider-<%= child.id %>"></div>
-            <%= f.hidden_field :np, { :class=> 'np-input', :id => 'np-input-' + child.id.to_s, :value => 50 } %>
-
-            <%= f.hidden_field :user_id, { :value => current_user.id } %>
-            <%= f.hidden_field :parent_id, { :value => child.id } %>
-            <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-            <%= f.hidden_field :facilitation, { :value => false } %>
-            <%= f.submit '投稿', class: 'btn btn-default' %>
-          <% end %>
-        </div>
-      </div>
+      <%= render 'modal_form', child: child %>
     <% end %>
 
     <% child.thread_childrens.each do |c| %>

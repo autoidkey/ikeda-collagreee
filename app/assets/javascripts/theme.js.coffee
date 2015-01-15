@@ -134,7 +134,8 @@ check_new = () ->
 $(document).on 'click', '.facilitation-phrase a', (e) ->
   e.preventDefault()
   # $(@).parents('.tab-pane#discussion').find('textarea').val($(@).text())
-  $(this).parents(".entry-panel").find(".facilitation-tab").find(".new_entry").find('textarea').val($(@).text())
+  content = $(this).parents(".post-content").first()
+  content.find(".facilitation-tab#facilitation" + content.data('id')).find(".new_entry").find('textarea').val($(@).text())
 
 $(document).on 'click', '.facilitation-phrase h4', (e) ->
   $(@).next().toggle()

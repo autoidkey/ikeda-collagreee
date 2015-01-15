@@ -1,7 +1,5 @@
 <div class="panel panel-default entry-panel" id="entry-<%= entry.id %>">
   <div class="panel-body">
     <%= render 'entry', entry: entry %>
-    <hr />
-    <%= render 'reply_form', {entry: entry, i: @count} if user_signed_in? %>
   </div>
 </div>
