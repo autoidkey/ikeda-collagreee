@@ -6,14 +6,16 @@
           Web上の議論の場
         </h1>
       </div>
-      <div class="col-md-6 col-md-offset-3 hero-login">
-        <%= link_to new_user_session_path do %>
-          <span class="btn btn-default">ログイン</span>
-        <% end %>
-        <%= link_to new_user_registration_path do %>
-          <span class="btn btn-default">新規登録</span>
-        <% end %>
-      </div>
+      <% unless user_signed_in? %>
+        <div class="col-md-6 col-md-offset-3 hero-login">
+          <%= link_to new_user_session_path do %>
+            <span class="btn btn-default">ログイン</span>
+          <% end %>
+          <%= link_to new_user_registration_path do %>
+            <span class="btn btn-default">新規登録</span>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
