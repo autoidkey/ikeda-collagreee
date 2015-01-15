@@ -45,8 +45,6 @@
             <div class="panel panel-default entry-panel" data-id="<%= entry.id %>">
               <div class="panel-body">
                 <%= render 'entry', entry: entry %>
-                <hr />
-                <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
               </div>
             </div>
           <% end %>
