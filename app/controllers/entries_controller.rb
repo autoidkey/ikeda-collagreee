@@ -12,15 +12,15 @@
      @facilitations = Facilitations
      @count = @theme.entries.root.count
 
-     respond_to do |format|
-       if @entry.save
-         tags = Issue.checked(params[:issues])
-         @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
-         format.js
-       else
-         format.json { render json: 'json error' }
-       end
-     end
+     # respond_to do |format|
+     #   if @entry.save
+     #     tags = Issue.checked(params[:issues])
+     #     @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
+     #     format.js
+     #   else
+     #     format.json { render json: 'json error' }
+     #   end
+     # end
    end
 
    def render_new

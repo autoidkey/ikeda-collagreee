@@ -50,6 +50,25 @@ class ThemesController < ApplicationController
     end
   end
 
+  def create_entry
+    @entry = Entry.new
+    @new_entry = Entry.new(entry_params)
+    @theme = Theme.find(params[:id])
+
+    @facilitations = Facilitations
+    @count = @theme.entries.root.count
+
+    respond_to do |format|
+      if @new_entry.save
+        tags = Issue.checked(params[:issues])
+        @new_entry.tagging!(Issue.to_object(tags)) unless tags.empty?
+        format.js
+      else
+        format.json { render json: 'json error' }
+      end
+    end
+  end
+
   def new
     @theme = Theme.new
   end
@@ -138,4 +157,8 @@ class ThemesController < ApplicationController
   def theme_params
     params.require(:theme).permit(:title, :body, :color, :admin_id, :image)
   end
+
+  def entry_params
+     params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
+   end
 end

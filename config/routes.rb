@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'entries/np' => 'entries#np'
   post 'entries/render_new/:id' => 'entries#render_new'
   post 'entries/like' => 'entries#like'
+  post 'themes/create_entry/:id' => 'themes#create_entry'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
   get 'themes/check_new/:id' => 'themes#check_new'
