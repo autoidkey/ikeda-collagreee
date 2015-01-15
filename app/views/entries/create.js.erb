@@ -10,7 +10,6 @@ if(<%= @entry.is_root? %>) {
     point.animation();
   <% end %>
   $('#reply-modal-<%= @entry.parent.id %> .modal_close').click();
-  $('#reply-modal-<%= @entry.parent.id %> input[type=text]').val('');
 } else {
   $('#entry-<%= @entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @entry %>").hide().fadeIn('slow'));
   <% unless @entry.user == @entry.parent.user %>
@@ -18,6 +17,7 @@ if(<%= @entry.is_root? %>) {
     point.reply();
     point.animation();
   <% end %>
+  $('#reply-modal-<%= @entry.parent.id %> .modal_close').click();
 }
 
 slider.set();
