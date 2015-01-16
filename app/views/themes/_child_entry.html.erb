@@ -25,9 +25,7 @@
       <%= render 'information', entry: child %>
 
       <% if user_signed_in? %>
-        <a rel="leanModal" href="#reply-modal-<%= child.id %>">
-          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
-        </a>
+        <%= render 'reply_button', entry: child %>
         <%= render 'like_button', entry: child %>
       <% end %>
     </div>

@@ -32,9 +32,7 @@
       <%= render 'information', entry: entry %>
 
       <% if user_signed_in? %>
-        <a rel="leanModal" href="#reply-modal-<%= entry.id %>">
-          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
-        </a>
+        <%= render 'reply_button', entry: entry %>
         <%= render 'like_button', entry: entry %>
       <% end %>
 

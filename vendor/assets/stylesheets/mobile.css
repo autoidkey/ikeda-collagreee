@@ -1,9 +1,18 @@
+img.user-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.icon-margin {
+    margin-left: -40px;
+}
+
 .entry-points {
     display: none;
 }
 
 .content {
-    margin-left: 50px;
+    margin-left: 40px;
 }
 
 .child-points {
@@ -11,9 +20,10 @@
 }
 
 .child-content {
-    margin-left: 50px;
+    margin-left: 60px;
 }
 
 .replies {
-    margin-left: -50px;
+    margin-left: -60px;
+    margin-top: 20px;
 }
