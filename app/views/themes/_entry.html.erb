@@ -31,23 +31,31 @@
       <%= render 'thumb', entry: entry %>
       <%= render 'information', entry: entry %>
 
-      <% if user_signed_in? %>
+      <% if user_signed_in? && !smartphone? %>
         <%= render 'reply_button', entry: entry %>
         <%= render 'like_button', entry: entry %>
       <% end %>
-
     </div>
+
+    <% if user_signed_in? && smartphone? %>
+      <%= render 'reply_button', entry: entry %>
+      <%= render 'like_button', entry: entry %>
+    <% end %>
     <hr />
 
     <div class="children">
       <% entry.thread_entries.each do |child| %>
         <%= render 'child_entry', child: child %>
+        <% if smartphone? %>
+          <hr />
+        <% end %>
       <% end %>
     </div>
 
     <% if user_signed_in? %>
       <%= render 'modal_form', child: entry  %>
     <% end %>
+
 
   </div>
 </div>

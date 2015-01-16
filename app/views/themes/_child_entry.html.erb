@@ -24,11 +24,17 @@
       <span class="timestamp"> [<%= child.created_at %>]</span>
       <%= render 'information', entry: child %>
 
-      <% if user_signed_in? %>
+      <% if user_signed_in? && !smartphone? %>
         <%= render 'reply_button', entry: child %>
         <%= render 'like_button', entry: child %>
       <% end %>
     </div>
+
+    <% if user_signed_in? && smartphone? %>
+        <%= render 'reply_button', entry: child %>
+        <%= render 'like_button', entry: child %>
+    <% end %>
+
 
     <div class="replies">
       <% child.thread_childrens.each do |c| %>
