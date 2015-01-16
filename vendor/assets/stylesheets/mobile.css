@@ -29,6 +29,7 @@ img.user-icon {
 }
 
 .mobile .container-fluid {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 0;
 }
