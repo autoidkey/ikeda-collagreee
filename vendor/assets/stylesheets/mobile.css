@@ -27,3 +27,8 @@ img.user-icon {
     margin-left: -40px;
     margin-top: 20px;
 }
+
+.mobile .container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
