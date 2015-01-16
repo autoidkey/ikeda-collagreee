@@ -4,7 +4,7 @@
 Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile +=
-  ['pnotify.custom.min.js', 'no_point_function.css']
+  ['pnotify.custom.min.js', 'no_point_function.css', 'mobile.css']
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.

@@ -21,6 +21,32 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+/* Mobile */
+.modal-window.modal-window-mobile {
+}
+
+.mobile .modal-window {
+  width: 90%;
+	padding: 30px 15px;
+}
+
+.mobile .navbar-brand {
+  width: 80%;
+}
+
+.mobile .navbar-brand img {
+  width: 100%;
+}
+
+.mobile .navbar-toggle {
+  color: white;
+  padding: 5px;
+}
+
+.mobile .nav-user-icon {
+  display: none;
+}
+
 .padding {
   padding: 0 40px;
 }
@@ -71,11 +97,6 @@ img.user-icon {
 	display: none;
 	padding: 30px;
 	width: 780px;
-}
-
-.modal-window.modal-window-mobile {
-  width: 90%;
-	padding: 30px 15px;
 }
 
 .modal_close {

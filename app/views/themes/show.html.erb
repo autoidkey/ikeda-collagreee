@@ -2,7 +2,11 @@
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
   <% if user_signed_in? %>
-    <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
+    <% unless smartphone? %>
+      <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
+    <% else %>
+      <li><a href="#get-point" role="tab" data-toggle="tab">獲得ポイント</a></li>
+    <% end %>
   <% end %>
 </ul>
 
@@ -12,7 +16,7 @@
 
     <div class="row">
       <div class="col-md-8">
-          <%= render 'top_form' if user_signed_in? %>
+        <%= render 'top_form' if user_signed_in? %>
         <hr />
 
         <div class="well" id="entry_notice">
@@ -66,20 +70,34 @@
     </div>
   </div>
 
-  <div class="tab-pane" id="point_graph">
-    <div class="row">
-      <div class="col-md-6" id="user_point_graph">
-        <h3>あなたのポイント獲得履歴</h3>
-        <div class="" id="chart"></div>
-        <h3>あなたのポイント獲得履歴</h3>
-        <div class="" id="point-history-chart"></div>
-        <h3>ユーザポイントランキング</h3>
-        <div class="" id="ranking-chart"></div>
+  <% if user_signed_in? %>
+    <% unless smartphone? %>
+      <div class="tab-pane" id="point_graph">
+        <div class="row">
+          <div class="col-md-6" id="user_point_graph">
+            <h3>あなたのポイント獲得履歴</h3>
+            <div class="" id="chart"></div>
+            <h3>あなたのポイント獲得履歴</h3>
+            <div class="" id="point-history-chart"></div>
+            <h3>ユーザポイントランキング</h3>
+            <div class="" id="ranking-chart"></div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    <% else %>
+      <div class="tab-pane" id="get-point">
+        <div class="row">
+          <div class="col-md-6">
+            <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
 </div>
 
 <%= render 'render_c3' %>
 
 <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'mobile.css' if smartphone? %>
