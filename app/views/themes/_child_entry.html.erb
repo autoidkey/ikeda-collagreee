@@ -31,8 +31,10 @@
     </div>
 
     <% if user_signed_in? && smartphone? %>
+      <div class="buttons">
         <%= render 'reply_button', entry: child %>
         <%= render 'like_button', entry: child %>
+      </div>
     <% end %>
 
 

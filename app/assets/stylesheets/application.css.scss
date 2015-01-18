@@ -26,8 +26,14 @@
 }
 
 .mobile .modal-window {
+  overflow: scroll;   /* スクロール表示 */
+  max-height: 80%;
   width: 90%;
 	padding: 30px 15px;
+}
+
+.mobile .buttons {
+  text-align: right;
 }
 
 .mobile .navbar-brand {

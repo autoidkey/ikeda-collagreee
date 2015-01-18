@@ -38,8 +38,10 @@
     </div>
 
     <% if user_signed_in? && smartphone? %>
-      <%= render 'reply_button', entry: entry %>
-      <%= render 'like_button', entry: entry %>
+      <div class="buttons">
+        <%= render 'reply_button', entry: entry %>
+        <%= render 'like_button', entry: entry %>
+      </div>
     <% end %>
     <hr />
 
