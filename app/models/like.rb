@@ -20,7 +20,7 @@ class Like < ActiveRecord::Base
   end
 
   def self.logging_destroy(like)
-    PointHistory.destroy_like_point(like) unless like.
+    PointHistory.destroy_like_point(like)
   end
 
   def self.logging_like_point(like)
