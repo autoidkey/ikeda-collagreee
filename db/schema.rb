@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104145321) do
+ActiveRecord::Schema.define(version: 20150118073107) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -176,26 +176,26 @@ ActiveRecord::Schema.define(version: 20150104145321) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "realname",                              null: false
+    t.string   "realname",                            null: false
     t.integer  "role",                   default: 2
-    t.string   "name",                                  null: false
+    t.string   "name",                                null: false
     t.integer  "gender"
     t.integer  "age"
-    t.string   "home"
-    t.string   "move"
-    t.boolean  "remind",                 default: true
+    t.integer  "home",                   default: 0
+    t.integer  "move",                   default: 0
+    t.integer  "remind",                 default: 0
     t.integer  "mail_format",            default: 0
     t.string   "image"
   end

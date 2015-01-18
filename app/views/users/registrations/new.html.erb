@@ -45,10 +45,10 @@
         <%= f.select :remind, User.reminds.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :mail_format, 'メール形式：' %>
-        <%= f.select :mail_format, User.mail_formats.keys.to_a, {}, { class: "form-control" } %>
-      </div>
+      <!-- <div class="form-group"> -->
+      <!--   <%= f.label :mail_format, 'メール形式：' %> -->
+      <!--   <%= f.select :mail_format, User.mail_formats.keys.to_a, {}, { class: "form-control" } %> -->
+      <!-- </div> -->
 
       <div class="form-group">
         <label for="user_image">アイコン：</label>
