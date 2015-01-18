@@ -98,7 +98,7 @@ class PointHistory < ActiveRecord::Base
     depth = 0
 
     loop {
-      unless entry.mine?(like.user) && depth == 0
+      unless entry.mine?(like.user) && depth == 0 && !entry.facilitation?
         params = {
           like_id: like.id,
           entry_id: entry.id,
