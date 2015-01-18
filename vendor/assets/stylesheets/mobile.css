@@ -37,3 +37,11 @@ img.user-icon {
     margin-left: -10px;
     margin-right: -10px;
 }
+
+.mobile #entry_title {
+    height: 30px;
+}
+
+.mobile #entry_body {
+    height: 150px;
+}
