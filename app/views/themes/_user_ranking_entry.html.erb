@@ -28,7 +28,7 @@
             </td>
             <td class="rank-score">
               <span class="user-score">
-                <%= user.entries.where(theme_id: theme).count %>
+                <%= user.entries.where(theme_id: theme, facilitation: false).count %>
               </span>
               件</td>
           </tr>
