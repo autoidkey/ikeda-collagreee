@@ -1,4 +1,3 @@
-<h5>ポイント機能なし</h5>
 <!-- Tab panes -->
 <div class="tab-content" id="theme-show">
   <div class="tab-pane active" id="discussion">
@@ -37,8 +36,6 @@
             <div class="panel panel-default entry-panel" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
               <div class="panel-body">
                 <%= render 'entry', entry: entry %>
-                <hr />
-                <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
               </div>
             </div>
           <% end %>
