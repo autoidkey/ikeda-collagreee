@@ -11,6 +11,7 @@ class Like < ActiveRecord::Base
 
   scope :liked_user, ->(user, entry) { where(user_id: user, entry_id: entry, status: 1) }
   scope :all_likes, ->(entry) { where(entry_id: entry, status: 1) }
+  scope :status_on, ->() { where(status: 1) }
 
   # after_save :logging_like_point, :logging_liked_point
 

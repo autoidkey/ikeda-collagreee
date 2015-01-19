@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     @data = [
       ['投稿', @entries.root.count],
       ['返信', @entries.where.not(parent_id: nil).count],
-      ['賛同', @user.likes.count]
+      ['賛同', @user.likes.status_on.count]
     ]
   end
 
