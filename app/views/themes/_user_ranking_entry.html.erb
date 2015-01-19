@@ -18,11 +18,11 @@
             <td class="rank rank-<%= idx + 1%>" id=""><%= idx + 1 %></td>
             <td class="rank-image">
               <%= link_to (image_tag user_icon_path(user),
-                           class: 'user-icon img-circle',
+                           class: 'user-icon img-circle set-popover',
                            data: {
                              toggle: "popover",
                              placement: "right",
-                             content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.count.to_s + '件'
+                             content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + '件'
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>

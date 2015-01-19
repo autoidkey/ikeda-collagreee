@@ -9,7 +9,7 @@
                             data: {
                               toggle: "popover",
                               placement: "bottom",
-                              content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.count.to_s + '件'
+                              content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + '件'
                             }
                             ), '/users/' + user.id.to_s %>
     <% end %>
