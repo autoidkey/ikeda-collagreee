@@ -15,11 +15,11 @@ class PointHistory < ActiveRecord::Base
   scope :user_point, ->(user, atype, action, theme) { where(user_id: user, atype: atype, action: action, theme_id: theme) }
   scope :point_history, ->(user, theme) { where(user_id: user, theme_id: theme).order('updated_at DESC') }
 
-  ENTRY_POINT = 10.00
-  REPLY_POINT = 10.00
-  LIKE_POINT = 10.00
-  REPLIED_POINT = 10.00
-  LIKED_POINT = 10.00
+  ENTRY_POINT = 30.00
+  REPLY_POINT = 20.00
+  LIKE_POINT = 5.00
+  REPLIED_POINT = 15.00
+  LIKED_POINT = 5.00
 
   def self.save_active_point(entry, point, action)
     case action
@@ -151,7 +151,6 @@ class PointHistory < ActiveRecord::Base
     when 'Likeされ'
       Notice.like!(point_history) if point_history.depth == 0
     end
-    binding.pry
     PointHistory.delay.sending_notice(point_history)
   end
 

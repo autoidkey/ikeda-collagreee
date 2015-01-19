@@ -2,12 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-ENTRY_POINT = 10.00
-REPLY_POINT = 10.00
-LIKE_POINT = 10.00
-UNLIKE_POINT = -10.00
-REPLIED_POINT = 10.00
-LIKED_POINT = 10.00
+ENTRY_POINT = 30.00
+REPLY_POINT = 20.00
+LIKE_POINT = 5.00
+UNLIKE_POINT = -5.00
+REPLIED_POINT = 15.00
+LIKED_POINT = 5.00
 
 class @PointCount
   entry: (theme) ->
