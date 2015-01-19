@@ -43,7 +43,7 @@ class ThemesController < ApplicationController
       @entries = @theme.sort_by_points(params[:search_entry][:issues])
     end
 
-    @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(20)
+    @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
 
     respond_to do |format|
       format.js

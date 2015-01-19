@@ -1,8 +1,10 @@
 <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
+【並び替え】
   <%= f.radio_button :order, 'time', {:checked => true} %> 新着
-  <%= f.radio_button :order, 'popular' %> 返信数
+  <!-- <%= f.radio_button :order, 'popular' %> 返信数 -->
   <%= f.radio_button :order, 'point' %> ポイント
 
+【絞り込み】
   <% @theme.issues.each do |issue| %>
     <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
   <% end %>

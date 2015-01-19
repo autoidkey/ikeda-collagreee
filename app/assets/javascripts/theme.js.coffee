@@ -79,7 +79,6 @@ change_point = (target, count, base_point) ->
     change_point(obj, count, base_point)
 
 render_new = (data, theme_id) ->
-  console.log 'rendering...'
   render_url = '/entries/render_new/'
   delete_url = '/users/delete_notice?theme_id=' + theme_id
 
@@ -93,8 +92,6 @@ render_new = (data, theme_id) ->
 
 reply_notice = (reply, theme_id) ->
   read_reply_url = '/users/read_reply_notice?theme_id=' + theme_id
-  console.log 'reply notify!'
-
   $.each reply, ->
     new PNotify(
       title: "返信されました No." + this.notice.id
@@ -104,7 +101,6 @@ reply_notice = (reply, theme_id) ->
   $.post read_reply_url
 
 like_notice = (like, theme_id) ->
-  console.log 'like notify!'
   read_like_url = '/users/read_like_notice?theme_id=' + theme_id
 
   $.each like, ->
@@ -122,7 +118,6 @@ check_new = () ->
   setTimeout(
       (=>
         $.get url, (data)->
-          console.log data
           render_new(data, theme_id) if data.entry.length > 0
           reply_notice(data.reply, theme_id) if data.reply.length > 0
           like_notice(data.like, theme_id) if data.like.length > 0
