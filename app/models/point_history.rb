@@ -155,12 +155,21 @@ class PointHistory < ActiveRecord::Base
   end
 
   def self.sending_notice(point_history)
-    if point_history.theme.point_function && point_history.user.remind == 'お知らせメールを受け取る'
-      case point_history.action
-      when '返信され'
-        NoticeMailer.reply_notice(point_history).deliver
-      when 'Likeされ'
-        NoticeMailer.like_notice(point_history).deliver if point_history.depth == 0
+    if point_history.user.remind == 'お知らせメールを受け取る'
+      if point_history.theme.point_function
+        case point_history.action
+        when '返信され'
+          NoticeMailer.reply_notice(point_history).deliver
+        when 'Likeされ'
+          NoticeMailer.like_notice(point_history).deliver if point_history.depth == 0
+        end
+      else
+        case point_history.action
+        when '返信され'
+          NoticeMailer.reply_notice_no_point(point_history).deliver
+        when 'Likeされ'
+          NoticeMailer.like_notice_no_point(point_history).deliver if point_history.depth == 0
+        end
       end
     end
   end

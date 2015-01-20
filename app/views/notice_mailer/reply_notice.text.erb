@@ -1,3 +1,8 @@
-NoticeMailer#reply_notice
+返信ポイント<%= "%.1f" % @point %>pt 獲得！
 
-<%= @greeting %>, find me in app/views/notice_mailer/reply_notice.text.erb
+あなたの投稿「<%= cut_off(@entry.body, 20) %>」が<%= @from.name %>さんに返信されました。
+
+【返信内容】
+<%= @reply.body %>
+
+collagree / http://www.collagree.com
