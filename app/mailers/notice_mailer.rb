@@ -7,10 +7,11 @@ class NoticeMailer < ActionMailer::Base
   #
   #   en.notice_mailer.entry_notice.subject
   #
-  def facilitation_notice
-    @greeting = 'Hi'
+  def facilitation_notice(facilitation, user)
+    @entry = facilitation
+    @to = user
 
-    mail to: 'imi.yuma@itolab.nitech.ac.jp'
+    mail to: @to.email, subject: '[COLLAGREE] 参加テーマにファシリテータからの投稿がありました！'
   end
 
   def reply_notice(point_history)

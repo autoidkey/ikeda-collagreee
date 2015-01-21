@@ -23,7 +23,7 @@ class Entry < ActiveRecord::Base
 
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
-  after_save :notice_entry, if: :is_root?
+  after_save :notice_entry, :notice_facilitation, if: :is_root?
 
   NP_THRESHOLD = 50
 
@@ -104,6 +104,18 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  def notice_facilitation
+    if facilitation?
+      theme.joins.each do |join|
+        Entry.delay.sending_facilitation_notice(self, join)
+      end
+    end
+  end
+
+  def self.sending_facilitation_notice(entry, join)
+    NoticeMailer.facilitation_notice(entry, join.user).deliver
+  end
+
   def point
     PointHistory.entry_point(self).present? ? PointHistory.entry_point(self).inject(0) { |sum, history| sum + history.point } : 0
   end
@@ -140,6 +152,10 @@ class Entry < ActiveRecord::Base
   # def parent?
   #   parent_id.nil?
   # end
+
+  def facilitation?
+    facilitation
+  end
 
   def is_root?
     parent_id.nil?
