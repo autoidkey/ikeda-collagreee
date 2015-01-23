@@ -28,6 +28,8 @@
         <%= render 'reply_button', entry: child %>
         <%= render 'like_button', entry: child %>
       <% end %>
+
+      <span class="entry-number">投稿No.<%= child.id %></span>
     </div>
 
     <% if user_signed_in? && smartphone? %>
