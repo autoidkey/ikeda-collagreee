@@ -2,6 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.actions {
+  text-align: right;
+  margin-top: 5px;
+
+  a {
+    color: #8899a6;
+
+    &:hover {
+      color: #3498db;
+      text-decoration: none;
+    }
+  }
+
+  .like_button {
+    color: #8899a6;
+    cursor: pocurinter;
+
+    &:hover {
+      color: #3498db;
+      text-decoration: none;
+    }
+  }
+}
+
 .img-radius {
   border-radius: 4px;
   width: 75px;
@@ -30,6 +54,9 @@
 
 .content {
   margin-left: 115px;
+  hr {
+    margin: 5px 0;
+  }
 }
 
 .icon-margin {
@@ -37,16 +64,18 @@
   float: left;
 }
 
-.entry-box .user-name {
-  font-weight: bold;
-  font-size: 16px;
+.entry-box {
+  .user-name {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .timestamp {
+    color: #8899a6;
+    font-size: 14px;
+    margin-right: 10px;
+  }
 }
 
-.entry-box .timestamp {
-  color: #8899a6;
-  font-size: 14px;
-  margin-right: 10px;
-}
 
 .entry-box .info-list {
   color: #8899a6;
@@ -54,7 +83,7 @@
 }
 
 .entry-box .info-list .glyphicon {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 }
 
@@ -98,6 +127,7 @@
 
 .child-content {
   margin-left: 100px;
+  margin-bottom: 25px;
 }
 
 .child-points {
@@ -115,8 +145,21 @@
   font-weight: normal;
 }
 
+.child-content {
+  .thumb-box {
+    float: left;
+    margin-left: -47px;
+    margin-top: 43px;
+  }
+
+  hr {
+    border-top: 1px dotted #eeeeee;
+  }
+}
+
 .replies {
   margin-left: -47px;
+  padding-top: 10px;
 }
 
 #modal-window-content {

@@ -6,31 +6,37 @@
     </div>
 
     <%= render 'user_icon', entry: child %>
+
+    <% if child.np >= 50 %>
+      <span class="label label-success thumb-box">賛成</span>
+    <% else %>
+      <span class="label label-warning thumb-box">反対</span>
+    <% end %>
+
     <%= simple_format(child.body) %>
+
 
     <% if child.image? %>
       <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
     <% end %>
 
     <div class="info-list">
-      <% if child.np >= 50 %>
-        <span class="label label-success">賛成</span>
-      <% else %>
-        <span class="label label-warning">反対</span>
-      <% end %>
       <span class="user-name">
-        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+        <%= child.facilitation ? "ファシリテータ" : child.user.name %>
       </span>
-      <span class="timestamp"> [<%= child.created_at %>]</span>
+      <span class="timestamp">・<%= child.created_at.to_s(:timeline) %></span>
       <%= render 'information', entry: child %>
-
-      <% if user_signed_in? && !smartphone? %>
-        <%= render 'reply_button', entry: child %>
-        <%= render 'like_button', entry: child %>
-      <% end %>
 
       <span class="entry-number">投稿No.<%= child.id %></span>
     </div>
+
+    <% if user_signed_in? && !smartphone? %>
+      <div class="actions">
+        <%= render 'reply_button', entry: child %>
+        <%= render 'like_button', entry: child %>
+      </div>
+    <% end %>
+    <hr />
 
     <% if user_signed_in? && smartphone? %>
       <div class="buttons">

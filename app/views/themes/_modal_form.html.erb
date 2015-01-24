@@ -3,7 +3,7 @@
   <div class="reply-modal-parent">
     <div class="content" id="modal-window-content">
       <%= render 'themes/user_icon', entry: child %>
-      <%= child.body %>
+      <%= simple_format(child.body) %>
 
     <div class="info-list">
       <% if child.np >= 50 %>
@@ -14,7 +14,7 @@
       <span class="user-name">
         <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
       </span>
-      <span class="timestamp"> [<%= child.created_at %>]</span>
+      <span class="timestamp">・<%= child.created_at.to_s(:timeline) %></span>
       <%= render 'themes/information', entry: child %>
     </div>
 

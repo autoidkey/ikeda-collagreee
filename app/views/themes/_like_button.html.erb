@@ -1,7 +1,9 @@
 <% unless entry.mine?(current_user) %>
   <% if entry.liked?(current_user) %>
-    <%= button_tag "Like!を取り消す", data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
+    <span class="like_button" data-id="<%= entry.id %>" data-status="remove">・なるほど！を取り消す</span>
+    <%#= button_tag "Like!を取り消す", data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
   <% else %>
-    <%= button_tag "Like!", data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
+    <span class="like_button" data-id="<%= entry.id %>" data-status="attach">・なるほど！</span>
+    <%#= button_tag "Like!", data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
   <% end %>
 <% end %>
