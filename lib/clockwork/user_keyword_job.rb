@@ -8,6 +8,9 @@ class UserKeywordJob
       user.joins.each do |join|
         unless user.joins.blank?
           p user
+          p user.joins
+          p user.join.theme
+          p user.join.entries
           entries = join.theme.entries.where(user_id: user)
           replies = entries.map(&:parent)
           likes = Like.where(user_id: user, theme_id: join.theme.id).map(&:entry)
