@@ -1,4 +1,3 @@
-# theme内のエントリーに出現する単語のtfidf
 class UserKeywordJob
   include Bm25
 
@@ -7,6 +6,8 @@ class UserKeywordJob
       user.keywords.delete_all
 
       user.joins.each do |join|
+        next if user.joins.black?
+
         entries = join.theme.entries.where(user_id: user)
         replies = entries.map(&:parent)
         likes = Like.where(user_id: user, theme_id: join.theme.id).map(&:entry)

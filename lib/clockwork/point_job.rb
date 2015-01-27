@@ -3,6 +3,8 @@ class PointJob
     User.all.each do |user|
       Point.where(user_id: user, latest: true).each { |p| p.update(latest: false) }
       user.joins.each do |join|
+        next if user.joins.black?
+
         theme = join.theme
         params = {
           theme_id: theme.id,

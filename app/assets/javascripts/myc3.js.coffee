@@ -103,14 +103,6 @@ class @C3
         #     ]
         # ]
         type: "donut"
-        # onclick: (d, i) ->
-        #   console.log "onclick", d, i
-
-        # onmouseover: (d, i) ->
-        #   console.log "onmouseover", d, i
-
-        # onmouseout: (d, i) ->
-        #   console.log "onmouseout", d, i
 
       donut:
         title: user_name + "さんの活動割合"
