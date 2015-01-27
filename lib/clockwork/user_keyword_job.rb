@@ -6,7 +6,7 @@ class UserKeywordJob
       user.keywords.delete_all
 
       user.joins.each do |join|
-        next if user.joins.black?
+        next if user.joins.blank?
 
         entries = join.theme.entries.where(user_id: user)
         replies = entries.map(&:parent)
