@@ -1,13 +1,10 @@
 class NoticeMailer < ActionMailer::Base
   add_template_helper(ApplicationHelper)
   default from: 'from@example.com'
+  SERVER_URL = 'http://collagree.com/'
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.notice_mailer.entry_notice.subject
-  #
   def facilitation_notice(facilitation, user)
+    @url = SERVER_URL + 'themes/' + @entry.theme.id.to_s
     @entry = facilitation
     @to = user
 
@@ -15,6 +12,7 @@ class NoticeMailer < ActionMailer::Base
   end
 
   def reply_notice(point_history)
+    @url = SERVER_URL + 'themes/' + @entry.theme.id.to_s
     @entry = point_history.entry
     @reply = point_history.reply
     @point = point_history.point
@@ -25,6 +23,7 @@ class NoticeMailer < ActionMailer::Base
   end
 
   def like_notice(point_history)
+    @url = SERVER_URL + 'themes/' + @entry.theme.id.to_s
     @from = point_history.like.user
     @to = point_history.user
     @entry = point_history.entry
@@ -34,6 +33,7 @@ class NoticeMailer < ActionMailer::Base
   end
 
   def reply_notice_no_point(point_history)
+    @url = SERVER_URL + 'themes/' + @entry.theme.id.to_s
     @entry = point_history.entry
     @reply = point_history.reply
     @point = point_history.point
@@ -44,6 +44,7 @@ class NoticeMailer < ActionMailer::Base
   end
 
   def like_notice_no_point(point_history)
+    @url = SERVER_URL + 'themes/' + @entry.theme.id.to_s
     @from = point_history.like.user
     @to = point_history.user
     @entry = point_history.entry
