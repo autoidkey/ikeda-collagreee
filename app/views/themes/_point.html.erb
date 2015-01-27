@@ -63,17 +63,17 @@
                 <% when "返信" %>
                 <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry.id %>)
                 <% when "Like" %>
-                <%= ap.entry.user.name %>さんの投稿にLikeしました (Like No.<%= ap.like.id %>)
+                <%= ap.entry.user.name %>さんの投稿にいいね！しました (Like No.<%= ap.like.id %>)
                 <% when "返信され" %>
                 <%= ap.reply.user.name if ap.reply.present? %>さんに返信されました (投稿 No.<%= ap.entry.id %>)
                 <% when "Likeされ" %>
                 <% if ap.depth == 0 %>
-                  投稿(No.<%= ap.entry.id %>)が<%= ap.like.user.name %>さんに賛同されました (Agree No.<%= ap.like.id %>)
+                  投稿(No.<%= ap.entry.id %>)が<%= ap.like.user.name %>さんにいいね！されました (Agree No.<%= ap.like.id %>)
                 <% else %>
-                  投稿(No.<%= ap.entry.id %>)に関連する投稿が<%= ap.like.user.name %>さんに賛同されました (Agree No.<%= ap.like.id %>)
+                  投稿(No.<%= ap.entry.id %>)に関連する投稿が<%= ap.like.user.name %>さんにいいね！されました (Agree No.<%= ap.like.id %>)
                 <% end %>
                 <% when "Likeを削除され" %>
-                投稿(No.<%= ap.entry.id %>)への<%= ap.like.user.name %>さんのLikeが削除されました (Like No.<%= ap.like.id %>)
+                投稿(No.<%= ap.entry.id %>)への<%= ap.like.user.name %>さんのいいね！が削除されました (Like No.<%= ap.like.id %>)
           <% end %>
 </td>
 </tr>
