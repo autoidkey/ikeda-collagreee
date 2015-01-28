@@ -1,3 +1,19 @@
+<% if current_user.admin? %>
+<div class="btn-group btn-group-justified" role="group" aria-label="">
+  <div class="btn-group" role="group">
+    <%= link_to @theme do %>
+    <button type="button" class="btn btn-default">通常閲覧モード</button>
+    <% end %>
+  </div>
+  <div class="btn-group" role="group">
+    <%= link_to '/themes/only_timeline/' + @theme.id.to_s do %>
+      <button type="button" class="btn btn-default">スライド表示モード</button>
+    <% end %>
+  </div>
+</div>
+<br />
+<% end %>
+
 <ul class="nav nav-pills nav-collagree" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>

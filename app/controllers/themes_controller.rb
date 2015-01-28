@@ -2,8 +2,8 @@ class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
   before_action :set_theme, only: %i(point_graph, user_point_ranking)
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: %i(show)
-  load_and_authorize_resource
+  before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
+    load_and_authorize_resource
 
   include Bm25
 
@@ -27,6 +27,16 @@ class ThemesController < ApplicationController
     current_user.delete_notice(@theme) if user_signed_in?
 
     render 'show_no_point' unless @theme.point_function
+  end
+
+  def only_timeline
+    @entry = Entry.new
+    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
+    @other_themes = Theme.others(@theme.id)
+    @facilitations = Facilitations
+    @theme.join!(current_user) if user_join?
+    current_user.delete_notice(@theme) if user_signed_in?
   end
 
   def search_entry

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'themes/:id/point_graph' => 'themes#point_graph'
   get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'
   get 'themes/:id/json_user_point' => 'themes#json_user_point'
+  get 'themes/only_timeline/:id' => 'themes#only_timeline'
 
   # api
   get 'users/:id' =>  'users#show'

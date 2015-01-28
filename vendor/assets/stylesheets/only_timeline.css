@@ -1,0 +1,14 @@
+span.entry-title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+div.entry-body {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+div.child-body {
+    font-size: 25px;
+    font-weight: bold;
+}

@@ -1,1 +1,0 @@
-13@yuma-imi-no-MacBook-Pro.local.10485
