@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'
   get 'themes/:id/json_user_point' => 'themes#json_user_point'
   get 'themes/only_timeline/:id' => 'themes#only_timeline'
+  post 'themes/render_new/:id' => 'themes#render_new'
 
   # api
   get 'users/:id' =>  'users#show'

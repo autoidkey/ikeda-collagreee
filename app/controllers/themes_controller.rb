@@ -79,6 +79,19 @@ class ThemesController < ApplicationController
     end
   end
 
+  def render_new
+    @new_entry = Entry.find(params[:entry_id])
+    @entry = Entry.new
+
+    @theme = Theme.find(params[:id])
+    @facilitations = Facilitations
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
   def new
     @theme = Theme.new
   end

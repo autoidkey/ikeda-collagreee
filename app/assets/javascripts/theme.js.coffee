@@ -79,13 +79,13 @@ change_point = (target, count, base_point) ->
     change_point(obj, count, base_point)
 
 render_new = (data, theme_id) ->
-  render_url = '/entries/render_new/'
+  render_url = '/themes/render_new/'
   delete_url = '/users/delete_notice?theme_id=' + theme_id
 
   $('#entry_notice').css 'display', 'block'
   $('#entry_notice_count').text data.entry.length
   $.each data.entry, ->
-    $.post render_url + this.entry_id + '?theme_id=' + theme_id
+    $.post render_url + theme_id + '?entry_id=' + this.entry_id
   $.post delete_url
   $('#entry_notice').css 'display', 'none'
   $('#entry_notice_count').text 0
