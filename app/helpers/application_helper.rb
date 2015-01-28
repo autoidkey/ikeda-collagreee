@@ -1,6 +1,7 @@
 module ApplicationHelper
   def user_icon_path(user)
-    user.image? ? user.image_url(:user_thumb) : 'people_icon.png'
+    # user.image? ? user.image_url(:user_thumb) : 'people_icon.png'
+    user.image? ? user.image_url(:user_thumb) : gravatar_icon(user)
   end
 
   def user_admin?(user)
@@ -17,6 +18,12 @@ module ApplicationHelper
     else
       ''
     end
+  end
+
+  def gravatar_icon(user)
+    email_hash = Digest::MD5.hexdigest(user.email).downcase
+    identicon = '?d=identicon&s=40'
+    'http://gravatar.com/avatar/' + email_hash + identicon
   end
 
   def smartphone?
