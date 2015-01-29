@@ -21,11 +21,10 @@ module ApplicationHelper
   end
 
   def gravatar_icon(user)
-    if user_signed_in?
-      email_hash = Digest::MD5.hexdigest(user.email).downcase
-      identicon = '?d=identicon&s=40'
-      'http://gravatar.com/avatar/' + email_hash + identicon
-    end
+    email = user.present? ? user.email : 'guest'
+    email_hash = Digest::MD5.hexdigest(email).downcase
+    identicon = '?d=identicon&s=40'
+    'http://gravatar.com/avatar/' + email_hash + identicon
   end
 
   def smartphone?
