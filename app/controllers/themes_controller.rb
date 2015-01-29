@@ -1,7 +1,7 @@
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
   include ApplicationHelper
-  before_action :set_theme, only: %i(point_graph, user_point_ranking)
+  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
     load_and_authorize_resource
@@ -39,6 +39,11 @@ class ThemesController < ApplicationController
     @facilitations = Facilitations
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
+  end
+
+  def check_new_message_2015_1
+    @entry = @theme.entries.first
+    render 'check_new_message_2015_1', formats: [:json], handlers: [:jbuilder]
   end
 
   def search_entry
