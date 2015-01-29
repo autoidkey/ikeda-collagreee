@@ -18,7 +18,8 @@ init_timer = (e) ->
   )
 
 content_change = (e) =>
-  data = {text: (e.target || e.srcElement).value, entry_id: (e.target || e.srcElement).dataset.id}
+  target = e.target || e.srcElement
+  data = {text: target.value, entry_id: $(target).data('id')}
   url = "/entries/np"
   $.post(url, data, (
     (json) =>
