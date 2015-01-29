@@ -37,6 +37,8 @@ class Ability
       can :check_new_message_2015_1, Theme
     else                        # guest
       can :read, Theme
+      can :check_new, Theme
+      can :render_new, Theme
       can :search_entry, Theme
       can :check_new_message_2015_1, Theme
     end
