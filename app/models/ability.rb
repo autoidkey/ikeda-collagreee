@@ -13,6 +13,7 @@ class Ability
       can :create, Entry
       can :np, Entry
       can :render_new, Entry
+      can :render_new, Theme
       can :search_entry, Theme
       can :check_new, Theme
       can :point_graph, Theme
@@ -26,6 +27,7 @@ class Ability
       can :like, Entry
       can :np, Entry
       can :render_new, Entry
+      can :render_new, Theme
       can :search_entry, Theme
       can :check_new, Theme
       can :point_graph, Theme
