@@ -42,7 +42,7 @@ class ThemesController < ApplicationController
   end
 
   def check_new_message_2015_1
-    @entry = @theme.entries.first
+    @entry = @theme.entries.latest.first
     render 'check_new_message_2015_1', formats: [:json], handlers: [:jbuilder]
   end
 
