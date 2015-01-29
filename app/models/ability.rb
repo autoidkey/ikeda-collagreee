@@ -19,6 +19,7 @@ class Ability
       can :user_point_ranking, Theme
       can :json_user_point, Theme
       can :create_entry, Theme
+      can :check_new_message_2015_1, Theme
     when 'normal'
       can :read, Theme
       can :create, Entry
@@ -31,9 +32,11 @@ class Ability
       can :user_point_ranking, Theme
       can :json_user_point, Theme
       can :create_entry, Theme
+      can :check_new_message_2015_1, Theme
     else                        # guest
       can :read, Theme
       can :search_entry, Theme
+      can :check_new_message_2015_1, Theme
     end
   end
 end
