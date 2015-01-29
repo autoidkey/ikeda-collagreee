@@ -18,9 +18,7 @@
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
   <% if user_signed_in? %>
-    <% unless smartphone? %>
-      <li><a href="#point_graph" role="tab" data-toggle="tab">ポイントグラフ</a></li>
-    <% else %>
+    <% if smartphone? %>
       <li><a href="#get-point" role="tab" data-toggle="tab">獲得ポイント</a></li>
     <% end %>
   <% end %>

@@ -3,13 +3,18 @@
   <div class="panel-body">
     <!-- パーシャル使えないか -->
     <div class="theme-image">
-      <% if theme.image? %>
-        <%= image_tag theme.image.user_thumb.url %>
-      <% else %>
-        <%= image_tag 'noimage.gif' %>
-      <% end %>
-      <%= theme.color %>
-      <%= theme.body %>
+      <div class="row">
+        <div class="col-md-1">
+          <% if theme.image? %>
+            <%= image_tag theme.image.user_thumb.url %>
+          <% else %>
+            <%= image_tag 'noimage.gif' %>
+          <% end %>
+        </div>
+        <div class="col-md-11">
+          <%= theme.body %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
