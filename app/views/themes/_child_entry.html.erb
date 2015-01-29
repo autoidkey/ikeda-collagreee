@@ -14,7 +14,7 @@
     <% end %>
 
     <div class="child-body">
-      <%= simple_format(child.body) %>
+      <%= simple_format(child.body) %> (No.<%= child.id %>)
     </div>
 
     <% if child.image? %>

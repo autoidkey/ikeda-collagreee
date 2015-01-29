@@ -8,7 +8,9 @@
 
     <%= render 'user_icon', entry: entry %>
 
-    <div class="entry-body"><%= simple_format(entry.body) %></div>
+    <div class="entry-body">
+      <%= simple_format(entry.body) %> (No.<%= entry.id %>)
+    </div>
 
     <% entry.issues.each do |issue| %>
       <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
