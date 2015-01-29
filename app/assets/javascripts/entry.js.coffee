@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 # For NP calculate
+
+e = window.event if !e
+
 INTERVAL = 400
 timeout = 0
 
@@ -15,7 +18,7 @@ init_timer = (e) ->
   )
 
 content_change = (e) =>
-  data = {text: e.target.value, entry_id: e.target.dataset.id}
+  data = {text: (e.target || e.srcElement).value, entry_id: (e.target || e.srcElement).dataset.id}
   url = "/entries/np"
   $.post(url, data, (
     (json) =>
