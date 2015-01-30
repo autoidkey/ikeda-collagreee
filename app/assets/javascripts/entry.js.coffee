@@ -30,7 +30,7 @@ content_change = (e) =>
     )
 
 # event binding
-$(document).on 'keyup blur', '.reply-entry-form', (e) ->
+$(document).on 'keyup', '.reply-entry-form', (e) ->
   init_timer(e)
 
 class @Slider
