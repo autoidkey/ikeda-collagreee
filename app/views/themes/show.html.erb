@@ -65,7 +65,11 @@
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
-        <%= render 'keywords' %>
+        <% if smartphone? %>
+          <%= render 'keywords_mobile' %>
+        <% else %>
+          <%= render 'keywords' %>
+        <% end %>
         <%#= render 'other_themes' %>
         <%= render 'users' %>
         <%= render 'tags' if user_signed_in? && !current_user.normal? %>

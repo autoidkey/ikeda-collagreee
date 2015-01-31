@@ -108,31 +108,34 @@
   padding-top: 15px;
 }
 
-.keywords .wordlist span {
-  margin-right: 15px;
-}
+.keywords .wordlist {
+  span {
+    margin-right: 15px;
+    word-break: break-all;
 
-span.keyword-0 {
-  font-size: 24px;
-  font-weight: bold;
-}
+    &.keyword-0 {
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-span.keyword-1 {
-  font-size: 22px;
-  font-weight: bold;
-}
+    &.keyword-1 {
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-span.keyword-2 {
-  font-size: 20px;
-  font-weight: bold;
-}
+    &.keyword-2 {
+      font-size: 20px;
+      font-weight: bold;
+    }
 
-span.keyword-3 {
-  font-size: 16px;
-}
+    &.keyword-3 {
+      font-size: 16px;
+    }
 
-span.keyword-4 {
-  font-size: 14px;
+    &.keyword-4 {
+      font-size: 14px;
+    }
+  }
 }
 
 .bold {
