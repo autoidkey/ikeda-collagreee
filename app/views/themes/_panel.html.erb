@@ -1,4 +1,4 @@
-<div class="panel panel-default entry-panel" data-id="<%= entry.id %>">
+<div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>">
   <div class="panel-body">
     <%= render 'entry', entry: entry %>
   </div>

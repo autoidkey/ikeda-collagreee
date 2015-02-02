@@ -4,6 +4,10 @@
 
 #timeline .entry-panel {
   border-color: #aaa;
+
+  &.facilitation-back {
+    background-color:  #cbe4ee;
+  }
 }
 
 .actions {

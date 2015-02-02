@@ -1,4 +1,4 @@
-<div class="child-content">
+<div class="child-content <%= 'facilitation-back' if child.facilitation? %>">
   <div id="entry-<%= child.id %>" class="child post-content" data-id="<%= child.id %>">
     <div class="child-points">
       <p class="points" id="point-<%= child.id %>"><%= child.score %></p>

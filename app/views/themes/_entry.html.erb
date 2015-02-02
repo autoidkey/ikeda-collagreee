@@ -36,18 +36,20 @@
       <span class="entry-number">投稿No.<%= entry.id %></span>
     </div>
 
-    <% if user_signed_in? && !smartphone? %>
-      <div class="actions">
-        <%= render 'reply_button', entry: entry %>
-        <%= render 'like_button', entry: entry %>
-      </div>
-    <% end %>
+    <% unless entry.facilitation %>
+      <% if user_signed_in? && !smartphone? %>
+        <div class="actions">
+          <%= render 'reply_button', entry: entry %>
+          <%= render 'like_button', entry: entry %>
+        </div>
+      <% end %>
 
-    <% if user_signed_in? && smartphone? %>
-      <div class="buttons">
-        <%= render 'reply_button', entry: entry %>
-        <%= render 'like_button', entry: entry %>
-      </div>
+      <% if user_signed_in? && smartphone? %>
+        <div class="buttons">
+          <%= render 'reply_button', entry: entry %>
+          <%= render 'like_button', entry: entry %>
+        </div>
+      <% end %>
     <% end %>
     <hr />
 
