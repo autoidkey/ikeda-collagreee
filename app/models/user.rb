@@ -30,6 +30,8 @@ class User < ActiveRecord::Base
   ACTIVITY_COUNT = 5
   THEME_POINT = 'theme.point:'
   USER_POINT = 'user.point'
+  BEFORE_0130 = ':before_0130'
+  AFTER_0130 = ':after_0130'
 
   def entry_point(theme)
     points.user_point(theme).present? ? points.user_point(theme).last.entry : 0.0
@@ -187,6 +189,32 @@ class User < ActiveRecord::Base
 
   def rank_point(theme)
     Redis.current.zscore(THEME_POINT + theme.id.to_s + ':sum', id).to_i
+  end
+
+  # before_0130
+  def score_before_0130(theme)
+    Redis.current.zscore(THEME_POINT + theme.id.to_s + BEFORE_0130, id).to_i
+  end
+
+  def rank_before_0130(theme)
+    Redis.current.zrevrank(THEME_POINT + theme.id.to_s + BEFORE_0130, id) + 1
+  end
+
+  def rank_point_before_0130(theme)
+    Redis.current.zscore(THEME_POINT + theme.id.to_s + BEFORE_0130, id).to_i
+  end
+
+  # after_0130
+  def score_after_0130(theme)
+    Redis.current.zscore(THEME_POINT + theme.id.to_s + AFTER_0130, id).to_i
+  end
+
+  def rank_after_0130(theme)
+    Redis.current.zrevrank(THEME_POINT + theme.id.to_s + AFTER_0130, id) + 1
+  end
+
+  def rank_point_after_0130(theme)
+    Redis.current.zscore(THEME_POINT + theme.id.to_s + AFTER_0130, id).to_i
   end
 
   def redis_entry_point(theme)

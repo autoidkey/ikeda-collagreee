@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> 総合ポイントランキング</h4>
+    <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> 第3部ポイントランキング</h4>
   </div>
   <div class="panel-body">
     <table class="table table-striped ranking-table">
@@ -12,9 +12,9 @@
         </tr>
       </thead>
       <tbody>
-        <% @user_ranking.each_with_index do |user, idx| %>
+        <% @user_ranking_before_0130.each_with_index do |user, idx| %>
           <tr>
-            <td class="rank rank-<%= user.rank(@theme) %>" id=""><%= user.rank(@theme) %></td>
+            <td class="rank rank-<%= user.rank_before_0130(@theme) %>" id=""><%= user.rank_before_0130(@theme) %></td>
             <td class="rank-image">
               <%= link_to (image_tag user_icon_path(user),
                            class: 'user-icon img-circle set-popover',
@@ -26,7 +26,7 @@
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>
             <td class="rank-score">
-              <span class="user-score"><%= user.score(theme) %></span>
+              <span class="user-score"><%= user.score_before_0130(theme) %></span>
             </td>
           </tr>
         <% end %>

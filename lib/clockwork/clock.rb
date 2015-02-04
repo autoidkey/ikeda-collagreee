@@ -6,6 +6,7 @@ require_relative 'keyword_job'
 require_relative 'user_keyword_job'
 require_relative 'point_job'
 require_relative 'entry_point_job'
+require_relative 'aichi_dl_job'
 
 module Clockwork
   handler do |job|
@@ -18,4 +19,5 @@ module Clockwork
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)
   every(5.minute, EntryPointJob.new)
+  every(1.minute, AichiDlJob.new)
 end

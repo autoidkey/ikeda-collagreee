@@ -8,6 +8,16 @@ class Point < ActiveRecord::Base
 
   THEME_POINT = 'theme.point:'
   USER_POINT = 'user.point'
+  BEFORE_0130 = ':before_0130'
+  AFTER_0130 = ':after_0130'
+
+  def self.save_theme_point_before_0130(theme, score, user)
+    Redis.current.zadd(THEME_POINT + theme.id.to_s + BEFORE_0130, score, user.id)
+  end
+
+  def self.save_theme_point_after_0130(theme, score, user)
+    Redis.current.zadd(THEME_POINT + theme.id.to_s + AFTER_0130, score, user.id)
+  end
 
   def self.save_theme_point(theme, score, user)
     Redis.current.zincrby(THEME_POINT + theme.id.to_s + ':sum', score, user.id)

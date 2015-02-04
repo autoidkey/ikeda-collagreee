@@ -63,7 +63,8 @@
       <div class="col-md-4">
         <%= render 'theme_info' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-        <%= render 'user_ranking', users: @users, theme: @theme %>
+        <%= render 'user_ranking_after_0130', users: @users, theme: @theme %>
+        <%= render 'user_ranking_before_0130', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
         <% if smartphone? %>
           <%= render 'keywords_mobile' %>
@@ -79,14 +80,17 @@
 
   <div class="tab-pane" id="infomation">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
-      <div class="col-md-4">
-        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+      <div class="col-md-3">
+        <%= render 'user_ranking_before_0130', users: @users_entry, theme: @theme %>
       </div>
-      <div class="col-md-4">
-        <%#= render 'entry_ranking', entries: @entry_ranking %>
+      <div class="col-md-3">
+        <%= render 'user_ranking_after_0130', users: @users_entry, theme: @theme %>
+      </div>
+      <div class="col-md-3">
+        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
       </div>
     </div>
   </div>

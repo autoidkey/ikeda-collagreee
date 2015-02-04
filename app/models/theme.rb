@@ -16,6 +16,8 @@ class Theme < ActiveRecord::Base
   scope :others, ->(id) { where.not(id: id).limit(5) }
 
   THEME_POINT = 'theme.point:'
+  BEFORE_0130 = ':before_0130'
+  AFTER_0130 = ':after_0130'
 
   def sort_by_reply(issues)
     if issues.present?
@@ -64,6 +66,22 @@ class Theme < ActiveRecord::Base
   end
 
   def point_ranking
-    Redis.current.zrevrange(THEME_POINT + id.to_s + ':sum', 0, 9).map { |id| User.find(id) }
+    Redis.current.zrevrange(THEME_POINT + id.to_s + ':sum', 0, 19).map { |id| User.find(id) }
+  end
+
+  def score_before_0130(user)
+    Redis.current.zscore(THEME_POINT + id.to_s + BEFORE_0130, user.id).to_f
+  end
+
+  def point_ranking_before_0130
+    Redis.current.zrevrange(THEME_POINT + id.to_s + BEFORE_0130, 0, 19).map { |id| User.find(id) }
+  end
+
+  def score_after_0130(user)
+    Redis.current.zscore(THEME_POINT + id.to_s + AFTER_0130, user.id).to_f
+  end
+
+  def point_ranking_after_0130
+    Redis.current.zrevrange(THEME_POINT + id.to_s + AFTER_0130, 0, 19).map { |id| User.find(id) }
   end
 end
