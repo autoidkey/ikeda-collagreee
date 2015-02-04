@@ -74,7 +74,7 @@ class Theme < ActiveRecord::Base
   end
 
   def point_ranking_before_0130
-    Redis.current.zrevrange(THEME_POINT + id.to_s + BEFORE_0130, 0, 10).map { |id| User.find(id) }
+    Redis.current.zrevrange(THEME_POINT + id.to_s + BEFORE_0130, 0, 9).map { |id| User.find(id) }
   end
 
   def score_after_0130(user)
@@ -82,6 +82,6 @@ class Theme < ActiveRecord::Base
   end
 
   def point_ranking_after_0130
-    Redis.current.zrevrange(THEME_POINT + id.to_s + AFTER_0130, 0, 10).map { |id| User.find(id) }
+    Redis.current.zrevrange(THEME_POINT + id.to_s + AFTER_0130, 0, 9).map { |id| User.find(id) }
   end
 end
