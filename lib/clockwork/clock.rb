@@ -19,5 +19,5 @@ module Clockwork
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)
   every(5.minute, EntryPointJob.new)
-  every(1.minute, AichiDlJob.new)
+  every(5.minute, AichiDlJob.new)
 end
