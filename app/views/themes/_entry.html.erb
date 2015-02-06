@@ -1,41 +1,71 @@
-<% if entry.facilitation? %>
-  <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-  ファシリテーター@<%= entry.created_at %>
-<% else %>
-  <%= image_tag user_icon_path(entry.user), class: 'user-icon img-circle' %>
-  <%= entry.user.name %>@<%= entry.created_at %>
-<% end %>
-
-<p class="lead"><%= entry.title %></p>
-<p><%= entry.body %></p>
-
-<% entry.issues.each do |issue| %>
-  <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
-<% end %>
-
-<% if entry.image? %>
-  <%= image_tag entry.image.entry_thumb.url %>
-<% end %>
-
-<span class="glyphicon glyphicon-thumbs-up"></span> <%= entry.thread_positive_count %> / <span class="glyphicon glyphicon-thumbs-down"></span> <%= entry.thread_negative_count %>
-
-<% unless entry.mine?(current_user) %>
-  <% if entry.liked?(current_user) %>
-    <%= button_tag "Like!を取り消す", data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
-  <% else %>
-    <%= button_tag "Like!", data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
-  <% end %>
-<% end %>
-
-  <span class="glyphicon glyphicon-star-empty"></span><span class="like_count"><%= entry.like_count %></span>
-  <span class="glyphicon glyphicon-usd"></span><span class="point"><%= entry.point %></span>
-
-<hr />
-
-<div class="children">
-  <% entry.thread_entries.each do |child| %>
-    <div class="thread">
-      <%= render 'child_entry', child: child %>
+<div class="content">
+  <div class="entry-box post-content" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
+    <span class="entry-title"><%= entry.title %></span>
+    <div class="entry-points">
+      <p class="points" id="point-<%= entry.id %>"><%= entry.score %></p>
+      <p class="points-text">points</p>
     </div>
-  <% end %>
+
+    <%= render 'user_icon', entry: entry %>
+
+    <div class="entry-body">
+      <%= simple_format(entry.body) %> (No.<%= entry.id %>)
+    </div>
+
+    <% entry.issues.each do |issue| %>
+      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+    <% end %>
+
+    <% if entry.image? %>
+      <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
+    <% end %>
+
+
+    <div class="info-list">
+      <span class="user-name">
+        <% if entry.facilitation? %>
+          ファシリテーター
+        <% else %>
+          <%= entry.user.name %>
+        <% end %>
+      </span>
+      <span class="timestamp">・<%= entry.created_at.to_s(:timeline) %></span>
+      <%= render 'thumb', entry: entry %>
+      <%= render 'information', entry: entry %>
+
+      <span class="entry-number">投稿No.<%= entry.id %></span>
+    </div>
+
+    <% unless entry.facilitation %>
+      <% if user_signed_in? && !smartphone? %>
+        <div class="actions">
+          <%= render 'reply_button', entry: entry %>
+          <%= render 'like_button', entry: entry %>
+        </div>
+      <% end %>
+
+      <% if user_signed_in? && smartphone? %>
+        <div class="buttons">
+          <%= render 'reply_button', entry: entry %>
+          <%= render 'like_button', entry: entry %>
+        </div>
+        <hr />
+      <% end %>
+    <% end %>
+
+    <div class="children">
+      <% entry.thread_entries.each do |child| %>
+        <%= render 'child_entry', child: child %>
+        <% if smartphone? %>
+          <hr />
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= render 'modal_form', child: entry  %>
+    <% end %>
+
+
+  </div>
 </div>

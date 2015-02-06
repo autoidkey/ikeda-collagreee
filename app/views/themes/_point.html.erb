@@ -1,41 +1,85 @@
 <div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Point / 議論ポイント</h4>
+  </div>
   <div class="panel-body">
-    <h3>Point / ポイントデバッグ</h3>
-    <table class="table">
+    <span id="">あなたの議論ポイントは</span>
+    <span id="sum_point">  <%= point_list[:sum] %></span>
+    <span id="">ポイントです！</span>
+
+    <table class="table point-table">
       <thead>
         <tr>
-          <th>atype</th>
-          <th>action</th>
-          <th>point</th>
+          <th>投稿</th>
+          <th>返信</th>
+          <th>賛同</th>
+          <th>活動ポイント</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="entry_point"><%= point_list[:entry] %></td>
+          <td id="reply_point"><%= point_list[:reply] %></td>
+          <td id="like_point"> <%= point_list[:like] %></td>
+          <td id="active_point"><%= "%.1f" % (point_list[:entry] + point_list[:reply] + point_list[:like]) %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table point-table">
+      <thead>
+        <tr>
+          <th>返信された</th>
+          <th>賛同された</th>
+          <th></th>
+          <th>評価ポイント</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>active</td>
-          <td>entry</td>
-          <td><%= current_user.entry_point %></td>
-        </tr>
-        <tr>
-          <td>active</td>
-          <td>reply</td>
-          <td><%= current_user.reply_point %></td>
-        </tr>
-        <tr>
-          <td>active</td>
-          <td>like</td>
-          <td><%= current_user.like_point %></td>
-        </tr>
-        <tr>
-          <td>passive</td>
-          <td>replied</td>
-          <td><%= current_user.replied_point %></td>
-        </tr>
-        <tr>
-          <td>passive</td>
-          <td>liked</td>
-          <td><%= current_user.liked_point %></td>
+          <td id="replied_point"><%= point_list[:replied] %></td>
+          <td id="liked_point"><%= point_list[:liked] %></td>
+          <td></td>
+          <td id="passive_point"><%= "%.1f" % (point_list[:replied] + point_list[:liked]) %></td>
         </tr>
       </tbody>
     </table>
-  </div>
+
+    <h4>ポイント履歴</h4>
+    <div style="max-height:300px; overflow-y:scroll;">
+      <table height="" class="table">
+        <thead>
+          <tr>
+          </tr>
+        </thead>
+        <tbody>
+          <% @point_history.each do |ap| %>
+            <tr>
+              <td>
+                <span class="bold"><%= ap.point %>pt </span><span class="glyphicon glyphicon-chevron-right small"></span>
+                <% case ap.action
+                   when "投稿" %>
+                投稿しました (投稿 No.<%= ap.entry.id %>)
+                <% when "返信" %>
+                <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry.id %>)
+                <% when "Like" %>
+                <%= ap.entry.user.name %>さんの投稿にいいね！しました (Like No.<%= ap.like.id %>)
+                <% when "返信され" %>
+                <%= ap.reply.user.name if ap.reply.present? %>さんに返信されました (投稿 No.<%= ap.entry.id %>)
+                <% when "Likeされ" %>
+                <% if ap.depth == 0 %>
+                  投稿(No.<%= ap.entry.id %>)が<%= ap.like.user.name %>さんにいいね！されました (Agree No.<%= ap.like.id %>)
+                <% else %>
+                  投稿(No.<%= ap.entry.id %>)に関連する投稿が<%= ap.like.user.name %>さんにいいね！されました (Agree No.<%= ap.like.id %>)
+                <% end %>
+                <% when "Likeを削除され" %>
+                投稿(No.<%= ap.entry.id %>)への<%= ap.like.user.name %>さんのいいね！が削除されました (Like No.<%= ap.like.id %>)
+          <% end %>
+</td>
+</tr>
+<% end %>
+</tbody>
+</table>
+</div>
+</div>
 </div>

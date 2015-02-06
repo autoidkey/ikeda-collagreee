@@ -1,3 +1,174 @@
 // Place all the styles related to the entry controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#timeline .entry-panel {
+  border-color: #aaa;
+
+  &.facilitation-back {
+    background-color:  #cbe4ee;
+  }
+}
+
+.actions {
+  text-align: right;
+  margin-top: 5px;
+
+  a {
+    color: #8899a6;
+
+    &:hover {
+      color: #3498db;
+      text-decoration: none;
+    }
+  }
+
+  .like_button {
+    color: #8899a6;
+    cursor: pointer;
+
+    &:hover {
+      color: #3498db;
+      text-decoration: none;
+    }
+  }
+}
+
+.img-radius {
+  border-radius: 4px;
+  width: 75px;
+}
+
+.box {
+  float: left;
+}
+
+.boxContainer {
+	overflow: hidden;
+}
+
+.thread {
+  margin-bottom: 35px;
+}
+
+.entry-icon-box {
+  width: 50px;
+}
+
+.entry-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.content {
+  margin-left: 115px;
+  hr {
+    margin: 5px 0;
+  }
+}
+
+.icon-margin {
+  margin-left: -50px;
+  float: left;
+}
+
+.entry-box {
+  .user-name {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .timestamp {
+    color: #8899a6;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+}
+
+
+.entry-box .info-list {
+  color: #8899a6;
+  padding-top: 3px;
+}
+
+.entry-box .info-list .glyphicon {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.entry-box .info-list .point {
+  font-size: 15px;
+}
+
+.entry-box .info-icon {
+  margin-right: 10px;
+}
+
+.point-box {
+  float: left;
+  margin-left: -50px;
+  font-weight: bold;
+}
+
+.entry-points {
+  float: left;
+  margin-left: -115px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.points-text {
+  margin-top: -15px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.content .points {
+  border-top: 4px solid black;
+  padding-top: 5px;
+}
+
+.child-content .points {
+  border-top: 4px solid #8899a6;
+  padding-top: 5px;
+}
+
+.child-content {
+  margin-left: 100px;
+  margin-bottom: 25px;
+}
+
+.child-points {
+  color: #8899a6;
+  float: left;
+  margin-left: -100px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.child-content .points-text {
+  margin-top: -15px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.child-content {
+  .thumb-box {
+    float: left;
+    margin-left: -47px;
+    margin-top: 43px;
+  }
+
+  hr {
+    border-top: 1px dotted #eeeeee;
+  }
+}
+
+.replies {
+  margin-left: -47px;
+}
+
+#modal-window-content {
+  margin-left: 50px;
+}

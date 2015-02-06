@@ -1,0 +1,8 @@
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<% if user_signed_in? %>
+  <script>
+    myc3.set_ranking(<%= @theme.id %>)
+    myc3.set(<%= @theme.id %>)
+    myc3.point_history_chart(<%= @theme.id %>)
+  </script>
+<% end %>

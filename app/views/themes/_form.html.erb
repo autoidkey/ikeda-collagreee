@@ -1,4 +1,4 @@
-<%= form_for @theme, remote: true do |f| %>
+<%= form_for @theme do |f| %>
   <div class="field">
     <%= f.label :title %><br>
     <%= f.text_field :title %>
@@ -10,6 +10,10 @@
   <div class="form-group">
     <%= f.label :color %><br>
     <%= f.text_field :color %>
+  </div>
+  <div class="form-group">
+    <%= f.label :point_function %><br>
+    <%= f.select :point_function, [['ポイント機能あり', true], ["ポイント機能なし", false]] %>
   </div>
   <div id="form-group">
     <%= f.file_field :image %>

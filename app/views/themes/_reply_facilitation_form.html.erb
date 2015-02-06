@@ -1,6 +1,6 @@
-<%= form_for @entry, remote: true do |f| %>
+<%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_area :body , class: 'form-control', placeholder: 'コメントします' %>
+    <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
   </div>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>

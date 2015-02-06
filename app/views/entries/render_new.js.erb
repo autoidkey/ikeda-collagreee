@@ -1,0 +1,4 @@
+$('#timeline').prepend($("<%=j render 'show', entry: @entry %>").hide().fadeIn('slow'));
+slider.set();
+modal.set();
+$('#icon-loading').css("display", "none");

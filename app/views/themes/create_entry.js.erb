@@ -1,0 +1,31 @@
+if(<%= @new_entry.is_root? %>) {
+  $('#timeline').prepend($("<%=j render 'panel', entry: @new_entry %>").hide().fadeIn('slow'));
+  <% if @new_entry.theme.point_function %>
+    point.entry();
+    point.animation();
+  <% end %>
+} else if(<%= @new_entry.grandchild? %>) {
+  $('#entry-<%= @new_entry.parent_id %> > .replies').prepend($("<%=j render 'child_entry', child: @new_entry %>").hide().fadeIn('slow'));
+  <% unless @new_entry.user == @new_entry.parent.user %>
+    <% if @new_entry.theme.point_function %>
+      point.parent($('#entry-<%= @new_entry.id %>'));
+      point.reply();
+      point.animation();
+    <% end %>
+  <% end %>
+  $('#reply-modal-<%= @new_entry.parent.id %> .modal_close').click();
+} else {
+  $('#entry-<%= @new_entry.parent_id %> .children').prepend($("<%=j render 'child_entry', child: @new_entry %>").hide().fadeIn('slow'));
+  <% unless @new_entry.user == @new_entry.parent.user %>
+    <% if @new_entry.theme.point_function %>
+      point.parent($('#entry-<%= @new_entry.id %>'));
+      point.reply();
+      point.animation();
+    <% end %>
+  <% end %>
+  $('#reply-modal-<%= @new_entry.parent.id %> .modal_close').click();
+}
+
+slider.set();
+$('#lean_overlay').remove();
+modal.set();

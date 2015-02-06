@@ -1,0 +1,7 @@
+<% if @theme.point_function %>
+  <% if @status == "remove" %>
+    point.unlike();
+  <% elsif @status == "attach" %>
+    point.like();
+  <% end %>
+<% end %>

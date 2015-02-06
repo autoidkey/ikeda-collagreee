@@ -1,14 +1,18 @@
-<ul class="nav nav-tabs" role="tablist">
-  <li class="active"><a href="#post<%= i %>" role="tab" data-toggle="tab">投稿</a></li>
-  <li><a href="#faciltation<%= i %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
-</ul>
+<% if current_user.admin? || current_user.facilitator? %>
+  <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
+    <li class="active"><a href="#post<%= i %>" role="tab" data-toggle="tab">投稿</a></li>
+    <li><a href="#faciltation<%= i %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
+  </ul>
+<% end %>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="post<%= i %>">
+  <div class="tab-pane active reply-tab" id="post<%= i %>">
     <%= render 'themes/reply_entry_form', entry: entry %>
   </div>
-  <div class="tab-pane" id="faciltation<%= i %>">
-    <%= render 'themes/reply_facilitation_form', { entry: entry, k: i } %>
-  </div>
+  <% if current_user.admin? || current_user.facilitator? %>
+    <div class="tab-pane facilitation-tab" id="faciltation<%= i %>">
+      <%= render 'themes/reply_facilitation_form', { entry: entry, k: i } %>
+    </div>
+  <% end %>
 </div>

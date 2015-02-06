@@ -1,0 +1,12 @@
+<% if entry.facilitation? %>
+  <%= image_tag 'faci_icon.png' , class: 'user-icon icon-margin' %>
+<% else %>
+  <%= link_to (image_tag user_icon_path(entry.user),
+               class: 'user-icon icon-margin set-popover',
+               data: {
+                 toggle: "popover",
+                 placement: "right",
+                 content: entry.user.name.to_s + '｜投稿 ' + entry.user.entries.count.to_s + '件 / Like ' +entry.user.likes.status_on.count.to_s + '件'
+               }
+               ), '/users/' + entry.user.id.to_s %>
+<% end %>

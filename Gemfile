@@ -14,11 +14,12 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'natto', '~> 0.9.6'
 gem 'carrierwave', '~> 0.10.0'
 gem 'remotipart', '~> 1.2'
-gem 'rmagick', '~> 2.13.3',  :require => 'RMagick'
-gem 'devise', '~> 3.3.0'
+gem 'rmagick', '~> 2.13.3',  require: 'RMagick'
+gem 'devise', '~> 3.4.1'
 gem 'devise-i18n'
 gem 'cancancan'
-gem 'bootstrap-sass', '~> 3.2.0'
+# gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.3.0'
 gem 'activeadmin', github: 'activeadmin'
 gem 'rails-i18n', '~> 4.0.0'
 gem 'clockwork', '~> 1.0.0'
@@ -26,7 +27,14 @@ gem 'enum_help'
 gem 'kaminari'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ
 
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'daemons'
+
+gem 'redis'
+
 group :development do
+  gem 'bullet'
   gem 'spring', '~> 1.1.2'
   gem 'spring-commands-rspec'
   gem 'better_errors', '~> 1.1.0'

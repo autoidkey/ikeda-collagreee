@@ -1,20 +1,20 @@
 require 'rails_helper'
 
-describe Entry, :type => :model do
+describe Entry, type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:entry) { FactoryGirl.create(:entry, user: user) }
 
-  describe 'エントリーが作られた時' do
+  describe 'エントリーが作られる' do
     it '投稿Activityが作成される' do
       expect { entry }.to change { Activity.count }.by(1)
     end
 
     it 'ENTRY_POINTが与えられる' do
-      expect { entry }.to change {PointHistory.count}.by(1)
+      expect { entry }.to change { PointHistory.count }.by(1)
     end
   end
 
-  describe '親エントリーに対してリプライした時' do
+  describe '親エントリーに対してリプライ' do
     let(:child) { FactoryGirl.create(:entry, parent_id: entry.id, user: user) }
     before { entry }
 
@@ -23,8 +23,8 @@ describe Entry, :type => :model do
         expect { child }.to change { Activity.count }.by(1)
       end
 
-      it 'REPRY_POINTが与えられるが、REPRIED_POINTは与えられない' do
-        expect { child }.to change {PointHistory.count}.by(1)
+      it 'REPRY_POINTもREPRIED_POINTも与えられない' do
+        expect { child }.to change { PointHistory.count }.by(0)
       end
     end
 
@@ -43,7 +43,7 @@ describe Entry, :type => :model do
       end
 
       it 'REPRY_POINTが与えられる。親投稿にREPRIED_POINTが与えられる' do
-        expect { child }.to change {PointHistory.count}.by(2)
+        expect { child }.to change { PointHistory.count }.by(2)
       end
     end
   end

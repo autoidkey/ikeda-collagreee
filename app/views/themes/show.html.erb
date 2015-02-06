@@ -1,46 +1,132 @@
-<div class="row">
-  <div class="col-md-8">
-    <div class="well">
-      <%= render 'top_form' if user_signed_in? %>
-    </div>
-    <hr />
-
-    <div class="well" id="tl-tool">
-      <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
-        <%= f.radio_button :order, 'time', {:checked => true} %> 新着
-        <%= f.radio_button :order, 'popular' %> 人気
-
-        <% @theme.issues.each do |issue| %>
-          <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
-        <% end %>
-        <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-
-        <%= f.submit '検索' %>
-      <% end %>
-    </div>
-
-    <div id="entry-tl">
-      <% @entries.each_with_index do |entry, i| %>
-        <div class="panel panel-default" id="entry-<%= entry.id %>">
-          <div class="panel-body">
-            <%= render 'entry', entry: entry %>
-            <hr />
-            <%= render 'reply_form', {entry: entry, i: i} if user_signed_in? %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <div id="next">  <%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
-    <div id="icon-loading">
-      <%= image_tag 'theme/icon-loading.gif' %>
-    </div>
+<% if user_admin?(current_user) %>
+<div class="btn-group btn-group-justified" role="group" aria-label="">
+  <div class="btn-group" role="group">
+    <%= link_to @theme do %>
+    <button type="button" class="btn btn-default">通常閲覧モード</button>
+    <% end %>
   </div>
-  <div class="col-md-4">
-    <%= render 'theme_info' %>
-    <%= render 'point' if user_signed_in? %>
-    <%= render 'activity' if user_signed_in? %>
-    <%= render 'other_themes' %>
-    <%= render 'users' %>
-    <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+  <div class="btn-group" role="group">
+    <%= link_to '/themes/only_timeline/' + @theme.id.to_s do %>
+      <button type="button" class="btn btn-default">スライド表示モード</button>
+    <% end %>
   </div>
 </div>
+<br />
+<% end %>
+
+<ul class="nav nav-pills nav-collagree" role="tablist">
+  <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
+  <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
+  <% if user_signed_in? %>
+    <% if smartphone? %>
+      <li><a href="#get-point" role="tab" data-toggle="tab">獲得ポイント</a></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" id="theme-show">
+  <div class="tab-pane active" id="discussion">
+
+    <div class="row">
+      <div class="col-md-8">
+        <div id="main-form">
+          <%= render 'top_form' if user_signed_in? %>
+        </div>
+        <hr />
+
+        <div class="well" id="entry_notice">
+          <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
+        </div>
+
+        <div class="well" id="tl-tool">
+          <%= render 'search_form'  %>
+        </div>
+
+        <div id="top-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+
+        <div id="timeline">
+          <% @entries.each_with_index do |entry, i| %>
+            <%= render 'panel', entry: entry %>
+          <% end %>
+        </div>
+
+        <div id="icon-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+
+        <div id="next"><%= link_to_next_page @entries, '次へ', :remote => true, :id => 'next_link'  %></div>
+      </div>
+
+      <div class="col-md-4">
+        <%= render 'theme_info' %>
+        <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+        <%= render 'user_ranking_after_0130', users: @users, theme: @theme %>
+        <%= render 'user_ranking_before_0130', users: @users, theme: @theme %>
+        <%#= render 'activity' if user_signed_in? %>
+        <% if smartphone? %>
+          <%= render 'keywords_mobile' %>
+        <% else %>
+          <%= render 'keywords' %>
+        <% end %>
+        <%#= render 'other_themes' %>
+        <%= render 'users' %>
+        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="infomation">
+    <div class="row">
+      <div class="col-md-3">
+        <%= render 'user_ranking', users: @users, theme: @theme %>
+      </div>
+      <div class="col-md-3">
+        <%= render 'user_ranking_before_0130', users: @users_entry, theme: @theme %>
+      </div>
+      <div class="col-md-3">
+        <%= render 'user_ranking_after_0130', users: @users_entry, theme: @theme %>
+      </div>
+      <div class="col-md-3">
+        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+      </div>
+    </div>
+  </div>
+
+  <% if user_signed_in? %>
+    <% unless smartphone? %>
+      <div class="tab-pane" id="point_graph">
+        <div class="row">
+          <div class="col-md-6" id="user_point_graph">
+            <h3>あなたのポイント獲得履歴</h3>
+            <div class="" id="chart"></div>
+            <h3>あなたのポイント獲得履歴</h3>
+            <div class="" id="point-history-chart"></div>
+            <h3>ユーザポイントランキング</h3>
+            <div class="" id="ranking-chart"></div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="tab-pane" id="get-point">
+        <div class="row">
+          <div class="col-md-6">
+            <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+</div>
+
+<%= render 'render_c3' %>
+
+<%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'mobile.css' if smartphone? %>
+
+<script>
+  modal.set()
+</script>

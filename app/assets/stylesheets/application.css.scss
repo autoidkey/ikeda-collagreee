@@ -14,13 +14,105 @@
  *= stub active_admin
  *= require_self
  *= require jquery-ui/slider
+ *= require pnotify.custom.min
+ *= require c3
  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+/* Mobile */
+.modal-window.modal-window-mobile {
+}
+
+.mobile .modal-window {
+  overflow: scroll;   /* スクロール表示 */
+  max-height: 80%;
+  width: 90%;
+	padding: 30px 15px;
+}
+
+.mobile .buttons {
+  text-align: right;
+}
+
+.mobile .navbar-brand {
+  width: 80%;
+}
+
+.mobile .navbar-brand img {
+  width: 100%;
+}
+
+.mobile .navbar-toggle {
+  color: white;
+  padding: 5px;
+}
+
+.mobile .nav-user-icon {
+  display: none;
+}
+
+.padding {
+  padding: 0 40px;
+}
+
+#header-alert {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: 10000;
+  background-color: black;
+  text-align: center;
+  display: none;
+}
+
+#header-alert #point-alert {
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+  text-align: left;
+  color: whitesmoke;
+}
 
 img.user-icon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+#lean_overlay {
+  position: fixed;
+  z-index:100;
+  top: 0px;
+  left: 0px;
+  height:100%;
+  width:100%;
+  background: #000;
+  display: none;
+}
+
+.modal-window {
+	background-color: #FFFFFF;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+	display: none;
+	padding: 30px;
+	width: 780px;
+}
+
+.modal_close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	display: block;
+	/* widthとheightは閉じるボタンの画像の幅を指定 */
+	width: 28px;
+	height: 28px;
+	/* 閉じるボタンの画像は自分で用意 */
+	z-index: 2;
 }

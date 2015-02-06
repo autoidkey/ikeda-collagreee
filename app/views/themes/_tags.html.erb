@@ -1,6 +1,8 @@
 <div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> Tags / 論点タグ</h4>
+  </div>
   <div class="panel-body">
-    <h3>Tag / 論点タグ</h3>
     <%= form_for(@issue) do |f| %>
       <div class="form-group">
         <%= f.text_field :name , class: 'form-control' %>

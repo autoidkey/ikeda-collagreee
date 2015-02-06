@@ -1,11 +1,13 @@
 <%= form_for @entry_new, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_area :body , class: 'form-control', placeholder: 'コメントします' %>
+    <%= f.text_area :body, class: 'form-control reply-entry-form', placeholder: 'コメントします', :data => {:id => entry.id} %>
   </div>
   <div class="form-group">
     <%= f.file_field :image %>
   </div>
 
+  <div class="slider" id="slider-<%= entry.id %>"></div>
+  <%= f.hidden_field :np, { :class=> 'np-input', :id => 'np-input-' + entry.id.to_s, :value => 50 } %>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>

@@ -12,27 +12,47 @@
      @facilitations = Facilitations
      @count = @theme.entries.root.count
 
+     # respond_to do |format|
+     #   if @entry.save
+     #     tags = Issue.checked(params[:issues])
+     #     @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
+     #     format.js
+     #   else
+     #     format.json { render json: 'json error' }
+     #   end
+     # end
+   end
+
+   def render_new
+     @entry = Entry.find(params[:id])
+     @entry_new = Entry.new
+
+     @theme = Theme.find(params[:theme_id])
+     @facilitations = Facilitations
+
      respond_to do |format|
-       if @entry.save
-         tags = Issue.checked(params[:issues])
-         @entry.tagging!(Issue.to_object(tags)) unless tags.empty?
-         format.js
-       else
-         format.json {render json: 'json error'}
-       end
+       format.js
      end
    end
 
    def like
-     render nothing: true
      entry = Entry.find(params[:id])
-     Like.like!(entry, params[:status], current_user)
+     @status = params[:status]
+     @theme = entry.theme
+     if @status == 'remove'
+       current_user.unlike! entry
+     else
+       current_user.like! entry
+     end
+     respond_to do |format|
+       format.js
+     end
    end
 
    def np
-     data = { np: calc_np(params[:text]), entry_id: params[:entry_id]}
+     data = { np: calc_np(params[:text]), entry_id: params[:entry_id] }
      respond_to do |format|
-       format.json { render :json => data.to_json }
+       format.json { render json: data.to_json }
      end
    end
 
@@ -41,6 +61,7 @@
    end
 
    private
+
    def entry_params
      params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
    end

@@ -1,8 +1,17 @@
 <div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users / 閲覧ユーザ</h4>
+  </div>
   <div class="panel-body">
-    <h3>Users / 閲覧ユーザ</h3>
     <% @theme.users.each do |user| %>
-      <%= image_tag user_icon_path(user), class: 'user-icon img-circle', data: { toggle: "popover", placement: "bottom", content: user.name } %>
+      <%= link_to image_tag(user_icon_path(user),
+                            class: 'user-icon img-circle set-popover',
+                            data: {
+                              toggle: "popover",
+                              placement: "bottom",
+                              content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + '件'
+                            }
+                            ), '/users/' + user.id.to_s %>
     <% end %>
   </div>
 </div>

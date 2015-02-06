@@ -6,18 +6,25 @@ class Entry < ActiveRecord::Base
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
   has_many :likes
-  has_many :point_histories
+  has_many :point_histories, class_name: 'PointHistory', foreign_key: 'entry_id'
+  has_many :point_histories_reply, class_name: 'PointHistory', foreign_key: 'reply_id'
+  has_many :notices
+
+  validates :body, presence: true
+  validates :title, presence: true, if: :is_root?
 
   default_scope -> { order('updated_at DESC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id) }
   scope :root, -> { where(parent_id: nil) }
-  scope :sort_time, -> { root.order('updated_at DESC') }
-  scope :popular, -> { root.sort_by{|e| Entry.children(e.id).count}.reverse }
-  scope :search_issues, ->(issues) {root.select{|e| issues.map{|i| e.tagged_entries.map{|t| t.issue_id.to_s}.include?(i)}.include?(true)} if issues.present?}
+  scope :sort_time, -> { order('updated_at DESC') }
+  # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
+  scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
+  scope :latest, -> {order('created_at DESC')}
 
-  after_save :logging_activity, :adding_point
+  after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
+  after_save :notice_entry, :notice_facilitation, if: :is_root?
 
   NP_THRESHOLD = 50
 
@@ -34,11 +41,11 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.children(root_entry.id)
+    Entry.children(root_entry.id).includes(:user)
   end
 
   def thread_childrens
-    Entry.children(id)
+    Entry.children(id).includes(:user)
   end
 
   def thread_np_count
@@ -71,12 +78,43 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  def adding_point
-    action = self.is_root? ? 0 : 1
-    PointHistory.pointing_post(self, 0, action)
-    if action == 1
-      PointHistory.pointing_post(self.parent, 1, 3) unless self.parent.mine?(self.user)
+  def logging_point
+    unless facilitation?
+      action = self.is_root? ? 0 : 1
+      if action == 0 # 0はPost
+        PointHistory.pointing_post(self, 0, action)
+      elsif !parent.mine?(user) # Reply
+        PointHistory.pointing_post(self, 0, action)
+        PointHistory.pointing_replied(self, 1, 3) unless parent.facilitation?
+      end
     end
+  end
+
+  def notice_entry
+    theme.joins.each do |join|
+      next if join.user == user
+      params = {
+        user_id: join.user.id,
+        ntype: 0,
+        read: false,
+        theme_id: theme.id,
+        entry_id: id
+      }
+      notice = Notice.new(params)
+      notice.save
+    end
+  end
+
+  def notice_facilitation
+    if facilitation?
+      theme.joins.each do |join|
+        Entry.delay.sending_facilitation_notice(self, join)
+      end
+    end
+  end
+
+  def self.sending_facilitation_notice(entry, join)
+    NoticeMailer.facilitation_notice(entry, join.user).deliver
   end
 
   def point
@@ -116,6 +154,10 @@ class Entry < ActiveRecord::Base
   #   parent_id.nil?
   # end
 
+  def facilitation?
+    facilitation
+  end
+
   def is_root?
     parent_id.nil?
   end
@@ -126,5 +168,22 @@ class Entry < ActiveRecord::Base
 
   def update_parent_entry_time
     root_entry.touch
+  end
+
+  # Redis
+  def scored(score)
+    Redis.current.zadd('entry_points', score, id)
+  end
+
+  def score
+    Redis.current.zscore('entry_points', id).to_f
+  end
+
+  def rank
+    Redis.current.zrevrank('entry_points', id) + 1
+  end
+
+  def self.top_10
+    Redis.current.zrevrange('entry_points', 0, 9).map { |id| Entry.find(id) }
   end
 end

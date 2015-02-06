@@ -11,9 +11,24 @@ Rails.application.routes.draw do
   resources :entries, only: [:create]
 
   post 'entries/np' => 'entries#np'
+  post 'entries/render_new/:id' => 'entries#render_new'
   post 'entries/like' => 'entries#like'
+  post 'themes/create_entry/:id' => 'themes#create_entry'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
+  get 'themes/check_new/:id' => 'themes#check_new'
+  get 'themes/:id/point_graph' => 'themes#point_graph'
+  get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'
+  get 'themes/:id/json_user_point' => 'themes#json_user_point'
+  get 'themes/only_timeline/:id' => 'themes#only_timeline'
+  get 'themes/:id/check_new_message_2015_1.json' => 'themes#check_new_message_2015_1'
+  post 'themes/render_new/:id' => 'themes#render_new'
+
+  # api
+  get 'users/:id' =>  'users#show'
+  post 'users/delete_notice' =>  'users#delete_notice'
+  post 'users/read_reply_notice' =>  'users#read_reply_notice'
+  post 'users/read_like_notice' =>  'users#read_like_notice'
 
   # home routes
   get 'homes/collagree'

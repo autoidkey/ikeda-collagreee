@@ -1,39 +1,45 @@
-<div id="entry-<%= child.id %>" class="child">
-  <% if user_signed_in? && current_user.image? %>
-    <% if child.facilitation? %>
-      <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-    <% else %>
-      <%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %>
+<div class="child-content">
+  <div id="entry-<%= child.id %>" class="child post-content" data-id="<%= child.id %>">
+    <div class="child-points">
+      <p class="points"><%= child.point %></p>
+      <p class="points-text">points</p>
+    </div>
+
+    <%= render 'themes/user_icon', entry: child %>
+    <%= child.body %>
+
+    <div class="info-list">
+      <% if child.np >= 50 %>
+        <span class="label label-success">賛成</span>
+      <% else %>
+        <span class="label label-warning">反対</span>
+      <% end %>
+      <span class="user-name">
+        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+      </span>
+      <span class="timestamp"> [<%= child.created_at %>]</span>
+      <%= render 'themes/information', entry: child %>
+
+      <% if user_signed_in? %>
+        <a rel="leanModal" href="#reply-modal-<%= child.id %>">
+          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
+        </a>
+        <%= render 'themes/like_button', entry: child %>
+      <% end %>
+    </div>
+
+    <% if child.image? %>
+      <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
     <% end %>
-  <% end %>
 
-  <% if child.grandchild? %>
-    <span class="glyphicon glyphicon-chevron-right small"></span>
-  <% end %>
-  <%= child.created_at %>
-  <%= child.body %>
-  by <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
-  <span class="label label-default reply-label">返信</span>
+    <div class="replies"></div>
 
-  <% if child.image? %>
-    <%= image_tag child.image.entry_thumb.url %>
-  <% end %>
+    <% if user_signed_in? %>
+      <%= render 'modal_form', child: child %>
+    <% end %>
 
-  <%= form_for @entry_new, :html => {:class => 'reply-form'}, remote: true do |f| %>
-    <div class="form-group">
-      <%= f.text_field :body , class: 'form-control', placeholder: 'コメントします' %>
-    </div>
-    <div class="form-group">
-      <%= f.file_field :image %>
-    </div>
-
-    <%= f.hidden_field :user_id, { :value => current_user.id } %>
-    <%= f.hidden_field :parent_id, { :value => child.id } %>
-    <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-    <%= f.hidden_field :facilitation, { :value => false } %>
-    <%= f.submit '投稿', class: 'btn btn-default' %>
-  <% end %>
-
-  <div class="replies"></div>
-
+    <% child.thread_childrens.each do |c| %>
+      <%= render 'child_entry', child: c %>
+    <% end %>
+  </div>
 </div>

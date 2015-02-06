@@ -1,25 +1,54 @@
-<% if entry.facilitation? %>
-  <%= image_tag 'faci_icon.png' , class: 'user-icon img-circle' %>
-  ファシリテーター@<%= entry.created_at %>
-<% else %>
-  <%= image_tag user_icon_path(entry.user), class: 'user-icon img-circle' %>
-  <%= entry.user.name %>@<%= entry.created_at %>
-<% end %>
+<div class="content">
+  <div class="entry-box post-content" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
+    <span class="entry-title"><%= entry.title %></span>
+    <div class="entry-points">
+      <p class="points"><%= entry.point %></p>
+      <p class="points-text">points</p>
+    </div>
+    <%= render 'themes/user_icon', entry: entry %>
 
-<p class="lead"><%= entry.title %></p>
-<p><%= entry.body %></p>
+    <p><%= entry.body %></p>
 
-<% entry.issues.each do |issue| %>
-  <span class="label label-default"><%= issue.name %></span>
-<% end %>
+    <% entry.issues.each do |issue| %>
+      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+    <% end %>
 
-<% if entry.image? %>
-  <%= image_tag entry.image.entry_thumb.url %>
-<% end %>
-<hr />
+    <% if entry.image? %>
+      <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
+    <% end %>
 
-<div class="children">
-  <% entry.thread_entries.each do |child| %>
-    <%= render 'child_entry', child: child %>
-  <% end %>
+
+    <div class="info-list">
+    <span class="user-name">
+      <% if entry.facilitation? %>
+        ファシリテーター
+      <% else %>
+        <%= entry.user.name %>
+      <% end %>
+    </span>
+    <span class="timestamp"> [<%= entry.created_at %>]</span>
+      <%= render 'themes/thumb', entry: entry %>
+      <%= render 'themes/information', entry: entry %>
+
+      <% if user_signed_in? %>
+        <a rel="leanModal" href="#reply-modal-<%= entry.id %>">
+          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
+        </a>
+        <%= render 'themes/like_button', entry: entry %>
+      <% end %>
+    </div>
+    <hr />
+
+    <div class="children">
+      <% entry.thread_entries.each do |child| %>
+        <div class="thread">
+          <%= render 'child_entry', child: child %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= render 'modal_form', child: entry %>
+    <% end %>
+  </div>
 </div>

@@ -1,0 +1,47 @@
+img.user-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.icon-margin {
+    margin-left: -40px;
+}
+
+.entry-points {
+    display: none;
+}
+
+.content {
+    margin-left: 35px;
+}
+
+.child-points {
+    display: none;
+}
+
+.child-content {
+    margin-left: 40px;
+}
+
+.replies {
+    margin-left: -40px;
+    margin-top: 20px;
+}
+
+.mobile .container-fluid {
+    /* padding-left: 2px; */
+    /* padding-right: 2px; */
+}
+
+.mobile .panel {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.mobile #entry_title {
+    height: 30px;
+}
+
+.mobile #entry_body {
+    height: 150px;
+}

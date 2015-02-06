@@ -1,0 +1,48 @@
+<div class="modal-window" id="reply-modal-<%= child.id %>">
+  <div class="modal_close"></div>
+  <div class="reply-modal-parent">
+    <div class="content" id="modal-window-content">
+      <%= render 'themes/user_icon', entry: child %>
+      <%= child.body %>
+
+      <div class="info-list">
+        <% if child.np >= 50 %>
+          <span class="label label-success">賛成</span>
+        <% else %>
+          <span class="label label-warning">反対</span>
+        <% end %>
+        <span class="user-name">
+          <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+        </span>
+        <span class="timestamp"> [<%= child.created_at %>]</span>
+        <%= render 'themes/information', entry: child %>
+
+      </div>
+
+      <% if child.image? %>
+        <%= image_tag child.image.entry_thumb.url %>
+      <% end %>
+    </div>
+  </div>
+  <hr />
+
+
+  <% if current_user.admin? || current_user.facilitator? %>
+    <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
+      <li class="active"><a href="#post<%= child.id %>" role="tab" data-toggle="tab">投稿</a></li>
+      <li><a href="#facilitation<%= child.id %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
+    </ul>
+  <% end %>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active reply-tab" id="post<%= child.id %>">
+        <%= render 'reply_entry_form', { entry: child } %>
+    </div>
+    <% if current_user.admin? || current_user.facilitator? %>
+      <div class="tab-pane facilitation-tab" id="facilitation<%= child.id %>">
+        <%= render 'reply_facilitation_form', { entry: child, k: child.id } %>
+      </div>
+    <% end %>
+  </div>
+</div>
