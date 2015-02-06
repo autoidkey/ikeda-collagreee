@@ -32,6 +32,7 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 
 gem 'redis'
+gem 'rails_autolink'           # URLの自動リンク化
 
 group :development do
   gem 'bullet'
