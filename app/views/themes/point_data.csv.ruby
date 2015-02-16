@@ -21,4 +21,4 @@ csv_data = CSV.generate do |csv|
   end
 end
 
-sjis_safe(csv_data).encode(Encoding::SJIS)
+#sjis_safe(csv_data).encode(Encoding::SJIS)
