@@ -4,7 +4,7 @@ class ThemesController < ApplicationController
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
-    load_and_authorize_resource
+  load_and_authorize_resource
 
   include Bm25
 
@@ -29,6 +29,15 @@ class ThemesController < ApplicationController
     @gravatar = gravatar_icon(current_user)
 
     render 'show_no_point' unless @theme.point_function
+  end
+
+  def discussion_data
+    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).asc
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: "theme-#{@theme.id}-#{Time.now.to_date.to_s}.csv", type: :csv
+      end
+    end
   end
 
   def only_timeline
@@ -191,6 +200,6 @@ class ThemesController < ApplicationController
   end
 
   def entry_params
-     params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
-   end
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
+  end
 end

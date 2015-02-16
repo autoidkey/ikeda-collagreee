@@ -34,6 +34,8 @@ gem 'daemons'
 gem 'redis'
 gem 'rails_autolink'           # URLの自動リンク化
 
+# gem 'nkf'
+
 group :development do
   gem 'bullet'
   gem 'spring', '~> 1.1.2'
