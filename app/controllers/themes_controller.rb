@@ -40,6 +40,15 @@ class ThemesController < ApplicationController
     end
   end
 
+  def point_data
+    @point_histories = @theme.point_histories.includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
+    respond_to do |format|
+      format.csv do
+        send_data render_to_string, filename: "point-theme#{@theme.id}-#{Time.now.to_date.to_s}.csv", type: :csv
+      end
+    end
+  end
+
   def only_timeline
     @entry = Entry.new
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get 'themes/only_timeline/:id' => 'themes#only_timeline'
   get 'themes/:id/check_new_message_2015_1.json' => 'themes#check_new_message_2015_1'
   get 'themes/:id/discussion_data' => 'themes#discussion_data'
+  get 'themes/:id/point_data' => 'themes#point_data'
   post 'themes/render_new/:id' => 'themes#render_new'
 
   # api
