@@ -43,6 +43,7 @@ module ApplicationHelper
      ["2016", "2225"], # double vertical lines
      ["2049", "0021"], # ?
      ["FE0E", "0021"], # ?
+     ["203C", "0021"], # ?
     ].inject(str) do |s, (before, after)|
       s.gsub(
              before.to_i(16).chr('UTF-8'),
