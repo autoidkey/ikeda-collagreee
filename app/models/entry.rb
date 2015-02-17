@@ -33,6 +33,10 @@ class Entry < ActiveRecord::Base
     parent_id.nil? ? self : Entry.find(parent_id)
   end
 
+  def children
+    Entry.children(self)
+  end
+
   def root_entry
     parent_id.nil? ? self : Entry.find(parent_id)
   end

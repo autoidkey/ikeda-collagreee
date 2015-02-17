@@ -9,6 +9,9 @@ csv_data = CSV.generate do |csv|
     '親投稿ID' => ->(u){ u.parent_id },
     '賛成反対' => ->(u){ u.np },
     'ファシリテーション' => ->(u){ u.facilitation },
+    'ポイント' => ->(u){ u.score },
+    '返信数' => ->(u){ u.children.count },
+    'いいね数' => ->(u){ u.likes.count },
   }
 
   # header
