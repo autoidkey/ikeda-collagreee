@@ -6,6 +6,7 @@ csv_data = CSV.generate do |csv|
     '投稿時間'   => ->(u){ u.created_at },
     'タイトル'   => ->(u){ u.title },
     '本文'   => ->(u){ u.body },
+    'ユーザ名'   => ->(u){ u.user.id },
     '親投稿ID' => ->(u){ u.parent_id },
     '賛成反対' => ->(u){ u.np },
     'ファシリテーション' => ->(u){ u.facilitation },
