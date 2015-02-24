@@ -41,6 +41,7 @@ class Ability
       can :render_new, Theme
       can :search_entry, Theme
       can :check_new_message_2015_1, Theme
+      can :load_test_api, Entry
     end
   end
 end

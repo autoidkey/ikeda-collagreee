@@ -1,4 +1,6 @@
 class HomesController < ApplicationController
+  protect_from_forgery except: :load_test_api
+
   def collagree
   end
 
@@ -34,4 +36,17 @@ class HomesController < ApplicationController
 
   def project
   end
+
+  def load_test_api
+    entry = Entry.new(entry_params)
+    entry.save
+    render json: entry.to_json
+  end
+
+  private
+
+   def entry_params
+     params.permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
+   end
+
 end
