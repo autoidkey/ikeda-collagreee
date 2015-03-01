@@ -28,8 +28,8 @@ class Entry < ActiveRecord::Base
   after_save :notice_entry, :notice_facilitation, if: :is_root?
 
   NP_THRESHOLD = 50
-  FACILITATION1 = "投稿が短いですよ！"
-  FACILITATOR_ID = 1
+  # FACILITATION1 = "投稿が短いですよ！"
+  FACILITATOR_ID = 9
 
   # オートファシリテーション用の投稿コピー
   def copy(parent, theme_id)
@@ -43,9 +43,9 @@ class Entry < ActiveRecord::Base
   end
 
   # オートファシリテーション用のファシリテーション投稿
-  def self.post_facilitation(parent, theme_id)
+  def self.post_facilitation(parent, theme_id, body)
     params =  {
-      body: FACILITATION1,
+      body: body,
       theme_id: theme_id,
       parent_id: parent.id,
       user_id: FACILITATOR_ID,

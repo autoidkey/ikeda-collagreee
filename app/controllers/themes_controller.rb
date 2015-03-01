@@ -9,6 +9,8 @@ class ThemesController < ApplicationController
   load_and_authorize_resource
 
   include Bm25
+  require 'time'
+  
 
   def index
     @themes = Theme.all
@@ -76,9 +78,18 @@ class ThemesController < ApplicationController
 
   # オートファシリテーション用メソッド
   def children_copy(entry, copy_entry, theme_id)
+    require 'time'
     entry.thread_childrens.each do |child|
       copy_child = child.copy(copy_entry, theme_id)
-      Entry.post_facilitation(copy_child, theme_id) if entry.body.length > child.body.length # ここにオートファシリテーション用の条件を付与
+      # ここにオートファシリテーション用の条件を付与
+      entry_timestamp =  Time.parse(entry.created_at.to_s).to_i
+      child_timestamp =  Time.parse(child.created_at.to_s).to_i
+      
+      
+      if child_timestamp - entry_timestamp > 60*60
+        body = "メリットとデメリットを挙げてみましょう。"
+        Entry.post_facilitation(copy_child, theme_id , body)
+      end
       children_copy(child, copy_child, theme_id)
     end
   end
