@@ -50,7 +50,9 @@
 
     <div class="replies">
       <% child.thread_childrens.each do |c| %>
+        <div  style="<%= 'background-color:#CBE4EE;padding:10px;' if c.facilitation %>;">
         <%= render 'child_entry', child: c %>
+      </div>
       <% end %>
     </div>
 
