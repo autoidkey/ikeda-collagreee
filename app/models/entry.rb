@@ -29,7 +29,7 @@ class Entry < ActiveRecord::Base
 
   NP_THRESHOLD = 50
   # FACILITATION1 = "投稿が短いですよ！"
-  FACILITATOR_ID = 9
+  FACILITATOR_ID = 82
 
   # オートファシリテーション用の投稿コピー
   def copy(parent, theme_id)
@@ -50,6 +50,7 @@ class Entry < ActiveRecord::Base
       parent_id: parent.id,
       user_id: FACILITATOR_ID,
       facilitation: true,
+      np: 50,
       created_at: parent.created_at + 1.minutes,
       updated_at: parent.updated_at + 1.minutes
       }

@@ -84,10 +84,16 @@ class ThemesController < ApplicationController
       # ここにオートファシリテーション用の条件を付与
       entry_timestamp =  Time.parse(entry.created_at.to_s).to_i
       child_timestamp =  Time.parse(child.created_at.to_s).to_i
-      
-      
+      is_entry_pn = entry.np.to_i >= 50 ? true :  false
+      is_entry_pn = entry.parent_id.nil? ? true : is_entry_pn
+      is_child_pn = child.np.to_i >= 50 ? true :  false
+
       if child_timestamp - entry_timestamp > 60*60
-        body = "メリットとデメリットを挙げてみましょう。"
+        body = "議論が停滞しています。何か意見のある人は居ませんか？"
+        Entry.post_facilitation(copy_child, theme_id , body)
+
+      elsif not (is_entry_pn and is_child_pn)
+        body = "メリットとデメリットを挙げてみましょう。" + is_entry_pn.to_s + is_child_pn.to_s
         Entry.post_facilitation(copy_child, theme_id , body)
       end
       children_copy(child, copy_child, theme_id)
