@@ -28,12 +28,32 @@ class Entry < ActiveRecord::Base
   after_save :notice_entry, :notice_facilitation, if: :is_root?
 
   NP_THRESHOLD = 50
+  FACILITATION1 = "投稿が短いですよ！"
+  FACILITATOR_ID = 1
 
-  def copy(theme_id)
-    new_entry = entry.dup
-    new_entry.theme_id = target_theme_id
+  # オートファシリテーション用の投稿コピー
+  def copy(parent, theme_id)
+    new_entry = self.dup
+    new_entry.theme_id = theme_id
+    new_entry.parent_id = parent.id unless parent.nil?
+    new_entry.created_at = created_at
+    new_entry.updated_at = updated_at
     new_entry.save
     new_entry
+  end
+
+  # オートファシリテーション用のファシリテーション投稿
+  def self.post_facilitation(parent, theme_id)
+    params =  {
+      body: FACILITATION1,
+      theme_id: theme_id,
+      parent_id: parent.id,
+      user_id: FACILITATOR_ID,
+      facilitation: true,
+      created_at: parent.created_at + 1.minutes,
+      updated_at: parent.updated_at + 1.minutes
+      }
+    Entry.new(params).save
   end
 
   def parent
@@ -123,18 +143,6 @@ class Entry < ActiveRecord::Base
         Entry.delay.sending_facilitation_notice(self, join)
       end
     end
-  end
-
-  def self.post_facilitation(parent, theme_id)
-    params =  {
-      body: FACILITATION1,
-      theme_id: theme_id,
-      parernt_id: parent.id,
-      user_id: FACILITATOR_ID,
-      facilitation: true,
-      created_at: parent.created_at + 1.minutes
-      }
-    Entry.new(params).save
   end
 
   def self.sending_facilitation_notice(entry, join)

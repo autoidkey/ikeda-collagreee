@@ -1,17 +1,22 @@
 <% if user_admin?(current_user) %>
-<div class="btn-group btn-group-justified" role="group" aria-label="">
-  <div class="btn-group" role="group">
-    <%= link_to @theme do %>
-    <button type="button" class="btn btn-default">通常閲覧モード</button>
-    <% end %>
+  <div class="btn-group btn-group-justified" role="group" aria-label="">
+    <div class="btn-group" role="group">
+      <%= link_to @theme do %>
+        <button type="button" class="btn btn-default">通常閲覧モード</button>
+      <% end %>
+    </div>
+    <div class="btn-group" role="group">
+      <%= link_to '/themes/only_timeline/' + @theme.id.to_s do %>
+        <button type="button" class="btn btn-default">スライド表示モード</button>
+      <% end %>
+    </div>
+    <div class="btn-group" role="group">
+      <%= link_to '/themes/' + @theme.id.to_s + '/auto_facilitation_test', method: :post, data: { confirm: "一度このテーマの投稿を全て削除して、オートファシリテーションのテストを行います。本当によろしいですか？" } do %>
+        <button type="button" class="btn btn-default">オートファシリテーションテスト</button>
+      <% end %>
+    </div>
   </div>
-  <div class="btn-group" role="group">
-    <%= link_to '/themes/only_timeline/' + @theme.id.to_s do %>
-      <button type="button" class="btn btn-default">スライド表示モード</button>
-    <% end %>
-  </div>
-</div>
-<br />
+  <br />
 <% end %>
 
 <ul class="nav nav-pills nav-collagree" role="tablist">

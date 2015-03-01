@@ -1,6 +1,8 @@
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
   include ApplicationHelper
+
+  protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
@@ -49,25 +51,36 @@ class ThemesController < ApplicationController
     end
   end
 
+  # オートファシリテーション用メソッド
   def auto_facilitation_test
     # Modelのtimestampの更新を無効に
-    Model.record_timestamps = false
+    Entry.record_timestamps = false
 
-    seed_theme_id = 10
-    target_theme_id = 10
+    theme = Theme.find(params[:id])
+    theme.entries.delete_all
+    theme.point_histories.delete_all
+
+    seed_theme_id = 2 # 元となる議論テーマのIDを指定
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(seed_theme_id).root
 
     @entries.each do |entry|
-      entry.copy(target_theme_id)
-
-      entry.thread_entries.each do |child|
-        child.copy(target_theme_id)
-        post_facilitation(child, target_theme_id) if entry.body.length > child.body.length
-      end
+      copy_entry = entry.copy(nil, params[:id])
+      children_copy(entry, copy_entry, params[:id])
     end
 
     # Modelのtimestampの更新を有効に
-    Model.record_timestamps = true
+    Entry.record_timestamps = true
+
+    redirect_to theme
+  end
+
+  # オートファシリテーション用メソッド
+  def children_copy(entry, copy_entry, theme_id)
+    entry.thread_childrens.each do |child|
+      copy_child = child.copy(copy_entry, theme_id)
+      Entry.post_facilitation(copy_child, theme_id) if entry.body.length > child.body.length # ここにオートファシリテーション用の条件を付与
+      children_copy(child, copy_child, theme_id)
+    end
   end
 
   def only_timeline
