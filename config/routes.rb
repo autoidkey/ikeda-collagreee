@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   post 'entries/np' => 'entries#np'
   post 'entries/render_new/:id' => 'entries#render_new'
   post 'entries/like' => 'entries#like'
+
   post 'load_test_api' => 'homes#load_test_api'
+
   post 'themes/create_entry/:id' => 'themes#create_entry'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
@@ -26,6 +28,7 @@ Rails.application.routes.draw do
   get 'themes/:id/discussion_data' => 'themes#discussion_data'
   get 'themes/:id/point_data' => 'themes#point_data'
   post 'themes/render_new/:id' => 'themes#render_new'
+  post 'themes/:id/auto_facilitation_test' => 'themes#auto_facilitation_test'
 
   # api
   get 'users/:id' =>  'users#show'

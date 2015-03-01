@@ -29,6 +29,13 @@ class Entry < ActiveRecord::Base
 
   NP_THRESHOLD = 50
 
+  def copy(theme_id)
+    new_entry = entry.dup
+    new_entry.theme_id = target_theme_id
+    new_entry.save
+    new_entry
+  end
+
   def parent
     parent_id.nil? ? self : Entry.find(parent_id)
   end
@@ -116,6 +123,18 @@ class Entry < ActiveRecord::Base
         Entry.delay.sending_facilitation_notice(self, join)
       end
     end
+  end
+
+  def self.post_facilitation(parent, theme_id)
+    params =  {
+      body: FACILITATION1,
+      theme_id: theme_id,
+      parernt_id: parent.id,
+      user_id: FACILITATOR_ID,
+      facilitation: true,
+      created_at: parent.created_at + 1.minutes
+      }
+    Entry.new(params).save
   end
 
   def self.sending_facilitation_notice(entry, join)

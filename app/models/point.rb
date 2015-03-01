@@ -3,8 +3,6 @@ class Point < ActiveRecord::Base
   belongs_to :theme
 
   default_scope -> { order('updated_at DESC') }
-  scope :user_point, ->(theme) { where(theme: theme, latest: true) }
-  scope :user_all_point, ->(user, theme) { where(theme: theme, user: user) }
 
   THEME_POINT = 'theme.point:'
   USER_POINT = 'user.point'

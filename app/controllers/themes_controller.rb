@@ -49,6 +49,27 @@ class ThemesController < ApplicationController
     end
   end
 
+  def auto_facilitation_test
+    # Modelのtimestampの更新を無効に
+    Model.record_timestamps = false
+
+    seed_theme_id = 10
+    target_theme_id = 10
+    @entries = Entry.all.includes(:user).includes(:issues).in_theme(seed_theme_id).root
+
+    @entries.each do |entry|
+      entry.copy(target_theme_id)
+
+      entry.thread_entries.each do |child|
+        child.copy(target_theme_id)
+        post_facilitation(child, target_theme_id) if entry.body.length > child.body.length
+      end
+    end
+
+    # Modelのtimestampの更新を有効に
+    Model.record_timestamps = true
+  end
+
   def only_timeline
     @entry = Entry.new
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
@@ -147,7 +168,7 @@ class ThemesController < ApplicationController
 
   def point_graph
     @user = current_user if user_signed_in?
-    @points = Point.user_all_point(@user, @theme).take(40)
+    # @points = Point.user_all_point(@user, @theme).take(40)
     render 'point_graph', formats: [:json], handlers: [:jbuilder]
   end
 
@@ -179,8 +200,6 @@ class ThemesController < ApplicationController
   def set_point
     if user_signed_in?
       @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
-      # @point = current_user.point(@theme)
-      # @point_sum = @theme.score(current_user)
       @point_list = {
         sum: @theme.score(current_user),
         entry: current_user.redis_entry_point(@theme),
@@ -197,7 +216,6 @@ class ThemesController < ApplicationController
   end
 
   def set_ranking
-    @users = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.sum_point(@theme) }
     @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme, facilitation: false).count }
     @user_ranking = @theme.point_ranking
     @user_ranking_before_0130 = @theme.point_ranking_before_0130
