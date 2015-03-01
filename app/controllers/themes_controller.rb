@@ -87,12 +87,13 @@ class ThemesController < ApplicationController
       is_entry_pn = entry.np.to_i >= 50 ? true :  false
       is_entry_pn = entry.parent_id.nil? ? true : is_entry_pn
       is_child_pn = child.np.to_i >= 50 ? true :  false
+      ignore_same_user = entry.user_id == child.user_id ? false : true
 
-      if child_timestamp - entry_timestamp > 60*60
+      if child_timestamp - entry_timestamp > 60*60 and ignore_same_user
         body = "議論が停滞しています。何か意見のある人は居ませんか？"
         Entry.post_facilitation(copy_child, theme_id , body)
 
-      elsif not (is_entry_pn and is_child_pn)
+      elsif not (is_entry_pn and is_child_pn) and ignore_same_user
         body = "メリットとデメリットを挙げてみましょう。" + is_entry_pn.to_s + is_child_pn.to_s
         Entry.post_facilitation(copy_child, theme_id , body)
       end
