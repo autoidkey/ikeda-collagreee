@@ -43,6 +43,12 @@ class HomesController < ApplicationController
     render json: entry.to_json
   end
 
+  def destroy_theme_entries
+    theme = Theme.find(params[:theme_id])
+    theme.entries.delete_all
+    theme.activities.delete_all
+  end
+
   private
 
    def entry_params

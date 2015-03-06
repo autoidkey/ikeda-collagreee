@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post 'entries/render_new/:id' => 'entries#render_new'
   post 'entries/like' => 'entries#like'
   post 'load_test_api' => 'homes#load_test_api'
+  post 'destroy_theme_entries' => 'homes#destroy_theme_entries'
+
   post 'themes/create_entry/:id' => 'themes#create_entry'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
