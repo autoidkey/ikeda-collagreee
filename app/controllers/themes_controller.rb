@@ -197,7 +197,6 @@ class ThemesController < ApplicationController
   end
 
   def set_ranking
-    @users = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.sum_point(@theme) }
     @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme, facilitation: false).count }
     @user_ranking = @theme.point_ranking
     @user_ranking_before_0130 = @theme.point_ranking_before_0130
