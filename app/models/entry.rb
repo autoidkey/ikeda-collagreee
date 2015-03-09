@@ -25,7 +25,7 @@ class Entry < ActiveRecord::Base
 
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
-  after_save :notice_entry, :notice_facilitation, if: :is_root?
+  # after_save :notice_entry, :notice_facilitation, if: :is_root?
 
   NP_THRESHOLD = 50
 
