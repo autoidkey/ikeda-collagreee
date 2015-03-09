@@ -44,10 +44,11 @@ class HomesController < ApplicationController
   end
 
   def destroy_theme_entries
-    binding.pry
     theme = Theme.find(params[:theme_id])
     theme.entries.delete_all
     theme.activities.delete_all
+    theme.point_histories.delete_all
+    Notice.delete_all
     redirect_to '/'
   end
 
