@@ -43,6 +43,7 @@ class Ability
       can :search_entry, Theme
       can :check_new_message_2015_1, Theme
       can :auto_facilitation_test, Theme
+      can :auto_facilitation_json, Theme
     end
   end
 end

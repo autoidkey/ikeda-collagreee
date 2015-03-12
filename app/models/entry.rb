@@ -22,6 +22,7 @@ class Entry < ActiveRecord::Base
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
   scope :latest, -> { order('created_at DESC') }
+  scope :id_asc, -> { order('id ASC') }
 
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
@@ -29,7 +30,7 @@ class Entry < ActiveRecord::Base
 
   NP_THRESHOLD = 50
   # FACILITATION1 = "投稿が短いですよ！"
-  FACILITATOR_ID = 82
+  FACILITATOR_ID = 10
 
   # オートファシリテーション用の投稿コピー
   def copy(parent, theme_id)
@@ -57,6 +58,21 @@ class Entry < ActiveRecord::Base
     Entry.new(params).save
   end
 
+  # オートファシリテーション用のファシリテーション投稿
+  def self.post_facilitation_keyword(thread_id, theme_id, body)
+    params =  {
+      body: body,
+      theme_id: theme_id,
+      parent_id: thread_id,
+      user_id: FACILITATOR_ID,
+      facilitation: true,
+      np: 50,
+      created_at: Time.now,
+      updated_at: Time.now
+      }
+    Entry.new(params).save
+  end
+
   def parent
     parent_id.nil? ? self : Entry.find(parent_id)
   end
@@ -74,11 +90,11 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.children(root_entry.id).includes(:user)
+    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user)
   end
 
   def thread_childrens
-    Entry.children(id).includes(:user)
+    Entry.unscoped.order('id ASC').children(id).includes(:user)
   end
 
   def thread_np_count

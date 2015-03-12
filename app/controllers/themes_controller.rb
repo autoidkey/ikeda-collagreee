@@ -53,6 +53,7 @@ class ThemesController < ApplicationController
     end
   end
 
+
   # オートファシリテーション用メソッド
   def auto_facilitation_test
     # Modelのtimestampの更新を無効に
@@ -82,6 +83,9 @@ class ThemesController < ApplicationController
     entry.thread_childrens.each do |child|
       copy_child = child.copy(copy_entry, theme_id)
       # ここにオートファシリテーション用の条件を付与
+
+      strTime = Time.now.strftime("%Y-%m-%d %H-%M-%S")
+      now_timestamp   = Time.parse(strTime).to_i
       entry_timestamp =  Time.parse(entry.created_at.to_s).to_i
       child_timestamp =  Time.parse(child.created_at.to_s).to_i
       is_entry_pn = entry.np.to_i >= 50 ? true :  false
@@ -89,12 +93,12 @@ class ThemesController < ApplicationController
       is_child_pn = child.np.to_i >= 50 ? true :  false
       ignore_same_user = entry.user_id == child.user_id ? false : true
 
-      if child_timestamp - entry_timestamp > 60*60 and ignore_same_user
+      if now_timestamp - child_timestamp > 60*60 and ignore_same_user
         body = "議論が停滞しています。何か意見のある人は居ませんか？"
         Entry.post_facilitation(copy_child, theme_id , body)
 
       elsif not (is_entry_pn and is_child_pn) and ignore_same_user
-        body = "メリットとデメリットを挙げてみましょう。" + is_entry_pn.to_s + is_child_pn.to_s
+        body = "メリットとデメリットを挙げてみましょう。"
         Entry.post_facilitation(copy_child, theme_id , body)
       end
       children_copy(child, copy_child, theme_id)

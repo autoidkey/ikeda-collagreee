@@ -1,4 +1,4 @@
-<div class="child-content <%= 'facilitation-back' if child.facilitation? %>">
+<div class="child-content ">
   <div id="entry-<%= child.id %>" class="child post-content" data-id="<%= child.id %>">
     <div class="child-points">
       <p class="points" id="point-<%= child.id %>"><%= child.score %></p>
@@ -13,9 +13,14 @@
       <span class="label label-warning thumb-box">反対</span>
     <% end %>
 
+
+    <div class="<%= 'facilitation-back' if child.facilitation? %>">
+
     <div class="child-body">
-      <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %> (No.<%= child.id %>)
-      <%#= simple_format(child.body) %> (No.<%= child.id %>)
+      <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %> 
+      <!-- (No.<%= child.id %>) -->
+      <%#= simple_format(child.body) %>
+       <!-- (No.<%= child.id %>) -->
     </div>
 
     <% if child.image? %>
@@ -40,6 +45,8 @@
     <% end %>
     <hr />
 
+  </div>
+
     <% if user_signed_in? && smartphone? %>
       <div class="buttons">
         <%= render 'reply_button', entry: child %>
@@ -50,9 +57,7 @@
 
     <div class="replies">
       <% child.thread_childrens.each do |c| %>
-        <div  style="<%= 'background-color:#CBE4EE;padding:10px;' if c.facilitation %>;">
         <%= render 'child_entry', child: c %>
-      </div>
       <% end %>
     </div>
 

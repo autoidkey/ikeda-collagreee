@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119131909) do
+ActiveRecord::Schema.define(version: 20150312060720) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -70,6 +70,9 @@ ActiveRecord::Schema.define(version: 20150119131909) do
     t.integer  "has_point"
     t.integer  "has_reply"
   end
+
+  add_index "entries", ["parent_id"], name: "index_entries_on_parent_id", using: :btree
+  add_index "entries", ["updated_at"], name: "index_entries_on_updated_at", using: :btree
 
   create_table "exclusions", force: true do |t|
     t.string   "word"

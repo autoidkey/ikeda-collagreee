@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get 'themes/:id/point_data' => 'themes#point_data'
   post 'themes/render_new/:id' => 'themes#render_new'
   post 'themes/:id/auto_facilitation_test' => 'themes#auto_facilitation_test'
+  get 'themes/:id/auto_facilitation_json' => 'themes#auto_facilitation_json'
 
   # api
   get 'users/:id' =>  'users#show'
@@ -52,6 +53,8 @@ Rails.application.routes.draw do
   get 'homes/intro_display'
   get 'homes/intro_facilitation'
 
+  get 'homes/:id/auto_facilitation_json' => 'homes#auto_facilitation_json'
+  get 'homes/:id/auto_facilitation_post' => 'homes#auto_facilitation_post'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

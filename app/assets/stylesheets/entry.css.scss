@@ -5,11 +5,14 @@
 #timeline .entry-panel {
   border-color: #aaa;
 
-  &.facilitation-back {
-    background-color:  #cbe4ee;
-  }
 }
 
+.facilitation-back {
+  background-color:  #cbe4ee;
+  padding: 10px 10px 10px 5px;
+  border-radius: 4px;
+  
+}
 .actions {
   text-align: right;
   margin-top: 5px;

@@ -2,6 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.next_link_div{
+  background:#8899A6;
+  padding:10px 0px;
+  text-align:center;
+  color:#fff;
+}
+.next_link_div:hover{
+  opacity:0.80;
+}
+
+a.next_link_a_tag{
+  color:#fff;
+}
+a.next_link_a_tag:hover{
+  color:#fff;
+}
+
 .hero-image {
   background-image: url(/images/discussion2.jpg);
   background-size: cover;
