@@ -22,7 +22,7 @@ class Entry < ActiveRecord::Base
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
   scope :latest, -> { order('created_at DESC') }
-  scope :id_asc, -> { order('id ASC') }
+
 
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?

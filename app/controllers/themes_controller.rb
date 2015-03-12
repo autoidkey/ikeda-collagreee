@@ -17,6 +17,8 @@ class ThemesController < ApplicationController
   end
 
   def show
+
+
     @entry = Entry.new
     @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
 
@@ -31,6 +33,10 @@ class ThemesController < ApplicationController
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
+
+    # ウェブアクセスをカウントアップ
+    user_id = user_signed_in? ? current_user.id : nil
+    Webview.count_up(user_id,@theme.id)
 
     render 'show_no_point' unless @theme.point_function
   end

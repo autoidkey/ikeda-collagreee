@@ -60,6 +60,8 @@ class HomesController < ApplicationController
 
     entries = Entry.all.includes(:user).includes(:issues).in_theme(theme_id).root
     
+    webviews = Webview.get_all(theme_id)
+
     entries_json = []
     ids_json = []
     ids_all_json = []
@@ -74,7 +76,7 @@ class HomesController < ApplicationController
       ids_all_json.push(ids_all)
     end
 
-    render :json => {"ids"=> ids_json,"ids_all"=> ids_all_json,"data"=> entries_json}
+    render :json => {"ids"=> ids_json,"ids_all"=> ids_all_json,"data"=> entries_json, "webview"=>webviews}
 
   end
 
