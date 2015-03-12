@@ -216,12 +216,4 @@ ActiveRecord::Schema.define(version: 20150312085010) do
   add_index "webviews", ["theme_id"], name: "index_webviews_on_theme_id", using: :btree
   add_index "webviews", ["user_id"], name: "index_webviews_on_user_id", using: :btree
 
-  create_table "webviews2", force: true do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "webviews2", ["user_id"], name: "index_webviews_on_user_id", using: :btree
-
 end
