@@ -18,7 +18,7 @@ class ThemesController < ApplicationController
 
   def show
     @entry = Entry.new
-    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new

@@ -5,9 +5,24 @@ import json
 import util_collagree
 import extra_issues
 from prettyprint import pp
+import commands
+import time
 
 if __name__ == '__main__':
-    json_data = json.load(open("auto_facilitation_json.json"))
+    baseURL = "http://127.0.0.1:3000"
+    theme_id = 2
+    theme_id_str = str(theme_id)
+
+    output_file = "../app/assets/json/issues_{}.json".format(theme_id_str)
+
+    url = "{}/homes/{}/auto_facilitation_json".format(baseURL, theme_id)
+
+    fetch_file = "auto_facilitation_json_{}.json".format(theme_id_str)
+    cmd = 'curl {} -o ./{}'.format(url, fetch_file)
+    print cmd
+
+    print commands.getstatusoutput(cmd)
+    json_data = json.load(open(fetch_file))
     ids = json_data["ids"]
     ids_all = json_data["ids_all"]
     data_all = json_data["data"]
@@ -73,6 +88,11 @@ if __name__ == '__main__':
         print "\n"
 
 
+    timestamp_str = time.time()
+    json_data_dic = {"thread_ids" : thread_ids_json, "issues": thread_issues_json, "timestamp":timestamp_str}
+    json_data_output =  json.dumps(json_data_dic)
 
-    json_data_dump = {"thread_ids" : thread_ids_json, "issues": thread_issues_json}
-    print json.dumps(json_data_dump)
+    # 書き込み
+    f = file(output_file, 'w')
+    f.writelines(json_data_output)
+    f.close()

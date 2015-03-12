@@ -2,7 +2,7 @@ class NoticeMailer < ActionMailer::Base
   add_template_helper(ApplicationHelper)
   default from: 'from@example.com'
   SERVER_URL = 'http://collagree.com'
-  TO = 'yuma.imi13@gmail.com'
+  TO = 'nanigashi03@gmail.com'
 
   def facilitation_notice(facilitation, user)
     @entry = facilitation

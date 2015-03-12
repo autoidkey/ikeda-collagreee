@@ -9,27 +9,43 @@ class HomesController < ApplicationController
 
     theme_id = params[:id]
     # フラグ管理
-    file = File.read('app/assets/json/issues.json')
-    data_hash = JSON.parse(file)
+
+    json_filename = 'app/assets/json/issues_'+theme_id.to_s+'.json'
+    flag_filename =  'app/assets/json/flag_'+theme_id.to_s+'.txt'
+
+    data_hash = JSON.parse(File.read(json_filename))
     p "="*100
     p data_hash
-    data_hash["thread_ids"].each do |thread_id|
+    write_count = 0
+    timestamp = data_hash["timestamp"]
+    if not File.exist?(flag_filename)
+      File.write(flag_filename, "0")
+    end
+    recent_timestamp = File.read(flag_filename)
+    File.write(flag_filename, timestamp)
 
-      issues = data_hash["issues"][thread_id.to_s]
-      issues_str = ""
-      issues.each do |issue|
-        issues_str += "「"+ issue + "」"
+    # オートファシリテーションを実行
+    if recent_timestamp.to_i < timestamp.to_i
+      data_hash["thread_ids"].each do |thread_id|
+
+        issues = data_hash["issues"][thread_id.to_s]
+        issues_str = ""
+        issues.each do |issue|
+          issues_str += "「"+ issue + "」"
+        end
+        post_body = "キーワードとして" + issues_str + "が上がっています。\r\nこのキーワードを元に議論を進めていきましょう。"
+
+        p post_body
+
+        # thread_entry = Entry.find(thread_id)
+        Entry.post_facilitation_keyword(thread_id, theme_id , post_body)
+
       end
-      post_body = "キーワードとして" + issues_str + "が上がっています。このキーワードを元に議論を進めていきましょう"
 
-      p post_body
-
-      # thread_entry = Entry.find(thread_id)
-      Entry.post_facilitation_keyword(thread_id, theme_id , post_body)
-
+      write_count = data_hash["thread_ids"].count
     end
 
-    render :json => {"count"=>  data_hash["thread_ids"].count}
+    render :json => {"count"=>  write_count}
 
   end
 
