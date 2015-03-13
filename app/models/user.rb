@@ -246,4 +246,13 @@ class User < ActiveRecord::Base
     point = Redis.current.lrange(key, -1, -1)[0]
     point.present? ? point.to_f : 0.0
   end
+
+
+  # @return [Boolean] user should be remembered when he logs in (with cookie)
+  #   so he won't be asked to login again
+  # デフォルトでDeviseのセッションを保存する
+  def remember_me
+    true
+  end
+
 end
