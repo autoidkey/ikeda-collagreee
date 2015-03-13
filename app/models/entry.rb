@@ -23,11 +23,55 @@ class Entry < ActiveRecord::Base
   scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
   scope :latest, -> { order('created_at DESC') }
 
+
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
   # after_save :notice_entry, :notice_facilitation, if: :is_root?
 
   NP_THRESHOLD = 50
+  # FACILITATION1 = "投稿が短いですよ！"
+  FACILITATOR_ID = 10
+
+  # オートファシリテーション用の投稿コピー
+  def copy(parent, theme_id)
+    new_entry = self.dup
+    new_entry.theme_id = theme_id
+    new_entry.parent_id = parent.id unless parent.nil?
+    new_entry.created_at = created_at
+    new_entry.updated_at = updated_at
+    new_entry.save
+    new_entry
+  end
+
+  # オートファシリテーション用のファシリテーション投稿
+  def self.post_facilitation(parent, theme_id, body)
+    params =  {
+      body: body,
+      theme_id: theme_id,
+      parent_id: parent.id,
+      user_id: FACILITATOR_ID,
+      facilitation: true,
+      np: 50,
+      created_at: parent.created_at + 1.minutes,
+      updated_at: parent.updated_at + 1.minutes
+      }
+    Entry.new(params).save
+  end
+
+  # オートファシリテーション用のファシリテーション投稿
+  def self.post_facilitation_keyword(thread_id, theme_id, body)
+    params =  {
+      body: body,
+      theme_id: theme_id,
+      parent_id: thread_id,
+      user_id: FACILITATOR_ID,
+      facilitation: true,
+      np: 50,
+      created_at: Time.now,
+      updated_at: Time.now
+      }
+    Entry.new(params).save
+  end
 
   def parent
     parent_id.nil? ? self : Entry.find(parent_id)
@@ -46,11 +90,11 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.children(root_entry.id).includes(:user)
+    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user)
   end
 
   def thread_childrens
-    Entry.children(id).includes(:user)
+    Entry.unscoped.order('id ASC').children(id).includes(:user)
   end
 
   def thread_np_count
@@ -117,6 +161,12 @@ class Entry < ActiveRecord::Base
       end
     end
   end
+
+  # 動的にメールを送信するメソッドを呼び出す Entryに書く必要はない
+  def self.send_notice_delay(method_name)
+      NoticeMailer.send("#{method_name}").deliver
+  end
+  
 
   def self.sending_facilitation_notice(entry, join)
     NoticeMailer.facilitation_notice(entry, join.user).deliver

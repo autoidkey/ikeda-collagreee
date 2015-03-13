@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'entries/np' => 'entries#np'
   post 'entries/render_new/:id' => 'entries#render_new'
   post 'entries/like' => 'entries#like'
+
   post 'load_test_api' => 'homes#load_test_api'
   post 'destroy_theme_entries' => 'homes#destroy_theme_entries'
 
@@ -28,6 +29,8 @@ Rails.application.routes.draw do
   get 'themes/:id/discussion_data' => 'themes#discussion_data'
   get 'themes/:id/point_data' => 'themes#point_data'
   post 'themes/render_new/:id' => 'themes#render_new'
+  post 'themes/:id/auto_facilitation_test' => 'themes#auto_facilitation_test'
+  get 'themes/:id/auto_facilitation_json' => 'themes#auto_facilitation_json'
 
   # api
   get 'users/:id' =>  'users#show'
@@ -51,6 +54,8 @@ Rails.application.routes.draw do
   get 'homes/intro_display'
   get 'homes/intro_facilitation'
 
+  get 'homes/:id/auto_facilitation_json' => 'homes#auto_facilitation_json'
+  get 'homes/:id/auto_facilitation_post' => 'homes#auto_facilitation_post'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

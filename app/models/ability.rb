@@ -35,13 +35,15 @@ class Ability
       can :json_user_point, Theme
       can :create_entry, Theme
       can :check_new_message_2015_1, Theme
+      can :auto_facilitation_test, Theme
     else                        # guest
       can :read, Theme
       can :check_new, Theme
       can :render_new, Theme
       can :search_entry, Theme
       can :check_new_message_2015_1, Theme
-      can :load_test_api, Entry
+      can :auto_facilitation_test, Theme
+      can :auto_facilitation_json, Theme
     end
   end
 end

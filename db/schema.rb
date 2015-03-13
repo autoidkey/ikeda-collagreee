@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119131909) do
+ActiveRecord::Schema.define(version: 20150312085010) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -70,6 +70,9 @@ ActiveRecord::Schema.define(version: 20150119131909) do
     t.integer  "has_point"
     t.integer  "has_reply"
   end
+
+  add_index "entries", ["parent_id"], name: "index_entries_on_parent_id", using: :btree
+  add_index "entries", ["updated_at"], name: "index_entries_on_updated_at", using: :btree
 
   create_table "exclusions", force: true do |t|
     t.string   "word"
@@ -202,5 +205,15 @@ ActiveRecord::Schema.define(version: 20150119131909) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "webviews", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "webviews", ["theme_id"], name: "index_webviews_on_theme_id", using: :btree
+  add_index "webviews", ["user_id"], name: "index_webviews_on_user_id", using: :btree
 
 end

@@ -1,20 +1,26 @@
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
   include ApplicationHelper
+
+  protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
   load_and_authorize_resource
 
   include Bm25
+  require 'time'
+  
 
   def index
     @themes = Theme.all
   end
 
   def show
+    NoticeMailer.delay.facilitate_join_notice() # メールの送信
+
     @entry = Entry.new
-    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -27,6 +33,10 @@ class ThemesController < ApplicationController
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
+
+    # ウェブアクセスをカウントアップ
+    user_id = user_signed_in? ? current_user.id : nil
+    Webview.count_up(user_id,@theme.id)
 
     render 'show_no_point' unless @theme.point_function
   end
@@ -46,6 +56,58 @@ class ThemesController < ApplicationController
       format.csv do
         send_data render_to_string, filename: "point-theme#{@theme.id}-#{Time.now.to_date.to_s}.csv", type: :csv
       end
+    end
+  end
+
+
+  # オートファシリテーション用メソッド
+  def auto_facilitation_test
+    # Modelのtimestampの更新を無効に
+    Entry.record_timestamps = false
+
+    theme = Theme.find(params[:id])
+    theme.entries.delete_all
+    theme.point_histories.delete_all
+
+    seed_theme_id = 2 # 元となる議論テーマのIDを指定
+    @entries = Entry.all.includes(:user).includes(:issues).in_theme(seed_theme_id).root
+
+    @entries.each do |entry|
+      copy_entry = entry.copy(nil, params[:id])
+      children_copy(entry, copy_entry, params[:id])
+    end
+
+    # Modelのtimestampの更新を有効に
+    Entry.record_timestamps = true
+
+    redirect_to theme
+  end
+
+  # オートファシリテーション用メソッド
+  def children_copy(entry, copy_entry, theme_id)
+    require 'time'
+    entry.thread_childrens.each do |child|
+      copy_child = child.copy(copy_entry, theme_id)
+      # ここにオートファシリテーション用の条件を付与
+
+      strTime = Time.now.strftime("%Y-%m-%d %H-%M-%S")
+      now_timestamp   = Time.parse(strTime).to_i
+      entry_timestamp =  Time.parse(entry.created_at.to_s).to_i
+      child_timestamp =  Time.parse(child.created_at.to_s).to_i
+      is_entry_pn = entry.np.to_i >= 50 ? true :  false
+      is_entry_pn = entry.parent_id.nil? ? true : is_entry_pn
+      is_child_pn = child.np.to_i >= 50 ? true :  false
+      ignore_same_user = entry.user_id == child.user_id ? false : true
+
+      if now_timestamp - child_timestamp > 60*60 and ignore_same_user
+        body = "議論が停滞しています。何か意見のある人は居ませんか？"
+        Entry.post_facilitation(copy_child, theme_id , body)
+
+      elsif not (is_entry_pn and is_child_pn) and ignore_same_user
+        body = "メリットとデメリットを挙げてみましょう。"
+        Entry.post_facilitation(copy_child, theme_id , body)
+      end
+      children_copy(child, copy_child, theme_id)
     end
   end
 
@@ -147,7 +209,7 @@ class ThemesController < ApplicationController
 
   def point_graph
     @user = current_user if user_signed_in?
-    @points = Point.user_all_point(@user, @theme).take(40)
+    # @points = Point.user_all_point(@user, @theme).take(40)
     render 'point_graph', formats: [:json], handlers: [:jbuilder]
   end
 
@@ -179,8 +241,6 @@ class ThemesController < ApplicationController
   def set_point
     if user_signed_in?
       @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
-      # @point = current_user.point(@theme)
-      # @point_sum = @theme.score(current_user)
       @point_list = {
         sum: @theme.score(current_user),
         entry: current_user.redis_entry_point(@theme),
