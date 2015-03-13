@@ -4,6 +4,21 @@ class NoticeMailer < ActionMailer::Base
   SERVER_URL = 'http://collagree.com'
   TO = 'nanigashi03@gmail.com'
 
+
+  # オートファシリテーションが投稿されたら通知する（ファシリテーターから返信がありました）
+
+
+  # 類似した意見が投稿されたら通知(only + subview)
+
+  # 議論に参加してください通知(only)
+  def facilitate_join_notice()
+
+    
+    mail(to: TO, subject: '[COLLAGREE] テストメール') do |format|
+      format.html { render 'template'  }
+    end
+  end
+
   def facilitation_notice(facilitation, user)
     @entry = facilitation
     @to = user

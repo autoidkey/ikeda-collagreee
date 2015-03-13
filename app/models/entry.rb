@@ -162,6 +162,12 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  # 動的にメールを送信するメソッドを呼び出す Entryに書く必要はない
+  def self.send_notice_delay(method_name)
+      NoticeMailer.send("#{method_name}").deliver
+  end
+  
+
   def self.sending_facilitation_notice(entry, join)
     NoticeMailer.facilitation_notice(entry, join.user).deliver
   end

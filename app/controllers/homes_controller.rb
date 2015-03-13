@@ -83,8 +83,15 @@ class HomesController < ApplicationController
   # オートファシリテーション用メソッド
   def children_loop(entry, theme_id , dict, ids, ids_all)
     entry.thread_childrens.each do |child|
+      child_hash = child.attributes
+      child_likes = child.likes
 
-      dict[child.id] = child
+      child_hash["like"] = child_likes
+      child_hash["like_count"] = child_likes.count
+
+
+      dict[child.id] = child_hash
+
       ids[entry.id] = ids.fetch(entry.id, []).push(child.id)
       ids_all.push(child.id)
       dict,ids,ids_all = children_loop(child, theme_id, dict, ids, ids_all)
