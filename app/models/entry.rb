@@ -30,7 +30,7 @@ class Entry < ActiveRecord::Base
 
   NP_THRESHOLD = 50
   # FACILITATION1 = "投稿が短いですよ！"
-  FACILITATOR_ID = 10
+  FACILITATOR_ID = 1
 
   # オートファシリテーション用の投稿コピー
   def copy(parent, theme_id)

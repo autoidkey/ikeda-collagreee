@@ -11,14 +11,25 @@ class NoticeMailer < ActionMailer::Base
   # 類似した意見が投稿されたら通知(only + subview)
 
   # 議論に参加してください通知(only)
-  def facilitate_join_notice()
-    @mail_title = "ここにタイトル"
-    @mail_body = "ここに本文"
+  def facilitate_join_notice(title,mail_title, mail_body)
+    @mail_title = mail_title
+    @mail_body = mail_body
 
-    mail(to: TO, subject: '[COLLAGREE] テストメール') do |format|
+    mail(to: TO, subject: '[COLLAGREE] '+title) do |format|
       format.html { render 'template'  }
     end
   end
+
+
+  def auto_notice(title,mail_title, mail_body)
+    @mail_title = mail_title
+    @mail_body = mail_body
+
+    mail(to: TO, subject: '[COLLAGREE] '+title) do |format|
+      format.html { render 'template'  }
+    end
+  end
+
 
   def facilitation_notice(facilitation, user)
     @entry = facilitation

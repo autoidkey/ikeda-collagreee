@@ -10,4 +10,5 @@
 .ruby-version
 /config/database.yml
 /assets/json/*.json
+/python/*.json
 ,/

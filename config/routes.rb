@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
   get 'homes/:id/auto_facilitation_json' => 'homes#auto_facilitation_json'
   get 'homes/:id/auto_facilitation_post' => 'homes#auto_facilitation_post'
+  get 'homes/:id/auto_facilitation_notice' => 'homes#auto_facilitation_notice'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
