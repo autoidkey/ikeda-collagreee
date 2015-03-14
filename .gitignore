@@ -9,6 +9,7 @@
 /public/assets
 .ruby-version
 /config/database.yml
-/assets/json/*.json
+/app/assets/json/*.json
+/app/assets/json/*.txt
 /python/*.json
 ,/
