@@ -21,11 +21,11 @@ if __name__ == '__main__':
 
     url = "{}/homes/{}/auto_facilitation_json".format(baseURL, theme_id)
     fetch_file = "auto_facilitation_json_{}.json".format(theme_id_str)
-    
+
     cmd = 'curl {} -o ./{}'.format(url, fetch_file)
     print cmd
     print commands.getstatusoutput(cmd)
-    
+
     now_timestamp = time.time()
 
     import os.path
@@ -50,6 +50,9 @@ if __name__ == '__main__':
     data_all = json_data["data"]
     webview_all = json_data["webview"]
 
+    pp(data_all)
+    pp(ids)
+    pp(ids_all)
 
     access_user_dict = {}
     # 議論に参加していない人の発見（アクセスしているユーザ - 意見を投稿しているユーザ）
@@ -73,17 +76,17 @@ if __name__ == '__main__':
     for index,d in enumerate(ids):
         root_id = d["root"]
         root_id_str = str(root_id)
-        data = data_all[index]
+
         child_ids = ids_all[index]
         thread_ids = [root_id] + child_ids
 
-        post_user_id = data[root_id_str]["user_id"]
-        post_user_id_child = [data[str(_id)]["user_id"] for _id in thread_ids]
+        post_user_id = data_all[root_id_str]["user_id"]
+        post_user_id_child = [data_all[str(_id)]["user_id"] for _id in thread_ids]
 
         # ユーザの投稿データのハッシュを作成
-        post_user_dict[post_user_id] = post_user_dict.get(post_user_id,[]) + [data[root_id_str]]
+        post_user_dict[post_user_id] = post_user_dict.get(post_user_id,[]) + [data_all[root_id_str]]
         for _id in thread_ids:
-            post_user_dict[str(_id)] = post_user_dict.get(str(_id),[]) + [data[str(_id)]]
+            post_user_dict[str(_id)] = post_user_dict.get(str(_id),[]) + [data_all[str(_id)]]
 
 
         post_users_set = list(post_users_set)
@@ -174,17 +177,17 @@ if __name__ == '__main__':
 
         # child_idsについて論点抽出をする
         thread_ids = [root_id] + child_ids
-        data = data_all[index]
-        thread_user_ids = [data[str(_id)]["user_id"] for _id in thread_ids]
-        body = data[root_id_str]["body"]
+        thread_user_ids = [data_all[str(_id)]["user_id"] for _id in thread_ids]
+
+        body = data_all[root_id_str]["body"]
 
 
-        thread_facilitations = [data[str(_id)]["facilitation"]  for _id in thread_ids]
+        thread_facilitations = [data_all[str(_id)]["facilitation"]  for _id in thread_ids]
         after_facilitation_count = 0 # オートファシリテーション後の投稿数
         previous_keywords = ""
         for i,is_facilitation in enumerate(thread_facilitations[::-1]):
             index = len(thread_facilitations) - i - 1
-            body = data[str(thread_ids[index])]["body"]
+            body = data_all[str(thread_ids[index])]["body"]
             if is_facilitation and u"キーワード" in body:
                 previous_keywords = [k.split(u"」")[0] for k in body.split(u"「")[1:]]
                 break
@@ -194,7 +197,7 @@ if __name__ == '__main__':
         # print body
         body_str = body.encode("utf-8")
 
-        bodies = [data[str(_id)]["body"] for _id in thread_ids]
+        bodies = [data_all[str(_id)]["body"] for _id in thread_ids]
         mecab_words = [util_collagree.extractKeywordAll(_body.encode("utf-8")) for _body in bodies]
 
 
