@@ -101,7 +101,7 @@ class HomesController < ApplicationController
     
     webviews = Webview.get_all(theme_id)
 
-    entries_json = []
+    entries_json = {}
     ids_json = []
     ids_all_json = []
     entries.each do |entry|
@@ -110,7 +110,10 @@ class HomesController < ApplicationController
       ids_all = []
       dict,ids,ids_all = children_loop(entry, theme_id , dict , ids, ids_all)
 
-      entries_json.push(dict)
+      dict.keys().each do |key|
+        entries_json[key] = dict[key]
+      end
+      # entries_json.push(dict)
       ids_json.push(ids)
       ids_all_json.push(ids_all)
     end
