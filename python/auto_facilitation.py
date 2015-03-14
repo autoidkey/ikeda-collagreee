@@ -7,26 +7,41 @@ import extra_issues
 from prettyprint import pp
 import commands
 import time
+from datetime import datetime as dt
 
 if __name__ == '__main__':
-    baseURL = "http://127.0.0.1:3000"
+    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
     theme_id = 2
     theme_id_str = str(theme_id)
 
     output_file = "../app/assets/json/issues_{}.json".format(theme_id_str)
 
     url = "{}/homes/{}/auto_facilitation_json".format(baseURL, theme_id)
-
     fetch_file = "auto_facilitation_json_{}.json".format(theme_id_str)
+
+    '''
     cmd = 'curl {} -o ./{}'.format(url, fetch_file)
     print cmd
-
     print commands.getstatusoutput(cmd)
+    '''
     json_data = json.load(open(fetch_file))
     ids = json_data["ids"]
     ids_all = json_data["ids_all"]
     data_all = json_data["data"]
+    webview_all = json_data["webview"]
 
+    # 議論に参加していない人の発見（アクセスしているユーザ - 意見を投稿しているユーザ）
+    for webview_item in webview_all:
+        access_time_str = webview_item["created_at"]
+        access_time = dt.strptime(access_time_str, "%Y-%m-%dT%H:%M:%S.000+09:00")
+
+        access_user_id = webview_item["user_id"]
+        access_theme_id = webview_item["theme_id"]
+        print access_time,access_user_id,access_theme_id
+        print time.mktime(access_time.timetuple())
+
+    ''' 
+    # スレッド内の論点抽出
     thread_ids_json = []
     thread_issues_json = {}
     for index,d in enumerate(ids):
@@ -71,10 +86,11 @@ if __name__ == '__main__':
         print root_id
         pp(issues_count_sorted[:3])
 
-        if len(issues_count_sorted[:3]) > 0:
+        # 2回以上出現する論点が抽出できた＆スレッドの投稿が3件以上
+        if len(issues_count_sorted[:3]) > 0 and len(thread_ids) >= 3:
             thread_ids_json.append(root_id)
             thread_issues_json[root_id] = issues_count_sorted[:3]
-        # 共通の論点を抽出する
+
 
 
 
@@ -96,3 +112,6 @@ if __name__ == '__main__':
     f = file(output_file, 'w')
     f.writelines(json_data_output)
     f.close()
+
+
+    '''

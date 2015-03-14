@@ -12,8 +12,9 @@ class NoticeMailer < ActionMailer::Base
 
   # 議論に参加してください通知(only)
   def facilitate_join_notice()
+    @mail_title = "ここにタイトル"
+    @mail_body = "ここに本文"
 
-    
     mail(to: TO, subject: '[COLLAGREE] テストメール') do |format|
       format.html { render 'template'  }
     end

@@ -239,7 +239,16 @@ nav.pagination {
   text-align: center;
 }
 
-.slider .ui-slider-range { background: #a3a3a3; }
+// override
+.label-success {
+  background-color: #3498DB !important;
+}
+.label-warning{
+  background-color: #E05151 !important;
+}
+
+.slider_np_bar {background: #3498DB !important;margin-top:2px;}
+.slider .ui-slider-range { background: #E05151; }
 .slider .ui-slider-handle { border-color: #a3a3a3; }
 
 .np-slider-label .label-success {
