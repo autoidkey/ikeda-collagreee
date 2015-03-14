@@ -174,8 +174,8 @@ if __name__ == '__main__':
 
         # child_idsについて論点抽出をする
         thread_ids = [root_id] + child_ids
-        thread_user_ids = [data[str(_id)]["user_id"] for _id in thread_ids]
         data = data_all[index]
+        thread_user_ids = [data[str(_id)]["user_id"] for _id in thread_ids]
         body = data[root_id_str]["body"]
 
 
