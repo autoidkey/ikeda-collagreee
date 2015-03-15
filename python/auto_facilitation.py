@@ -12,8 +12,8 @@ from datetime import datetime as dt
 import sys
 
 if __name__ == '__main__':
-    # baseURL = "http://collagree.com"
-    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
+    baseURL = "http://collagree.com"
+    # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
     theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
@@ -248,6 +248,7 @@ if __name__ == '__main__':
         after_threshold_count = 3
         keywords_count = 3
 
+
         cond_after = True # オートファシリテーション後に意見が出ていればTrue
         if max(thread_facilitations):
             cond_after = after_facilitation_count > after_threshold_count
@@ -260,7 +261,7 @@ if __name__ == '__main__':
         is_same_keywords = set(issues_limit_uni) == set(previous_keywords)
         is_threshold_length = len(thread_ids) >= threshold_count
         is_morethan_one_length = len(issues_count_sorted[:keywords_count]) > 0
-        
+
 
         print "is_morethan_one_length",is_morethan_one_length
         print "is_threshold_length",is_threshold_length

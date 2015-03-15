@@ -102,7 +102,7 @@ class HomesController < ApplicationController
         data_hash_np["np_notice_ids"][index].each do |notice_user_id|
           user = User.find(notice_user_id)
           post_title = ""
-          post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を挙げて議論を進めていきましょう。"
+          post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を教えていただけますか？"
           post_theme_id = theme_id.to_s
           NoticeMailer.delay.auto_notice("メリット・デメリットを挙げてみましょう",post_title,post_body, post_theme_id,user)
           write_count_np += 1
