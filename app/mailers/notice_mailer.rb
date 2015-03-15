@@ -11,11 +11,11 @@ class NoticeMailer < ActionMailer::Base
   # 類似した意見が投稿されたら通知(only + subview)
 
   # 議論に参加してください通知(only)
-  def facilitate_join_notice(title,mail_title, mail_body)
+  def facilitate_join_notice(title,mail_title, mail_body, theme_id, user)
     @mail_title = mail_title
     @mail_body = mail_body
 
-    mail(to: TO, subject: '[COLLAGREE] '+title) do |format|
+    mail(to: user.email, subject: '[COLLAGREE] '+title) do |format|
       format.html { render 'template'  }
     end
   end
@@ -26,7 +26,7 @@ class NoticeMailer < ActionMailer::Base
     @mail_body = mail_body
     @url = SERVER_URL + '/themes/' + theme_id
 
-    mail(to: TO, subject: '[COLLAGREE] '+title) do |format|
+    mail(to: user.email, subject: '[COLLAGREE] '+title) do |format|
       format.html { render 'template'  }
     end
   end
@@ -37,7 +37,7 @@ class NoticeMailer < ActionMailer::Base
     @to = user
     @url = SERVER_URL + '/themes/' + @entry.theme.id.to_s
 
-    mail to: TO, subject: '[COLLAGREE] 参加テーマにファシリテータからの投稿がありました！'
+    mail to: @to.email, subject: '[COLLAGREE] 参加テーマにファシリテータからの投稿がありました！'
   end
 
   def reply_notice(point_history)
@@ -48,7 +48,7 @@ class NoticeMailer < ActionMailer::Base
     @to = @entry.user
     @url = SERVER_URL + '/themes/' + @entry.theme.id.to_s
 
-    mail to: TO, subject: '[COLLAGREE] 返信ポイント獲得！'
+    mail to: @to.email, subject: '[COLLAGREE] 返信ポイント獲得！'
   end
 
   def like_notice(point_history)
@@ -58,7 +58,7 @@ class NoticeMailer < ActionMailer::Base
     @point = point_history.point
     @url = SERVER_URL + '/themes/' + @entry.theme.id.to_s
 
-    mail to: TO, subject: '[COLLAGREE] いいねポイント獲得！'
+    mail to: @to.email, subject: '[COLLAGREE] いいねポイント獲得！'
   end
 
   def reply_notice_no_point(point_history)
@@ -69,7 +69,7 @@ class NoticeMailer < ActionMailer::Base
     @to = @entry.user
     @url = SERVER_URL + '/themes/' + @entry.theme.id.to_s
 
-    mail to: TO, subject: '[COLLAGREE] 返信されました！'
+    mail to: @to.email, subject: '[COLLAGREE] 返信されました！'
   end
 
   def like_notice_no_point(point_history)
@@ -79,6 +79,6 @@ class NoticeMailer < ActionMailer::Base
     @point = point_history.point
     @url = SERVER_URL + '/themes/' + @entry.theme.id.to_s
 
-    mail to: TO, subject: '[COLLAGREE] いいねされました！'
+    mail to: @to.email, subject: '[COLLAGREE] いいねされました！'
   end
 end

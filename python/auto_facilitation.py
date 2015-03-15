@@ -105,6 +105,9 @@ if __name__ == '__main__':
         not_notice_flag = True
         if notjoined_user_id in history_data["dict"].keys():
             recent_history = history_data["dict"][notjoined_user_id][-1]
+
+            if recent_history["type"] != ntype:
+                continue
             recent_timestamp = recent_history["timestamp"]
 
             # TODO:実験開始すぐに通知が行かないように修正
@@ -123,10 +126,22 @@ if __name__ == '__main__':
     print not_joined_users_set
     print notice_all_dicts[ntype]
 
+    # 平均返信率
+    for index,d in enumerate(ids):
+        root_id = d["root"]
+        root_id_str = str(root_id)
+        child_ids = ids_all[index]
+
+        # child_idsについて論点抽出をする
+        thread_ids = [root_id] + child_ids
+        thread_user_ids = [data_all[str(_id)]["user_id"] for _id in thread_ids]
+
 
 
     # 投稿率が低い人に通知
+    ntype = 1
     for access_user_id,access_list in access_user_dict.items():
+        access_user_id = str(access_user_id)
         recent_user_post_timestamp = 0.0
         if len(post_user_dict.get(access_user_id, [])) > 0:
             recent_user_post = post_user_dict.get(access_user_id, [])[-1]
@@ -136,9 +151,40 @@ if __name__ == '__main__':
 
         
         access_list_reversed = access_list[::-1]
-        count = len([1 for timestamp in access_list_reversed if timestamp > recent_user_post_timestamp])
+        viewcount = len([1 for timestamp in access_list_reversed if timestamp > recent_user_post_timestamp])
         
-        print "投稿率",count 
+        print "投稿しないで閲覧した回数",viewcount 
+            
+        if viewcount >= 10:
+            not_notice_flag = True
+            print history_data["dict"]
+            if access_user_id in history_data["dict"].keys():
+                
+                histdata_list =  [_ for _ in history_data["dict"][access_user_id][::-1] if _["type"] == ntype]
+                if len(histdata_list) == 0:
+                    break
+                
+                recent_history = histdata_list[0]
+                # recent_history = history_data["dict"][access_user_id][-1]
+                print "recent_history",recent_history
+                if recent_history["type"] != ntype:
+                    continue
+
+                recent_timestamp = recent_history["timestamp"]
+                print "recent_timestamp",recent_timestamp
+                # TODO:実験開始すぐに通知が行かないように修正
+                if now_timestamp - recent_timestamp < 60*60*3:
+                    # 通知しない
+                    not_notice_flag = False
+            print "not_notice_flag",not_notice_flag
+            if not_notice_flag:
+                # historyを見て問題なければ通知リストに追加する
+                notice_item = {"user_id": access_user_id, "data":"","timestamp": now_timestamp, "type":ntype}
+                notice_all_dicts[ntype].append(notice_item)
+                print "**ntype",ntype
+                pp(notice_item)
+
+        '''
         # 最近のビューリストから遡り、投稿が出るまでのカウント > 閾値のユーザーを抽出
 
         # 履歴で3時間以内に通知していたら通知しない
@@ -146,20 +192,20 @@ if __name__ == '__main__':
 
     
 
-   
+    '''
 
 
 
 
 
     # 履歴に追加    
-    ntype = 0 # 議論に参加していないユーザ
     for notice_item in notice_all_dicts[ntype]:
         notjoined_user_id = notice_item["user_id"]
-        hist_item = [{"type":0,"user_id":notjoined_user_id,"timestamp":now_timestamp,"data":""}]
+        ntype = notice_item["type"]
+        hist_item = [{"type": ntype,"user_id":notjoined_user_id,"timestamp":now_timestamp,"data":""}]
         history_data["dict"][notjoined_user_id] = history_data["dict"].get(notjoined_user_id,[]) + hist_item
 
-    print history_data
+    print "history_data",history_data
 
 
     # history書き込み
@@ -186,6 +232,7 @@ if __name__ == '__main__':
         thread_user_ids = [data_all[str(_id)]["user_id"] for _id in thread_ids]
         body = data_all[root_id_str]["body"]
 
+        is_root_facilitation = data_all[root_id_str]["facilitation"]
         thread_facilitations = [data_all[str(_id)]["facilitation"]  for _id in thread_ids]
 
         def detect_np(_id):
@@ -198,6 +245,7 @@ if __name__ == '__main__':
         thread_nps = [detect_np(_id)  for _id in thread_ids]
 
 
+
         after_facilitation_count = 0 # オートファシリテーション後の投稿数
         previous_keywords = ""
         for i,is_facilitation in enumerate(thread_facilitations[::-1]):
@@ -208,6 +256,16 @@ if __name__ == '__main__':
                 break
             after_facilitation_count += 1
         print "after_facilitation_count", after_facilitation_count
+
+        # メリット・デメリットを今まで投稿したかチェック
+        is_posted_pn = False
+        for i,is_facilitation in enumerate(thread_facilitations[::-1]):
+            index = len(thread_facilitations) - i - 1
+            body = data_all[str(thread_ids[index])]["body"]
+            if is_facilitation and u"メリット・デメリット" in body:
+                is_posted_pn = True
+                break
+
 
         body_str = body.encode("utf-8")
         bodies = [data_all[str(_id)]["body"] for _id in thread_ids]
@@ -236,6 +294,7 @@ if __name__ == '__main__':
         after_threshold_count = 3
         keywords_count = 3
 
+
         cond_after = True # オートファシリテーション後に意見が出ていればTrue
         if max(thread_facilitations):
             cond_after = after_facilitation_count > after_threshold_count
@@ -249,20 +308,28 @@ if __name__ == '__main__':
         is_threshold_length = len(thread_ids) >= threshold_count
         is_morethan_one_length = len(issues_count_sorted[:keywords_count]) > 0
 
-        if is_morethan_one_length and is_threshold_length and cond_after and not is_same_keywords:
+
+        print "is_morethan_one_length",is_morethan_one_length
+        print "is_threshold_length",is_threshold_length
+        print "cond_after",cond_after
+        print "is_same_keywords",not is_same_keywords
+        print "is_root_facilitation", not is_root_facilitation
+        print ""
+        if is_morethan_one_length and is_threshold_length and cond_after and not is_same_keywords and not is_root_facilitation:
             thread_ids_json.append(root_id) # キーワード抽出できたthread_id
             thread_issues_json[root_id] = issues_count_sorted[:keywords_count]
             thread_issues_notice_ids.append(list(set(thread_user_ids)))
-            # break
+            break
 
         nega_posi_both = max(thread_nps) == True and min(thread_nps) == False
 
 
-        print "thread_nps",thread_nps
+        # print "thread_nps",thread_nps
         print "nega_posi_both",nega_posi_both
         print "is_threshold_length", is_threshold_length
+        print "is_posted_pn",is_posted_pn
         # メリットとデメリットを挙げてみましょう
-        if is_threshold_length and nega_posi_both:
+        if is_threshold_length and nega_posi_both and not is_posted_pn and not is_root_facilitation:
             thread_np_ids_json.append(root_id) # メリット・デメリットを挙げてみましょう
             thread_np_notice_ids_json.append(list(set(thread_user_ids)))
             break
@@ -289,7 +356,11 @@ if __name__ == '__main__':
 
 
     # 通知部分
-    notice_obj = {"notice_items":[_ for _ in notice_all_dicts.values()[0] if len(_)>0],"timestamp": now_timestamp}
+    notice_items = []
+    for key in notice_all_dicts.keys():
+        notice_items = notice_items + notice_all_dicts[key]
+
+    notice_obj = {"notice_items":notice_items,"timestamp": now_timestamp}
     notice_json = json.dumps(notice_obj)
     print "通知"
     print notice_json
@@ -325,4 +396,4 @@ if __name__ == '__main__':
     print "API NOTICE:",cmd
     pp(commands.getstatusoutput(cmd))
 
-    
+

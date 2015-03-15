@@ -24,13 +24,23 @@ class HomesController < ApplicationController
       data_hash["notice_items"].each do |notice_item|
         ntype = notice_item["type"]
         user_id = notice_item["user_id"]
-
+        user = User.find(user_id)
         mail_title = ""
-        title = "意見を投稿しましょう"
-        mail_title = "議論に参加しましょう！" if ntype == 0
-        mail_body  = "議論で意見をまだ投稿していないようです。システム上での議論ということで緊張されている方もいらっしゃるかもしれませんが、発言の良し悪しは関係ありません。どしどし発言してください。" if ntype == 0
+        
+        if ntype == 0
+          title =  "議論に参加しましょう！" 
+          mail_title = "議論に参加しましょう！" 
+          mail_body  = "議論で意見をまだ投稿していないようです。システム上での議論ということで緊張されている方もいらっしゃるかもしれませんが、発言の良し悪しは関係ありません。どしどし発言してください。"
+        end
+        if ntype == 1
+          title =  "意見を投稿しましょう！" 
+          mail_title = "意見を投稿しましょう！" 
+          mail_body  = "議論に参加していただきありがとうございます！ご自身の意見も投稿してみましょう！"
+        end
+
+
         post_theme_id = theme_id.to_s
-        NoticeMailer.delay.facilitate_join_notice(title,mail_title,mail_body,post_theme_id)
+        NoticeMailer.delay.facilitate_join_notice(title,mail_title,mail_body,post_theme_id, user)
         write_count += 1
       end
 
@@ -102,7 +112,7 @@ class HomesController < ApplicationController
         data_hash_np["np_notice_ids"][index].each do |notice_user_id|
           user = User.find(notice_user_id)
           post_title = ""
-          post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を挙げて議論を進めていきましょう。"
+          post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を教えていただけますか？"
           post_theme_id = theme_id.to_s
           NoticeMailer.delay.auto_notice("メリット・デメリットを挙げてみましょう",post_title,post_body, post_theme_id,user)
           write_count_np += 1
