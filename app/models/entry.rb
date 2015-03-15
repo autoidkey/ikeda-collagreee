@@ -31,6 +31,7 @@ class Entry < ActiveRecord::Base
   NP_THRESHOLD = 50
   # FACILITATION1 = "投稿が短いですよ！"
   FACILITATOR_ID = 1
+  EXPERIMENT_NAME = 'load_test'
 
   # オートファシリテーション用の投稿コピー
   def copy(parent, theme_id)
@@ -166,7 +167,7 @@ class Entry < ActiveRecord::Base
   def self.send_notice_delay(method_name)
       NoticeMailer.send("#{method_name}").deliver
   end
-  
+
 
   def self.sending_facilitation_notice(entry, join)
     NoticeMailer.facilitation_notice(entry, join.user).deliver
@@ -227,18 +228,18 @@ class Entry < ActiveRecord::Base
 
   # Redis
   def scored(score)
-    Redis.current.zadd('entry_points', score, id)
+    Redis.current.zadd(EXPERIMENT_NAME + ':entry_points', score, id)
   end
 
   def score
-    Redis.current.zscore('entry_points', id).to_f
+    Redis.current.zscore(EXPERIMENT_NAME + ':entry_points', id).to_f
   end
 
   def rank
-    Redis.current.zrevrank('entry_points', id) + 1
+    Redis.current.zrevrank(EXPERIMENT_NAME + ':entry_points', id) + 1
   end
 
   def self.top_10
-    Redis.current.zrevrange('entry_points', 0, 9).map { |id| Entry.find(id) }
+    Redis.current.zrevrange(EXPERIMENT_NAME + ':entry_points', 0, 9).map { |id| Entry.find(id) }
   end
 end
