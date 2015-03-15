@@ -16,7 +16,7 @@ class ThemesController < ApplicationController
   end
 
   def show
-    # NoticeMailer.delay.facilitate_join_notice() # メールの送信
+    # NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
     @entry = Entry.new
     @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
@@ -34,6 +34,7 @@ class ThemesController < ApplicationController
     @gravatar = gravatar_icon(current_user)
 
     # ウェブアクセスをカウントアップ
+    # TODO:該当グループ以外のテーマを閲覧した時は除外する
     user_id = user_signed_in? ? current_user.id : nil
     Webview.count_up(user_id,@theme.id)
 

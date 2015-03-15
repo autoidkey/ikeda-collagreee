@@ -9,15 +9,17 @@ import commands
 import time
 import os
 from datetime import datetime as dt
+import sys
 
 if __name__ == '__main__':
-    # baseURL = "http://collagree.com"
-    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
-    theme_id = 1
+    baseURL = "http://collagree.com"
+    # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
+    theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
     output_file = "../app/assets/json/issues_{}.json".format(theme_id_str)
     notice_file = "../app/assets/json/notice_{}.json".format(theme_id_str)
+    np_file =  "../app/assets/json/np_{}.json".format(theme_id_str)
 
     url = "{}/homes/{}/auto_facilitation_json".format(baseURL, theme_id)
     fetch_file = "auto_facilitation_json_{}.json".format(theme_id_str)
@@ -170,6 +172,10 @@ if __name__ == '__main__':
     thread_ids_json = []
     thread_issues_notice_ids = []
     thread_issues_json = {}
+
+    thread_np_ids_json = []
+    thread_np_notice_ids_json = []
+
     for index,d in enumerate(ids):
         root_id = d["root"]
         root_id_str = str(root_id)
@@ -178,11 +184,20 @@ if __name__ == '__main__':
         # child_idsについて論点抽出をする
         thread_ids = [root_id] + child_ids
         thread_user_ids = [data_all[str(_id)]["user_id"] for _id in thread_ids]
-
         body = data_all[root_id_str]["body"]
 
-
         thread_facilitations = [data_all[str(_id)]["facilitation"]  for _id in thread_ids]
+
+        def detect_np(_id):
+            if not data_all[str(_id)]["parent_id"]:
+                return True
+            if data_all[str(_id)]["np"] >= 50:
+                return True
+            return False
+        # 賛成反対か    
+        thread_nps = [detect_np(_id)  for _id in thread_ids]
+
+
         after_facilitation_count = 0 # オートファシリテーション後の投稿数
         previous_keywords = ""
         for i,is_facilitation in enumerate(thread_facilitations[::-1]):
@@ -192,21 +207,12 @@ if __name__ == '__main__':
                 previous_keywords = [k.split(u"」")[0] for k in body.split(u"「")[1:]]
                 break
             after_facilitation_count += 1
-
         print "after_facilitation_count", after_facilitation_count
-        # print body
-        body_str = body.encode("utf-8")
 
+        body_str = body.encode("utf-8")
         bodies = [data_all[str(_id)]["body"] for _id in thread_ids]
         mecab_words = [util_collagree.extractKeywordAll(_body.encode("utf-8")) for _body in bodies]
-
-
-
-        # mecab_words = util_collagree.extractKeywordAll(body_str)
-        
-
         issues = [extra_issues.extraIssueSet(_mecab_words) for _mecab_words in mecab_words]
-
         issue_set_norm = [[util_collagree.pre_process(_i_set) for _i_set,_i_type in zip(_issues["issue_set"],_issues["issue_types"]) if _i_type == "名詞"] for _issues in issues]
 
         stop_words = issues[0]["stop_words"]
@@ -219,18 +225,15 @@ if __name__ == '__main__':
         issues_count = {}
         for issue in issues_flat:
             issues_count[issue] = issues_count.get(issue,0) + 1
-
         
         issues_count_sorted = sorted(issues_count.items(), key=lambda x:x[1], reverse=True)
-
         issues_count_sorted = [_issues[0] for _issues in issues_count_sorted if _issues[1] > 1]
 
-        print root_id
         pp(issues_count_sorted[:3])
 
         # 2回以上出現する論点が抽出できた＆スレッドの投稿が3件以上
         threshold_count = 3
-        after_threshold_count = 2
+        after_threshold_count = 3
         keywords_count = 3
 
         cond_after = True # オートファシリテーション後に意見が出ていればTrue
@@ -250,43 +253,76 @@ if __name__ == '__main__':
             thread_ids_json.append(root_id) # キーワード抽出できたthread_id
             thread_issues_json[root_id] = issues_count_sorted[:keywords_count]
             thread_issues_notice_ids.append(list(set(thread_user_ids)))
+            # break
+
+        nega_posi_both = max(thread_nps) == True and min(thread_nps) == False
 
 
-        # 単語ベクトルで似ている論点があれば同じ論点とする (optional)
+        print "thread_nps",thread_nps
+        print "nega_posi_both",nega_posi_both
+        print "is_threshold_length", is_threshold_length
+        # メリットとデメリットを挙げてみましょう
+        if is_threshold_length and nega_posi_both:
+            thread_np_ids_json.append(root_id) # メリット・デメリットを挙げてみましょう
+            thread_np_notice_ids_json.append(list(set(thread_user_ids)))
+            break
 
-        # pp(thread_ids)
 
-
-        # pp(bodies)
-        # pp(docs_issues_norm_limit)
         print "\n"
 
+    
 
+
+
+    
+
+    # キーワード抽出
     timestamp_str = time.time()
     json_data_dic = {"thread_ids" : thread_ids_json, "issues": thread_issues_json, "timestamp":timestamp_str,"notice_ids":thread_issues_notice_ids}
     json_data_output =  json.dumps(json_data_dic)
-
-    # 書き込み
     f = file(output_file, 'w')
     f.writelines(json_data_output)
     f.close()
 
-
-    print "通知部分"
-    print json_data_dic
+    print "ポスト"
+    print json_data_output
 
 
     # 通知部分
-    f = file(notice_file, 'w')
     notice_obj = {"notice_items":[_ for _ in notice_all_dicts.values()[0] if len(_)>0],"timestamp": now_timestamp}
     notice_json = json.dumps(notice_obj)
-    # print notice_all_dicts.values()[0]
-    # print notice_json
+    print "通知"
+    print notice_json
+    f = file(notice_file, 'w')
     f.writelines(notice_json)
     f.close()
+
+
+    # メリット・デメリットを挙げてみましょう
+    np_obj = {"np_ids": thread_np_ids_json, "np_notice_ids": thread_np_notice_ids_json ,"timestamp": now_timestamp}
+    np_json = json.dumps(np_obj)
+    print "メリット・デメリット"
+    print np_json
+    f = file(np_file, 'w')
+    f.writelines(np_json)
+    f.close()
+
 
 
 
     # TODO: JSONでログを書きだす
 
-    # TODO: Railsを叩く
+    # Railsを叩く
+    api_url = "{}/homes/{}/auto_facilitation_post".format(baseURL, theme_id)
+    cmd = 'curl {}'.format(api_url)
+    print "API POST:",cmd
+    pp(commands.getstatusoutput(cmd))
+    
+
+
+    api_url = "{}/homes/{}/auto_facilitation_notice".format(baseURL, theme_id)
+    cmd = 'curl {}'.format(api_url)
+    print "API NOTICE:",cmd
+    pp(commands.getstatusoutput(cmd))
+
+    
