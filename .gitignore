@@ -12,4 +12,5 @@
 /app/assets/json/*.json
 /app/assets/json/*.txt
 /python/*.json
+/*.pyc
 ,/
