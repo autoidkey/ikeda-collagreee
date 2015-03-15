@@ -15,9 +15,10 @@ class Theme < ActiveRecord::Base
   default_scope -> { order('updated_at DESC') }
   scope :others, ->(id) { where.not(id: id).limit(5) }
 
-  THEME_POINT = 'theme.point:'
-  BEFORE_0130 = ':before_0130'
-  AFTER_0130 = ':after_0130'
+  THEME_POINT = 'theme.point'
+  BEFORE_0130 = 'before_0130'
+  AFTER_0130 = 'after_0130'
+  EXPERIMENT_NAME = 'load_test'
 
   def sort_by_reply(issues)
     if issues.present?
@@ -62,26 +63,26 @@ class Theme < ActiveRecord::Base
   # end
 
   def score(user)
-    Redis.current.zscore(THEME_POINT + id.to_s + ':sum', user.id).to_f
+    Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, 'sum'].join(':'), user.id).to_f
   end
 
   def point_ranking
-    Redis.current.zrevrange(THEME_POINT + id.to_s + ':sum', 0, 19).map { |id| User.find(id) }
+    Redis.current.zrevrange([EXPERIMENT_NAME, THEME_POINT, id.to_s, 'sum'].join(':'), 0, 19).map { |id| User.find(id) }
   end
 
   def score_before_0130(user)
-    Redis.current.zscore(THEME_POINT + id.to_s + BEFORE_0130, user.id).to_f
+    Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, BEFORE_0130].join(':'), user.id).to_f
   end
 
   def point_ranking_before_0130
-    Redis.current.zrevrange(THEME_POINT + id.to_s + BEFORE_0130, 0, 9).map { |id| User.find(id) }
+    Redis.current.zrevrange([EXPERIMENT_NAME, THEME_POINT, id.to_s, BEFORE_0130].join(':'), 0, 9).map { |id| User.find(id) }
   end
 
   def score_after_0130(user)
-    Redis.current.zscore(THEME_POINT + id.to_s + AFTER_0130, user.id).to_f
+    Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, AFTER_0130].join(':'), user.id).to_f
   end
 
   def point_ranking_after_0130
-    Redis.current.zrevrange(THEME_POINT + id.to_s + AFTER_0130, 0, 9).map { |id| User.find(id) }
+    Redis.current.zrevrange([EXPERIMENT_NAME, THEME_POINT, id.to_s, AFTER_0130].join(':'), 0, 9).map { |id| User.find(id) }
   end
 end
