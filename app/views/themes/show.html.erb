@@ -65,15 +65,14 @@
          <div id="next" class="next_link_div"><%= link_to_next_page @entries, '次のページを表示', :remote => true, :id => 'next_link', :class=>'next_link_a_tag'  %></div>
 
 
-        
+
 
       </div>
 
       <div class="col-md-4">
         <%= render 'theme_info' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-        <%= render 'user_ranking_after_0130', users: @users, theme: @theme %>
-        <%= render 'user_ranking_before_0130', users: @users, theme: @theme %>
+        <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
         <% if smartphone? %>
           <%= render 'keywords_mobile' %>
@@ -89,16 +88,10 @@
 
   <div class="tab-pane" id="infomation">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-6">
         <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
-      <div class="col-md-3">
-        <%= render 'user_ranking_before_0130', users: @users_entry, theme: @theme %>
-      </div>
-      <div class="col-md-3">
-        <%= render 'user_ranking_after_0130', users: @users_entry, theme: @theme %>
-      </div>
-      <div class="col-md-3">
+      <div class="col-md-6">
         <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
       </div>
     </div>
