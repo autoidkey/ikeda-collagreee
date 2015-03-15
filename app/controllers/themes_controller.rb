@@ -10,7 +10,6 @@ class ThemesController < ApplicationController
 
   include Bm25
   require 'time'
-  
 
   def index
     @themes = Theme.all
