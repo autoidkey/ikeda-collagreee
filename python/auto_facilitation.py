@@ -12,8 +12,8 @@ from datetime import datetime as dt
 import sys
 
 if __name__ == '__main__':
-    baseURL = "http://collagree.com"
-    # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
+    # baseURL = "http://collagree.com"
+    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
     theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
@@ -105,6 +105,9 @@ if __name__ == '__main__':
         not_notice_flag = True
         if notjoined_user_id in history_data["dict"].keys():
             recent_history = history_data["dict"][notjoined_user_id][-1]
+
+            if recent_history["type"] != ntype:
+                continue
             recent_timestamp = recent_history["timestamp"]
 
             # TODO:実験開始すぐに通知が行かないように修正
@@ -123,10 +126,22 @@ if __name__ == '__main__':
     print not_joined_users_set
     print notice_all_dicts[ntype]
 
+    # 平均返信率
+    for index,d in enumerate(ids):
+        root_id = d["root"]
+        root_id_str = str(root_id)
+        child_ids = ids_all[index]
+
+        # child_idsについて論点抽出をする
+        thread_ids = [root_id] + child_ids
+        thread_user_ids = [data_all[str(_id)]["user_id"] for _id in thread_ids]
+
 
 
     # 投稿率が低い人に通知
+    ntype = 1
     for access_user_id,access_list in access_user_dict.items():
+        access_user_id = str(access_user_id)
         recent_user_post_timestamp = 0.0
         if len(post_user_dict.get(access_user_id, [])) > 0:
             recent_user_post = post_user_dict.get(access_user_id, [])[-1]
@@ -136,9 +151,40 @@ if __name__ == '__main__':
 
         
         access_list_reversed = access_list[::-1]
-        count = len([1 for timestamp in access_list_reversed if timestamp > recent_user_post_timestamp])
+        viewcount = len([1 for timestamp in access_list_reversed if timestamp > recent_user_post_timestamp])
         
-        print "投稿率",count 
+        print "投稿しないで閲覧した回数",viewcount 
+            
+        if viewcount >= 10:
+            not_notice_flag = True
+            print history_data["dict"]
+            if access_user_id in history_data["dict"].keys():
+                
+                histdata_list =  [_ for _ in history_data["dict"][access_user_id][::-1] if _["type"] == ntype]
+                if len(histdata_list) == 0:
+                    break
+                
+                recent_history = histdata_list[0]
+                # recent_history = history_data["dict"][access_user_id][-1]
+                print "recent_history",recent_history
+                if recent_history["type"] != ntype:
+                    continue
+
+                recent_timestamp = recent_history["timestamp"]
+                print "recent_timestamp",recent_timestamp
+                # TODO:実験開始すぐに通知が行かないように修正
+                if now_timestamp - recent_timestamp < 60*60*3:
+                    # 通知しない
+                    not_notice_flag = False
+            print "not_notice_flag",not_notice_flag
+            if not_notice_flag:
+                # historyを見て問題なければ通知リストに追加する
+                notice_item = {"user_id": access_user_id, "data":"","timestamp": now_timestamp, "type":ntype}
+                notice_all_dicts[ntype].append(notice_item)
+                print "**ntype",ntype
+                pp(notice_item)
+
+        '''
         # 最近のビューリストから遡り、投稿が出るまでのカウント > 閾値のユーザーを抽出
 
         # 履歴で3時間以内に通知していたら通知しない
@@ -146,20 +192,20 @@ if __name__ == '__main__':
 
     
 
-   
+    '''
 
 
 
 
 
     # 履歴に追加    
-    ntype = 0 # 議論に参加していないユーザ
     for notice_item in notice_all_dicts[ntype]:
         notjoined_user_id = notice_item["user_id"]
-        hist_item = [{"type":0,"user_id":notjoined_user_id,"timestamp":now_timestamp,"data":""}]
+        ntype = notice_item["type"]
+        hist_item = [{"type": ntype,"user_id":notjoined_user_id,"timestamp":now_timestamp,"data":""}]
         history_data["dict"][notjoined_user_id] = history_data["dict"].get(notjoined_user_id,[]) + hist_item
 
-    print history_data
+    print "history_data",history_data
 
 
     # history書き込み
@@ -310,7 +356,11 @@ if __name__ == '__main__':
 
 
     # 通知部分
-    notice_obj = {"notice_items":[_ for _ in notice_all_dicts.values()[0] if len(_)>0],"timestamp": now_timestamp}
+    notice_items = []
+    for key in notice_all_dicts.keys():
+        notice_items = notice_items + notice_all_dicts[key]
+
+    notice_obj = {"notice_items":notice_items,"timestamp": now_timestamp}
     notice_json = json.dumps(notice_obj)
     print "通知"
     print notice_json
@@ -346,4 +396,4 @@ if __name__ == '__main__':
     print "API NOTICE:",cmd
     pp(commands.getstatusoutput(cmd))
 
-    
+
