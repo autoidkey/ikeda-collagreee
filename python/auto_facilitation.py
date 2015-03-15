@@ -12,8 +12,8 @@ from datetime import datetime as dt
 import sys
 
 if __name__ == '__main__':
-    # baseURL = "http://collagree.com"
-    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
+    baseURL = "http://collagree.com"
+    # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
     theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
