@@ -253,11 +253,16 @@ if __name__ == '__main__':
             thread_ids_json.append(root_id) # キーワード抽出できたthread_id
             thread_issues_json[root_id] = issues_count_sorted[:keywords_count]
             thread_issues_notice_ids.append(list(set(thread_user_ids)))
-            break
+            # break
 
         nega_posi_both = max(thread_nps) == True and min(thread_nps) == False
+
+
+        print "thread_nps",thread_nps
+        print "nega_posi_both",nega_posi_both
+        print "is_threshold_length", is_threshold_length
         # メリットとデメリットを挙げてみましょう
-        if is_morethan_one_length and nega_posi_both:
+        if is_threshold_length and nega_posi_both:
             thread_np_ids_json.append(root_id) # メリット・デメリットを挙げてみましょう
             thread_np_notice_ids_json.append(list(set(thread_user_ids)))
             break
@@ -266,6 +271,7 @@ if __name__ == '__main__':
         print "\n"
 
     
+
 
 
     
@@ -295,10 +301,11 @@ if __name__ == '__main__':
     # メリット・デメリットを挙げてみましょう
     np_obj = {"np_ids": thread_np_ids_json, "np_notice_ids": thread_np_notice_ids_json ,"timestamp": now_timestamp}
     np_json = json.dumps(np_obj)
+    print "メリット・デメリット"
+    print np_json
     f = file(np_file, 'w')
     f.writelines(np_json)
     f.close()
-
 
 
 
