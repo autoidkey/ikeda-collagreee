@@ -12,8 +12,8 @@ from datetime import datetime as dt
 import sys
 
 if __name__ == '__main__':
-    baseURL = "http://collagree.com"
-    # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
+    # baseURL = "http://collagree.com"
+    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
     theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
@@ -186,6 +186,7 @@ if __name__ == '__main__':
         thread_user_ids = [data_all[str(_id)]["user_id"] for _id in thread_ids]
         body = data_all[root_id_str]["body"]
 
+        is_root_facilitation = data_all[root_id_str]["facilitation"]
         thread_facilitations = [data_all[str(_id)]["facilitation"]  for _id in thread_ids]
 
         def detect_np(_id):
@@ -198,6 +199,7 @@ if __name__ == '__main__':
         thread_nps = [detect_np(_id)  for _id in thread_ids]
 
 
+
         after_facilitation_count = 0 # オートファシリテーション後の投稿数
         previous_keywords = ""
         for i,is_facilitation in enumerate(thread_facilitations[::-1]):
@@ -208,6 +210,16 @@ if __name__ == '__main__':
                 break
             after_facilitation_count += 1
         print "after_facilitation_count", after_facilitation_count
+
+        # メリット・デメリットを今まで投稿したかチェック
+        is_posted_pn = False
+        for i,is_facilitation in enumerate(thread_facilitations[::-1]):
+            index = len(thread_facilitations) - i - 1
+            body = data_all[str(thread_ids[index])]["body"]
+            if is_facilitation and u"メリット・デメリット" in body:
+                is_posted_pn = True
+                break
+
 
         body_str = body.encode("utf-8")
         bodies = [data_all[str(_id)]["body"] for _id in thread_ids]
@@ -248,21 +260,29 @@ if __name__ == '__main__':
         is_same_keywords = set(issues_limit_uni) == set(previous_keywords)
         is_threshold_length = len(thread_ids) >= threshold_count
         is_morethan_one_length = len(issues_count_sorted[:keywords_count]) > 0
+        
 
-        if is_morethan_one_length and is_threshold_length and cond_after and not is_same_keywords:
+        print "is_morethan_one_length",is_morethan_one_length
+        print "is_threshold_length",is_threshold_length
+        print "cond_after",cond_after
+        print "is_same_keywords",not is_same_keywords
+        print "is_root_facilitation", not is_root_facilitation
+        print ""
+        if is_morethan_one_length and is_threshold_length and cond_after and not is_same_keywords and not is_root_facilitation:
             thread_ids_json.append(root_id) # キーワード抽出できたthread_id
             thread_issues_json[root_id] = issues_count_sorted[:keywords_count]
             thread_issues_notice_ids.append(list(set(thread_user_ids)))
-            # break
+            break
 
         nega_posi_both = max(thread_nps) == True and min(thread_nps) == False
 
 
-        print "thread_nps",thread_nps
+        # print "thread_nps",thread_nps
         print "nega_posi_both",nega_posi_both
         print "is_threshold_length", is_threshold_length
+        print "is_posted_pn",is_posted_pn
         # メリットとデメリットを挙げてみましょう
-        if is_threshold_length and nega_posi_both:
+        if is_threshold_length and nega_posi_both and not is_posted_pn and not is_root_facilitation:
             thread_np_ids_json.append(root_id) # メリット・デメリットを挙げてみましょう
             thread_np_notice_ids_json.append(list(set(thread_user_ids)))
             break
