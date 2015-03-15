@@ -9,11 +9,12 @@ import commands
 import time
 import os
 from datetime import datetime as dt
+import sys
 
 if __name__ == '__main__':
     baseURL = "http://collagree.com"
     # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
-    theme_id = 1
+    theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
     output_file = "../app/assets/json/issues_{}.json".format(theme_id_str)
@@ -294,12 +295,12 @@ if __name__ == '__main__':
     api_url = "{}/homes/{}/auto_facilitation_post".format(baseURL, theme_id)
     cmd = 'curl {}'.format(api_url)
     print "API POST:",cmd
-    print commands.getstatusoutput(cmd)
+    pp(commands.getstatusoutput(cmd))
 
 
 
     api_url = "{}/homes/{}/auto_facilitation_notice".format(baseURL, theme_id)
     cmd = 'curl {}'.format(api_url)
     print "API NOTICE:",cmd
-    print commands.getstatusoutput(cmd)
+    pp(commands.getstatusoutput(cmd))
 

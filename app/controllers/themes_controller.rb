@@ -35,6 +35,7 @@ class ThemesController < ApplicationController
     @gravatar = gravatar_icon(current_user)
 
     # ウェブアクセスをカウントアップ
+    # TODO:該当グループ以外のテーマを閲覧した時は除外する
     user_id = user_signed_in? ? current_user.id : nil
     Webview.count_up(user_id,@theme.id)
 
