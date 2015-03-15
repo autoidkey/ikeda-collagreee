@@ -313,11 +313,12 @@ if __name__ == '__main__':
     # TODO: JSONでログを書きだす
 
     # Railsを叩く
+    '''
     api_url = "{}/homes/{}/auto_facilitation_post".format(baseURL, theme_id)
     cmd = 'curl {}'.format(api_url)
     print "API POST:",cmd
     pp(commands.getstatusoutput(cmd))
-
+    '''
 
 
     api_url = "{}/homes/{}/auto_facilitation_notice".format(baseURL, theme_id)

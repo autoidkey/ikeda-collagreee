@@ -55,6 +55,7 @@ class HomesController < ApplicationController
     write_count = 0
     write_count_np = 0
     timestamp = data_hash["timestamp"]
+    timestamp_np = data_hash_np["timestamp"]
     if not File.exist?(flag_filename)
       File.write(flag_filename, "0")
     end
@@ -93,12 +94,12 @@ class HomesController < ApplicationController
 
 
 
-    if recent_timestamp.to_i < timestamp.to_i
-
+    if recent_timestamp.to_i < timestamp_np.to_i
       # メリット・デメリット
       data_hash_np["np_ids"].each_with_index do |thread_id,index|
-
-        data_hash["np_notice_ids"][index].each do |notice_user_id|
+        post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を挙げて議論を進めていきましょう。"
+        Entry.post_facilitation_keyword(thread_id, theme_id , post_body)
+        data_hash_np["np_notice_ids"][index].each do |notice_user_id|
           user = User.find(notice_user_id)
           post_title = ""
           post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を挙げて議論を進めていきましょう。"
@@ -106,6 +107,7 @@ class HomesController < ApplicationController
           NoticeMailer.delay.auto_notice("メリット・デメリットを挙げてみましょう",post_title,post_body, post_theme_id,user)
           write_count_np += 1
         end
+
       end
     end
 
