@@ -9,11 +9,12 @@ import commands
 import time
 import os
 from datetime import datetime as dt
+import sys
 
 if __name__ == '__main__':
-    # baseURL = "http://collagree.com"
-    baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
-    theme_id = 1
+    baseURL = "http://collagree.com"
+    # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
+    theme_id = sys.argv[1]
     theme_id_str = str(theme_id)
     history_file = "history_{}.json".format(theme_id_str) # オートファシリテーションの履歴を保存
     output_file = "../app/assets/json/issues_{}.json".format(theme_id_str)
@@ -271,9 +272,8 @@ if __name__ == '__main__':
     f.writelines(json_data_output)
     f.close()
 
-
-    print "通知部分"
-    print json_data_dic
+    print "ポスト"
+    print json_data_output
 
 
     # 通知部分
@@ -281,7 +281,9 @@ if __name__ == '__main__':
     notice_obj = {"notice_items":[_ for _ in notice_all_dicts.values()[0] if len(_)>0],"timestamp": now_timestamp}
     notice_json = json.dumps(notice_obj)
     # print notice_all_dicts.values()[0]
-    # print notice_json
+
+    print "通知"
+    print notice_json
     f.writelines(notice_json)
     f.close()
 
@@ -290,3 +292,15 @@ if __name__ == '__main__':
     # TODO: JSONでログを書きだす
 
     # TODO: Railsを叩く
+    api_url = "{}/homes/{}/auto_facilitation_post".format(baseURL, theme_id)
+    cmd = 'curl {}'.format(api_url)
+    print "API POST:",cmd
+    pp(commands.getstatusoutput(cmd))
+
+
+
+    api_url = "{}/homes/{}/auto_facilitation_notice".format(baseURL, theme_id)
+    cmd = 'curl {}'.format(api_url)
+    print "API NOTICE:",cmd
+    pp(commands.getstatusoutput(cmd))
+
