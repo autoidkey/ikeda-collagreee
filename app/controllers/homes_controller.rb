@@ -26,11 +26,10 @@ class HomesController < ApplicationController
         user_id = notice_item["user_id"]
 
         mail_title = ""
-        title = "意見を投稿しましょう"
+        title = "意見を投稿しましょう"+ user_id
         mail_title = "議論に参加しましょう！" if ntype == 0
         mail_body  = "議論で意見をまだ投稿していないようです。システム上での議論ということで緊張されている方もいらっしゃるかもしれませんが、発言の良し悪しは関係ありません。どしどし発言してください。" if ntype == 0
-        post_theme_id = theme_id.to_s
-        NoticeMailer.delay.facilitate_join_notice(title,mail_title,mail_body,post_theme_id)
+        NoticeMailer.delay.facilitate_join_notice(title,mail_title,mail_body)
         write_count += 1
       end
 
@@ -45,15 +44,12 @@ class HomesController < ApplicationController
     # フラグ管理
 
     json_filename = 'app/assets/json/issues_'+theme_id.to_s+'.json'
-    json_np_filename = 'app/assets/json/np_'+theme_id.to_s+'.json'
     flag_filename =  'app/assets/json/flag_'+theme_id.to_s+'.txt'
 
     data_hash = JSON.parse(File.read(json_filename))
-    data_hash_np = JSON.parse(File.read(json_np_filename))
     p "="*100
     p data_hash
     write_count = 0
-    write_count_np = 0
     timestamp = data_hash["timestamp"]
     if not File.exist?(flag_filename)
       File.write(flag_filename, "0")
@@ -63,8 +59,9 @@ class HomesController < ApplicationController
 
     # オートファシリテーションを実行
     if recent_timestamp.to_i < timestamp.to_i
-      # キーワード抽出
       data_hash["thread_ids"].each_with_index do |thread_id,index|
+
+
         issues = data_hash["issues"][thread_id.to_s]
         issues_str = ""
         issues.each do |issue|
@@ -76,41 +73,18 @@ class HomesController < ApplicationController
 
         # thread_entry = Entry.find(thread_id)
         Entry.post_facilitation_keyword(thread_id, theme_id , post_body)
+        # TODO:通知メールを送る
         # ファシリテーターから返信がありました
         data_hash["notice_ids"][index].each do |notice_user_id|
           user = User.find(notice_user_id)
-          post_title = ""
-          post_theme_id = theme_id.to_s
-          NoticeMailer.delay.auto_notice("ファシリテーターから返信がありました",post_title,post_body, post_theme_id,user)
+          NoticeMailer.delay.auto_notice("ファシリテーターから返信がありました","",post_body)
         end
-
-
       end
-
 
       write_count = data_hash["thread_ids"].count
     end
 
-
-
-    if recent_timestamp.to_i < timestamp.to_i
-
-      # メリット・デメリット
-      data_hash_np["np_ids"].each_with_index do |thread_id,index|
-
-        data_hash["np_notice_ids"][index].each do |notice_user_id|
-          user = User.find(notice_user_id)
-          post_title = ""
-          post_body = "ここで、メリット・デメリットを挙げてみましょう。良い点と悪い点を挙げて議論を進めていきましょう。"
-          post_theme_id = theme_id.to_s
-          NoticeMailer.delay.auto_notice("メリット・デメリットを挙げてみましょう",post_title,post_body, post_theme_id,user)
-          write_count_np += 1
-        end
-      end
-    end
-
-
-    render :json => {"count"=>  write_count, "np_count"=> write_count_np}
+    render :json => {"count"=>  write_count}
 
   end
 

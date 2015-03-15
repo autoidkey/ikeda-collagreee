@@ -21,10 +21,9 @@ class NoticeMailer < ActionMailer::Base
   end
 
 
-  def auto_notice(title,mail_title, mail_body, theme_id,user)
+  def auto_notice(title,mail_title, mail_body)
     @mail_title = mail_title
     @mail_body = mail_body
-    @url = SERVER_URL + '/themes/' + theme_id
 
     mail(to: TO, subject: '[COLLAGREE] '+title) do |format|
       format.html { render 'template'  }
