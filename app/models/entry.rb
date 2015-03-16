@@ -22,7 +22,8 @@ class Entry < ActiveRecord::Base
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
   scope :latest, -> { order('created_at DESC') }
-
+  
+  before_create :check_created_at_and_updated_at
 
   after_save :logging_activity, :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
@@ -32,6 +33,17 @@ class Entry < ActiveRecord::Base
   # FACILITATION1 = "投稿が短いですよ！"
   FACILITATOR_ID = 1
   EXPERIMENT_NAME = 'load_test'
+
+  def check_created_at_and_updated_at
+    if self.created_at.blank?
+      logger.info("created_at is null. id = #{self.id}")
+      self.created_at = Time.now
+    end 
+    if self.updated_at.blank?
+      logger.info("updated_at is null.")
+      self.updated_at = Time.now
+    end 
+  end
 
   # オートファシリテーション用の投稿コピー
   def copy(parent, theme_id)
