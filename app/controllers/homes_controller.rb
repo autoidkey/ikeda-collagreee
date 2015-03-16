@@ -129,7 +129,7 @@ class HomesController < ApplicationController
   # Python用に議論をjsonで返す
   def auto_facilitation_json
     # Modelのtimestampの更新を無効に
-    Entry.record_timestamps = false
+    # Entry.record_timestamps = false
 
     theme_id = params[:id]
     theme = Theme.find(theme_id)

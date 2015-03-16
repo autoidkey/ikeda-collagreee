@@ -63,7 +63,7 @@ class ThemesController < ApplicationController
   # オートファシリテーション用メソッド
   def auto_facilitation_test
     # Modelのtimestampの更新を無効に
-    Entry.record_timestamps = false
+    # Entry.record_timestamps = false
 
     theme = Theme.find(params[:id])
     theme.entries.delete_all
