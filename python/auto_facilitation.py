@@ -20,7 +20,7 @@ if __name__ == '__main__':
     output_file = "../app/assets/json/issues_{}.json".format(theme_id_str)
     notice_file = "../app/assets/json/notice_{}.json".format(theme_id_str)
     np_file =  "../app/assets/json/np_{}.json".format(theme_id_str)
-
+    replay_file = "../app/assets/json/replay_{}.json".format(theme_id_str)
     url = "{}/homes/{}/auto_facilitation_json".format(baseURL, theme_id)
     fetch_file = "auto_facilitation_json_{}.json".format(theme_id_str)
 
@@ -195,9 +195,6 @@ if __name__ == '__main__':
     '''
 
 
-
-
-
     # 履歴に追加    
     for notice_item in notice_all_dicts[ntype]:
         notjoined_user_id = notice_item["user_id"]
@@ -222,6 +219,8 @@ if __name__ == '__main__':
     thread_np_ids_json = []
     thread_np_notice_ids_json = []
 
+    thread_replay_ids_json = []
+    thread_replay_notice_ids_json = []
     for index,d in enumerate(ids):
         root_id = d["root"]
         root_id_str = str(root_id)
@@ -247,6 +246,11 @@ if __name__ == '__main__':
 
 
         after_facilitation_count = 0 # オートファシリテーション後の投稿数
+        for i,is_facilitation in enumerate(thread_facilitations[::-1]):
+            if is_facilitation:
+                break
+            after_facilitation_count += 1
+
         previous_keywords = ""
         for i,is_facilitation in enumerate(thread_facilitations[::-1]):
             index = len(thread_facilitations) - i - 1
@@ -254,7 +258,6 @@ if __name__ == '__main__':
             if is_facilitation and u"キーワード" in body:
                 previous_keywords = [k.split(u"」")[0] for k in body.split(u"「")[1:]]
                 break
-            after_facilitation_count += 1
         print "after_facilitation_count", after_facilitation_count
 
         # メリット・デメリットを今まで投稿したかチェック
@@ -266,6 +269,16 @@ if __name__ == '__main__':
                 is_posted_pn = True
                 break
 
+        # 掘り返しファシリテーションを今までしたかチェック
+        is_posted_replay = False
+        for i,is_facilitation in enumerate(thread_facilitations[::-1]):
+            index = len(thread_facilitations) - i - 1
+            body = data_all[str(thread_ids[index])]["body"]
+            if is_facilitation and u"こちらの意見に" in body:
+                is_posted_replay = True
+                break
+        recent_opinion_created_time = dt.strptime(data_all[str(thread_ids[::-1][0])]["created_at"], "%Y-%m-%dT%H:%M:%S.000+09:00")
+        recent_opinion_created_timestamp = time.mktime(recent_opinion_created_time.timetuple())
 
         body_str = body.encode("utf-8")
         bodies = [data_all[str(_id)]["body"] for _id in thread_ids]
@@ -291,7 +304,7 @@ if __name__ == '__main__':
 
         # 2回以上出現する論点が抽出できた＆スレッドの投稿が3件以上
         threshold_count = 3
-        after_threshold_count = 3
+        after_threshold_count = 5
         keywords_count = 3
 
 
@@ -306,6 +319,7 @@ if __name__ == '__main__':
         
         is_same_keywords = set(issues_limit_uni) == set(previous_keywords)
         is_threshold_length = len(thread_ids) >= threshold_count
+        is_minority_thread = len(thread_ids) <= threshold_count
         is_morethan_one_length = len(issues_count_sorted[:keywords_count]) > 0
 
 
@@ -334,8 +348,29 @@ if __name__ == '__main__':
             thread_np_notice_ids_json.append(list(set(thread_user_ids)))
             break
 
+        print "root_id", root_id
+        is_past_time_thread = ( now_timestamp - recent_opinion_created_timestamp ) > 60*60*3
+        print "recent_opinion_created_timestamp",recent_opinion_created_timestamp
+        print "now_timestamp",now_timestamp
+        print "is_minority_thread",is_minority_thread
+        print "is_posted_replay",not is_posted_replay
+        print "is_past_time_thread",is_past_time_thread
+        print "not is_root_facilitation",not is_root_facilitation
+        # 返信の少ないスレッドに対して他の人に意見を求める
+        if is_minority_thread and not is_posted_replay and is_past_time_thread and not is_root_facilitation:
+            notice_user_ids = access_users_set - set(thread_user_ids)
+            thread_replay_ids_json.append(root_id)
+            thread_replay_notice_ids_json.append(list(notice_user_ids))
+            break
 
         print "\n"
+
+
+
+
+
+        
+
 
     
 
@@ -378,7 +413,15 @@ if __name__ == '__main__':
     f.writelines(np_json)
     f.close()
 
-
+    # この意見に意見ある人はいませんか？
+    replay_obj = {"replay_ids": thread_replay_ids_json, "replay_notice_ids": thread_replay_notice_ids_json ,"timestamp": now_timestamp}
+    replay_json = json.dumps(replay_obj)
+    print "Replay:"
+    print replay_json
+    f = file(replay_file, 'w')
+    f.writelines(replay_json)
+    f.close()
+    
 
 
     # TODO: JSONでログを書きだす
