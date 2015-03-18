@@ -56,16 +56,19 @@ class HomesController < ApplicationController
 
     json_filename = 'app/assets/json/issues_'+theme_id.to_s+'.json'
     json_np_filename = 'app/assets/json/np_'+theme_id.to_s+'.json'
+    json_replay_filename = 'app/assets/json/replay_'+theme_id.to_s+'.json'
     flag_filename =  'app/assets/json/flag_'+theme_id.to_s+'.txt'
 
     data_hash = JSON.parse(File.read(json_filename))
     data_hash_np = JSON.parse(File.read(json_np_filename))
+    data_hash_replay = JSON.parse(File.read(json_replay_filename))
     p "="*100
     p data_hash
     write_count = 0
     write_count_np = 0
     timestamp = data_hash["timestamp"]
     timestamp_np = data_hash_np["timestamp"]
+    timestamp_replay = data_hash_replay["timestamp"]
     if not File.exist?(flag_filename)
       File.write(flag_filename, "0")
     end
@@ -119,6 +122,26 @@ class HomesController < ApplicationController
         end
 
       end
+
+    # if recent_timestamp.to_i < timestamp_replay.to_i
+    #   # こちらの意見に
+    #   data_hash_replay["replay_ids"].each_with_index do |thread_id,index|
+    #     entry = Entry.find(thread_id)
+    #     post_body = "こちらの意見に意見のある方はいらっしゃいませんか？"
+    #     Entry.post_facilitation_keyword(thread_id, theme_id , post_body)
+    #     data_hash_replay["replay_notice_ids"][index].each do |notice_user_id|
+    #       user = User.find(notice_user_id)
+    #       post_title = ""
+    #       post_body = "こちらの意見に意見のある方はいらっしゃいませんか？「"+entry.body+"」"
+    #       post_theme_id = theme_id.to_s
+    #       NoticeMailer.delay.auto_notice("注目して欲しい意見のお知らせ",post_title,post_body, post_theme_id,user)
+    #       write_count_np += 1
+    #     end
+
+    #   end
+
+
+
     end
 
 
