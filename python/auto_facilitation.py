@@ -251,6 +251,10 @@ if __name__ == '__main__':
                 break
             after_facilitation_count += 1
 
+        print "ROOTID"
+        print root_id
+        print "after_facilitation_count",after_facilitation_count
+
         previous_keywords = ""
         for i,is_facilitation in enumerate(thread_facilitations[::-1]):
             index = len(thread_facilitations) - i - 1
@@ -343,7 +347,7 @@ if __name__ == '__main__':
         print "is_threshold_length", is_threshold_length
         print "is_posted_pn",is_posted_pn
         # メリットとデメリットを挙げてみましょう
-        if is_threshold_length and nega_posi_both and not is_posted_pn and not is_root_facilitation:
+        if is_threshold_length and nega_posi_both and not is_posted_pn and not is_root_facilitation and cond_after:
             thread_np_ids_json.append(root_id) # メリット・デメリットを挙げてみましょう
             thread_np_notice_ids_json.append(list(set(thread_user_ids)))
             break
