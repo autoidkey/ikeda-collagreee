@@ -14,7 +14,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'natto', '~> 0.9.6'
 gem 'carrierwave', '~> 0.10.0'
 gem 'remotipart', '~> 1.2'
-gem 'rmagick', '~> 2.13.3',  require: 'RMagick'
+gem 'rmagick', '~> 2.15',  require: 'RMagick'
 gem 'devise', '~> 3.4.1'
 gem 'devise-i18n'
 gem 'cancancan'

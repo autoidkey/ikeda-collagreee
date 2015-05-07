@@ -27,9 +27,7 @@
 
 <% @themes.each do |theme| %>
   <% if user_signed_in? %>
-  <% if (theme.id == 1 and (current_user.id >= 2 and 7 >= current_user.id)) or (theme.id == 2 and (current_user.id >= 8 and 13 >= current_user.id) ) or user_admin?(current_user) %>
+    <!-- テーマ一覧出るように変更 -->
     <%= render 'theme', theme: theme %>
-
-    <% end %>
   <% end %>
 <% end %>
