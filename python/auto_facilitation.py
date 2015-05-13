@@ -11,6 +11,8 @@ import os
 from datetime import datetime as dt
 import sys
 
+# 書き換え奨励
+
 if __name__ == '__main__':
     baseURL = "http://collagree.com"
     # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
