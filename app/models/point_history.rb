@@ -17,12 +17,14 @@ class PointHistory < ActiveRecord::Base
   scope :after0130, -> { where('created_at >= ?', Time.zone.local(2015, 2, 3, 18, 00, 00)) }
   scope :point_history, ->(user, theme) { where(user_id: user, theme_id: theme).order('updated_at DESC') }
 
-  ENTRY_POINT = 1000.00
+  # 今後これらを基礎ポイントとする
+  ENTRY_POINT = 30.00
   REPLY_POINT = 20.00
   LIKE_POINT = 5.00
   REPLIED_POINT = 15.00
   LIKED_POINT = 5.00
 
+  # 行動のポイントをセーブ(0.新規スレッド、1.返信、3.返信された)
   def self.save_active_point(entry, point, action)
     case action
     when 0
@@ -34,6 +36,7 @@ class PointHistory < ActiveRecord::Base
     end
   end
 
+  # POSTした時のポイント付与(0.新規スレッド、1.返信、3.返信された)
   def self.pointing_post(entry, atype, action)
     point = case action
             when 0
@@ -59,6 +62,7 @@ class PointHistory < ActiveRecord::Base
     PointHistory.save_point(params)
   end
 
+  # 返信された時のポイント付与
   def self.pointing_replied(entry, atype, action)
     point = REPLIED_POINT
     params = {
@@ -78,6 +82,7 @@ class PointHistory < ActiveRecord::Base
     entry.parent.delay.scored(entry.parent.point)
   end
 
+  #️ いいね！した時のポイント付与
   def self.pointing_like(like)
     params = {
       like_id: like.id,
@@ -95,10 +100,12 @@ class PointHistory < ActiveRecord::Base
     PointHistory.save_point(params)
   end
 
+  # いいね！された時のポイント付与
   def self.pointing_liked(like)
     entry = Entry.find(like.entry_id)
     depth = 0
 
+    # ポイント伝搬
     loop {
       unless entry.mine?(like.user) && depth == 0 || entry.facilitation?
         params = {
@@ -125,6 +132,7 @@ class PointHistory < ActiveRecord::Base
     }
   end
 
+  # いいね！を取り消しした時のポイント削減
   def self.destroy_like_point(like)
     PointHistory.like_point(like, like.version_id).each do |history|
       destory_history = history.copy_attr_for_create
@@ -143,6 +151,7 @@ class PointHistory < ActiveRecord::Base
     end
   end
 
+  # ポイントをセーブ
   def self.save_point(params)
     point_history = PointHistory.new(params)
     point_history.save
@@ -156,6 +165,7 @@ class PointHistory < ActiveRecord::Base
     PointHistory.delay.sending_notice(point_history)
   end
 
+  # メールでお知らせ
   def self.sending_notice(point_history)
     if point_history.user.remind == 'お知らせメールを受け取る'
       if point_history.theme.point_function
