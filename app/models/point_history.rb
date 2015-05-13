@@ -17,7 +17,7 @@ class PointHistory < ActiveRecord::Base
   scope :after0130, -> { where('created_at >= ?', Time.zone.local(2015, 2, 3, 18, 00, 00)) }
   scope :point_history, ->(user, theme) { where(user_id: user, theme_id: theme).order('updated_at DESC') }
 
-  ENTRY_POINT = 30.00
+  ENTRY_POINT = 30.00 # あああ
   REPLY_POINT = 20.00
   LIKE_POINT = 5.00
   REPLIED_POINT = 15.00
