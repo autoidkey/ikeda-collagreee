@@ -26,6 +26,7 @@ class PointHistory < ActiveRecord::Base
 
   # 行動のポイントをセーブ(0.新規スレッド、1.返信、3.返信された)
   def self.save_active_point(entry, point, action)
+    print "今回セーブされるポイントは、#{point}点！！"
     case action
     when 0
       Point.save_entry_point(entry.theme, point, entry.user)
@@ -37,16 +38,19 @@ class PointHistory < ActiveRecord::Base
   end
 
   # POSTした時のポイント付与(0.新規スレッド、1.返信、3.返信された)
-  def self.pointing_post(entry, atype, action)
+  def self.pointing_post(entry, atype, action, point_flag)
+    print "受信しますた"
+    print point_flag
     point = case action
             when 0
-              ENTRY_POINT
+              ENTRY_POINT + point_flag
             when 1
               REPLY_POINT
             when 3
               REPLIED_POINT
             end
 
+    print "付与されるポイントは、#{point}点！！"
     # 上のやつ
     PointHistory.save_active_point(entry, point, action)
     # Redisに何かやってる

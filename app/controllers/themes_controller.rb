@@ -160,6 +160,8 @@ class ThemesController < ApplicationController
 
     # keyword
 
+    point_flag = 100
+
     @facilitations = Facilitations
     @count = @theme.entries.root.count
 
@@ -167,7 +169,7 @@ class ThemesController < ApplicationController
       if @new_entry.save
         print "#エントリーをセーブ"
         # after_saveの方を消して、こっちを追加
-        @new_entry.logging_point  # インスタンスメソッドだからこうやって書くべき
+        @new_entry.logging_point(point_flag)  # インスタンスメソッドだからこうやって書くべき
         print "#ポイントが保存された"
         tags = Issue.checked(params[:issues])
         @new_entry.tagging!(Issue.to_object(tags)) unless tags.empty?
