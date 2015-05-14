@@ -147,21 +147,34 @@ class ThemesController < ApplicationController
     end
   end
 
+  # 投稿を反映する時の処理
   def create_entry
     @entry = Entry.new
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
+
+    print "#create_entry"
+    print entry_params["body"]
+
+    # mecab
+
+    # keyword
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count
 
     respond_to do |format|
       if @new_entry.save
+        print "#エントリーをセーブ"
+        # after_saveの方を消して、こっちを追加
+        @new_entry.logging_point  # インスタンスメソッドだからこうやって書くべき
+        print "#ポイントが保存された"
         tags = Issue.checked(params[:issues])
         @new_entry.tagging!(Issue.to_object(tags)) unless tags.empty?
         format.js
       else
         format.json { render json: 'json error' }
+        print "#エラー"
       end
     end
   end

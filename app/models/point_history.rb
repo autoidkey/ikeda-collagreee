@@ -47,7 +47,9 @@ class PointHistory < ActiveRecord::Base
               REPLIED_POINT
             end
 
+    # 上のやつ
     PointHistory.save_active_point(entry, point, action)
+    # Redisに何かやってる
     Point.save_theme_point(entry.theme, point, entry.user)
 
     params = {

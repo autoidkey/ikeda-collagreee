@@ -25,7 +25,9 @@ class Entry < ActiveRecord::Base
   
   # before_create :check_created_at_and_updated_at
 
-  after_save :logging_activity, :logging_point
+  after_save :logging_activity
+  # 動的なポイント付与のためにここをコメントアウトしてみる
+  # after_save :logging_point
   after_save :update_parent_entry_time, unless: :is_root?
   # after_save :notice_entry, :notice_facilitation, if: :is_root?
 
