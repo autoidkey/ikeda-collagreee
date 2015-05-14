@@ -2,6 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+# 現在はここのポイントが投稿時に即時反映されている
 ENTRY_POINT = 30.00
 REPLY_POINT = 20.00
 LIKE_POINT = 5.00

@@ -160,7 +160,8 @@ class ThemesController < ApplicationController
 
     # keyword
 
-    point_flag = 100
+    # アディショナルポイントを与えるかどうかのフラグ
+    point_flag = 1
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count
@@ -176,7 +177,6 @@ class ThemesController < ApplicationController
         format.js
       else
         format.json { render json: 'json error' }
-        print "#エラー"
       end
     end
   end
