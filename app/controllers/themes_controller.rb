@@ -155,12 +155,11 @@ class ThemesController < ApplicationController
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
 
-    # アディショナルポイントを与えるかどうかのフラグ
-    point_flag = 0
+    @dynamicpoint = 0
 
     # DBからキーワードを抽出して配列に入れる
-    keyword = Keyword.all.map { |key| key.word }
-    print "キーワードはこのへん"
+    keyword = Keyword.where(user_id: nil).map { |key| key.word }
+    print "キーワードは、#{keyword}\n"
 
     # 書き込みの内容を取得
     text = entry_params["body"]
@@ -168,47 +167,23 @@ class ThemesController < ApplicationController
     # MeCabによる形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     word = norm_connection(text)
-
+    
     word.each do |w|
       puts "読めてるよ:#{w}\n"
+      keyword.each do |key|
+        if w == key 
+          puts "#{key}が#{w}と一致!!"
+          @dynamicpoint += 2
+        end
+      end
     end
-    print "\n 抽出したワードは、"
+
+    print "\n 抽出したワードは、#{word}"
     print word
     print "です。\n"
 
-    # natto = Natto::MeCab.new
-    # norms = []
-    # natto.parse(text) do |n|
-    #   # とりあえず形態素解析したやつをコンソールに表示
-    #   puts "#{n.surface}\t#{n.feature}"
-    #   norms << n if n.surface.present?
-    # end
-
-    # count = 0
-    # ret = []
-
-    # norms.each_with_index do |e, idx|
-    #   if Norm.match(e.feature)
-    #     count += 1
-    #   else
-    #     ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 1
-    #     count = 0
-    #   end
-    # end
-
-    # # ここで内容とキーワードの一致判定
-    # ret.each do |key|
-    #   if "40pt" == key
-    #     print "一致!!"
-    #     # 一致していればフラグ書き換え
-    #     point_flag = 1
-    #   end
-    # end
-
     @facilitations = Facilitations
     @count = @theme.entries.root.count
-
-    @dynamicpoint = 10
 
     respond_to do |format|
       if @new_entry.save
