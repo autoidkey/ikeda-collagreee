@@ -165,29 +165,54 @@ class ThemesController < ApplicationController
     # MeCabによる形態素解析 
     text = entry_params["body"]
 
-    natto = Natto::MeCab.new
-    natto.parse(text) do |n|
-      # とりあえず形態素解析したやつをコンソールに表示
-      puts "#{n.surface}\t#{n.feature}"
-
-      # ここで内容とキーワードの一致判定
-      keyword.each do |key|
-        if "40pt" == key
-          print "一致!!"
-          # 一致していればフラグ書き換え
-          point_flag = 1
-        end
-      end
+    word = norm_connection(text)
+    word.each do |w|
+      print "読めてるよ\n "
+      print w
     end
+    print "\n"
+    print word
+    print "\n"
+
+    # natto = Natto::MeCab.new
+    # norms = []
+    # natto.parse(text) do |n|
+    #   # とりあえず形態素解析したやつをコンソールに表示
+    #   puts "#{n.surface}\t#{n.feature}"
+    #   norms << n if n.surface.present?
+    # end
+
+    # count = 0
+    # ret = []
+
+    # norms.each_with_index do |e, idx|
+    #   if Norm.match(e.feature)
+    #     count += 1
+    #   else
+    #     ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 1
+    #     count = 0
+    #   end
+    # end
+
+    # # ここで内容とキーワードの一致判定
+    # ret.each do |key|
+    #   if "40pt" == key
+    #     print "一致!!"
+    #     # 一致していればフラグ書き換え
+    #     point_flag = 1
+    #   end
+    # end
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count
+
+    @dynamicpoint = 10
 
     respond_to do |format|
       if @new_entry.save
         print "#エントリーをセーブ"
         # after_saveの方を消して、こっちを追加
-        @new_entry.logging_point(point_flag)  # インスタンスメソッドだからこうやって書くべき
+        @new_entry.logging_point(@dynamicpoint)  # インスタンスメソッドだからこうやって書くべき
         print "#ポイントが保存された"
         tags = Issue.checked(params[:issues])
         @new_entry.tagging!(Issue.to_object(tags)) unless tags.empty?

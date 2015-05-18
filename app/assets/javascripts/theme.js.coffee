@@ -11,19 +11,19 @@ REPLIED_POINT = 15.00
 LIKED_POINT = 5.00
 
 class @PointCount
-  entry: (theme) ->
-    point = (parseFloat( $('#entry_point').text() ) + ENTRY_POINT).toFixed(1)
+  entry: (Dpoint) ->
+    point = (parseFloat( $('#entry_point').text() ) + ENTRY_POINT + Dpoint).toFixed(1)
     $('#entry_point').text(point).hide().fadeIn 'slow'
-    @sum(ENTRY_POINT)
-    @active(ENTRY_POINT)
-    @animation('entry')
+    @sum(ENTRY_POINT + Dpoint)
+    @active(ENTRY_POINT + Dpoint)
+    @animation('entry', Dpoint)
 
-  reply: (theme) ->
-    point = (parseFloat( $('#reply_point').text() ) + REPLY_POINT).toFixed(1)
+  reply: (Dpoint) ->
+    point = (parseFloat( $('#reply_point').text() ) + REPLY_POINT + Dpoint).toFixed(1)
     $('#reply_point').text(point).hide().fadeIn 'slow'
-    @sum(REPLY_POINT)
-    @active(REPLY_POINT)
-    @animation('reply')
+    @sum(REPLY_POINT + Dpoint)
+    @active(REPLY_POINT + Dpoint)
+    @animation('reply', Dpoint)
 
   like: ->
     point = (parseFloat( $('#like_point').text() ) + LIKE_POINT).toFixed(1)
@@ -46,12 +46,12 @@ class @PointCount
     sum_point = (parseFloat( $('#sum_point').text() ) + point).toFixed(1)
     $('#sum_point').text(sum_point).hide().fadeIn 'slow'
 
-  animation: (action) ->
+  animation: (action, Dpoint) ->
     switch action
       when 'entry'
-        comment = "投稿ポイント" + ENTRY_POINT + " pt 獲得！！"
+        comment = "投稿ポイント" + (ENTRY_POINT + Dpoint) + " pt 獲得！！"
       when 'reply'
-        comment = "返信ポイント" + REPLY_POINT + " pt 獲得！！"
+        comment = "返信ポイント" + (REPLY_POINT + Dpoint) + " pt 獲得！！"
       when 'like'
         comment = "Likeポイント" + LIKE_POINT + " pt 獲得！！"
 

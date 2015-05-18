@@ -10,7 +10,7 @@ natto.parse(text) do |n|
   puts "#{n.surface}\t#{n.feature}"
 end
 
-text2 = 'すもももももももものうち'
+text2 = 'キーワードの一致判定をします。'
 
 if text == text2
 	print "Good!!"

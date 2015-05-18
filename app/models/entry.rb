@@ -142,14 +142,14 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  def logging_point(point_flag)
+  def logging_point(additional_point)
     print "フラグ受け取ったよ"
     unless facilitation?
       action = self.is_root? ? 0 : 1
       if action == 0 # 0はPost
-        PointHistory.pointing_post(self, 0, action, point_flag)
+        PointHistory.pointing_post(self, 0, action, additional_point)
       elsif !parent.mine?(user) # Reply
-        PointHistory.pointing_post(self, 0, action, point_flag)
+        PointHistory.pointing_post(self, 0, action, additional_point)
         PointHistory.pointing_replied(self, 1, 3) unless parent.facilitation?
       end
     end
