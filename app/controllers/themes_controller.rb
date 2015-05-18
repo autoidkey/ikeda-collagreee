@@ -1,3 +1,5 @@
+require 'natto'
+
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
   include ApplicationHelper
@@ -153,10 +155,13 @@ class ThemesController < ApplicationController
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
 
-    print "#create_entry"
-    print entry_params["body"]
+    # MeCabによる形態素解析 
+    text = entry_params["body"]
 
-    # mecab
+    natto = Natto::MeCab.new
+    natto.parse(text) do |n|
+      puts "#{n.surface}\t#{n.feature}"
+    end
 
     # keyword
 
