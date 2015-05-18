@@ -162,17 +162,19 @@ class ThemesController < ApplicationController
     keyword = Keyword.all.map { |key| key.word }
     print "キーワードはこのへん"
 
-    # MeCabによる形態素解析 
+    # 書き込みの内容を取得
     text = entry_params["body"]
 
+    # MeCabによる形態素解析 
+    # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     word = norm_connection(text)
+
     word.each do |w|
-      print "読めてるよ\n "
-      print w
+      puts "読めてるよ:#{w}\n"
     end
-    print "\n"
+    print "\n 抽出したワードは、"
     print word
-    print "\n"
+    print "です。\n"
 
     # natto = Natto::MeCab.new
     # norms = []
