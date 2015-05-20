@@ -1,3 +1,5 @@
+<!-- user_admin?メッソドがへルパーメッソドのコントローラーにある　 -->
+<!-- roleが０だとmodelのuseをみるとemnuでをadminになるようになっている！！　だからroleが０だとtrueで以下が表示される -->
 <% if user_admin?(current_user) %>
   <div class="btn-group btn-group-justified" role="group" aria-label="">
     <div class="btn-group" role="group">
@@ -19,9 +21,12 @@
   <br />
 <% end %>
 
+
+<!-- roleは役割を表す -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
+  <li><a href="#tree" role="tab" data-toggle="tab">議論ツリー</a></li>
   <% if user_signed_in? %>
     <% if smartphone? %>
       <li><a href="#get-point" role="tab" data-toggle="tab">獲得ポイント</a></li>
@@ -97,17 +102,25 @@
     </div>
   </div>
 
+  <div class="tab-pane" id="tree">
+    <div class="row">
+      <div class="col-md-6">
+        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , count: @count_tree %>
+      </div>
+    </div>
+  </div>
+
   <% if user_signed_in? %>
     <% unless smartphone? %>
       <div class="tab-pane" id="point_graph">
         <div class="row">
           <div class="col-md-6" id="user_point_graph">
-            <h3>あなたのポイント獲得履歴</h3>
+            <!-- <h3>あなたのポイント獲得履歴</h3>
             <div class="" id="chart"></div>
             <h3>あなたのポイント獲得履歴</h3>
             <div class="" id="point-history-chart"></div>
             <h3>ユーザポイントランキング</h3>
-            <div class="" id="ranking-chart"></div>
+            <div class="" id="ranking-chart"></div> -->
           </div>
         </div>
       </div>

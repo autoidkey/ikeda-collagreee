@@ -41,6 +41,9 @@ class ThemesController < ApplicationController
     Webview.count_up(user_id,@theme.id)
 
     render 'show_no_point' unless @theme.point_function
+
+    #議論ツリーで使用するカウンター
+    @count_tree = 0
   end
 
   def discussion_data

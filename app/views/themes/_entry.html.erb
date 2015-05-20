@@ -23,6 +23,7 @@
     <% end %>
 
 
+    <!-- 下の詳細を表示する -->
     <div class="info-list">
       <span class="user-name">
         <% if entry.facilitation? %>
@@ -31,6 +32,7 @@
           <%= entry.user.name %>
         <% end %>
       </span>
+
       <span class="timestamp">・<%= entry.created_at.to_s(:timeline) %></span>
       <%= render 'thumb', entry: entry %>
       <%= render 'information', entry: entry %>
@@ -38,6 +40,8 @@
       <span class="entry-number">投稿No.<%= entry.id %></span>
     </div>
 
+
+    <!-- いいねボタンと返信ボタン -->
     <% unless entry.facilitation %>
       <% if user_signed_in? && !smartphone? %>
         <div class="actions">
@@ -55,6 +59,7 @@
       <% end %>
     <% end %>
 
+    <!-- スレッドの子供の記事を表示していく -->
     <div class="children">
       <% entry.thread_entries.each do |child| %>
         <%= render 'child_entry', child: child %>

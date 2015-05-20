@@ -21,6 +21,7 @@
 //= require jquery-ui/slider
 //= require jquery.autopager-1.0.0
 //= require jquery.leanModal.min
+//= require jquery-ui
 
 // jquery.leanModal
 $(function() {
