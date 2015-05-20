@@ -1,30 +1,39 @@
 <div class="panel panel-default">
     
 
-  <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> 議論ツリー</h4>
-  </div>
-  <div class="panel-body">
-
-
-
-
-    <div id="main">
-        <div class="demo chart-demo" id="chart-demo">
-             <div class="window" id="chartWindow0"><%= theme.title %></div>
-        </div>
+    <div class="panel-header">
+        <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> 議論ツリー</h4>
     </div>
 
+    <div class="panel-body">
 
-    <script type = "text/javascript">
-        var test = <%= raw entries.to_json %>
-        console.log(test)
+        <div id="pushCheck">PUSH</div>
+        <div id="main">
+            <div class="demo chart-demo" id="chart-demo">
+                <!-- <div class="window" id="chartWindow0"><%= theme.title %></div> -->
+            </div>
+            <div id="dialog_connect" title="結合ダイアログ"></div>
+            <div id="dialog_thred" title="スレッドダイアログ"></div>
+        </div>
 
-    </script>
+
+
+        <script type = "text/javascript">
+            var jsonBack = function() {
+                var json = <%= raw entries.to_json %>
+                return json
+            }
+
+            var titleBack = function() {
+                return <%= raw theme.title.to_json %>
+            }
+
+            $(document).ready(onReady)
+        </script>
                <!--  <% @entries.each_with_index do |entry, i| %>
                     <% count = count + 1 %>
                     <div class="window" id="chartWindow<%= count %>"> <%= entry.title %></div>
-                    <!-- 作ったらid用にカウントを１つずつ増やしていく -->
+                    <!-- 作ったらid用にカウントを１つずつ増やしていく
                   
                     
                    <!--  <% entry.issues.each do |issue| %>
@@ -38,8 +47,8 @@
                     <% end %>
 
                 <% end %>
-            </div>
-        </div>  -->
+            </div> --> 
+    </div> 
 
 
 </div>

@@ -1,54 +1,54 @@
-jsPlumb.ready(function () {
+function onReady() {
 
-    var linkNode = [
-            { source:0, target:1 },
-            { source:0, target:2 },
-            { source:0, target:3 },
-            { source:0, target:4 },
-            { source:0, target:5 },
-            { source:1, target:6 },
-            { source:2, target:7 },
-            { source:3, target:8 },
-            { source:3, target:9 },
-            { source:4, target:10 },
-            { source:4, target:11 },
-            { source:10, target:12 },
-            { source:11, target:13 }
-    ]
+    // var linkNode = [
+    //         { source:0, target:1 },
+    //         { source:0, target:2 },
+    //         { source:0, target:3 },
+    //         { source:0, target:4 },
+    //         { source:0, target:5 },
+    //         { source:1, target:6 },
+    //         { source:2, target:7 },
+    //         { source:3, target:8 },
+    //         { source:3, target:9 },
+    //         { source:4, target:10 },
+    //         { source:4, target:11 },
+    //         { source:10, target:12 },
+    //         { source:11, target:13 }
+    // ]
 
-    var nodeData = [
-        { id:0, text:"アニメの魅力", depth:0},
-        { id:2, text:"アニメの魅力", depth:1 },
-        { id:3, text:"ボジティブなアニメが好き", depth:1},
-        { id:4, text:"アニメのジャンル", depth:1 },
-        { id:5, text:"アニメの独特の世界観", depth:1 },
-        { id:6, text:"一気に見たい派", depth:2 },
-        { id:7, text:"いろいろな教訓", depth:2 },
-        { id:8, text:"学ぶ", depth:2 },
-        { id:10, text:"ハードボイルド系、ロボット系", depth:2 },
-        { id:11, text:"SF、アクション", depth:2 },
-        { id:12, text:"萌え、AV系", depth:3 },
-        { id:9, text:"頑張っている姿", depth:2 },
-        { id:13, text:"SF系", depth:3 },
-        { id:1, text:"アニメの見るタイミング", depth:1 },
-    ]
+    // var nodeData = [
+    //     { id:0, text:"アニメの魅力", depth:0},
+    //     { id:2, text:"アニメの魅力", depth:1 },
+    //     { id:3, text:"ボジティブなアニメが好き", depth:1},
+    //     { id:4, text:"アニメのジャンル", depth:1 },
+    //     { id:5, text:"アニメの独特の世界観", depth:1 },
+    //     { id:6, text:"一気に見たい派", depth:2 },
+    //     { id:7, text:"いろいろな教訓", depth:2 },
+    //     { id:8, text:"学ぶ", depth:2 },
+    //     { id:10, text:"ハードボイルド系、ロボット系", depth:2 },
+    //     { id:11, text:"SF、アクション", depth:2 },
+    //     { id:12, text:"萌え、AV系", depth:3 },
+    //     { id:9, text:"頑張っている姿", depth:2 },
+    //     { id:13, text:"SF系", depth:3 },
+    //     { id:1, text:"アニメの見るタイミング", depth:1 },
+    // ]
 
-    var nodeBodyText = [
-        "アニメの魅力",
-        "アニメを見るとき大体の人が録画して見ているとおもいますがアニメを見るときタイミングはいつですか？自分は朝ですね テンションが上がります",
-        "面白いだけでなくアニメの魅力はメッセージが込められていることをだと思います。だから大人になっても見ていて面白いのだと思います。",
-        "ポジティブなアニメを見ると、元気で前向きになれるので、好きです。特に自分自身が困難に直面するとき、力になります。",
-        "アニメにはいろいろなジャンルがあると思いますがどのジャンルが好みですか？自分は4コマ系アニメが好きです。話が複雑だと内容を来週までに忘れてしまうからです",
-        "アニメだと、現実ではあり得ないような世界も表現できるので、そこが魅力かなーと。 例えば、未来や過去を舞台にしていたり、魔法が使える世界だったり。 実写で出来なくもないですが、無理やり実写化した結果、残念なことになった作品は数知れず・・・ですからね",
-        "自分は一気に見たい派なので、時間はまちまちです。 リアルタイムで放送してるのを追うときは、次の日の夜が多いですね",
-        "いろいろな教訓とかありますね.パン食べて走ると人にぶつかるとかちょっと違いますねw",
-        "アニメから学ぶことが多いです",
-        "キャラクターが頑張ってる姿を見てキャラクターになりきって見てしまうときが有ります",
-        "自分はどっちかというとに、話が連続している方が好きです。銃器が出てくるハードボイルド系とか、ロボット物とか。 逆に萌え寄りすぎると若干敬遠してしまうところがありますね。",
-        "進撃の巨人、コードギアスなどのSFやアクション系が好きです。見ていて楽しいです。主人公がカッコよくて主人公に憧れます！",
-        "萌えにより過ぎだったりAV系の中身が全くないのは嫌いです",
-        "SF系の主人公はかっこいいので憧れます。しかしSF系は戦争などの暗いテーマが多いのであまり好きではありません",
-    ]
+    // var nodeBodyText = [
+    //     "アニメの魅力",
+    //     "アニメを見るとき大体の人が録画して見ているとおもいますがアニメを見るときタイミングはいつですか？自分は朝ですね テンションが上がります",
+    //     "面白いだけでなくアニメの魅力はメッセージが込められていることをだと思います。だから大人になっても見ていて面白いのだと思います。",
+    //     "ポジティブなアニメを見ると、元気で前向きになれるので、好きです。特に自分自身が困難に直面するとき、力になります。",
+    //     "アニメにはいろいろなジャンルがあると思いますがどのジャンルが好みですか？自分は4コマ系アニメが好きです。話が複雑だと内容を来週までに忘れてしまうからです",
+    //     "アニメだと、現実ではあり得ないような世界も表現できるので、そこが魅力かなーと。 例えば、未来や過去を舞台にしていたり、魔法が使える世界だったり。 実写で出来なくもないですが、無理やり実写化した結果、残念なことになった作品は数知れず・・・ですからね",
+    //     "自分は一気に見たい派なので、時間はまちまちです。 リアルタイムで放送してるのを追うときは、次の日の夜が多いですね",
+    //     "いろいろな教訓とかありますね.パン食べて走ると人にぶつかるとかちょっと違いますねw",
+    //     "アニメから学ぶことが多いです",
+    //     "キャラクターが頑張ってる姿を見てキャラクターになりきって見てしまうときが有ります",
+    //     "自分はどっちかというとに、話が連続している方が好きです。銃器が出てくるハードボイルド系とか、ロボット物とか。 逆に萌え寄りすぎると若干敬遠してしまうところがありますね。",
+    //     "進撃の巨人、コードギアスなどのSFやアクション系が好きです。見ていて楽しいです。主人公がカッコよくて主人公に憧れます！",
+    //     "萌えにより過ぎだったりAV系の中身が全くないのは嫌いです",
+    //     "SF系の主人公はかっこいいので憧れます。しかしSF系は戦争などの暗いテーマが多いのであまり好きではありません",
+    // ]
 
     var testlink = [
         { source:0, target:1 },
@@ -76,49 +76,29 @@ jsPlumb.ready(function () {
         { id:9, text:"aaaa", depth:1, depthCount:8 },
         { id:10, text:"aaaa", depth:1, depthCount:9 },
     ]
-    //自動で深いところまでノードデータを作成する！
-    var autoNodeSet = function() {
-        var num = 0
-        var count = 10
-        var depth = 1
-        while(1){
-            depth++;
-            var depthCount = 0;
-            var s = num
-            var f = count
 
-            for (var i =s+1; i <= f; i++){
+    var json = jsonBack();
+    var linkNode = []
+    var nodeData = []
+    var nodeBodyText = []
 
-                //ランダムな数
-                rand = Math.floor( Math.random() * 3);
+    console.log(json)
 
-                for (var t = 1; t <= rand; t++){
-                    count++;
-                    testlink.push({source:i,target:count});
-                    testdata.push({id:count,text:"aaaa",depth:depth,depthCount:depthCount});
-                    depthCount++;
-                }
+    //一番上のノードの処理
+    nodeBodyText.push(titleBack());
+    nodeData[0] = {id:0, text:titleBack(), depth:0 };
+    var div = $('<div class="window" id="chartWindow0">'+titleBack()+'</div>');
+    $("#chart-demo").append(div);
 
-                num++;
+    //深さ１のノードを生成する
+    for (var i = 0 ; i < json.length; i++){
+        linkNode.push({ source : 0 , target : i+1 });
+        nodeBodyText.push(json[i]["body"]);
+        nodeData.push({id:i+1, text:json[i]["title"], depth:1 })
+    };
 
-            }
-
-            if (num>500){
-                break;
-            }
-
-            console.log(num)
-            console.log(count)
-            //終了処理
-            if (num==count){
-                break;
-            }
-        }
-        //自動で作ったデータを使用データとする
-        nodeData = testdata
-        linkNode = testlink
-    }
-
+    console.log(linkNode)
+    console.log(nodeBodyText)
 
     //ノードの配置を設定する！
     nodeSet()
@@ -779,4 +759,11 @@ jsPlumb.ready(function () {
 
     }
 
-});
+    $("#pushCheck").click(function(){
+        updateLinkConect();
+    });
+
+    
+    updateLinkConect();
+
+}
