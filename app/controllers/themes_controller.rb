@@ -178,9 +178,7 @@ class ThemesController < ApplicationController
       end
     end
 
-    print "\n 抽出したワードは、#{word}"
-    print word
-    print "です。\n"
+    print "\n 抽出したワードは、#{word}です。\n"
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count

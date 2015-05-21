@@ -91,7 +91,7 @@ module Bm25
         if Norm.match(e.feature)
           count += 1
         else
-          ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 1
+          ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 0
           count = 0
         end
       end
