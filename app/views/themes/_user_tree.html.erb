@@ -7,10 +7,9 @@
 
     <div class="panel-body">
 
-        <div id="pushCheck">PUSH</div>
+
         <div id="main">
             <div class="demo chart-demo" id="chart-demo">
-                <!-- <div class="window" id="chartWindow0"><%= theme.title %></div> -->
             </div>
             <div id="dialog_connect" title="結合ダイアログ"></div>
             <div id="dialog_thred" title="スレッドダイアログ"></div>
@@ -19,6 +18,17 @@
 
 
         <script type = "text/javascript">
+            var childBack = function(){
+                return   <%= raw entryAll.to_json %>
+            }
+            // <% @entries.each_with_index do |entry, i| %>
+            //     <% entry.thread_entries.each do |child| %>
+            //          console.log(child.name);
+            //     <% end %>
+            // <% end %>
+
+    
+
             var jsonBack = function() {
                 var json = <%= raw entries.to_json %>
                 return json
@@ -29,13 +39,13 @@
             }
 
             $(document).ready(onReady)
+
+
         </script>
                <!--  <% @entries.each_with_index do |entry, i| %>
-                    <% count = count + 1 %>
-                    <div class="window" id="chartWindow<%= count %>"> <%= entry.title %></div>
+                    <div class="window" id="chartWindow"> <%= entry.title %></div>
                     <!-- 作ったらid用にカウントを１つずつ増やしていく
                   
-                    
                    <!--  <% entry.issues.each do |issue| %>
                       <%= puts "エントリーの中身#{issue.name}" %>
                     <% end %>
@@ -46,8 +56,11 @@
                       <%= puts "子供の中身#{child.body}" %>
                     <% end %>
 
+
                 <% end %>
             </div> --> 
+
+            <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
     </div> 
 
 

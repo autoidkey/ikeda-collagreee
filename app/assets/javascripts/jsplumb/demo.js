@@ -78,52 +78,139 @@ function onReady() {
     ]
 
     var json = jsonBack();
+    var dataAll = childBack()
     var linkNode = []
     var nodeData = []
     var nodeBodyText = []
 
-    console.log(json)
+
+
+
+    // var makeData = function() {
+    //     var dataAll = childBack()
+    //     for (var i = 0; i < dataAll.length ; i++){
+    //         if (dataAll[i]["parent_id"] == null){
+    //             linkNode.push({ source : 0 , target : dataAll[i]["id"] })
+    //             nodeData.push({ id:dataAll[i]["id"], text:dataAll[i]["title"], depth:1 , body:dataAll[i]["body"]})
+    //         }
+    //     }
+    // }
+
 
     //一番上のノードの処理
     nodeBodyText.push(titleBack());
     nodeData[0] = {id:0, text:titleBack(), depth:0 };
-    var div = $('<div class="window" id="chartWindow0">'+titleBack()+'</div>');
-    $("#chart-demo").append(div);
+    // var div = $('<div class="window" id="chartWindow0">'+titleBack()+'</div>');
+    // $("#chart-demo").append(div);
 
-    //深さ１のノードを生成する
-    for (var i = 0 ; i < json.length; i++){
-        linkNode.push({ source : 0 , target : i+1 });
-        nodeBodyText.push(json[i]["body"]);
-        nodeData.push({id:i+1, text:json[i]["title"], depth:1 })
-    };
 
+    //すべてのリンク関係を生成
+    for (var i = 0 ; i < dataAll.length; i++){
+        if (dataAll[i]['parent_id'] != null){
+            linkNode.push({ source : dataAll[i]['parent_id'] , target : dataAll[i]['id'] });
+        }else {
+            linkNode.push({ source : 0 , target : dataAll[i]["id"] });
+            nodeBodyText.push(dataAll[i]["body"]);
+            nodeData.push({id:dataAll[i]["id"], text:dataAll[i]["title"], depth:1 })
+        }
+    }
+
+    console.log("--------------------------")
+    console.log(dataAll)
     console.log(linkNode)
+    console.log(nodeData)
     console.log(nodeBodyText)
+
+
+    //dataAllから指定のidのデータを取り出す
+    function iSerch(id) {
+        for (var i = 0 ; i < dataAll.length; i++){
+            if (dataAll[i]['id'] == id){
+                return dataAll[i]
+            }
+        }
+    }
+
+    console.log("--------------------------")
+    makeNode();
+    console.log("--------------------------") 
+    console.log(nodeData)
+    //
+    function makeNode() {
+        var array = [0]
+        var child = serchChild(array[0])
+        array.splice(0, 1)
+        for (var i = 0; i<child.length; i++) {
+
+            array.push(child[i])
+        };
+
+        while(array.length　!=　0 ){
+            for (var i = 0; i　<　array.length; i++) {
+                var child = serchChild(array[0])
+                array.splice(0, 1)
+                for (var i = 0; i<child.length; i++) {
+                    var data = iSerch(child[i])
+                    array.push(child[i])
+                    console.log(data)
+
+                    //データの追加
+                    var p = serchParent(child[i])
+                    var d = serchIdData(p)["depth"] 
+
+                    nodeBodyText.push(data["body"]);
+                    nodeData.push({id:data["id"], text:data["body"].slice(0, 6), depth:d+1 })
+                };
+            };
+        }
+
+    }
 
     //ノードの配置を設定する！
     nodeSet()
 
+    var wSet = 12
+    var pSet = 6
+    //すべての子供の長さを計算
+    function childWidth(){
+        var dataWidthArray = []
+        for (var i = 0; i < nodeData.length; i++){
+            var c = serchChild(nodeData[i]["id"]).length
+            if(c>1){
+                var width = wSet*c +pSet * (c-1)
+                dataWidthArray[i] = width
+            }else {
+                dataWidthArray[i]=0
+            }
+        }
+
+
+    }
+
+
+
+
     function nodeSet(){
 
         //idと配列順を並び替える！
-        var tempArray = []
-         for (var i = 0; i < nodeData.length; i++){
-            var flag = 0
-            for (var t = 0; t < nodeData.length; t++){
-                if (i == nodeData[t]["id"]){
-                    tempArray[i] = nodeData[t]
-                    flag = 1
-                }
-                if (flag == 1){
-                    break
-                }
-            }
-        }
-        nodeData = tempArray
+        // var tempArray = []
+        //  for (var i = 0; i < nodeData.length; i++){
+        //     var flag = 0
+        //     for (var t = 0; t < nodeData.length; t++){
+        //         if (i == nodeData[t]["id"]){
+        //             tempArray[i] = nodeData[t]
+        //             flag = 1
+        //         }
+        //         if (flag == 1){
+        //             break
+        //         }
+        //     }
+        // }
+        // nodeData = tempArray
 
         console.log(nodeData)
 
-        //その深さにどれだけ数があるかを探して配列に代入していく
+        //その深さにどれだけ数があるかを探して配列に代入していく かつ　depthCountをつけていく
         var countArray = []
         for (var t = 0; t < nodeData.length; t++){
             var d = nodeData[t]["depth"]
@@ -160,7 +247,7 @@ function onReady() {
         //それぞれの下のノードの長さを調べる
         var dataWidthArray = []
         for (var i = 0; i < nodeData.length; i++){
-            var c = serchChild(i).length
+            var c = serchChild(nodeData[i]["id"]).length
             if(c>1){
                 console.log(c)
                 var d = nodeData[i]["depth"]
@@ -171,6 +258,7 @@ function onReady() {
             }
         }
 
+
         //それぞれのノードの配置を決定する
         var dataLocateArray = []
         //それぞれの深さの今決定している長さ
@@ -179,7 +267,7 @@ function onReady() {
         for (var i = 1; i < nodeData.length; i++){
             var count = nodeData[i]["depthCount"]
             var w = 10*Math.pow(0.9,nowDepth)
-            var l = (count+1)*w+w*0.6*(count)+add
+            var l = (count+1)*w+w*0.8*(count)+add
 
             if (nowDepth!=nodeData[i]["depth"]){
                 nowDepth++;
@@ -192,10 +280,10 @@ function onReady() {
             }else {
 
             }
-
-
         }
 
+        console.log(dataLocateArray)
+        console.log(depthLengthArray)
 
         //配列の合計を求める
         var sum  = function(arr) {
@@ -210,9 +298,10 @@ function onReady() {
 
 
         var setWindow = function(name,l,t,num,w,h){
+            console.log(num)
             var id = "chartWindow"+num
             var div = $('<div class="window" id='+id+'>'+name+'</div>');
-            $("#chartWindow"+(num-1)).after(div);
+            $("#chart-demo").append(div);
             $('#chartWindow'+num).css({
               'left': l+'em',  
               'top': t+'em', 
@@ -221,14 +310,11 @@ function onReady() {
             }); 
         }
         
-        console.log('----------------------')
-        console.log(dataWidthArray[0]/2)
-
-        setWindow(nodeData[0]["text"],dataWidthArray[0]/2,10,0,10,4)
+    
 
         var add = 0
         var deforeAdd = 0
-        //それぞれのノードの配置を決定する
+        //それぞれのノードの配置を決定してノードを配置する
         var dataLocateArray = []
         var nowDepth = 1
         for (var i = 1; i < nodeData.length; i++){
@@ -240,35 +326,61 @@ function onReady() {
             }
             var w = 10*Math.pow(0.9,d)
             var h = 4*Math.pow(0.9,d)
-            var l = (count+1)*w+w*0.6*(count)+add
+            var l = (count+1)*w+w*0.8*(count)+add
 
             if (dataLocateArray[i]!=null && d!=1){
                 l = dataLocateArray[i]
             }
 
 
-            var t = (d+1)*12
+            var t = (d+1)*16
             if(dataWidthArray[i]!=0 && d==1){
                 add = add+dataWidthArray[i]/2
                 deforeAdd = dataWidthArray[i]/2
                 l = l + deforeAdd
             }
-            setWindow(nodeData[i]["text"],l,t,i,w,h)
+            setWindow(nodeData[i]["text"],l,t,nodeData[i]["id"],w,h)
             dataLocateArray[i] = l
 
             //その子供にデータを継承する
-            var c = serchChild(i)
+            var c = serchChild(nodeData[i]["id"])
             if (c.length==1){
-                dataLocateArray[c[0]]=l
+                dataLocateArray[serchDataReverse(c[0])]=l
             }else if(c.length==2){
-                dataLocateArray[c[0]]=l-w/2
-                dataLocateArray[c[1]]=l+w/2
+                dataLocateArray[serchDataReverse(c[0])]=l-w
+                dataLocateArray[serchDataReverse(c[1])]=l+w
             }else if(c.length==3){
-                dataLocateArray[c[0]]=l-w/2
-                dataLocateArray[c[1]]=l
-                dataLocateArray[c[2]]=l+w/2
+                dataLocateArray[serchDataReverse(c[0])]=l-w
+                dataLocateArray[serchDataReverse(c[1])]=l
+                dataLocateArray[serchDataReverse(c[2])]=l+w
+            }else if(c.length==4){
+                dataLocateArray[serchDataReverse(c[0])]=l-w/2-w
+                dataLocateArray[serchDataReverse(c[1])]=l-w/2
+                dataLocateArray[serchDataReverse(c[2])]=l+w/2
+                dataLocateArray[serchDataReverse(c[3])]=l+w/2+w
+            }else if(c.length==5){
+                dataLocateArray[serchDataReverse(c[0])]=l-w/2-w
+                dataLocateArray[serchDataReverse(c[1])]=l-w
+                dataLocateArray[serchDataReverse(c[2])]=l
+                dataLocateArray[serchDataReverse(c[3])]=l-w/2
+                dataLocateArray[serchDataReverse(c[4])]=l-w/2+w
             }
         }
+
+         setWindow(nodeData[0]["text"],dataWidthArray[0]/2,10,0,10,4)
+    }
+
+    function setWindow(name,l,t,num,w,h){
+        console.log(num)
+        var id = "chartWindow"+num
+        var div = $('<div class="window" id='+id+'>'+name+'</div>');
+        $("#chart-demo").append(div);
+        $('#chartWindow'+num).css({
+          'left': l+'em',  
+          'top': t+'em', 
+          'width': w+'em',
+          //'height': h+'em',
+        }); 
     }
 
 
@@ -276,7 +388,7 @@ function onReady() {
         var childArray=[]
         for (var i = 0; i < linkNode.length; i++){
             if(id == linkNode[i]["source"]){
-                childArray.unshift(linkNode[i]["target"])
+                childArray.push(linkNode[i]["target"])
             }
         }
         return childArray
@@ -307,6 +419,25 @@ function onReady() {
 
     }
 
+    //idが同じノードデータを探して返す
+    function serchIdData (id) {
+        for (var i = 0; i < nodeData.length; i++) {
+            if (id == nodeData[i]["id"]) {
+                return nodeData[i]
+            }
+        }
+    }
+
+    //idから何番目の配列にあるかを探す
+    function serchDataReverse (id) {
+        for (var i = 0; i < nodeData.length; i++) {
+            if (id == nodeData[i]["id"]) {
+                return i
+            }
+        }
+    }
+
+    
 
 
 
@@ -415,6 +546,7 @@ function onReady() {
 
     });
 
+
     //コネックションをクリックした時の意イベント
     instance.bind("click", function (conn, originalEvent) {
             //if (confirm("Delete connection from " + conn.sourceId + " to " + conn.targetId + "?"))
@@ -484,6 +616,11 @@ function onReady() {
     };
 
     var updateLinkConect = function() {
+        console.log("updateLinkConect")
+        console.log(linkNode)
+
+        instance.deleteEveryEndpoint();
+
              // suspend drawing and initialise.
         instance.batch(function () {
             // declare some common values:
@@ -507,7 +644,7 @@ function onReady() {
                     isSource: true,
                     isTarget: true
                 });
-                if(i!=0){
+             
                     instance.addEndpoint(windows[i], {
                         uuid: windows[i].getAttribute("id") + "-top",
                         anchor: "Top",
@@ -515,7 +652,7 @@ function onReady() {
                         isSource: true,
                         isTarget: true
                     });
-                }
+                
             }
 
             instance.bind("connection", function (connInfo, originalEvent) {
@@ -553,15 +690,15 @@ function onReady() {
             thisTemp = this
             
             //つなぎかえをするのかを判定
-            if (nodeData[toId.slice(12)]["depth"]==1 && nodeData[fromId.slice(12)]["depth"]==1 ){
+            if (serchIdData(toId.slice(12))["depth"]==1 && serchIdData(fromId.slice(12))["depth"]==1){
             }else if (serchParent(toId.slice(12)) == serchParent(fromId.slice(12))) {
             }else {
                 return
             }
 
-            var text1 = "ToText:"+nodeData[toId.slice(12)]["text"]+"<p>"+nodeBodyText[toId.slice(12)]+"</p>"+"<hr>"
-            var text2 = "FromText:"+nodeData[fromId.slice(12)]["text"]+"<p>"+nodeBodyText[fromId.slice(12)]+"</p>"
-            var bodyText = nodeData[toId.slice(12)]["text"]+ nodeData[fromId.slice(12)]["text"]
+            var text1 = "ToText:"+serchIdData(toId.slice(12))["text"]+"<p>"+serchIdData(toId.slice(12))+"</p>"+"<hr>"
+            var text2 = "FromText:"+serchIdData(fromId.slice(12))["text"]+"<p>"+serchIdData(fromId.slice(12))+"</p>"
+            var bodyText = serchIdData(toId.slice(12))["text"]+ serchIdData(fromId.slice(12))["text"]
             var form = '<p>テーマ</p><input type="text" name="inputtxt" id="inputtxt" value='+bodyText+'>' 
             show_dialog( text1+text2+form , 0);
 
@@ -629,7 +766,7 @@ function onReady() {
             //表示テキストとデータの変更を一括で行う
             var message = $( this ).find('input').val();
             document.getElementById(toId).innerHTML= message;
-            nodeData[toId.slice(11)]["text"] = message
+            serchIdData(toId.slice(11))["text"] = message
 
             //ラジオボタンが押されているかの処理をしていく
             var radioVal = $("input[name='radio_test']:checked").val();
@@ -695,8 +832,8 @@ function onReady() {
         if (touchX == event.pageX && touchY == event.pageY){
             console.log(this.id)
             var touchId = this.id.slice(11)
-            var text1 = "<p>タイトル:" + nodeData[touchId]["text"] + "<p>"+"<p>"+nodeBodyText[touchId]+"</p>"+"<hr>"
-            var textForm = '<p>タイトル変更</p><input type="text" name="inputtxt" id="inputtxt" value='+ nodeData[touchId]["text"] +'>' 
+            var text1 = "<p>タイトル:" + serchIdData(touchId)["text"] + "<p>"+"<p>"+nodeBodyText[serchDataReverse(touchId)]+"</p>"+"<hr>"
+            var textForm = '<p>タイトル変更</p><input type="text" name="inputtxt" id="inputtxt" value='+ serchIdData(touchId)["text"] +'>' 
             var textButton1 = "<p>１つのスレッド強調　"+'<input type="radio" id="rd0" name="radio_test" value="0" /></p>'
             var textButton2 = "<p>スレッド全体強調　"+'<input type="radio" id="rd1" name="radio_test" value="1" /></p>'
             toId = this.id
@@ -759,11 +896,28 @@ function onReady() {
 
     }
 
-    $("#pushCheck").click(function(){
+    $("#pushCheck1").click(function(){
         updateLinkConect();
     });
 
-    
-    updateLinkConect();
+    $("#pushCheck2").click(function(){
+        nodeSet();
+    });
+
+
+    $('#chartWindow0').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+            if (isInView) {
+              //要素が見えたときに実行する処理
+              console.log("aaaaaa")
+              updateLinkConect();
+            } else {
+              //要素が見えなくなったときに実行する処理
+              console.log("aaaaaaddddd")
+            }
+    });
+
+
+
+
 
 }
