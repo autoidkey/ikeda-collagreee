@@ -43,7 +43,7 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #議論ツリーで使用するカウンター
-    @entry_tree = Entry.where("theme_id >= ?", @theme.id)
+    @count_tree = 0
   end
 
   def discussion_data

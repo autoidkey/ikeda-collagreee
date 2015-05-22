@@ -22,7 +22,6 @@
 <% end %>
 
 
-
 <!-- roleは役割を表す -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
@@ -106,7 +105,7 @@
   <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-6">
-        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , entryAll: @entry_tree %>
+        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , count: @count_tree %>
       </div>
     </div>
   </div>
