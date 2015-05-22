@@ -179,13 +179,11 @@ class ThemesController < ApplicationController
         if w == key[:word]
           perfect_bonus = key[:score] * 10
           perfect_matching += perfect_bonus
-          # perfect_matching += BigDecimal((key[:score] * 10).to_s).floor(1).to_f
           puts "「#{w}」が「#{key[:word]}」と完全に一致!! #{perfect_bonus}ポイント獲得!!"
         # 部分一致ならスコア*5pt
         elsif key[:word].include?(w) 
           partial_bonus = key[:score] * 5
           partial_matching += partial_bonus
-          # partial_matching += BigDecimal((key[:score] * 5).to_s).floor(1).to_f
           puts "「#{w}」が「#{key[:word]}」と部分的に一致!! #{partial_bonus}ポイント獲得!!"
         end
       end
