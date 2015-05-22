@@ -160,7 +160,7 @@ class ThemesController < ApplicationController
     partial_matching = 0  # 部分一致用
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
-    keywords_scores = Keyword.where(user_id: nil).map do |key| 
+    keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
       {id: key.id, word: key.word, score: key.score}
     end
 
@@ -169,7 +169,7 @@ class ThemesController < ApplicationController
 
     # MeCabによる投稿内容の形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
-    word = norm_connection(text)
+    word = norm_connection2(text)
     print "\n 抽出したワードは、#{word}です。\n"
     
     word.each do |w|
