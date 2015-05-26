@@ -159,31 +159,42 @@ class ThemesController < ApplicationController
     @theme = Theme.find(params[:id])
 
     @dynamicpoint = 0
+    perfect_matching = 0  # 完全一致用
+    partial_matching = 0  # 部分一致用
 
-    # DBからキーワードを抽出して配列に入れる
-    keyword = Keyword.where(user_id: nil).map { |key| key.word }
-    print "キーワードは、#{keyword}\n"
+    # DBからキーワードとスコアを抽出してハッシュに入れる
+    keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
+      {id: key.id, word: key.word, score: key.score}
+    end
 
     # 書き込みの内容を取得
     text = entry_params["body"]
 
-    # MeCabによる形態素解析 
+    # MeCabによる投稿内容の形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
-    word = norm_connection(text)
+    word = norm_connection2(text)
+    print "\n 抽出したワードは、#{word}です。\n"
     
     word.each do |w|
-      puts "読めてるよ:#{w}\n"
-      keyword.each do |key|
-        if w == key 
-          puts "#{key}が#{w}と一致!!"
-          @dynamicpoint += 2
+      puts "読めてるよ:#{w}"
+      keywords_scores.each do |key|
+        # 完全一致ならスコア*10pt
+        if w == key[:word]
+          perfect_bonus = key[:score] * 10
+          perfect_matching += perfect_bonus
+          puts "「#{w}」が「#{key[:word]}」と完全に一致!! #{perfect_bonus}ポイント獲得!!"
+        # 部分一致ならスコア*5pt
+        elsif key[:word].include?(w) 
+          partial_bonus = key[:score] * 5
+          partial_matching += partial_bonus
+          puts "「#{w}」が「#{key[:word]}」と部分的に一致!! #{partial_bonus}ポイント獲得!!"
         end
       end
     end
 
-    print "\n 抽出したワードは、#{word}"
-    print word
-    print "です。\n"
+    # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
+    @dynamicpoint = BigDecimal((perfect_matching + partial_matching).to_s).floor(1).to_f
+    puts "獲得した追加ポイント = #{@dynamicpoint}"
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count

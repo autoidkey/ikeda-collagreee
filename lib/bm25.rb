@@ -99,10 +99,30 @@ module Bm25
     ret = []
 
     norms.each_with_index do |e, idx|
+      # その単語が名詞なら次の単語を見る
       if Norm.match(e.feature)
         count += 1
+      # 名詞以外が出てきたら、それまでの名詞を全部結合して登録する
       else
         ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 1
+        count = 0
+      end
+    end
+    ret
+  end
+
+  def norm_connection2(text)
+    count = 0
+    norms = parse_to_list(text)
+    ret = []
+
+    norms.each_with_index do |e, idx|
+      # その単語が名詞なら次の単語を見る
+      if Norm.match(e.feature)
+        count += 1
+      # 名詞以外が出てきたら、それまでの名詞を全部結合して登録する
+      else
+        ret << norms[idx - count..idx -1].map(&:surface).join('') if count > 0
         count = 0
       end
     end
