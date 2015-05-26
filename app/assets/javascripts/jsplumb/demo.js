@@ -905,17 +905,6 @@ function onReady() {
     });
 
 
-    $('#chartWindow0').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
-            if (isInView) {
-              //要素が見えたときに実行する処理
-              console.log("aaaaaa")
-              updateLinkConect();
-            } else {
-              //要素が見えなくなったときに実行する処理
-              console.log("aaaaaaddddd")
-            }
-    });
-
 
 
 
