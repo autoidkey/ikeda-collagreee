@@ -5,7 +5,7 @@
         <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true" id="panel-tree"></span> 議論ツリー</h4>
     </div>
 
-    <div class="panel-body">
+    <div class="panel-body" id="tree-windw">
 
 
         <div id="main">
@@ -17,17 +17,18 @@
 
 
 
+
         <script type = "text/javascript">
+
+            //ノードのダイアログでの移動の処理
+            function JumpNode (id){
+                console.log("JUMP")
+            }
+
             var childBack = function(){
+
                 return   <%= raw entryAll.to_json %>
             }
-            // <% @entries.each_with_index do |entry, i| %>
-            //     <% entry.thread_entries.each do |child| %>
-            //          console.log(child.name);
-            //     <% end %>
-            // <% end %>
-
-    
 
             var jsonBack = function() {
                 var json = <%= raw entries.to_json %>
@@ -39,15 +40,15 @@
             }
 
             //$(document).ready(onReady)
-
             $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
             if (isInView) {
-              //要素が見えたときに実行する処理
-              console.log("aaaaaa")
-              onReady();
+                 onReady();
             } else {
-              //要素が見えなくなったときに実行する処理
-              console.log("aaaaaaddddd")
+                // //要素が見えなくなったときに実行する処理
+                // //すべての要素を削除
+                // $(".window").remove();
+                // //すべての点の削除
+                // deleteConectPoint();
             }
     });
 

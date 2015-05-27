@@ -44,7 +44,7 @@
 
         <!-- 投稿フォームについて -->
         <div id="main-form">
-          <%= render 'top_form' if user_signed_in? %>
+          
         </div>
         <hr />
 
@@ -54,7 +54,7 @@
 
         <!-- 検索するとことのビュー -->
         <div class="well" id="tl-tool">
-          <%= render 'search_form'  %>
+          
         </div>
 
         <div id="top-loading">
@@ -63,102 +63,23 @@
 
         <!-- この部分がそれぞれの記事を表示するビューになる -->
         <div id="timeline">
-          <% @entries.each_with_index do |entry, i| %>
-            <%= render 'panel', entry: entry %>
-          <% end %>
+            <%= render 'panel', entry: @entry %>
         </div>
 
         <div id="icon-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
 
-         <div id="next" class="next_link_div"><%= link_to_next_page @entries, '次のページを表示', :remote => true, :id => 'next_link', :class=>'next_link_a_tag'  %></div>
-
 
 
 
       </div>
 
-      <div class="col-md-4">
-        <%= render 'theme_info' %>
-        <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-        <%= render 'user_ranking', users: @users, theme: @theme %>
-        <%#= render 'activity' if user_signed_in? %>
-        <% if smartphone? %>
-          <%= render 'keywords_mobile' %>
-        <% else %>
-          <%= render 'keywords' %>
-        <% end %>
-        <%#= render 'other_themes' %>
-        <%= render 'users' %>
-        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
-      </div>
+      <!-- FIXME: chosei -->
     </div>
   </div>
-
-  <!-- ランキンングについて -->
-  <div class="tab-pane" id="infomation">
-    <div class="row">
-      <div class="col-md-6">
-        <%= render 'user_ranking', users: @users, theme: @theme %>
-      </div>
-      <div class="col-md-6">
-        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
-      </div>
-    </div>
-  </div>
-
-  <!-- 議論ツリーについて -->
-  <div class="tab-pane" id="tree">
-    <div class="row">
-      <div class="col-md">
-        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , entryAll: @entry_tree %>
-      </div>
-    </div>
-
-  </div>
-
-  <% if user_signed_in? %>
-    <% unless smartphone? %>
-      <div class="tab-pane" id="point_graph">
-        <div class="row">
-          <div class="col-md-6" id="user_point_graph">
-          </div>
-        </div>
-      </div>
-    <% else %>
-      <div class="tab-pane" id="get-point">
-        <div class="row">
-          <div class="col-md-6">
-            <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
 
 </div>
-
-
-<!-- このjsは議論ツリーでノードから議論に移動するために記述 -->
- <script type = "text/javascript">
-    var id  = <%= raw @nodeId %>
-    if (id!=0){
-      id = id[0].substr(1)
-      id = '#entry-'+id
-      console.log(id)
-       $('html,body').animate({
-          scrollTop: $(id).offset().top}, {
-          duration: 400,
-          easing: "swing",
-          complete: function(){
-            //アニメーション後になにかしたいならここに書く
-          }
-        });
-  }
-</script>
-
-<%= render 'render_c3' %>
 
 <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag 'mobile.css' if smartphone? %>

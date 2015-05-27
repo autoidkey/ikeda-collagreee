@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :themes
   resources :issues, only: [:create]
-  resources :entries, only: [:create]
+  resources :entries, only: [:show, :create]
 
   post 'entries/np' => 'entries#np'
   post 'entries/render_new/:id' => 'entries#render_new'
@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post 'destroy_theme_entries' => 'homes#destroy_theme_entries'
 
   post 'themes/create_entry/:id' => 'themes#create_entry'
+  post 'themes/:id' => 'themes#show'
   get 'themes/order/:id' => 'themes#order'
   get 'themes/search_entry/:id' => 'themes#search_entry'
   get 'themes/check_new/:id' => 'themes#check_new'
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
   post 'themes/render_new/:id' => 'themes#render_new'
   post 'themes/:id/auto_facilitation_test' => 'themes#auto_facilitation_test'
   get 'themes/:id/auto_facilitation_json' => 'themes#auto_facilitation_json'
+  get 'themes/tree_data' => 'themes#tree_data'
 
   # api
   get 'users/:id' =>  'users#show'

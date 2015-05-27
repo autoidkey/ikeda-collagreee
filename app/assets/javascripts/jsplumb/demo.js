@@ -1,125 +1,12 @@
 function onReady() {
 
-    // var linkNode = [
-    //         { source:0, target:1 },
-    //         { source:0, target:2 },
-    //         { source:0, target:3 },
-    //         { source:0, target:4 },
-    //         { source:0, target:5 },
-    //         { source:1, target:6 },
-    //         { source:2, target:7 },
-    //         { source:3, target:8 },
-    //         { source:3, target:9 },
-    //         { source:4, target:10 },
-    //         { source:4, target:11 },
-    //         { source:10, target:12 },
-    //         { source:11, target:13 }
-    // ]
-
-    // var nodeData = [
-    //     { id:0, text:"アニメの魅力", depth:0},
-    //     { id:2, text:"アニメの魅力", depth:1 },
-    //     { id:3, text:"ボジティブなアニメが好き", depth:1},
-    //     { id:4, text:"アニメのジャンル", depth:1 },
-    //     { id:5, text:"アニメの独特の世界観", depth:1 },
-    //     { id:6, text:"一気に見たい派", depth:2 },
-    //     { id:7, text:"いろいろな教訓", depth:2 },
-    //     { id:8, text:"学ぶ", depth:2 },
-    //     { id:10, text:"ハードボイルド系、ロボット系", depth:2 },
-    //     { id:11, text:"SF、アクション", depth:2 },
-    //     { id:12, text:"萌え、AV系", depth:3 },
-    //     { id:9, text:"頑張っている姿", depth:2 },
-    //     { id:13, text:"SF系", depth:3 },
-    //     { id:1, text:"アニメの見るタイミング", depth:1 },
-    // ]
-
-    // var nodeBodyText = [
-    //     "アニメの魅力",
-    //     "アニメを見るとき大体の人が録画して見ているとおもいますがアニメを見るときタイミングはいつですか？自分は朝ですね テンションが上がります",
-    //     "面白いだけでなくアニメの魅力はメッセージが込められていることをだと思います。だから大人になっても見ていて面白いのだと思います。",
-    //     "ポジティブなアニメを見ると、元気で前向きになれるので、好きです。特に自分自身が困難に直面するとき、力になります。",
-    //     "アニメにはいろいろなジャンルがあると思いますがどのジャンルが好みですか？自分は4コマ系アニメが好きです。話が複雑だと内容を来週までに忘れてしまうからです",
-    //     "アニメだと、現実ではあり得ないような世界も表現できるので、そこが魅力かなーと。 例えば、未来や過去を舞台にしていたり、魔法が使える世界だったり。 実写で出来なくもないですが、無理やり実写化した結果、残念なことになった作品は数知れず・・・ですからね",
-    //     "自分は一気に見たい派なので、時間はまちまちです。 リアルタイムで放送してるのを追うときは、次の日の夜が多いですね",
-    //     "いろいろな教訓とかありますね.パン食べて走ると人にぶつかるとかちょっと違いますねw",
-    //     "アニメから学ぶことが多いです",
-    //     "キャラクターが頑張ってる姿を見てキャラクターになりきって見てしまうときが有ります",
-    //     "自分はどっちかというとに、話が連続している方が好きです。銃器が出てくるハードボイルド系とか、ロボット物とか。 逆に萌え寄りすぎると若干敬遠してしまうところがありますね。",
-    //     "進撃の巨人、コードギアスなどのSFやアクション系が好きです。見ていて楽しいです。主人公がカッコよくて主人公に憧れます！",
-    //     "萌えにより過ぎだったりAV系の中身が全くないのは嫌いです",
-    //     "SF系の主人公はかっこいいので憧れます。しかしSF系は戦争などの暗いテーマが多いのであまり好きではありません",
-    // ]
-
-    var testlink = [
-        { source:0, target:1 },
-        { source:0, target:2 },
-        { source:0, target:3 },
-        { source:0, target:4 },
-        { source:0, target:5 },
-        { source:0, target:6 },
-        { source:0, target:7 },
-        { source:0, target:8 },
-        { source:0, target:9 },
-        { source:0, target:10 },
-    ]
-
-    var testdata = [
-        { id:0, text:"aaaa", depth:0, depthCount:0 },
-        { id:1, text:"aaaa", depth:1, depthCount:0 },
-        { id:2, text:"aaaa", depth:1, depthCount:1 },
-        { id:3, text:"aaaa", depth:1, depthCount:2 },
-        { id:4, text:"aaaa", depth:1, depthCount:3 },
-        { id:5, text:"aaaa", depth:1, depthCount:4 },
-        { id:6, text:"aaaa", depth:1, depthCount:5 },
-        { id:7, text:"aaaa", depth:1, depthCount:6 },
-        { id:8, text:"aaaa", depth:1, depthCount:7 },
-        { id:9, text:"aaaa", depth:1, depthCount:8 },
-        { id:10, text:"aaaa", depth:1, depthCount:9 },
-    ]
-
     var json = jsonBack();
     var dataAll = childBack()
     var linkNode = []
     var nodeData = []
     var nodeBodyText = []
 
-
-
-
-    // var makeData = function() {
-    //     var dataAll = childBack()
-    //     for (var i = 0; i < dataAll.length ; i++){
-    //         if (dataAll[i]["parent_id"] == null){
-    //             linkNode.push({ source : 0 , target : dataAll[i]["id"] })
-    //             nodeData.push({ id:dataAll[i]["id"], text:dataAll[i]["title"], depth:1 , body:dataAll[i]["body"]})
-    //         }
-    //     }
-    // }
-
-
-    //一番上のノードの処理
-    nodeBodyText.push(titleBack());
-    nodeData[0] = {id:0, text:titleBack(), depth:0 };
-    // var div = $('<div class="window" id="chartWindow0">'+titleBack()+'</div>');
-    // $("#chart-demo").append(div);
-
-
-    //すべてのリンク関係を生成
-    for (var i = 0 ; i < dataAll.length; i++){
-        if (dataAll[i]['parent_id'] != null){
-            linkNode.push({ source : dataAll[i]['parent_id'] , target : dataAll[i]['id'] });
-        }else {
-            linkNode.push({ source : 0 , target : dataAll[i]["id"] });
-            nodeBodyText.push(dataAll[i]["body"]);
-            nodeData.push({id:dataAll[i]["id"], text:dataAll[i]["title"], depth:1 })
-        }
-    }
-
-    console.log("--------------------------")
-    console.log(dataAll)
-    console.log(linkNode)
-    console.log(nodeData)
-    console.log(nodeBodyText)
+    nodeSet();
 
 
     //dataAllから指定のidのデータを取り出す
@@ -135,7 +22,8 @@ function onReady() {
     makeNode();
     console.log("--------------------------") 
     console.log(nodeData)
-    //
+
+    //nodeDataとnodeBodyを生成する！！
     function makeNode() {
         var array = [0]
         var child = serchChild(array[0])
@@ -166,9 +54,6 @@ function onReady() {
 
     }
 
-    //ノードの配置を設定する！
-    nodeSet()
-
     var wSet = 12
     var pSet = 6
     //すべての子供の長さを計算
@@ -192,23 +77,48 @@ function onReady() {
 
     function nodeSet(){
 
-        //idと配列順を並び替える！
-        // var tempArray = []
-        //  for (var i = 0; i < nodeData.length; i++){
-        //     var flag = 0
-        //     for (var t = 0; t < nodeData.length; t++){
-        //         if (i == nodeData[t]["id"]){
-        //             tempArray[i] = nodeData[t]
-        //             flag = 1
-        //         }
-        //         if (flag == 1){
-        //             break
-        //         }
-        //     }
-        // }
-        // nodeData = tempArray
+        json = jsonBack();
+        dataAll = childBack()
+        linkNode = []
+        nodeData = []
+        nodeBodyText = []
 
-        console.log(nodeData)
+        //ファシリテータの投稿を削除する
+        for (var i = 0 ; i < dataAll.length; i++){
+            if(dataAll[i]["facilitation"]) {
+                dataAll.splice(i, 1);
+            }
+        }
+
+
+        //一番上のノードの処理
+        nodeBodyText.push(titleBack());
+        nodeData[0] = {id:0, text:titleBack(), depth:0 };
+        // var div = $('<div class="window" id="chartWindow0">'+titleBack()+'</div>');
+        // $("#chart-demo").append(div);
+
+
+        //すべてのリンク関係を生成
+        for (var i = 0 ; i < dataAll.length; i++){
+            if (dataAll[i]['parent_id'] != null){
+                linkNode.push({ source : dataAll[i]['parent_id'] , target : dataAll[i]['id'] });
+            }else {
+                linkNode.push({ source : 0 , target : dataAll[i]["id"] });
+                nodeBodyText.push(dataAll[i]["body"]);
+                nodeData.push({id:dataAll[i]["id"], text:dataAll[i]["title"], depth:1 })
+            }
+        }
+
+
+            console.log("--------------------------")
+            console.log(dataAll)
+            console.log(linkNode)
+            console.log(nodeData)
+            console.log(nodeBodyText)
+
+        makeNode();
+
+        // console.log(nodeData)
 
         //その深さにどれだけ数があるかを探して配列に代入していく かつ　depthCountをつけていく
         var countArray = []
@@ -249,7 +159,7 @@ function onReady() {
         for (var i = 0; i < nodeData.length; i++){
             var c = serchChild(nodeData[i]["id"]).length
             if(c>1){
-                console.log(c)
+                // console.log(c)
                 var d = nodeData[i]["depth"]
                 var width = c*10*Math.pow(0.9,d+1)+10*Math.pow(0.9,d+1)*0.6*c
                 dataWidthArray[i] = width
@@ -282,8 +192,8 @@ function onReady() {
             }
         }
 
-        console.log(dataLocateArray)
-        console.log(depthLengthArray)
+        // console.log(dataLocateArray)
+        // console.log(depthLengthArray)
 
         //配列の合計を求める
         var sum  = function(arr) {
@@ -297,8 +207,8 @@ function onReady() {
 
 
 
-        var setWindow = function(name,l,t,num,w,h){
-            console.log(num)
+        function setWindow(name,l,t,num,w,h){
+            // console.log(num)
             var id = "chartWindow"+num
             var div = $('<div class="window" id='+id+'>'+name+'</div>');
             $("#chart-demo").append(div);
@@ -371,7 +281,7 @@ function onReady() {
     }
 
     function setWindow(name,l,t,num,w,h){
-        console.log(num)
+        // console.log(num)
         var id = "chartWindow"+num
         var div = $('<div class="window" id='+id+'>'+name+'</div>');
         $("#chart-demo").append(div);
@@ -436,6 +346,7 @@ function onReady() {
             }
         }
     }
+
 
     
 
@@ -516,15 +427,14 @@ function onReady() {
                 isSource: true,
                 isTarget: true
             });
-            if(i!=0){
-                instance.addEndpoint(windows[i], {
-                    uuid: windows[i].getAttribute("id") + "-top",
-                    anchor: "Top",
-                    maxConnections: -1,
-                    isSource: true,
-                    isTarget: true
-                });
-            }
+            instance.addEndpoint(windows[i], {
+                uuid: windows[i].getAttribute("id") + "-top",
+                anchor: "Top",
+                maxConnections: -1,
+                isSource: true,
+                isTarget: true
+            });
+            
         }
 
         instance.bind("connection", function (connInfo, originalEvent) {
@@ -571,12 +481,12 @@ function onReady() {
     var fromId = ""
     var thisTemp
     //ノードの繋ぎ換えをするupdateXY()
-    var updateConect = function(message) {
-        console.log(toId)
+    function　updateConect(message) {
+        // console.log(toId)
         //結合したノードのテキストを変更する！
         document.getElementById(toId.substr(1)).innerHTML=message;
         nodeData[toId.slice(12)]["text"] = message
-        console.log(thisTemp)
+        // console.log(thisTemp)
         //すべてのノードを消してから選択ノードを消す
         instance.deleteEveryEndpoint();
         $(fromId).remove()
@@ -615,9 +525,9 @@ function onReady() {
 
     };
 
-    var updateLinkConect = function() {
-        console.log("updateLinkConect")
-        console.log(linkNode)
+    function　updateLinkConect() {
+        // console.log("updateLinkConect")
+        // console.log(linkNode)
 
         instance.deleteEveryEndpoint();
 
@@ -683,10 +593,10 @@ function onReady() {
             toId = "#"+$(this).attr("id")
             fromId = "#"+ui.draggable.attr("id")
 
-            console.log(fromId)
-            console.log(toId)
+            // console.log(fromId)
+            // console.log(toId)
 
-            console.log(this)
+            // console.log(this)
             thisTemp = this
             
             //つなぎかえをするのかを判定
@@ -774,8 +684,8 @@ function onReady() {
             //１つのスレッドのみを強要させる
             if (radioVal == 0) {
                 //結合ノードの大きさを大きくする
-                console.log("bigbigbig")
-                console.log(thisTemp)
+                // console.log("bigbigbig")
+                // console.log(thisTemp)
                 var widthNew = $(thisTemp).css("width") 
                 var size = $(thisTemp).css("font-size")
                 var top = $(thisTemp).css("top")
@@ -806,9 +716,12 @@ function onReady() {
     
 
     function show_dialog(message,num){
+        //ノードの結合を行ったとき
         if (num == 0){
             $( "#dialog_connect" ).html(message);
             $( "#dialog_connect" ).dialog( "open" );
+
+        //１つのノードをクリックしたとき
         }else if (num == 1){
             $( "#dialog_thred" ).html(message);
             $( "#dialog_thred" ).dialog( "open" );
@@ -826,28 +739,39 @@ function onReady() {
         touchY = event.pageY;   // Y 座標の位置
     });
 
+
+
     /* マウスボタンを離したときのイベント */
     $('.window').bind('mouseup', function() {
 
         if (touchX == event.pageX && touchY == event.pageY){
-            console.log(this.id)
+            // console.log(this.id)
             var touchId = this.id.slice(11)
+            console.log(touchId)
             var text1 = "<p>タイトル:" + serchIdData(touchId)["text"] + "<p>"+"<p>"+nodeBodyText[serchDataReverse(touchId)]+"</p>"+"<hr>"
             var textForm = '<p>タイトル変更</p><input type="text" name="inputtxt" id="inputtxt" value='+ serchIdData(touchId)["text"] +'>' 
             var textButton1 = "<p>１つのスレッド強調　"+'<input type="radio" id="rd0" name="radio_test" value="0" /></p>'
             var textButton2 = "<p>スレッド全体強調　"+'<input type="radio" id="rd1" name="radio_test" value="1" /></p>'
+            var linkButton = '<form method="post" action="/themes/2"><p><input type="hidden" value=" '+touchId+'" name="nodeId[]" /><input type="submit" value="この記事へ移動"/></p></form>'
+
             toId = this.id
             thisTemp = this
-            show_dialog(text1+textForm+textButton1+textButton2 , 1 )
+            //ダイアログの表示
+            show_dialog(text1+textForm+textButton1+textButton2+linkButton , 1 )
 
         }
     });
 
 
+
     $("#push").click(function(){
-        console.log("aaaaaa")
+        // console.log("aaaaaa")
         changeNode (2,4)
     })
+
+    // $("input").click(function(){
+    //     console.log("gogogog")
+    // })
 
     function changeNode (id1,id2) {
         //id2のほうが大きいとする！
@@ -858,7 +782,7 @@ function onReady() {
         }
 
         nodeData[id2]["id"] = nodeData[id1]["id"] + 1;  
-        console.log(nodeData[id2]["id"])
+        // console.log(nodeData[id2]["id"])
         for (var i = 1 ; i < (id2 - id1) ; i++) {
             nodeData[id1+i]["id"] = nodeData[id1+1]["id"]+1;  
         }  
@@ -885,13 +809,13 @@ function onReady() {
             var id = "#chartWindow"+array[i]
             var x = $(id).css('width')
             var y = $(id).css('height')
-            console.log(x)
+            // console.log(x)
             xSum = xSum + Number(x.substring(0 , x.length-2));
             ySum = ySum + Number(y.substring(0 , y.length-2));
         }
-        console.log(xSum / array.length)
-        console.log(ySum / array.length)
-        console.log("result")
+        // console.log(xSum / array.length)
+        // console.log(ySum / array.length)
+        // console.log("result")
         return [xSum / array.length , ySum / array.length]
 
     }
@@ -902,6 +826,17 @@ function onReady() {
 
     $("#pushCheck2").click(function(){
         nodeSet();
+    });
+
+    $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+        if (isInView) {
+        } else {
+            //要素が見えなくなったときに実行する処理
+            //すべての要素を削除
+            $(".window").remove();
+            //すべての点の削除
+            instance.deleteEveryEndpoint();
+        }
     });
 
 

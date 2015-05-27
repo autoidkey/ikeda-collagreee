@@ -18,10 +18,20 @@ class ThemesController < ApplicationController
   end
 
   def show
-    # NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
+    NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
+
+    @nodeId = 0
+    if params[:nodeId] then
+        @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(Entry.all.length)
+        @nodeId = params[:nodeId]
+    else
+        @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+        @nodeId = 0
+    end
+    
+
 
     @entry = Entry.new
-    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -42,9 +52,10 @@ class ThemesController < ApplicationController
 
     render 'show_no_point' unless @theme.point_function
 
-    #議論ツリーで使用するカウンター
+    #議論ツリーで使用する
     @entry_tree = Entry.where("theme_id >= ?", @theme.id)
   end
+
 
   def discussion_data
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).asc
@@ -312,7 +323,7 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function)
+    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :nodeId)
   end
 
   def entry_params
