@@ -290,8 +290,11 @@ class ThemesController < ApplicationController
     if user_signed_in?
       @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
       @point_list = {
-        sum: @theme.score(current_user),
-        entry: current_user.redis_entry_point(@theme),
+        # 小数点第1位までで切り捨て
+        sum: BigDecimal((@theme.score(current_user)).to_s).floor(1).to_f,
+        # sum: @theme.score(current_user),
+        entry: BigDecimal((current_user.redis_entry_point(@theme)).to_s).floor(1).to_f,
+        # entry: current_user.redis_entry_point(@theme),
         reply: current_user.redis_reply_point(@theme),
         like: current_user.redis_like_point(@theme),
         replied: current_user.redis_replied_point(@theme),
