@@ -20,7 +20,6 @@ class ThemesController < ApplicationController
   def show
     NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
-    @nodeId = 0
     if params[:nodeId] then
         @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(Entry.all.length)
         @nodeId = params[:nodeId]

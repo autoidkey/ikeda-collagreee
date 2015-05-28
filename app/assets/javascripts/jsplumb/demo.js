@@ -375,24 +375,6 @@ function onReady() {
 
     });
 
-    window.setZoom = function(zoom, instance, transformOrigin, el) {
-      transformOrigin = transformOrigin || [ 0.5, 0.5 ];
-      instance = instance || jsPlumb;
-      el = el || instance.getContainer();
-      var p = [ "webkit", "moz", "ms", "o" ],
-          s = "scale(" + zoom + ")",
-          oString = (transformOrigin[0] * 100) + "% " + (transformOrigin[1] * 100) + "%";
-
-      for (var i = 0; i < p.length; i++) {
-        el.style[p[i] + "Transform"] = s;
-        el.style[p[i] + "TransformOrigin"] = oString;
-      }
-
-      el.style["transform"] = s;
-      el.style["transformOrigin"] = oString;
-
-      instance.setZoom(zoom);    
-    };
 
 
 
@@ -621,31 +603,70 @@ function onReady() {
     });
 
 
-    $("#click-event-big").click(function(){
-        scaleValue = scaleValue - 0.1
+    $("#click-event-small").click(function(){
+        scaleValue = scaleValue - 0.1 
         setZoom(scaleValue,instance)
         var w1 = $("#chart-demo").css("width")
         var h1 = $("#chart-demo").css("height")
-    
-        var w = Number(w1.substring(0, w1.length-2)) * 1.05
-        var h = Number(h1.substring(0, h1.length-2)) * 1.05
+        var left = $("#chart-demo").css("left")
+        var top = $("#chart-demo").css("top")
 
-        $("#chart-demo").css({"width":w+"px" , "height":h+"px"})
+        $("#chart-demo").css({
+            "width":(1/scaleValue*100)+"%",
+            "height":(1/scaleValue*100)+"%"
+        });
+        
+
+        // var w = Number(w1.substring(0, w1.length-2)) * 1.05
+        // var h = Number(h1.substring(0, h1.length-2)) * 1.05
+
+        console.log(left)
+        console.log(top)
+
+        // $("#chart-demo").css({"width":w+"px" , "height":h+"px"})
 
     });
 
-    $("#click-event-small").click(function(){
+    $("#click-event-big").click(function(){
         scaleValue = scaleValue + 0.1
         setZoom(scaleValue,instance);
-            
-        var w1 = $("#chart-demo").css("width")
-        var h1 = $("#chart-demo").css("height")
-    
-        var w = Number(w1.substring(0, w1.length-2)) * 0.95
-        var h = Number(h1.substring(0, h1.length-2)) * 0.95
 
-        $("#chart-demo").css({"width":w+"px" , "height":h+"px"})
+        $("#chart-demo").css({
+            "width":(1/scaleValue*100)+"%",
+            "height":(1/scaleValue*100)+"%"
+        });
+            
+        // var w1 = $("#chart-demo").css("width")
+        // var h1 = $("#chart-demo").css("height")
+        // var left = $("#chart-demo").css("left")
+        // var top = $("#chart-demo").css("top")
+    
+        // var w = Number(w1.substring(0, w1.length-2)) * 0.95
+        // var h = Number(h1.substring(0, h1.length-2)) * 0.95
+
+        // $("#chart-demo").css({"width":w+"px" , "height":h+"px"})
+
     });
+
+    window.setZoom = function(zoom, instance, transformOrigin, el) {
+      transformOrigin = transformOrigin || [ 0, 0 ];
+      instance = instance || jsPlumb;
+      el = el || instance.getContainer();
+      var p = [ "webkit", "moz", "ms", "o" ],
+          s = "scale(" + zoom + ")",
+          oString = (transformOrigin[0] * 100) + "% " + (transformOrigin[1] * 100) + "%";
+
+
+      for (var i = 0; i < p.length; i++) {
+        el.style[p[i] + "Transform"] = s;
+        el.style[p[i] + "TransformOrigin"] = oString;
+      }
+
+      el.style["transform"] = s;
+      el.style["transformOrigin"] = oString;
+
+      instance.setZoom(zoom);    
+    };
 
 
     $( "#dialog_connect" ).dialog({
@@ -714,15 +735,16 @@ function onReady() {
     });
 
     
-
+    // ダイアログの処理
     function show_dialog(message,num){
         //ノードの結合を行ったとき
         if (num == 0){
             $( "#dialog_connect" ).html(message);
             $( "#dialog_connect" ).dialog( "open" );
 
-        //１つのノードをクリックしたとき
+
         }else if (num == 1){
+            console.log("スレッドを押した")
             $( "#dialog_thred" ).html(message);
             $( "#dialog_thred" ).dialog( "open" );
         }
@@ -827,17 +849,35 @@ function onReady() {
     $("#pushCheck2").click(function(){
         nodeSet();
     });
+    var box = document.getElementById("chart-demo");
 
-    $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
-        if (isInView) {
-        } else {
-            //要素が見えなくなったときに実行する処理
-            //すべての要素を削除
-            $(".window").remove();
-            //すべての点の削除
-            instance.deleteEveryEndpoint();
-        }
+    box.onscroll = function(){
+        // スクロールされたピクセル数
+        var scroll = this.scrollTop;
+        // スクロール範囲の最大のピクセル数
+        var range = this.scrollHeight - this.offsetHeight;
+
+        console.log(scroll)
+        console.log(range)
+    }
+
+    $("div chart-demo").scroll(function(){
+        var st = $("div chart-demo").scrollTop();
+        console.log(st)
     });
+
+
+    //議論ツリーを消す処理！　
+    // $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    //     if (isInView) {
+    //     } else {
+    //         //要素が見えなくなったときに実行する処理
+    //         //すべての要素を削除
+    //         $(".window").remove();
+    //         //すべての点の削除
+    //         instance.deleteEveryEndpoint();
+    //     }
+    // });
 
 
 
