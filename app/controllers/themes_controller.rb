@@ -305,7 +305,8 @@ class ThemesController < ApplicationController
         # sum: @theme.score(current_user),
         entry: BigDecimal((current_user.redis_entry_point(@theme)).to_s).floor(1).to_f,
         # entry: current_user.redis_entry_point(@theme),
-        reply: current_user.redis_reply_point(@theme),
+        reply: BigDecimal((current_user.redis_reply_point(@theme)).to_s).floor(1).to_f,
+        # reply: current_user.redis_reply_point(@theme),
         like: current_user.redis_like_point(@theme),
         replied: current_user.redis_replied_point(@theme),
         liked: current_user.redis_liked_point(@theme)
