@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Word:</strong>
+  <%= @f_keyword.word %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @f_keyword.score %>
+</p>
+
+<%= link_to 'Edit', edit_f_keyword_path(@f_keyword) %> |
+<%= link_to 'Back', f_keywords_path %>

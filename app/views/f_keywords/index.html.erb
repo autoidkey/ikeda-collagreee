@@ -1,0 +1,27 @@
+<h1>Listing f_keywords</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Word</th>
+      <th>Score</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @f_keywords.each do |f_keyword| %>
+      <tr>
+        <td><%= f_keyword.word %></td>
+        <td><%= f_keyword.score %></td>
+        <td><%= link_to 'Show', f_keyword %></td>
+        <td><%= link_to 'Edit', edit_f_keyword_path(f_keyword) %></td>
+        <td><%= link_to 'Destroy', f_keyword, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New F keyword', new_f_keyword_path %>
