@@ -111,6 +111,7 @@ module Bm25
     ret
   end
 
+  # だいたい上のやつと一緒だけど、こっちは複合単語じゃない単語についても抽出している
   def norm_connection2(text)
     count = 0
     norms = parse_to_list(text)

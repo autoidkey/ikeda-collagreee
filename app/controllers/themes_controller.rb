@@ -187,7 +187,8 @@ class ThemesController < ApplicationController
 
     # MeCabによる投稿内容の形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
-    word = norm_connection2(text)
+    # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
+    word = norm_connection2(text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
     
     word.each do |w|
