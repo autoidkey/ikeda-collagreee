@@ -176,6 +176,9 @@ class ThemesController < ApplicationController
     @dynamicpoint = 0
     perfect_matching = 0  # 完全一致用
     partial_matching = 0  # 部分一致用
+    
+    nword_flag = 0
+    nword_bonus = 0       # 新規単語用
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
     keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
@@ -191,25 +194,41 @@ class ThemesController < ApplicationController
     word = norm_connection2(text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
     
+    # 抽出したワードを1つずつ読み込んでいく
     word.each do |w|
-      puts "読めてるよ:#{w}"
+      puts "読めてるよ:#{w}"   # デバッグ用
+
+      # そのワードが新規ワードかを判定するフラグ
+      nword_flag = 1
+
+      # キーワードとの一致判定によるポイント付与
       keywords_scores.each do |key|
+
         # 完全一致ならスコア*10pt
         if w == key[:word]
           perfect_bonus = key[:score] * 10
           perfect_matching += perfect_bonus
           puts "「#{w}」が「#{key[:word]}」と完全に一致!! #{perfect_bonus}ポイント獲得!!"
+          nword_flag = 0
         # 部分一致ならスコア*5pt
         elsif key[:word].include?(w) 
           partial_bonus = key[:score] * 5
           partial_matching += partial_bonus
           puts "「#{w}」が「#{key[:word]}」と部分的に一致!! #{partial_bonus}ポイント獲得!!"
+          nword_flag = 0
         end
       end
+
+      # 新規単語投稿によるポイント付与(0.1pt)
+      if nword_flag == 1
+        nword_bonus += 0.1
+        puts "「#{w}」は新規単語!! 0.1ポイント獲得!!"
+      end
+
     end
 
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = cut_decimal_point(perfect_matching + partial_matching)
+    @dynamicpoint = cut_decimal_point(perfect_matching + partial_matching + nword_bonus)
     puts "獲得した追加ポイント = #{@dynamicpoint}"
 
     @facilitations = Facilitations
