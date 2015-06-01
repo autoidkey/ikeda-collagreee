@@ -84,7 +84,13 @@
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
-        <%= render 'facilitation_keywords' %>
+        <!-- 議題 -->
+        <% if smartphone? %>
+          <%= render 'facilitation_keywords_mobile' %>
+        <% else %>
+          <%= render 'facilitation_keywords' %>
+        <% end %>
+        <!-- キーワード -->
         <% if smartphone? %>
           <%= render 'keywords_mobile' %>
         <% else %>
