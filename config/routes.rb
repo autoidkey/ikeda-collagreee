@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :f_keywords
+  resources :facilitation_keywords
 
   ActiveAdmin.routes(self)
   devise_for :users, :controllers => {:sessions => 'sessions'}
