@@ -7,7 +7,7 @@ class ThemesController < ApplicationController
   protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
   load_and_authorize_resource
 
   include Bm25
@@ -343,6 +343,12 @@ class ThemesController < ApplicationController
 
   def set_keyword
     @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }.group_by(&:score)
+  end
+
+  def set_facilitation_keyword
+    @facilitation_keyword = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+      {id: key.id, word: key.word, score: key.score}
+    end
   end
 
   def set_point
