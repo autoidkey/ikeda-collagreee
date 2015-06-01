@@ -162,6 +162,11 @@ class ThemesController < ApplicationController
     end
   end
 
+  # 小数点第2位以下を切り捨てるメソッド
+  def cut_decimal_point(float)
+    BigDecimal((float).to_s).floor(1).to_f
+  end
+
   # 投稿を反映する時の処理
   def create_entry
     @entry = Entry.new
@@ -203,7 +208,7 @@ class ThemesController < ApplicationController
     end
 
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = BigDecimal((perfect_matching + partial_matching).to_s).floor(1).to_f
+    @dynamicpoint = cut_decimal_point(perfect_matching + partial_matching)
     puts "獲得した追加ポイント = #{@dynamicpoint}"
 
     @facilitations = Facilitations
@@ -301,12 +306,9 @@ class ThemesController < ApplicationController
       @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
       @point_list = {
         # 小数点第1位までで切り捨て
-        sum: BigDecimal((@theme.score(current_user)).to_s).floor(1).to_f,
-        # sum: @theme.score(current_user),
-        entry: BigDecimal((current_user.redis_entry_point(@theme)).to_s).floor(1).to_f,
-        # entry: current_user.redis_entry_point(@theme),
-        reply: BigDecimal((current_user.redis_reply_point(@theme)).to_s).floor(1).to_f,
-        # reply: current_user.redis_reply_point(@theme),
+        sum: cut_decimal_point(@theme.score(current_user)),
+        entry: cut_decimal_point(current_user.redis_entry_point(@theme)),
+        reply: cut_decimal_point(current_user.redis_reply_point(@theme)),
         like: current_user.redis_like_point(@theme),
         replied: current_user.redis_replied_point(@theme),
         liked: current_user.redis_liked_point(@theme)
