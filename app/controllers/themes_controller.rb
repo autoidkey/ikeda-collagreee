@@ -185,6 +185,11 @@ class ThemesController < ApplicationController
       {id: key.id, word: key.word, score: key.score}
     end
 
+    # こっちはファシリテーターが手動で設定したキーワード用
+    facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+      {id: key.id, word: key.word, score: key.score}
+    end
+
     # 書き込みの内容を取得
     text = entry_params["body"]
 
@@ -196,13 +201,32 @@ class ThemesController < ApplicationController
     
     # 抽出したワードを1つずつ読み込んでいく
     word.each do |w|
+
       puts "読めてるよ:#{w}"   # デバッグ用
 
       # そのワードが新規ワードかを判定するフラグ
       nword_flag = 1
 
-      # キーワードとの一致判定によるポイント付与
+      # 通常のキーワードとの一致判定
       keywords_scores.each do |key|
+
+        # 完全一致ならスコア*10pt
+        if w == key[:word]
+          perfect_bonus = key[:score] * 10
+          perfect_matching += perfect_bonus
+          puts "「#{w}」が「#{key[:word]}」と完全に一致!! #{perfect_bonus}ポイント獲得!!"
+          nword_flag = 0
+        # 部分一致ならスコア*5pt
+        elsif key[:word].include?(w) 
+          partial_bonus = key[:score] * 5
+          partial_matching += partial_bonus
+          puts "「#{w}」が「#{key[:word]}」と部分的に一致!! #{partial_bonus}ポイント獲得!!"
+          nword_flag = 0
+        end
+      end
+
+      # ファシリテーターによる手動キーワードとの一致判定
+      facilitation_keywords_scores.each do |key|
 
         # 完全一致ならスコア*10pt
         if w == key[:word]
