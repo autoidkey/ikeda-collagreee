@@ -265,6 +265,12 @@ class ThemesController < ApplicationController
     @facilitations = Facilitations
     @count = @theme.entries.root.count
 
+    # 投稿内容に応じたポイント付与をやめる場合の処理
+    puts "テーマ番号は#{params[:id]}"
+    if params[:id] == 9
+      @dynamicpoint = 20
+    end
+    
     respond_to do |format|
       if @new_entry.save
         print "#エントリーをセーブ"
