@@ -179,6 +179,11 @@ class ThemesController < ApplicationController
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
+    # 追加ポイント用の係数
+    # 3〜4行程度の書き込みで30pt前後になるように調整すること
+    matching_coefficient = 25
+    nword_coefficient = 0.3
+
     # DBからキーワードとスコアを抽出してハッシュに入れる
     keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
       {id: key.id, word: key.word, score: key.score}
@@ -217,7 +222,7 @@ class ThemesController < ApplicationController
           puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
           matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * 10 * matching_rate
+          matching_point = key[:score] * 20 * matching_rate
           puts "#{matching_point}ポイント獲得!!"
 
           matching_bonus += matching_point
@@ -235,7 +240,7 @@ class ThemesController < ApplicationController
           puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
           matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * 10 * matching_rate
+          matching_point = key[:score] * matching_coefficient * matching_rate
           puts "#{matching_point}ポイント獲得!!"
 
           matching_bonus += matching_point
@@ -245,8 +250,8 @@ class ThemesController < ApplicationController
 
       # 新規単語投稿によるポイント付与(0.1pt)
       if nword_flag == 1
-        nword_bonus += 0.1
-        puts "「#{w}」は新規単語!! 0.1ポイント獲得!!"
+        nword_bonus += nword_coefficient
+        puts "「#{w}」は新規単語!! #{nword_coefficient}ポイント獲得!!"
       end
 
     end

@@ -18,8 +18,8 @@ class PointHistory < ActiveRecord::Base
   scope :point_history, ->(user, theme) { where(user_id: user, theme_id: theme).order('updated_at DESC') }
 
   # 今後これらを基礎ポイントとする
-  ENTRY_POINT = 30.00
-  REPLY_POINT = 20.00
+  ENTRY_POINT = 10.00
+  REPLY_POINT = 5.00
   LIKE_POINT = 5.00
   REPLIED_POINT = 15.00
   LIKED_POINT = 5.00
