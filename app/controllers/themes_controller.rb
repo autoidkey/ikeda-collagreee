@@ -311,7 +311,7 @@ class ThemesController < ApplicationController
     end
     
     puts "----------------------------------------------------------"
-    puts "獲得した追加ポイント = #{@dynamicpoint}"
+    puts "獲得した追加ポイント = #{@dynamicpoint}!!"
     puts "----------------------------------------------------------"
 
     @facilitations = Facilitations
