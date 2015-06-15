@@ -180,7 +180,11 @@ class HomesController < ApplicationController
     end
 
     render :json => {"ids"=> ids_json,"ids_all"=> ids_all_json,"data"=> entries_json, "webview"=>webviews}
+  end
 
+  def json_user_entries
+    @entry_tree = Entry.all
+    render 'json_user_entries', formats: [:json], handlers: [:jbuilder]
   end
 
   # オートファシリテーション用メソッド

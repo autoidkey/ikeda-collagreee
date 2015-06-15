@@ -358,7 +358,7 @@ function treeJSON(error, treeData){
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line  
+        var newHeight = d3.max(levelWidth) * 50; // 25 pixels per line  ノード間の縦の距離
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
@@ -528,74 +528,3 @@ function treeJSON(error, treeData){
 };
 
  
-// 要約に使用する
-var segmenter
-$(function(){
-    console.log("aaa")
-    segmenter = new TinySegmenter();// インスタンス生成
-})
-
-//実行
-function doAction(wkIn){
-    var segs = segmenter.segment(wkIn);  // 単語の配列が返る
-    var dict=makeDic(wkIn)
-    var wkbest=doShuffle(dict); 
-    for(var i=0;i<=10;i++){
-    wkOut=doShuffle(dict).replace(/\n/g,"");    
-        if(Math.abs(40-wkOut.length)<Math.abs(40-wkbest.length)){
-            wkbest=wkOut
-        }
-    }
-
-    return wkOut
-}
-//文章をシャッフル
-function doShuffle(wkDic){
-    var wkNowWord=""
-    var wkStr=""
-    wkNowWord=wkDic["_BOS_"][Math.floor( Math.random() * wkDic["_BOS_"].length )];
-    wkStr+=wkNowWord;
-    while(wkNowWord != "_EOS_"){
-        wkNowWord=wkDic[wkNowWord][Math.floor( Math.random() * wkDic[wkNowWord].length )];
-        wkStr+=wkNowWord;
-    }
-    wkStr=wkStr.replace(/_EOS_$/,"。")
-    return wkStr;
-}
-//辞書に追加
-function makeDic(wkStr){
-    wkStr=nonoise(wkStr);
-    var wkLines= wkStr.split("。");
-    var wkDict=new Object();
-    for(var i =0;i<=wkLines.length-1;i++){
-        var wkWords=segmenter.segment(wkLines[i]);
-        if(! wkDict["_BOS_"] ){wkDict["_BOS_"]=new Array();}
-        if(wkWords[0]){wkDict["_BOS_"].push(wkWords[0])};//文頭
-
-        for(var w=0;w<=wkWords.length-1;w++){
-            var wkNowWord=wkWords[w];//今の単語
-            var wkNextWord=wkWords[w+1];//次の単語
-            if(wkNextWord==undefined){//文末
-                wkNextWord="_EOS_"
-            }
-            if(! wkDict[wkNowWord] ){
-                wkDict[wkNowWord]=new Array();
-            }
-            wkDict[wkNowWord].push(wkNextWord);
-            if(wkNowWord=="、"){//「、」は文頭として使える。
-                wkDict["_BOS_"].push(wkNextWord);
-            }
-        }
-
-    }
-    return wkDict;
-}
-
-//ノイズ除去
-function nonoise(wkStr){
-    wkStr=wkStr.replace(/\n/g,"。");
-    wkStr=wkStr.replace(/[\?\!？！]/g,"。");
-    wkStr=wkStr.replace(/[-|｜:：・]/g,"。");
-    wkStr=wkStr.replace(/[「」（）\(\)\[\]【】]/g," ");
-    return wkStr;
-}   

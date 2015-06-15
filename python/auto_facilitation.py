@@ -11,9 +11,12 @@ import os
 from datetime import datetime as dt
 import sys
 
+
 # 書き換え奨励
 
 if __name__ == '__main__':
+
+
     baseURL = "http://collagree.com"
     # baseURL = "http://127.0.0.1:3000" # TODO:本番ではcollagree.com変更するべき
     theme_id = sys.argv[1]
@@ -26,7 +29,7 @@ if __name__ == '__main__':
     url = "{}/homes/{}/auto_facilitation_json".format(baseURL, theme_id)
     fetch_file = "auto_facilitation_json_{}.json".format(theme_id_str)
 
-    cmd = 'curl {} -o ./{}'.format(url, fetch_file)
+    cmd = 'curl {}'.format(url)
     print cmd
     print commands.getstatusoutput(cmd)
 

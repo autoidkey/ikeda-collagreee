@@ -20,7 +20,7 @@
       }
        
       .node text {
-        font-size:10px; 
+        font-size:13px; 
         font-family:sans-serif;
       }
        
@@ -49,7 +49,6 @@
     <!-- HTML要素 -->
     <div id="tree-container"></div>
 
-
     <!-- JavaScript要素 -->
 
     <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -68,6 +67,7 @@
             var title = <%= raw theme.title.to_json %>
             var treeData = createTreeData(dataAll , title)
             treeJSON("", treeData);
+
         }       
     }
   });

@@ -52,8 +52,52 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #議論ツリーで使用する
-    @entry_tree = Entry.where("theme_id >= ?", @theme.id)
+    @entry_tree = Entry.all.where(:theme_id=>@theme.id)
+
+
+    # IO.popen('python ./python/youyakutest/test.py 2').each do |line|
+    #   puts line.chomp
+    #   puts "結果"
+    # end
+    
   end
+
+   def execute
+      execute_job "test_command > test.log 2>&1 & echo $!"
+    end
+
+    def cancel(pid)
+      command = "ps -p #{pid} -o \"pgid\""
+      pgid = system_command(command).lines.to_a.last.lstrip.chomp
+      if pgid =~ /[0-9]/
+        system_command "kill -TERM -#{pgid}"
+        p "canceled!"
+      else
+        Rails.logger.error 'Process was not found'
+      end
+    end
+
+    private
+
+    def execute_job(command)
+      begin
+        fork do
+          Process.setsid
+          pid = system_command(command).lstrip.chomp
+          if pid =~ /[0-9]/
+            p pid
+          else
+            Rails.logger.error 'command has not pid'
+          end
+        end
+      rescue => e
+        Rails.logger.error e.message
+      end
+    end
+
+    def system_command(command)
+      `#{command}`
+    end
 
 
   def discussion_data
@@ -280,6 +324,11 @@ class ThemesController < ApplicationController
     @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
     @point_sum =
       render 'json_user_point', formats: [:json], handlers: [:jbuilder]
+  end
+
+  def json_user_entries
+    @entry_tree = Entry.where("theme_id >= ?", @theme.id)
+    render 'json_user_entries', formats: [:json], handlers: [:jbuilder]
   end
 
   private
