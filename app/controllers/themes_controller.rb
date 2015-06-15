@@ -52,7 +52,7 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #議論ツリーで使用する
-    @entry_tree = Entry.all.where(:theme_id=>@theme.id)
+    @entry_tree = Entry.all.where(:theme_id => params[:id])
 
 
     # IO.popen('python ./python/youyakutest/test.py 2').each do |line|
