@@ -39,8 +39,7 @@ class PointHistory < ActiveRecord::Base
 
   # POSTした時のポイント付与(0.新規スレッド、1.返信、3.返信された)
   def self.pointing_post(entry, atype, action, additional_point)
-    # デバッグ用
-    print "受信しますた"
+    puts "追加ポイントを受信:#{additional_point}ポイント!!"
 
     point = case action
             when 0
