@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to '運営主体', homes_about_path %></li>
-        <li><%= link_to '操作方法', '/help.pdf' %></li>
+        <li><%= link_to '操作方法', '/new_help.pdf' %></li>
 
         <% if user_signed_in? %>
           <li class='nav-user-icon'><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>

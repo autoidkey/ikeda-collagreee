@@ -1,0 +1,29 @@
+<h3>議題一覧</h3>
+
+<table border="1" width="80%">
+  <thead>
+    <tr>
+      <th>テーマID</th>
+      <th>キーワード</th>
+      <th>スコア</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @facilitation_keywords.each do |facilitation_keyword| %>
+      <tr>
+        <td><%= facilitation_keyword.theme_id %></td>
+        <td><%= facilitation_keyword.word %></td>
+        <td><%= facilitation_keyword.score %></td>
+        <td><%= link_to 'Show', facilitation_keyword %></td>
+        <td><%= link_to 'Edit', edit_facilitation_keyword_path(facilitation_keyword) %></td>
+        <td><%= link_to 'Destroy', facilitation_keyword, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '議題を追加する', new_facilitation_keyword_path, class: 'btn btn-default' %>

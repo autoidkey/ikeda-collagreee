@@ -105,5 +105,6 @@ $ bundle exec spring rails s
     * Ability: cancanによる権限管理
     * Join: いらない子
     * Comment: いらない子
+    * Facilitation_keywords: ファシリテーターが手動で管理できるキーワード
 * ネガポジのアルゴリズム
 * テーブルの構造

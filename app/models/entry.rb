@@ -143,7 +143,7 @@ class Entry < ActiveRecord::Base
   end
 
   def logging_point(additional_point)
-    print "フラグ受け取ったよ"
+    puts "追加ポイントを受信:#{additional_point}ポイント!!"
     unless facilitation?
       action = self.is_root? ? 0 : 1
       if action == 0 # 0はPost

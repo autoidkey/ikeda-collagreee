@@ -3,8 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 # これを基礎ポイントとし、Dpoint(DynamicPoint)を加算する。
-ENTRY_POINT = 30.00
-REPLY_POINT = 20.00
+ENTRY_POINT = 10.00
+REPLY_POINT = 5.00
 LIKE_POINT = 5.00
 UNLIKE_POINT = -5.00
 REPLIED_POINT = 15.00

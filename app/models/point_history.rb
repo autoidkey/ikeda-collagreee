@@ -18,8 +18,8 @@ class PointHistory < ActiveRecord::Base
   scope :point_history, ->(user, theme) { where(user_id: user, theme_id: theme).order('updated_at DESC') }
 
   # 今後これらを基礎ポイントとする
-  ENTRY_POINT = 30.00
-  REPLY_POINT = 20.00
+  ENTRY_POINT = 10.00
+  REPLY_POINT = 5.00
   LIKE_POINT = 5.00
   REPLIED_POINT = 15.00
   LIKED_POINT = 5.00
@@ -39,8 +39,7 @@ class PointHistory < ActiveRecord::Base
 
   # POSTした時のポイント付与(0.新規スレッド、1.返信、3.返信された)
   def self.pointing_post(entry, atype, action, additional_point)
-    # デバッグ用
-    print "受信しますた"
+    puts "追加ポイントを受信:#{additional_point}ポイント!!"
 
     point = case action
             when 0

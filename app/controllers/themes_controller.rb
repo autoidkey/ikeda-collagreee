@@ -7,7 +7,7 @@ class ThemesController < ApplicationController
   protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
   load_and_authorize_resource
 
   include Bm25
@@ -206,6 +206,11 @@ class ThemesController < ApplicationController
     end
   end
 
+  # 小数点第2位以下を切り捨てるメソッド
+  def cut_decimal_point(float)
+    BigDecimal((float).to_s).floor(1).to_f
+  end
+
   # 投稿を反映する時の処理
   def create_entry
     @entry = Entry.new
@@ -213,11 +218,23 @@ class ThemesController < ApplicationController
     @theme = Theme.find(params[:id])
 
     @dynamicpoint = 0
-    perfect_matching = 0  # 完全一致用
-    partial_matching = 0  # 部分一致用
+    matching_bonus = 0    # キーワードとの一致ボーナス用
+    
+    nword_flag = 0
+    nword_bonus = 0       # 新規単語ボーナス用
+
+    # 追加ポイント用の係数
+    # 3〜4行程度の書き込みで30pt前後になるように調整すること
+    matching_coefficient = 25
+    nword_coefficient = 0.3
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
     keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
+      {id: key.id, word: key.word, score: key.score}
+    end
+
+    # こっちはファシリテーターが手動で設定したキーワード用
+    facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
       {id: key.id, word: key.word, score: key.score}
     end
 
@@ -226,33 +243,80 @@ class ThemesController < ApplicationController
 
     # MeCabによる投稿内容の形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
-    word = norm_connection2(text)
+    # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
+    word = norm_connection2(text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
     
+    # 抽出したワードを1つずつ読み込んでいく
     word.each do |w|
-      puts "読めてるよ:#{w}"
+
+      puts "----------------------------------------------------------"
+      puts "判定中の単語:#{w}"   # デバッグ用
+
+      # そのワードが新規ワードかを判定するフラグ
+      nword_flag = 1
+
+      puts "通常のキーワードとの一致判定"
       keywords_scores.each do |key|
-        # 完全一致ならスコア*10pt
-        if w == key[:word]
-          perfect_bonus = key[:score] * 10
-          perfect_matching += perfect_bonus
-          puts "「#{w}」が「#{key[:word]}」と完全に一致!! #{perfect_bonus}ポイント獲得!!"
-        # 部分一致ならスコア*5pt
-        elsif key[:word].include?(w) 
-          partial_bonus = key[:score] * 5
-          partial_matching += partial_bonus
-          puts "「#{w}」が「#{key[:word]}」と部分的に一致!! #{partial_bonus}ポイント獲得!!"
+
+        if key[:word].include?(w)
+
+          word_len = w.length
+          keyword_len = key[:word].length
+          puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
+
+          matching_rate = word_len.to_f / keyword_len.to_f
+          matching_point = key[:score] * 20 * matching_rate
+          puts "#{matching_point}ポイント獲得!!"
+
+          matching_bonus += matching_point
+          nword_flag = 0
         end
       end
+
+      puts "ファシリテーターによる手動キーワードとの一致判定"
+      facilitation_keywords_scores.each do |key|
+
+        if key[:word].include?(w)
+
+          word_len = w.length
+          keyword_len = key[:word].length
+          puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
+
+          matching_rate = word_len.to_f / keyword_len.to_f
+          matching_point = key[:score] * matching_coefficient * matching_rate
+          puts "#{matching_point}ポイント獲得!!"
+
+          matching_bonus += matching_point
+          nword_flag = 0
+        end
+      end
+
+      # 新規単語投稿によるポイント付与(0.1pt)
+      if nword_flag == 1
+        nword_bonus += nword_coefficient
+        puts "「#{w}」は新規単語!! #{nword_coefficient}ポイント獲得!!"
+      end
+
     end
 
+
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = BigDecimal((perfect_matching + partial_matching).to_s).floor(1).to_f
+    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus)
+
+    # 投稿内容に応じたポイント付与をやめる場合の処理
+    puts "テーマ番号は#{params[:id]}"
+    if params[:id] == "4" # ここを適当に変える
+      @dynamicpoint = 20
+    end
+    
+    puts "----------------------------------------------------------"
     puts "獲得した追加ポイント = #{@dynamicpoint}"
+    puts "----------------------------------------------------------"
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count
-
+    
     respond_to do |format|
       if @new_entry.save
         print "#エントリーをセーブ"
@@ -345,16 +409,20 @@ class ThemesController < ApplicationController
     @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }.group_by(&:score)
   end
 
+  def set_facilitation_keyword
+    @facilitation_keyword = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+      {id: key.id, word: key.word, score: key.score}
+    end
+  end
+
   def set_point
     if user_signed_in?
       @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])
       @point_list = {
         # 小数点第1位までで切り捨て
-        sum: BigDecimal((@theme.score(current_user)).to_s).floor(1).to_f,
-        # sum: @theme.score(current_user),
-        entry: BigDecimal((current_user.redis_entry_point(@theme)).to_s).floor(1).to_f,
-        # entry: current_user.redis_entry_point(@theme),
-        reply: current_user.redis_reply_point(@theme),
+        sum: cut_decimal_point(@theme.score(current_user)),
+        entry: cut_decimal_point(current_user.redis_entry_point(@theme)),
+        reply: cut_decimal_point(current_user.redis_reply_point(@theme)),
         like: current_user.redis_like_point(@theme),
         replied: current_user.redis_replied_point(@theme),
         liked: current_user.redis_liked_point(@theme)

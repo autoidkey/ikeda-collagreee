@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Subjects for discussion / 議題</h4>
+  </div>
+  <div class="panel-body">
+    <table class="table keywords">
+      <thead>
+        <tr>
+          <th>スコア</th>
+          <th>キーワード</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @facilitation_keyword.each do |key| %>
+          <tr>
+            <td id=""><%= key[:score] %></td>
+            <td class="wordlist"><b><font size="4"><%= key[:word] %></font></b></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
