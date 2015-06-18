@@ -18,19 +18,12 @@ class ThemesController < ApplicationController
   end
 
   def show
-    NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
-
-    if params[:nodeId] then
-        @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(Entry.all.length)
-        @nodeId = params[:nodeId]
-    else
-        @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-        @nodeId = 0
-    end
-    
+    #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
 
     @entry = Entry.new
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -52,52 +45,30 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #議論ツリーで使用する
-    @entry_tree = Entry.all.where(:theme_id=>@theme.id)
+    @entry_tree = Entry.all.where(:theme_id => params[:id])
 
 
-    # IO.popen('python ./python/youyakutest/test.py 2').each do |line|
-    #   puts line.chomp
-    #   puts "結果"
-    # end
+    #要約で必要になるpythonの実行処理が下に記述
+    s = ""
+    for entry in @entry_tree
+      str = entry.body.gsub(/(\s)/,"")
+      str = str.gsub('(', '（') 
+      str = str.gsub(')', '）') 
+      s = s+str+" "
+    end
+
+    puts "結果"
+    count = 0
+    @youyaku = []
+    IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
+       puts @entry_tree[1].body
+       @youyaku << {"id" => @entry_tree[count].id , "text" => line.chomp}
+       count = count + 1
+       puts line.chomp
+       puts "結果"
+    end
     
   end
-
-   def execute
-      execute_job "test_command > test.log 2>&1 & echo $!"
-    end
-
-    def cancel(pid)
-      command = "ps -p #{pid} -o \"pgid\""
-      pgid = system_command(command).lines.to_a.last.lstrip.chomp
-      if pgid =~ /[0-9]/
-        system_command "kill -TERM -#{pgid}"
-        p "canceled!"
-      else
-        Rails.logger.error 'Process was not found'
-      end
-    end
-
-    private
-
-    def execute_job(command)
-      begin
-        fork do
-          Process.setsid
-          pid = system_command(command).lstrip.chomp
-          if pid =~ /[0-9]/
-            p pid
-          else
-            Rails.logger.error 'command has not pid'
-          end
-        end
-      rescue => e
-        Rails.logger.error e.message
-      end
-    end
-
-    def system_command(command)
-      `#{command}`
-    end
 
 
   def discussion_data
@@ -390,10 +361,6 @@ class ThemesController < ApplicationController
       render 'json_user_point', formats: [:json], handlers: [:jbuilder]
   end
 
-  def json_user_entries
-    @entry_tree = Entry.where("theme_id >= ?", @theme.id)
-    render 'json_user_entries', formats: [:json], handlers: [:jbuilder]
-  end
 
   private
 
@@ -442,7 +409,7 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :nodeId)
+    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function)
   end
 
   def entry_params

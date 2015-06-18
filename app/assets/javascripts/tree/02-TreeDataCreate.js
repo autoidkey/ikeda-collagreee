@@ -1,7 +1,7 @@
 
 
 //ツリーに使用するデータを生成する。
-function createTreeData(dataAll,title) {
+function createTreeData(dataAll,title,youyakuData) {
 
 
     // 要約に使用する
@@ -65,7 +65,9 @@ function createTreeData(dataAll,title) {
 
         //入れる名前を決める
         // var nameText = serchDataArray(childId)["body"].substr(0,10)
-        var nameText = youyaku(serchDataArray(childId)["body"])
+        // var nameText = youyaku(serchDataArray(childId)["body"])
+        console.log(serchDataArray(childId)["body"])
+        var nameText = youyaku2(serchDataArray(childId)["id"])
         if (serchDataArray(childId)["title"] != null){
           nameText = serchDataArray(childId)["title"]
         }
@@ -80,6 +82,7 @@ function createTreeData(dataAll,title) {
       return array
     }
 
+    //jsで実装したよくわからない要約
     function youyaku(text){
         var newText 
         if(text.length >10){
@@ -95,6 +98,18 @@ function createTreeData(dataAll,title) {
         }
         return newText
     }
+
+    //pythonを使用した要約
+    function youyaku2(id){
+        for (var i = 0; i < youyakuData.length; i++){
+            if (youyakuData[i]["id"] == id){
+                console.log(youyakuData[i]["text"])
+                return youyakuData[i]["text"]
+            }
+        }
+        console.log("mis")
+    }
+
 
     //実行
     function doAction(wkIn){
