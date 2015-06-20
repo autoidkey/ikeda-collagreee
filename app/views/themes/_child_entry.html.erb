@@ -29,7 +29,7 @@
 
     <div class="info-list">
       <span class="user-name">
-        <%= child.facilitation ? "ファシリテータ" : child.user.name %>
+        <%= child.facilitation ? "ファシリテーター" : child.user.name %>
       </span>
       <span class="timestamp">・<%= child.created_at.to_s(:timeline) %></span>
       <%= render 'information', entry: child %>
