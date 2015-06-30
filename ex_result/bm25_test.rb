@@ -156,58 +156,11 @@ def parse_to_list(text)
   ret
 end
 
+connection2 = Mysql::new("127.0.0.1", "root", "01xcdusd", "incentive_experimentation")
 
-connection = Mysql::new("127.0.0.1", "root", "01xcdusd", "incentive_experimentation")
-# connection を使い MySQL を操作する
+test_sql = connection2.prepare("select * from entries where theme_id = 5")
+test_res = test_sql.execute
 
-# 投稿内容を引っ張ってくる
-# ファシリテーターの発言を除きたいときは「 and not user_id = 1」をつけよう
-entry_sql = connection.prepare("select id, body from entries where theme_id = 5;")
-entry_res = entry_sql.execute
+puts calculate(test_res)
 
-entries = []
-
-keyword_sum = 0
-entry_count = 0
-entry_res.each do |entry|
-	puts entry[0]
-	puts entry[1]
-	entries.push(entry[1])
-	puts "---------------------------------------------------"
-	puts "名詞だけ取り出すと"
-	entry_words = parse_noun(entry[1]).uniq
-	print entry_words
-	puts "\n---------------------------------------------------"
-
-	# キーワードとの一致判定
-	count = 0
-	entry_words.each do |entry_word|
-	# print entry_word
-	# puts "について"
-		# キーワードを引っ張ってくる	
-		keyword_sql = connection.prepare("select word from keywords where theme_id = 5 and user_id is NULL order by score DESC limit 0, 20;")
-		keyword_res = keyword_sql.execute
-		
-		keyword_res.each do |keyword|
-			# puts keyword[0]
-			if keyword[0].include?(entry_word)
-				# puts "「#{entry_word}」が「#{keyword[0]}」と#{entry_word.length} / #{keyword[0].length}一致"
-				if entry_word.length * 2 >= keyword[0].length		# ここの条件で一致度を変える
-					count += 1
-					puts "「#{entry_word}」が「#{keyword[0]}」と#{entry_word.length} / #{keyword[0].length}で半分以上一致"
-				end
-			end
-		end
-	end
-	puts "このエントリーの含有キーワード:#{count}個"
-	keyword_sum += count
-	entry_count += 1
-	puts "\n==================================================="
-end
-
-puts "キーワードは合計で#{keyword_sum}回使われていました"
-puts "エントリーの個数は#{entry_count}個でした"
-keyword_ave = keyword_sum / entry_count
-puts "1エントリーあたりのキーワード含有個数 = #{keyword_ave}"
-
-connection.close
+connection2.close
