@@ -7,7 +7,6 @@ function createTreeData(dataAll,title,youyakuData) {
     // 要約に使用する
     var segmenter
     $(function(){
-        console.log("aaa")
         segmenter = new TinySegmenter();// インスタンス生成
     })
 
@@ -15,6 +14,7 @@ function createTreeData(dataAll,title,youyakuData) {
     var linkNode = makeLink(dataAll)
     var treeData = {
           "name" : title,
+          "childSize" : 18,
           "children": childArray(0)
     }
     return treeData
@@ -74,9 +74,9 @@ function createTreeData(dataAll,title,youyakuData) {
         
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
-          array.push({"name":nameText,"size" : 30000})
+          array.push({"name":nameText,"childSize":childSize(childId),"sRate" :sRate(childId,1,1) })
         }else{
-          array.push({"name":nameText,"children" : childArray(childId)})
+          array.push({"name":nameText,"childSize":childSize(childId),"sRate" :sRate(childId,1,1),"children" : childArray(childId)})
         }
       }
       return array
@@ -104,10 +104,17 @@ function createTreeData(dataAll,title,youyakuData) {
         for (var i = 0; i < youyakuData.length; i++){
             if (youyakuData[i]["id"] == id){
                 console.log(youyakuData[i]["text"])
-                return youyakuData[i]["text"]
+                console.log(serchDataArray(childId)["body"])
+                if(youyakuData[i]["text"].length<20){
+                    return youyakuData[i]["text"];
+                }else{
+                    return serchDataArray(childId)["body"].substr(0, 20);
+                }
+                
             }
         }
         console.log("mis")
+        console.log(id)
     }
 
 
@@ -166,6 +173,46 @@ function createTreeData(dataAll,title,youyakuData) {
         }
         return wkDict;
     }
+
+    function childSize(id){
+        var childCount = 1;
+        var childArray = serchChild(id);
+        if(childArray.length!=0){
+            for(var i = 0;i<childArray.length;i++){
+                childCount = childCount + childSize(childArray[i])
+            }
+        }else {
+            return 1 ;
+        }
+        return childCount;
+    }
+
+    function sRate(id,rate,p){
+        var rateSum = 0;
+        var childArray = serchChild(id);
+        var len = childArray.length;
+        if(len==0 && p==1){
+            return rate;
+        }else if(len==0 && p==0){
+            return 0;
+        }
+        for(var i = 0; i<childArray.length; i++){
+            childP = serchDataArray(childArray[i])["np"]
+            if(childP>50){
+                rateSum = rateSum + sRate(childArray[i],rate/len,p)
+            }else{
+                if(p==0){
+                    rateSum = rateSum + sRate(childArray[i],rate/len,1)
+                }else{
+                    rateSum = rateSum + sRate(childArray[i],rate/len,0)
+                }
+            }
+        }
+        return rateSum
+
+    }
+
+
 
     //ノイズ除去
     function nonoise(wkStr){
