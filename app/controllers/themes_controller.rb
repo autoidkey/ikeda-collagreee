@@ -52,22 +52,34 @@ class ThemesController < ApplicationController
     s = ""
     for entry in @entry_tree
       str = entry.body.gsub(/(\s)/,"")
+      str = str.gsub(/《[^》]+》/, "")
+      str = str.gsub(/　/, "  ")
       str = str.gsub('(', '（') 
       str = str.gsub(')', '）') 
+      str = str.gsub('!', '！') 
+      str = str.gsub('&', '＆') 
       s = s+str+" "
     end
 
+    puts s
     puts "結果"
     count = 0
     @youyaku = []
     IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
-       puts @entry_tree[1].body
+       puts @entry_tree[count].body
        @youyaku << {"id" => @entry_tree[count].id , "text" => line.chomp}
        count = count + 1
+       puts("------------")
        puts line.chomp
        puts "結果"
     end
+
+    # for entry in @youyaku
+    #   puts(entry)
+    # end
     
+    # system('sleep 30')
+
   end
 
 
