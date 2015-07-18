@@ -64,13 +64,13 @@ function createTreeData(dataAll,title,youyakuData) {
         var child2 = serchChild(childId);
 
         //入れる名前を決める
-        // var nameText = serchDataArray(childId)["body"].substr(0,10)
-        // var nameText = youyaku(serchDataArray(childId)["body"])
-        console.log(serchDataArray(childId)["body"])
-        var nameText = youyaku2(serchDataArray(childId)["id"])
+         var nameText = serchDataArray(childId)["body"].substr(0,20)
+         // var nameText = youyaku(serchDataArray(childId)["body"])
+        // console.log(serchDataArray(childId)["body"])
+        // var nameText = youyaku2(serchDataArray(childId)["id"])
         if (serchDataArray(childId)["title"] != null){
-          nameText = serchDataArray(childId)["title"]
-        }
+           nameText = serchDataArray(childId)["title"]
+         }
         
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
@@ -94,8 +94,14 @@ function createTreeData(dataAll,title,youyakuData) {
                 console.log(newText)
             }
         }else {
+            if (text.length>20){
+                text = text.substr(20)
+            }
             return text
         }
+        if (newText.length>20){
+                newText = newText.substr(20)
+            }
         return newText
     }
 
