@@ -64,10 +64,10 @@ function createTreeData(dataAll,title,youyakuData) {
         var child2 = serchChild(childId);
 
         //入れる名前を決める
-         var nameText = serchDataArray(childId)["body"].substr(0,20)
+         // var nameText = serchDataArray(childId)["body"].substr(0,20)
          // var nameText = youyaku(serchDataArray(childId)["body"])
         // console.log(serchDataArray(childId)["body"])
-        // var nameText = youyaku2(serchDataArray(childId)["id"])
+        var nameText = youyaku2(serchDataArray(childId)["id"])
         if (serchDataArray(childId)["title"] != null){
            nameText = serchDataArray(childId)["title"]
          }
