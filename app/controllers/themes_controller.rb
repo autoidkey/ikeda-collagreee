@@ -50,24 +50,39 @@ class ThemesController < ApplicationController
 
     #要約で必要になるpythonの実行処理が下に記述
     s = ""
+    youyakuId = []
     for entry in @entry_tree
       str = entry.body.gsub(/(\s)/,"")
+      str = str.gsub(/《[^》]+》/, "")
+      str = str.gsub(/　/, "  ")
       str = str.gsub('(', '（') 
       str = str.gsub(')', '）') 
+      str = str.gsub('!', '！') 
+      str = str.gsub('&', '＆') 
       s = s+str+" "
+      youyakuId.push(entry.id)
+      # puts entry.id
     end
 
-    puts "結果"
+    # puts s
+    # puts "結果"
     count = 0
     @youyaku = []
     IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
-       puts @entry_tree[1].body
-       @youyaku << {"id" => @entry_tree[count].id , "text" => line.chomp}
+       @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
        count = count + 1
-       puts line.chomp
-       puts "結果"
+       # puts "結果"
+       # puts("------------")
+       # puts line.chomp
+
     end
+
+    # for entry in @youyaku
+    #   puts(entry)
+    # end
     
+    # system('sleep 30')
+
   end
 
 
