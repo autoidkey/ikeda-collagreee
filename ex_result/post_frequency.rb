@@ -1,12 +1,12 @@
 require 'mysql'
 require 'natto'
 
-connection = Mysql::new("127.0.0.1", "root", "01xcdusd", "incentive_experimentation")
+connection = Mysql::new("127.0.0.1", "root", "01xcdusd", "collagree_autofacilitation201503")
 # connection を使い MySQL を操作する
 
 # 投稿内容を引っ張ってくる
 # ファシリテーターの発言を除きたいときは「 and not user_id = 1」をつけよう
-entry_sql = connection.prepare("select id, body, created_at from entries where theme_id = 3;")
+entry_sql = connection.prepare("select id, body, created_at from entries where theme_id = 1;")
 entry_res = entry_sql.execute
 
 keyword_sum = 0
@@ -25,13 +25,13 @@ entry_res.each do |entry|
 	str = entry[2].to_s
 	date = str[8...10]
 	time = str[11...13]
-	if date == "15"
+	if date == "16"
 		count15 += 1
 		array15[time.to_i] += 1
-	elsif date == "16"
+	elsif date == "17"
 		count16 += 1
 		array16[time.to_i] += 1
-	elsif date == "17"
+	elsif date == "18"
 		count17 += 1
 		array17[time.to_i] += 1
 	end
