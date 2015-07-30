@@ -61,19 +61,19 @@ class ThemesController < ApplicationController
       str = str.gsub('&', '＆') 
       s = s+str+" "
       youyakuId.push(entry.id)
-      puts entry.id
+      # puts entry.id
     end
 
-    puts s
-    puts "結果"
+    # puts s
+    # puts "結果"
     count = 0
     @youyaku = []
     IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
        @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
        count = count + 1
-       puts "結果"
-       puts("------------")
-       puts line.chomp
+       # puts "結果"
+       # puts("------------")
+       # puts line.chomp
 
     end
 
