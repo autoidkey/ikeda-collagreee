@@ -17,8 +17,8 @@ function treeJSON(error, treeData , sizeArray){
     var root;
 
     // size of the diagram
-    var viewerWidth = $(document).width() - 10;
-    var viewerHeight = $(document).height() - 30;
+    var viewerWidth = $(document).width() - 30;
+    var viewerHeight = $(document).height() - 20;
 
     // console.log($(".panel-header").css("width"))
     // var viewerWidth = 1280

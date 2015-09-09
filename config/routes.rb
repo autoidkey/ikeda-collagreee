@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   post 'themes/:id/auto_facilitation_test' => 'themes#auto_facilitation_test'
   get 'themes/:id/auto_facilitation_json' => 'themes#auto_facilitation_json'
   get 'themes/tree_data' => 'themes#tree_data'
+  post 'themes/:id/update_phase/:phase' => 'themes#update_phase'
 
   # api
   get 'users/:id' =>  'users#show'

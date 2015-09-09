@@ -1,0 +1,11 @@
+# Logfile created on 2015/07/30 15:19 by logger.rb/41954
+I, [2015-07-30T15:19:03.806516 #39203]  INFO -- :   Parameters: {"id"=>"3"}
+I, [2015-07-30T15:19:03.813636 #39203]  INFO -- : Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+I, [2015-07-30T15:19:14.795583 #39203]  INFO -- : Started GET "/themes/check_new/3" for 127.0.0.1 at 2015-07-30 15:19:14 +0900
+I, [2015-07-30T15:19:14.802923 #39203]  INFO -- : Processing by ThemesController#check_new as */*
+I, [2015-07-30T15:19:14.802979 #39203]  INFO -- :   Parameters: {"id"=>"3"}
+I, [2015-07-30T15:19:14.809035 #39203]  INFO -- : Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+I, [2015-07-30T15:19:25.795456 #39203]  INFO -- : Started GET "/themes/check_new/3" for 127.0.0.1 at 2015-07-30 15:19:25 +0900
+I, [2015-07-30T15:19:25.802611 #39203]  INFO -- : Processing by ThemesController#check_new as */*
+I, [2015-07-30T15:19:25.802666 #39203]  INFO -- :   Parameters: {"id"=>"3"}
+I, [2015-07-30T15:19:25.808052 #39203]  INFO -- : Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.4ms)

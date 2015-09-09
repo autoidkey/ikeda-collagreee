@@ -44,9 +44,17 @@ class ThemesController < ApplicationController
 
     render 'show_no_point' unless @theme.point_function
 
-    #議論ツリーで使用する
+    #以下議論ツリーで使用する投稿一覧
     @entry_tree = Entry.all.where(:theme_id => params[:id])
 
+    #他のでも使用できるファシリテータが選んだフェーズナンバー
+    @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
+    if @tree_type[0] == nil then
+      @tree_type = 1
+    else 
+      @tree_type = @tree_type[0][:phase_id]
+    end
+    
 
     #要約で必要になるpythonの実行処理が下に記述
     s = ""
@@ -61,27 +69,14 @@ class ThemesController < ApplicationController
       str = str.gsub('&', '＆') 
       s = s+str+" "
       youyakuId.push(entry.id)
-      # puts entry.id
     end
 
-    # puts s
-    # puts "結果"
     count = 0
     @youyaku = []
     IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
        @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
        count = count + 1
-       # puts "結果"
-       # puts("------------")
-       # puts line.chomp
-
     end
-
-    # for entry in @youyaku
-    #   puts(entry)
-    # end
-    
-    # system('sleep 30')
 
   end
 
@@ -169,6 +164,19 @@ class ThemesController < ApplicationController
   def check_new_message_2015_1
     @entry = @theme.entries.latest.first
     render 'check_new_message_2015_1', formats: [:json], handlers: [:jbuilder]
+  end
+
+  def  update_phase
+    @phase = Phase.new(:phase_id => params[:phase],:theme_id => params[:id])
+    respond_to do |format|
+      if @phase.save
+        format.html { redirect_to @theme, notice: 'フェーズを変更しました' }
+        format.json { render action: 'show', status: :created, location: @theme }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @theme.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def search_entry
@@ -430,4 +438,5 @@ class ThemesController < ApplicationController
   def entry_params
     params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
   end
+
 end

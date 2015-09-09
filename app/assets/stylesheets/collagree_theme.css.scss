@@ -33,6 +33,13 @@
   color: white;
 }
 
+.panel .panel-body {
+  padding: 10px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-color: #dddddd
+}
+
 .nav-pills.nav-collagree > li.active > a,
 .nav-pills.nav-collagree > li.active > a:hover,
 .nav-pills.nav-collagree > li.active > a:focus {
