@@ -27,6 +27,8 @@ class ThemesController < ApplicationController
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
+    logger.info  "-----------------------"
+    logger.info  @issue[0]
 
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 

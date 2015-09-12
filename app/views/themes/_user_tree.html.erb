@@ -10,18 +10,24 @@
       <% if type == 3 %>
         <h4 class=""><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true" id="panel-tree"></span> 合意グラフ</h4>
       <% end %>
+
     </div>
 
-     <div id="tree-container"></div>
-    <% if type == 1 %>
-        <%= render 'tree_hassan', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
+      
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <div id="tree-container"　class="container">
+      <% if type == 1 %>
+          <%= render 'tree_shuusoku', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
+        <% end %>
+        <% if type == 2 %>
+          <%= render 'tree_shuusoku', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
+        <% end %>
+        <% if type == 3 %>
+          <%= render 'tree_hassan', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
       <% end %>
-      <% if type == 2 %>
-        <%= render 'tree_shuusoku', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
-      <% end %>
-      <% if type == 3 %>
-        <%= render 'tree_hassan', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
-    <% end %>
+    </div>
 
 
 </div>
