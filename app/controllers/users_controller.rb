@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   # point_api
   include Bm25
+  include idm
   def show
     @user = User.find(params[:id])
     @keyword = @user.keywords.group_by(&:theme_id)

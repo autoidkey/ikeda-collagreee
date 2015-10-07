@@ -16,6 +16,8 @@ function treeJSON(error, treeData , sizeArray){
     var duration = 750;　//表示されるまでの時間 
     var root;
 
+    var d3Color = d3.scale.category10();  // 20色を指定
+
     // size of the diagram
     var viewerWidth = $(document).width() - 30;
     var viewerHeight = $(document).height() - 20;
@@ -368,7 +370,7 @@ function treeJSON(error, treeData , sizeArray){
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
             // ここでノード間の長さを決定している最大の長さかけるxである！
-            d.y = (d.depth * (maxLabelLength * 45)); //maxLabelLength * 10px
+            d.y = (d.depth * (maxLabelLength * 30)); //maxLabelLength * 10px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
             // d.y = (d.depth * 500); //500px per level.
@@ -413,46 +415,50 @@ function treeJSON(error, treeData , sizeArray){
                 //     console.log('dddddddddddd')
                 //     return d.childSize + 15 + "px";
                 // }
-                return d.childSize*1.9 + 20 + "px";
+                return d.childSize*1.9 + 25 + "px";
        　　  })
+       //      .style("fill", function(d) {
+       //          if(d.depth==1){
+       //              var red = 255
+       //              var green = 255
+       //              if(d.sRate < 0.5){
+       //                  red = red*d.sRate/2
+       //              }else{
+       //                  var rate = (1 - d.sRate)*2
+       //                  green = green*rate
+       //              }
+       //              red = parseInt(red).toString(16)
+       //              green = parseInt(green).toString(16)
+       //              if(red.length<2){
+       //                  red = "0"+red
+       //              }
+       //              if(green.length<2){
+       //                  green = "0"+green
+       //              }
+       //              console.log(red)
+       //              console.log(green)
+       //              var color = "#" 
+       //              color = color + red
+       //              color = color + green
+       //              color = color + "00"
+       //          }
+       //          console.log(color)
+       //          return color;
+       // 　　  })
             .style("fill", function(d) {
-                if(d.depth==1){
-                    var red = 255
-                    var green = 255
-                    if(d.sRate < 0.5){
-                        red = red*d.sRate/2
-                    }else{
-                        var rate = (1 - d.sRate)*2
-                        green = green*rate
-                    }
-                    console.log(d.name)
-                    console.log(d.sRate)
-                    console.log(parseInt(red).toString(16))
-                    console.log(parseInt(green).toString(16))
-                    red = parseInt(red).toString(16)
-                    green = parseInt(green).toString(16)
-                    if(red.length<2){
-                        red = "0"+red
-                    }
-                    if(green.length<2){
-                        green = "0"+green
-                    }
-                    console.log(red)
-                    console.log(green)
-                    var color = "#" 
-                    color = color + red
-                    color = color + green
-                    color = color + "00"
+                console.log(d.id)
+                if(d.depth==0 ){
+                    return "black";
+                }else {
+                    return d3Color(d.class);
                 }
-                console.log(color)
-                return color;
        　　  })
             .attr('class', 'nodeText')
             .attr("text-anchor", function(d) {
                 return d.children || d._children ? "end" : "start";
             })
             .text(function(d) {
-                return d.name;
+                return d.name.substr(1);
             })
             .style("fill-opacity", 0);
 
@@ -479,7 +485,11 @@ function treeJSON(error, treeData , sizeArray){
             })
             .text(function(d) {
                 //ここで表示するテキストを返している
-                return d.name;
+                if(d.depth!=0){
+                    return d.name.substr(1);
+                }else {
+                    return d.name;
+                }
             });
 
         // Change the circle fill depending on whether it has children and is collapsed
@@ -523,6 +533,19 @@ function treeJSON(error, treeData , sizeArray){
         // Enter any new links at the parent's previous position.
         link.enter().insert("path", "g")
             .attr("class", "link")
+            .attr("stroke" , function(d) {
+                var np = d.target.np
+                var depth = d.target.depth
+                if (depth == 1) {
+                    return "LightGrey"
+                }else if (np < 50){
+                    return "LightCoral"
+                }else {
+                    return "LightSkyBlue"
+                }
+
+            })
+            .attr("stroke-width", "2")
             .attr("d", function(d) {
                 var o = {
                     x: source.x0,
@@ -530,7 +553,7 @@ function treeJSON(error, treeData , sizeArray){
                 };
                 return diagonal({
                     source: o,
-                    target: o
+                    target: o,
                 });
             });
 

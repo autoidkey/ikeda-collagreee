@@ -12,11 +12,18 @@ function createTreeData(dataAll,title,youyakuData) {
 
     //------------------------------------------------
     var linkNode = makeLink(dataAll)
+    var entryNP = makeNP(dataAll)
+    var ClassArray = makeClass(linkNode)
+    console.log(ClassArray)
     var treeData = {
           "name" : title,
           "childSize" : 18,
-          "children": childArray(0)
+          "np" : 0,
+          "color": 0,
+          "children": childArray(0,0)
     }
+
+
     return treeData
     //------------------------------------------------
 
@@ -53,16 +60,41 @@ function createTreeData(dataAll,title,youyakuData) {
         return link
     }
 
+    function makeClass(link) {
+        var array = []
+        var sep = 5
+        for (var i = 0 ; i < link.length; i++){
+            if (link[i]['source'] == 0){
+                var rand = Math.floor( Math.random() * sep + 1) ;
+                array.push({ cla : rand , id : link[i]['target'] });
+            }
+        }
+        return array
+    }
+
+    function serchColor(id){
+        for (var i = 0 ; i < ClassArray.length; i++){
+            if (ClassArray[i]['id'] == id){
+                return ClassArray[i]['cla']
+            }
+        }
+    }
+
 
     //ここでrubyからのjsonデータをd3.jsが木構造に直すことができる形に直す
-    function childArray(ParentId){
+    function childArray(ParentId, ParentColor){
       var array = [];
       var child = serchChild(ParentId);
 
       for(var i = 0 ; i < child.length ; i++){
-        childId = child[i];
-        var child2 = serchChild(childId);
+        var childId = child[i];
+        //渡す色を選択する
+        var color = ParentColor
+        if(ParentColor == 0){
+            color = serchColor(childId)
+        }
 
+        var child2 = serchChild(childId);
         //入れる名前を決める
          // var nameText = serchDataArray(childId)["body"].substr(0,20)
          // var nameText = youyaku(serchDataArray(childId)["body"])
@@ -74,12 +106,21 @@ function createTreeData(dataAll,title,youyakuData) {
         
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
-          array.push({"name":nameText,"childSize":childSize(childId),"sRate" :sRate(childId,1,1) })
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color })
         }else{
-          array.push({"name":nameText,"childSize":childSize(childId),"sRate" :sRate(childId,1,1),"children" : childArray(childId)})
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color, "children" : childArray(childId , color)})
         }
       }
       return array
+    }
+
+    function makeNP(dataAll){
+        var arrayNP = []
+        for(var i = 0 ; i < dataAll.length ; i++){
+            id = dataAll[i].id
+            arrayNP[id] = dataAll[i].np
+        }
+        return arrayNP
     }
 
     //jsで実装したよくわからない要約
@@ -88,7 +129,7 @@ function createTreeData(dataAll,title,youyakuData) {
         if(text.length >10){
             console.log("----前----"+text)
             newText = doAction(text)
-            console.log(newText+newText.length )
+            // console.log(newText+newText.length )
             while (newText.length < 3 || newText.length>text.length+1){
                 newText = doAction(text)
                 console.log(newText)
@@ -109,18 +150,18 @@ function createTreeData(dataAll,title,youyakuData) {
     function youyaku2(id){
         for (var i = 0; i < youyakuData.length; i++){
             if (youyakuData[i]["id"] == id){
-                console.log(youyakuData[i]["text"])
-                console.log(serchDataArray(childId)["body"])
+                // console.log(youyakuData[i]["text"])
+                // console.log(serchDataArray(childId)["body"])
                 if(youyakuData[i]["text"].length<20){
                     return youyakuData[i]["text"];
                 }else{
-                    return serchDataArray(childId)["body"].substr(0, 20);
+                    return serchDataArray(id)["body"].substr(0, 20);
                 }
                 
             }
         }
-        console.log("mis")
-        console.log(id)
+        // console.log("mis")
+        // console.log(id)
     }
 
 
