@@ -1,32 +1,67 @@
-# -*- coding: utf-8 -*-
-# ワーカーの数
-worker_processes 2
+# encoding: utf-8
+# See http://unicorn.bogomips.org/Unicorn/Configurator.html for complete
+# See also http://unicorn.bogomips.org/examples/unicorn.conf.rb for
+require 'pathname'
 
-# ソケット
-listen  '/tmp/sockets/unicorn_new_collagree.sock'
-pid     '/tmp/pids/unicorn.pid'
-
-# ログ
-log = '${my_app}/log/unicorn.log'
-stderr_path File.expand_path('log/unicorn.log', ENV['RAILS_ROOT'])
-stdout_path File.expand_path('log/unicorn.log', ENV['RAILS_ROOT'])
-
-preload_app true
-GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
+# 環境ごとの設定
+#--------------------------------------------------------
+config  = {}
+config["development"] = {
+  :port => 3000,
+  :socket => '/home/okumura/rails/new_collagree/tmp/sockets/unicorn_new_collagree.sock',
+  :worker_processes => 2,
+  :working_directory => Pathname.new(File.dirname(__FILE__) + "/..").realpath
+}
+config["production"] = {
+  :port => 8500,
+  :socket => '/home/okumura/rails/new_collagree/tmp/sockets/unicorn_new_collagree.sock',
+  :worker_processes => 6,
+  :working_directory => "#{ENV['HOME']}/rails/new_collagree"
+}
+#--------------------------------------------------------
+#rails_env = ENV['RAILS_ENV'] || 'production'
+rails_env = 'production'
+#rails_env = ENV['RAILS_ENV'] || 'development'
+worker_processes config[rails_env][:worker_processes]
+working_directory config[rails_env][:working_directory]
+port=config[rails_env][:port]
+socket = config[rails_env][:socket]
+listen socket
+#, :tcp_nopush => true
+#listen port, :tcp_nopush => true
+timeout 300
+pid "tmp/pids/unicorn.pid"
+preload_app false
+stderr_path "log/unicorn.log"
+stdout_path "log/unicorn.log"
 
 before_fork do |server, worker|
-defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.connection.disconnect!
 
-old_pid = "#{ server.config[:pid] }.oldbin"
-unless old_pid == server.pid
+  # 古いマスタープロセスを停止させる
   begin
-   sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU
-   Process.kill :QUIT, File.read(old_pid).to_i
-   rescue Errno::ENOENT, Errno::ESRCH
+    old_pid_file= "tmp/pids/unicorn.pid.oldbin"
+    if File.exist?(old_pid_file)
+      Process.kill("QUIT", File.read(old_pid_file).to_i)
+    end
+  rescue Errno::ENOENT, Errno::ESRCH => e
+    puts "old master quit failed!: #{e.message}"
   end
-end
 end
 
 after_fork do |server, worker|
-    defined?(ActiveRecord::Base) and ActiveRecord::Base.establish_connection
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.establish_connection
+
+  # 古いマスタープロセスを停止させる
+  begin
+    old_pid_file= "tmp/pids/unicorn.pid.oldbin"
+    if File.exist?(old_pid_file)
+      Process.kill("QUIT", File.read(old_pid_file).to_i)
+    end
+  rescue Errno::ENOENT, Errno::ESRCH => e
+    puts "old master quit failed!: #{e.message}"
+  end
+
 end
