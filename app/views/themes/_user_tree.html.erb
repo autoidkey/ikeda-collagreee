@@ -18,15 +18,7 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <div id="tree-container"　class="container">
-      <% if type == 1 %>
-          <%= render 'tree_hassan', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type, idm:idm %>
-        <% end %>
-        <% if type == 2 %>
-          <%= render 'tree_shuusoku', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
-        <% end %>
-        <% if type == 3 %>
-          <%= render 'tree_goui', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
-      <% end %>
+      <%= render 'tree_goui', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
     </div>
 
 
