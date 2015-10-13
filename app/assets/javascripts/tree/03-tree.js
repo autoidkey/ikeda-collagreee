@@ -553,7 +553,7 @@ function treeJSON(error, treeData , sizeArray){
                 };
                 return diagonal({
                     source: o,
-                    target: o,
+                    target: o
                 });
             });
 
