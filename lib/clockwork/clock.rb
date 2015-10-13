@@ -9,7 +9,6 @@ require_relative 'entry_point_job'
 require_relative 'aichi_dl_job'
 
 module Clockwork
-  Rails.logger.level = Logger::DEBUG
   handler do |job|
     puts "====== #{job.class} start ======="
     job.execute
