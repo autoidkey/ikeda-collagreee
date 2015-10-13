@@ -56,14 +56,14 @@ class ThemesController < ApplicationController
     end
 
     #idmの実装
-    @idm_result = []
-    @idm_link = 0
-    @idm_n = 0
-    @idm_F = []
-    @idm_K = []
-    idm  
-    new_idm
-    logger.info @idm_K
+    # @idm_result = []
+    # @idm_link = 0
+    # @idm_n = 0
+    # @idm_F = []
+    # @idm_K = []
+    # idm  
+    # new_idm
+    # logger.info @idm_K
 
     #要約で必要になるpythonの実行処理が下に記述
     s = ""
