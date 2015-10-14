@@ -258,3 +258,20 @@ nav.pagination {
 .cation-slider {
   float: right;
 }
+
+#stamp input[name="entry[stamp]"]{
+  display: none;
+}
+
+.img-stamp {
+  border-radius: 4px;
+  width: 75px;
+  border: 1px solid rgba( 0,0,0 , 0.1 );
+}
+
+.img-stamp-selected {
+  border-radius: 4px;
+  width: 75px;
+  border: 1px solid rgba( 0,0,0 , 0.5 );
+}
+
