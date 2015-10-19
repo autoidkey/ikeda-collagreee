@@ -88,6 +88,8 @@ class ThemesController < ApplicationController
        count = count + 1
     end
 
+    @stamps = stamp_list
+
   end
 
   # def new_idm
@@ -230,9 +232,6 @@ class ThemesController < ApplicationController
 
 
 
-    @stamps = stamp_list
-
-  end
 
 
   def discussion_data
