@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Ground Rules / グランドルール</h4>
+  </div>
+  <div class="panel-body">
+    <table class="table keywords">
+      <tbody>
+        <% if @tree_type == 1 %>
+          発散フェイズだよ
+        <% elsif @tree_type == 2 %>
+          収束フェイズだよ
+        <% else %>
+          合意フェイズだよ
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
