@@ -404,9 +404,9 @@ class ThemesController < ApplicationController
     end
 
     # こっちはファシリテーターが手動で設定したキーワード用
-    facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
-      {id: key.id, word: key.word, score: key.score}
-    end
+    # facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+    #   {id: key.id, word: key.word, score: key.score}
+    # end
 
     # 書き込みの内容を取得
     text = entry_params["body"]
@@ -414,7 +414,7 @@ class ThemesController < ApplicationController
     # MeCabによる投稿内容の形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
-    word = norm_connection2(　text).uniq
+    word = norm_connection2(text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
     
     # 抽出したワードを1つずつ読み込んでいく
@@ -444,23 +444,23 @@ class ThemesController < ApplicationController
         end
       end
 
-      puts "ファシリテーターによる手動キーワードとの一致判定"
-      facilitation_keywords_scores.each do |key|
+      # puts "ファシリテーターによる手動キーワードとの一致判定"
+      # facilitation_keywords_scores.each do |key|
 
-        if key[:word].include?(w)
+      #   if key[:word].include?(w)
 
-          word_len = w.length
-          keyword_len = key[:word].length
-          puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
+      #     word_len = w.length
+      #     keyword_len = key[:word].length
+      #     puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
-          matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * matching_coefficient * matching_rate
-          puts "#{matching_point}ポイント獲得!!"
+      #     matching_rate = word_len.to_f / keyword_len.to_f
+      #     matching_point = key[:score] * matching_coefficient * matching_rate
+      #     puts "#{matching_point}ポイント獲得!!"
 
-          matching_bonus += matching_point
-          nword_flag = 0
-        end
-      end
+      #     matching_bonus += matching_point
+      #     nword_flag = 0
+      #   end
+      # end
 
       # 新規単語投稿によるポイント付与(0.1pt)
       if nword_flag == 1

@@ -89,11 +89,11 @@
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
         <!-- 議題 -->
-        <% if smartphone? %>
-          <%= render 'facilitation_keywords_mobile' %>
-        <% else %>
-          <%= render 'facilitation_keywords' %>
-        <% end %>
+        <%# if smartphone? %>
+          <%#= render 'facilitation_keywords_mobile' %>
+        <%# else %>
+          <%#= render 'facilitation_keywords' %>
+        <%# end %>
         <!-- キーワード -->
         <% if smartphone? %>
           <%= render 'keywords_mobile' %>
