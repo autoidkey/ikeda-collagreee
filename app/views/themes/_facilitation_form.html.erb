@@ -5,6 +5,39 @@
   <div class="form-group">
     <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
   </div>
+
+  <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
+      <li class="active"><a href="#stamp" role="tab" data-toggle="tab">スタンプ</a></li>
+      <li><a href="#phrase" role="tab" data-toggle="tab">ファシリテーションフレーズ</a></li>
+  </ul>
+
+  <div class="tab-content">
+  <div class="tab-pane active form-group" id="stamp">
+    <% @stamps.each do |stamp| %>
+        <label>
+            <%= f.radio_button :stamp, stamp %>
+            <%= image_tag(stamp, class: 'img-stamp')%>
+        </label>
+    <% end %>
+  </div>
+
+  <div class="tab-pane facilitation-phrase" id="phrase">
+    <% @facilitations.each do |facilitation| %>
+      <h4><%= facilitation['heading'] %></h4>
+      <ul class="list-unstyled">
+        <% facilitation['scenes'].each_with_index do |fac, i| %>
+          <li><small><%= fac['scene'] %></small></li>
+          <ul>
+            <% fac['phrases'].each_with_index do |phrase,j| %>
+              <li><small><%= link_to phrase, '#', id: "phrase-#{i}-#{j}"%></small></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+  </div>
+
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => @entry.parent_id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
@@ -12,21 +45,6 @@
   <%= f.submit 'ファシリテーターとして投稿', class: 'btn btn-default' %>
 <% end %>
 
-<div class="facilitation-phrase">
-  <% @facilitations.each do |facilitation| %>
-    <h4><%= facilitation['heading'] %></h4>
-    <ul class="list-unstyled">
-      <% facilitation['scenes'].each_with_index do |fac, i| %>
-        <li><small><%= fac['scene'] %></small></li>
-        <ul>
-          <% fac['phrases'].each_with_index do |phrase,j| %>
-            <li><small><%= link_to phrase, '#', id: "phrase-#{i}-#{j}"%></small></li>
-          <% end %>
-        </ul>
-      <% end %>
-    </ul>
-  <% end %>
-</div>
 
 <!-- <div class="facilitation_keywords">
   <%#= link_to '議題を追加', '/facilitation_keywords', class: 'btn btn-default' %>

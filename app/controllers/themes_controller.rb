@@ -11,6 +11,7 @@ class ThemesController < ApplicationController
   load_and_authorize_resource
 
   include Bm25
+  include Stamp
   require 'time'
 
   def index
@@ -228,6 +229,10 @@ class ThemesController < ApplicationController
   # end
 
 
+
+    @stamps = stamp_list
+
+  end
 
 
   def discussion_data
@@ -615,7 +620,7 @@ class ThemesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation, :stamp)
   end
 
 end
