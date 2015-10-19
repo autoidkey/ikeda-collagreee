@@ -371,13 +371,9 @@ class ThemesController < ApplicationController
     nword_bonus = 0       # 新規単語ボーナス用
 
     # フェイズidの判別
-    @phase_now = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
-    if @phase_now[0] == nil then
-      @phase_now = 1
-    else 
-      @phase_now = @phase_now[0][:phase_id]
-    end
-    puts "現在のフェイズ = #{@phase_now}"
+    phase = Phase.where(:theme_id => params[:id]).last
+    @phase_now = phase[:phase_id]
+    puts "現在のフェイズは = #{@phase_now}です！！"
 
     # 追加ポイント用の係数
     # 3〜4行程度の書き込みで30pt前後になるように調整すること
