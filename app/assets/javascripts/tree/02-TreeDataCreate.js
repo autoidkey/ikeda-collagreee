@@ -7,16 +7,23 @@ function createTreeData(dataAll,title,youyakuData) {
     // 要約に使用する
     var segmenter
     $(function(){
-        console.log("aaa")
         segmenter = new TinySegmenter();// インスタンス生成
     })
 
     //------------------------------------------------
     var linkNode = makeLink(dataAll)
+    var entryNP = makeNP(dataAll)
+    var ClassArray = makeClass(linkNode)
+    console.log(ClassArray)
     var treeData = {
           "name" : title,
-          "children": childArray(0)
+          "childSize" : 18,
+          "np" : 0,
+          "color": 0,
+          "children": childArray(0,0)
     }
+
+
     return treeData
     //------------------------------------------------
 
@@ -53,33 +60,67 @@ function createTreeData(dataAll,title,youyakuData) {
         return link
     }
 
+    function makeClass(link) {
+        var array = []
+        var sep = 5
+        for (var i = 0 ; i < link.length; i++){
+            if (link[i]['source'] == 0){
+                var rand = Math.floor( Math.random() * sep + 1) ;
+                array.push({ cla : rand , id : link[i]['target'] });
+            }
+        }
+        return array
+    }
+
+    function serchColor(id){
+        for (var i = 0 ; i < ClassArray.length; i++){
+            if (ClassArray[i]['id'] == id){
+                return ClassArray[i]['cla']
+            }
+        }
+    }
+
 
     //ここでrubyからのjsonデータをd3.jsが木構造に直すことができる形に直す
-    function childArray(ParentId){
+    function childArray(ParentId, ParentColor){
       var array = [];
       var child = serchChild(ParentId);
 
       for(var i = 0 ; i < child.length ; i++){
-        childId = child[i];
-        var child2 = serchChild(childId);
+        var childId = child[i];
+        //渡す色を選択する
+        var color = ParentColor
+        if(ParentColor == 0){
+            color = serchColor(childId)
+        }
 
+        var child2 = serchChild(childId);
         //入れる名前を決める
-        // var nameText = serchDataArray(childId)["body"].substr(0,10)
-        // var nameText = youyaku(serchDataArray(childId)["body"])
-        console.log(serchDataArray(childId)["body"])
+         // var nameText = serchDataArray(childId)["body"].substr(0,20)
+         // var nameText = youyaku(serchDataArray(childId)["body"])
+        // console.log(serchDataArray(childId)["body"])
         var nameText = youyaku2(serchDataArray(childId)["id"])
         if (serchDataArray(childId)["title"] != null){
-          nameText = serchDataArray(childId)["title"]
-        }
+           nameText = serchDataArray(childId)["title"]
+         }
         
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
-          array.push({"name":nameText,"size" : 30000})
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color })
         }else{
-          array.push({"name":nameText,"children" : childArray(childId)})
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color, "children" : childArray(childId , color)})
         }
       }
       return array
+    }
+
+    function makeNP(dataAll){
+        var arrayNP = []
+        for(var i = 0 ; i < dataAll.length ; i++){
+            id = dataAll[i].id
+            arrayNP[id] = dataAll[i].np
+        }
+        return arrayNP
     }
 
     //jsで実装したよくわからない要約
@@ -88,14 +129,20 @@ function createTreeData(dataAll,title,youyakuData) {
         if(text.length >10){
             console.log("----前----"+text)
             newText = doAction(text)
-            console.log(newText+newText.length )
+            // console.log(newText+newText.length )
             while (newText.length < 3 || newText.length>text.length+1){
                 newText = doAction(text)
                 console.log(newText)
             }
         }else {
+            if (text.length>20){
+                text = text.substr(20)
+            }
             return text
         }
+        if (newText.length>20){
+                newText = newText.substr(20)
+            }
         return newText
     }
 
@@ -103,11 +150,18 @@ function createTreeData(dataAll,title,youyakuData) {
     function youyaku2(id){
         for (var i = 0; i < youyakuData.length; i++){
             if (youyakuData[i]["id"] == id){
-                console.log(youyakuData[i]["text"])
-                return youyakuData[i]["text"]
+                // console.log(youyakuData[i]["text"])
+                // console.log(serchDataArray(childId)["body"])
+                if(youyakuData[i]["text"].length<20){
+                    return youyakuData[i]["text"];
+                }else{
+                    return serchDataArray(id)["body"].substr(0, 20);
+                }
+                
             }
         }
-        console.log("mis")
+        // console.log("mis")
+        // console.log(id)
     }
 
 
@@ -166,6 +220,46 @@ function createTreeData(dataAll,title,youyakuData) {
         }
         return wkDict;
     }
+
+    function childSize(id){
+        var childCount = 1;
+        var childArray = serchChild(id);
+        if(childArray.length!=0){
+            for(var i = 0;i<childArray.length;i++){
+                childCount = childCount + childSize(childArray[i])
+            }
+        }else {
+            return 1 ;
+        }
+        return childCount;
+    }
+
+    function sRate(id,rate,p){
+        var rateSum = 0;
+        var childArray = serchChild(id);
+        var len = childArray.length;
+        if(len==0 && p==1){
+            return rate;
+        }else if(len==0 && p==0){
+            return 0;
+        }
+        for(var i = 0; i<childArray.length; i++){
+            childP = serchDataArray(childArray[i])["np"]
+            if(childP>50){
+                rateSum = rateSum + sRate(childArray[i],rate/len,p)
+            }else{
+                if(p==0){
+                    rateSum = rateSum + sRate(childArray[i],rate/len,1)
+                }else{
+                    rateSum = rateSum + sRate(childArray[i],rate/len,0)
+                }
+            }
+        }
+        return rateSum
+
+    }
+
+
 
     //ノイズ除去
     function nonoise(wkStr){

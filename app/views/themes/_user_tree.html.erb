@@ -1,82 +1,18 @@
 <div class="panel panel-default">
+
     <div class="panel-header" >
+
         <h4 class=""><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true" id="panel-tree"></span> 議論ツリー</h4>
+
     </div>
 
-    <style type="text/css">
-  
-        .node {
-        cursor: pointer;
-      }
-
-      .overlay{
-          background-color:#EEE;
-      }
-       
-      .node circle {
-        fill: #fff;
-        stroke: steelblue;
-        stroke-width: 1.5px;
-      }
-       
-      .node text {
-        font-size:13px; 
-        font-family:sans-serif;
-      }
-       
-      .link {
-        fill: none;
-        stroke: #ccc;
-        stroke-width: 1.5px;
-      }
-
-      .templink {
-        fill: none;
-        stroke: red;
-        stroke-width: 3px;
-      }
-
-      .ghostCircle.show{
-          display:block;
-      }
-
-      .ghostCircle, .activeDrag .ghostCircle{
-           display: none;
-      }
-
-    </style>
-
-    <!-- HTML要素 -->
-    <div id="tree-container"></div>
-
-    <!-- JavaScript要素 -->
+      
 
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-    <script type = "text/javascript"> 
-
-
-
-
-// 表示されたときに議論議論ツリーを表示する
-  $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
-    if (isInView) {
-      if ($(".node").size()==0){
-            //ここでtreeJSONを呼び出して生成する
-            var dataAll = <%= raw entryAll.to_json %>
-            var youyakuData = <%= raw youyaku.to_json %>
-            var title = <%= raw theme.title.to_json %>
-            var treeData = createTreeData(dataAll , title , youyakuData)
-            treeJSON("", treeData);
-
-        }       
-    }
-  });
-
-
-
-
-    </script>
+    <div id="tree-container"　class="container">
+      <%= render 'tree_goui', entries: entries, theme: theme , entries: entries , entryAll: entryAll,youyaku: youyaku ,type: type %>
+    </div>
 
 
 </div>

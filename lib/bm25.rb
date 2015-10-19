@@ -138,4 +138,5 @@ module Bm25
     end
     ret
   end
+
 end

@@ -44,31 +44,190 @@ class ThemesController < ApplicationController
 
     render 'show_no_point' unless @theme.point_function
 
-    #議論ツリーで使用する
+    #以下議論ツリーで使用する投稿一覧
     @entry_tree = Entry.all.where(:theme_id => params[:id])
 
+    #他のでも使用できるファシリテータが選んだフェーズナンバー
+    @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
+    if @tree_type[0] == nil then
+      @tree_type = 1
+    else 
+      @tree_type = @tree_type[0][:phase_id]
+    end
+
+    #idmの実装
+    # @idm_result = []
+    # @idm_link = 0
+    # @idm_n = 0
+    # @idm_F = []
+    # @idm_K = []
+    # idm  
+    # new_idm
+    # logger.info @idm_K
 
     #要約で必要になるpythonの実行処理が下に記述
     s = ""
+    youyakuId = []
     for entry in @entry_tree
       str = entry.body.gsub(/(\s)/,"")
+      str = str.gsub(/《[^》]+》/, "")
+      str = str.gsub(/　/, "  ")
       str = str.gsub('(', '（') 
       str = str.gsub(')', '）') 
+      str = str.gsub('!', '！') 
+      str = str.gsub('&', '＆') 
       s = s+str+" "
+      youyakuId.push(entry.id)
     end
 
-    puts "結果"
     count = 0
     @youyaku = []
     IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
-       puts @entry_tree[1].body
-       @youyaku << {"id" => @entry_tree[count].id , "text" => line.chomp}
+       @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
        count = count + 1
-       puts line.chomp
-       puts "結果"
     end
-    
+
   end
+
+  # def new_idm
+  # count = 0
+  #  for num1 in 0..@idm_result.length-1 do
+  #     #頻度を探す fに入れておく！！
+  #     f = 0
+  #     for num2 in 0..@idm_F.length-1 do
+  #       if @idm_result[num1][0] == @idm_F[num2][0]
+  #         f = @idm_F[num2][1]
+  #         break
+  #       end
+  #     end
+
+  #     #期待値を計算する eに入れておく
+  #     e = 0
+  #     if f != 1
+  #       e = 0.0
+  #       for num in 2..f do
+  #         e = e + (num-1)*((f.quo(@idm_n))*(@idm_link.quo(@idm_n-1)))**(num-1)
+  #       end
+  #     end
+
+  #     #乖離度を計算する kとする
+  #     k = 0.0
+
+  #     k = ((@idm_result[num1][1] - e)**2).quo(e)
+
+  #     @idm_K[count] = [@idm_result[num1][0],k.round(4),e]
+  #     count = count + 1
+  #   end
+
+  # end
+
+  # def idm
+  #   entry_all = Entry.all.where(:theme_id => params[:id])
+  #   word_array = []
+  #   # { :name => "k-sato", :email => "k-sato@foo.xx.jp",:address => "Tokyo" }
+  #   entry_all.each do |entry|
+  #     if search_child(entry["id"]).length != 0
+  #       if entry["title"] != nil
+  #         title = norm_connection2(entry["title"]).uniq
+  #         body = norm_connection2(entry["body"]).uniq
+  #         words = title + body
+  #         com_idm([],entry["id"])
+
+  #         #リンク数を計算する
+          
+  #       # else
+  #       #   body = norm_connection2(entry["body"]).uniq
+  #       #   logger.info body
+  #       end
+  #     end
+  #   end
+  #   return nil
+    
+  # end
+
+  # def com_idm(word_array, id)
+  #   @idm_n = @idm_n + 1
+  #   entry = search_id(id)
+  #   words = norm_connection2(entry["body"]).uniq
+  #   idm_f(words)
+  #   children = search_child(id)
+
+  #   word_array.each do |word|
+  #     if words.include?(word) && word.length>1
+  #       num = words.count(word)
+  #       # ここで計算して結果の配列を成形する
+  #       idm_result(word)
+  #       words.push(word)
+  #     end
+  #   end
+    
+  #   if children.length != 0
+  #     children.each do |child|
+  #       @idm_link = @idm_link + 1
+  #       com_idm(words,child)
+  #     end
+  #   end
+  # end
+
+  # def idm_f(words)
+  #   words.each do |word|
+  #     flag = 0
+  #     count = 0
+  #     for f in @idm_F do
+  #       if f[0] == word
+  #         @idm_F[count][1] = @idm_F[count][1] + 1
+  #         flag = 1
+  #         break
+  #       end
+  #       count = count + 1
+  #     end
+  #     if flag == 0
+  #       @idm_F.push([word,1])
+  #     end
+  #   end
+  # end
+
+  # def idm_result(word)
+  #   #result配列に追加するwordがを登録されているか[["蠣久",2],["ピンク",4]]
+  #   flag = 0
+  #   count = 0
+  #   for result in @idm_result do
+  #     if result[0]==word
+  #       @idm_result[count][1] = @idm_result[count][1] + 1
+  #       flag = 1
+  #       break
+  #     end
+  #     count = count + 1
+  #   end
+  #   if flag == 0
+  #     @idm_result.push([word,1])
+  #   end
+  # end
+
+
+
+  # def search_child(id)
+  #   entry_all = Entry.all.where(:theme_id => params[:id])
+  #   child_id = []
+  #   entry_all.each do |entry|
+  #     if entry["parent_id"] == id
+  #       child_id.push(entry["id"])
+  #     end
+  #   end
+  #   return child_id
+  # end
+
+  # def search_id(id)
+  #   entry_all = Entry.all.where(:theme_id => params[:id])
+  #   entry_all.each do |entry|
+  #     if entry["id"] == id
+  #       return entry
+  #     end
+  #   end
+  #   return nil
+  # end
+
+
 
 
   def discussion_data
@@ -156,6 +315,19 @@ class ThemesController < ApplicationController
     render 'check_new_message_2015_1', formats: [:json], handlers: [:jbuilder]
   end
 
+  def  update_phase
+    @phase = Phase.new(:phase_id => params[:phase],:theme_id => params[:id])
+    respond_to do |format|
+      if @phase.save
+        format.html { redirect_to @theme, notice: 'フェーズを変更しました' }
+        format.json { render action: 'show', status: :created, location: @theme }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @theme.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def search_entry
     @entry = Entry.new
     @issue = Issue.new
@@ -198,6 +370,7 @@ class ThemesController < ApplicationController
     # 3〜4行程度の書き込みで30pt前後になるように調整すること
     matching_coefficient = 25
     nword_coefficient = 0.3
+
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
     keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
@@ -397,6 +570,8 @@ class ThemesController < ApplicationController
     end
   end
 
+
+
   def set_activity
     @activities = current_user.acitivities_in_theme(@theme) if user_signed_in?
   end
@@ -415,4 +590,5 @@ class ThemesController < ApplicationController
   def entry_params
     params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation)
   end
+
 end

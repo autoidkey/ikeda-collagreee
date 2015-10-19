@@ -1,0 +1,28 @@
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
+</style>
+
+<div id="dialog" title="Basic dialog">
+    <p></p>
+</div>
+
+
+<script type = "text/javascript"> 
+  // 表示されたときに議論議論ツリーを表示する
+  $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
+    if (isInView) {
+      if ($(".node").size()==0){
+        var dataAll = <%= raw entryAll.to_json %>
+        var idm = <%= raw idm.to_json %>
+        var title = <%= raw theme.title.to_json %>
+        //ここでtreeJSONを呼び出して生成する
+        console.log(dataAll)
+        console.log(idm)
+        console.log(title)
+        treeHJSON(dataAll,idm,title);
+        }       
+    }
+  });
+
+</script>

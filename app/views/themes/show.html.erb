@@ -1,20 +1,24 @@
 <!-- user_admin?メッソドがへルパーメッソドのコントローラーにある　 -->
 <!-- roleが０だとmodelのuseをみるとemnuでをadminになるようになっている！！　だからroleが０だとtrueで以下が表示される -->
 <% if user_admin?(current_user) %>
+
   <div class="btn-group btn-group-justified" role="group" aria-label="">
+
     <div class="btn-group" role="group">
-      <%= link_to @theme do %>
-        <button type="button" class="btn btn-default">通常閲覧モード</button>
+      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1' , method: :post, data: { confirm: "発散フェーズモードに切り替えてもよろしいですか？" } do %>
+        <button type="button" class="btn btn-default">発散フェーズ</button>
       <% end %>
     </div>
+
     <div class="btn-group" role="group">
-      <%= link_to '/themes/only_timeline/' + @theme.id.to_s do %>
-        <button type="button" class="btn btn-default">スライド表示モード</button>
+      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/2', method: :post, data: { confirm: "収束フェーズモードに切り替えてもよろしいですか？" } do %>
+        <button type="button" class="btn btn-default">収束フェーズ</button>
       <% end %>
     </div>
+
     <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/auto_facilitation_test', method: :post, data: { confirm: "一度このテーマの投稿を全て削除して、オートファシリテーションのテストを行います。本当によろしいですか？" } do %>
-        <button type="button" class="btn btn-default">オートファシリテーションテスト</button>
+      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3', method: :post, data: { confirm: "合意フェーズモードに切り替えてもよろしいですか？" } do %>
+        <button type="button" class="btn btn-default">合意フェーズ</button>
       <% end %>
     </div>
   </div>
@@ -119,7 +123,7 @@
   <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-12">
-        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku %>
+        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type %>
       </div>
     </div>
 
