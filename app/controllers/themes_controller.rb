@@ -366,23 +366,37 @@ class ThemesController < ApplicationController
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
-    phase_bonus = 0        # フェイズによるボーナス用
-
-    # フェイズidの判別(なんか無駄な気がするんだよなあ・・・)
+    # フェイズidの判別
     @phase_now = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
     if @phase_now[0] == nil then
       @phase_now = 1
     else 
       @phase_now = @phase_now[0][:phase_id]
     end
-
-    puts "テーマ番号は#{params[:id]}"
     puts "現在のフェイズ = #{@phase_now}"
 
     # 追加ポイント用の係数
     # 3〜4行程度の書き込みで30pt前後になるように調整すること
-    matching_coefficient = 25
-    nword_coefficient = 0.3
+    nword_coefficient = 0       # M1 キーワードに不一致（発散）のワードに対しての係数
+    matching_coefficient = 0    # M2 キーワードに一致（収束）のワードに対しての係数
+
+    # フェイズによるインセンティブパラメータの変化
+    # M1,M2の値は要調整
+    if @phase_now == 1
+      puts "発散フェイズだよ"
+      nword_coefficient = 0.7
+      matching_coefficient = 20
+
+    elsif @phase_now == 2
+      puts "収束フェイズだよ"
+      nword_coefficient = 0.5
+      matching_coefficient = 25
+
+    elsif @phase_now == 3
+      puts "合意フェイズだよ"
+      nword_coefficient = 0.3
+      matching_coefficient = 30
+    end
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
     keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
@@ -400,7 +414,7 @@ class ThemesController < ApplicationController
     # MeCabによる投稿内容の形態素解析 
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
-    word = norm_connection2(text).uniq
+    word = norm_connection2(　text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
     
     # 抽出したワードを1つずつ読み込んでいく
@@ -456,21 +470,8 @@ class ThemesController < ApplicationController
 
     end
 
-    # フェイズによるインセンティブパラメータの変化
-    if @phase_now == 1
-      puts "発散フェイズだよ"
-      phase_bonus = 100
-    elsif @phase_now == 2
-      puts "収束フェイズだよ"
-      phase_bonus = 200
-    else
-      puts "合意フェイズだよ"
-      phase_bonus = 300
-    end
-
-
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus + phase_bonus)
+    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus)
 
     # 投稿内容に応じたポイント付与をやめる場合の処理
     puts "テーマ番号は#{params[:id]}"
