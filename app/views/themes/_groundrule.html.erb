@@ -3,19 +3,22 @@
     <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Ground Rules / グランドルール</h4>
   </div>
   <div class="panel-body">
-    <table class="table keywords">
-      <tbody>
-        <% if @tree_type == 1 %>
-          <div id="phase"><h4>議論の進行度：発散フェイズ</h4></div>
-          <div id="phase_comment">さまざまな角度からテーマについて話し合って、たくさんの意見を出しましょう！</div>
-        <% elsif @tree_type == 2 %>
-          <div id="phase">議論の進行度：収束フェイズ</div>
-          <div id="phase_comment">現在出ている意見について、より議論を深めていきましょう！画面右のキーワードにも注目！</div>
-        <% else %>
-          <div id="phase">議論の進行度：合意フェイズ</div>
-          <div id="phase_comment">最終的な合意案を作るために、議論を煮詰めていきましょう！合意案をより良くするには？</div>
-        <% end %>
-      </tbody>
-    </table>
+    <% if @tree_type == 1 %>
+      <div id="phase"><h4>議論の進行度：発散フェイズ</h4></div>
+      <div id="phase_comment">さまざまな角度からテーマについて話し合って、たくさんの意見を出しましょう！</div>
+    <% elsif @tree_type == 2 %>
+      <div id="phase"><h4>議論の進行度：収束フェイズ</h4></div>
+      <div id="phase_comment">現在出ている意見について、より議論を深めていきましょう！画面右のキーワードにも注目！</div>
+    <% else %>
+      <div id="phase"><h4>議論の進行度：合意フェイズ</h4></div>
+      <div id="phase_comment">最終的な合意案を作るために、議論を煮詰めていきましょう！合意案をより良くするには？</div>
+    <% end %>
+  
+    <% if user_admin?(current_user) %>
+      <div class="facilitation_infomations">
+        <%= link_to 'コメント投稿', '/facilitation_infomations/new', class: 'btn btn-default' %>
+      </div>
+    <% end %>
   </div>
+
 </div>

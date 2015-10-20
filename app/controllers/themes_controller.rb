@@ -90,6 +90,16 @@ class ThemesController < ApplicationController
 
     @stamps = stamp_list
 
+    # ファシリテータからのお知らせコーナー
+    comment = FacilitationInfomation.where(:theme_id => params[:id]).last
+    puts comment
+    if comment != nil
+      @f_comment = comment[:body]
+    else
+      @f_comment = "まだコメントはありません。"
+    end
+    puts "ファシリテータからのコメントは = #{@f_comment}です！！"
+
   end
 
   # def new_idm
