@@ -13,12 +13,18 @@
       <div id="phase"><h4>議論の進行度：合意フェイズ</h4></div>
       <div id="phase_comment">最終的な合意案を作るために、議論を煮詰めていきましょう！合意案をより良くするには？</div>
     <% end %>
-  
-    <% if user_admin?(current_user) %>
-      <div class="facilitation_infomations">
-        <%= link_to 'コメント投稿', '/facilitation_infomations/new', class: 'btn btn-default' %>
+    <hr>
+    
+    <div class="facilitation_infomations">
+      <div class="f_comment">
+        <%= @f_comment %>
       </div>
-    <% end %>
+      <div class="f_comment_btn">
+        <% if user_admin?(current_user) %>
+          <%= link_to 'コメント投稿', '/facilitation_infomations/new', class: 'btn btn-default' %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
 </div>

@@ -92,7 +92,6 @@ class ThemesController < ApplicationController
 
     # ファシリテータからのお知らせコーナー
     comment = FacilitationInfomation.where(:theme_id => params[:id]).last
-    puts comment
     if comment != nil
       @f_comment = comment[:body]
     else
