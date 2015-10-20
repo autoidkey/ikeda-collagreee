@@ -38,6 +38,17 @@ class ThemesController < ApplicationController
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
 
+    @stamps = stamp_list
+
+    # ファシリテータからのお知らせコーナー
+    comment = FacilitationInfomation.where(:theme_id => params[:id]).last
+    if comment != nil
+      @f_comment = comment[:body]
+    else
+      @f_comment = "まだコメントはありません。"
+    end
+    puts "ファシリテータからのコメントは = #{@f_comment}です！！"
+
     # ウェブアクセスをカウントアップ
     # TODO:該当グループ以外のテーマを閲覧した時は除外する
     user_id = user_signed_in? ? current_user.id : nil
@@ -87,17 +98,6 @@ class ThemesController < ApplicationController
        @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
        count = count + 1
     end
-
-    @stamps = stamp_list
-
-    # ファシリテータからのお知らせコーナー
-    comment = FacilitationInfomation.where(:theme_id => params[:id]).last
-    if comment != nil
-      @f_comment = comment[:body]
-    else
-      @f_comment = "まだコメントはありません。"
-    end
-    puts "ファシリテータからのコメントは = #{@f_comment}です！！"
 
   end
 
@@ -381,7 +381,11 @@ class ThemesController < ApplicationController
 
     # フェイズidの判別
     phase = Phase.where(:theme_id => params[:id]).last
-    @phase_now = phase[:phase_id]
+    if phase != nil
+      @phase_now = phase[:phase_id]
+    else
+      @phase_now = 1
+    end
     puts "現在のフェイズは = #{@phase_now}です！！"
 
     # 追加ポイント用の係数
