@@ -275,8 +275,8 @@ nav.pagination {
   border: 1px solid rgba( 0,0,0 , 0.5 );
 }
 
-.phase {
-  font-size: 20px;
+.phase img {
+  width: 60%;
 }
 
 .f_image {
@@ -284,10 +284,12 @@ nav.pagination {
 }
 
 .f_comment {
-  width: 85%;
+  float: left;
+  /*border: 1px solid #000000;*/
+  width: 88%;
 }
 
 .f_comment_btn {
-  float: right;
+  clear: both;
 }
 

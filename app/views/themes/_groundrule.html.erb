@@ -4,13 +4,19 @@
   </div>
   <div class="panel-body">
     <% if @tree_type == 1 %>
-      <div class="phase">議論の進行度：発散フェイズ</div>
+      <div class="phase">
+        <%= image_tag 'phase/phase1.png' %>
+      </div>
       <div class="phase_comment">さまざまな角度からテーマについて話し合って、たくさんの意見を出しましょう！</div>
     <% elsif @tree_type == 2 %>
-      <div class="phase">議論の進行度：収束フェイズ</div>
+      <div class="phase">
+        <%= image_tag 'phase/phase2.png' %>
+      </div>
       <div class="phase_comment">現在出ている意見について、より議論を深めていきましょう！画面右のキーワードにも注目！</div>
     <% else %>
-      <div class="phase">議論の進行度：合意フェイズ</div>
+      <div class="phase">
+        <%= image_tag 'phase/phase3.png' %>
+      </div>
       <div class="phase_comment">最終的な合意案を作るために、議論を煮詰めていきましょう！合意案をより良くするには？</div>
     <% end %>
     <hr>
