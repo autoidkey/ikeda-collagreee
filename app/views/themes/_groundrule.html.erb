@@ -4,18 +4,21 @@
   </div>
   <div class="panel-body">
     <% if @tree_type == 1 %>
-      <div id="phase"><h4>議論の進行度：発散フェイズ</h4></div>
-      <div id="phase_comment">さまざまな角度からテーマについて話し合って、たくさんの意見を出しましょう！</div>
+      <div class="phase">議論の進行度：発散フェイズ</div>
+      <div class="phase_comment">さまざまな角度からテーマについて話し合って、たくさんの意見を出しましょう！</div>
     <% elsif @tree_type == 2 %>
-      <div id="phase"><h4>議論の進行度：収束フェイズ</h4></div>
-      <div id="phase_comment">現在出ている意見について、より議論を深めていきましょう！画面右のキーワードにも注目！</div>
+      <div class="phase">議論の進行度：収束フェイズ</div>
+      <div class="phase_comment">現在出ている意見について、より議論を深めていきましょう！画面右のキーワードにも注目！</div>
     <% else %>
-      <div id="phase"><h4>議論の進行度：合意フェイズ</h4></div>
-      <div id="phase_comment">最終的な合意案を作るために、議論を煮詰めていきましょう！合意案をより良くするには？</div>
+      <div class="phase">議論の進行度：合意フェイズ</div>
+      <div class="phase_comment">最終的な合意案を作るために、議論を煮詰めていきましょう！合意案をより良くするには？</div>
     <% end %>
     <hr>
     
     <div class="facilitation_infomations">
+      <div class="f_image">
+        <%= image_tag 'faci_icon.png', :width => '70' %>
+      </div>
       <div class="f_comment">
         <%= @f_comment %>
       </div>
