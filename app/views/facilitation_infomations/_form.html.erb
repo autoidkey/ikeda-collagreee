@@ -12,12 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :body %><br>
+    コメント<br>
     <%= f.text_area :body %>
   </div>
   <div class="field">
-    <%= f.label :theme_id %><br>
-    <%= f.number_field :theme_id %>
+    <%= hidden_field_tag "facilitation_infomation[theme_id]", params[:theme_id] %>
   </div>
   <div class="actions">
     <%= f.submit %>

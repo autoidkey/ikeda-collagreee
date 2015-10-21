@@ -1,5 +1,9 @@
 class FacilitationInfomationsController < InheritedResources::Base
 
+	def create
+		create! { theme_path @facilitation_infomation.theme_id }
+	end
+
   private
 
     def facilitation_infomation_params

@@ -30,7 +30,7 @@
       </div>
       <div class="f_comment_btn">
         <% if user_admin?(current_user) %>
-          <%= link_to 'コメント投稿', '/facilitation_infomations/new', class: 'btn btn-default' %>
+          <%= link_to 'コメント投稿', new_facilitation_infomation_path(theme_id: params[:id]) ,class: 'btn btn-default' %>
         <% end %>
       </div>
     </div>

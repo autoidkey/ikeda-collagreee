@@ -45,7 +45,7 @@ class ThemesController < ApplicationController
     if comment != nil
       @f_comment = comment[:body]
     else
-      @f_comment = "まだコメントはありません。"
+      @f_comment = "こんにちは。今回、議論のファシリテータを務めさせていただきます。よろしくお願いします！"
     end
     puts "ファシリテータからのコメントは = #{@f_comment}です！！"
 
