@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Ground Rules / グランドルール</h4>
+    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> News from the facilitator / ファシリテータからのお知らせ</h4>
   </div>
   <div class="panel-body">
     <% if @tree_type == 1 %>
@@ -23,14 +23,15 @@
     
     <div class="facilitation_infomations">
       <div class="f_image">
-        <%= image_tag 'faci_icon.png', :width => '70' %>
+        <%= image_tag 'faci_icon.png' %>
       </div>
       <div class="f_comment">
         <%= @f_comment %>
       </div>
       <div class="f_comment_btn">
+      <br>
         <% if user_admin?(current_user) %>
-          <%= link_to 'コメント投稿', new_facilitation_infomation_path(theme_id: params[:id]) ,class: 'btn btn-default' %>
+          <%= link_to 'コメント更新', new_facilitation_infomation_path(theme_id: params[:id]) ,class: 'btn btn-default' %>
         <% end %>
       </div>
     </div>
