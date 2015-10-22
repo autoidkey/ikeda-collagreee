@@ -68,7 +68,7 @@ module Bm25
 
     all_words.uniq.each do |node|
       bm25[node] = {
-        score: idf(df[node], n) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count))),
+        score: (idf(df[node], n)+1) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count))),
         agree: agree[node],
         disagree: disagree[node]
       }
@@ -101,7 +101,7 @@ module Bm25
   end
 
   def idf(df, n)
-    Math::log10((n - df + 0.5) / df + 0.5)
+    Math::log10((n - df + 0.5) / df + 0.5) 
   end
 
   def all_word_count(text)
@@ -400,6 +400,7 @@ module Bm25
 
     kmeans = KMeans.new(v_array, :centroids => 6)
     kmeans.inspect
+    logger.info kmeans
 
     #jsで使うように加工
     cla_array = []
@@ -419,7 +420,88 @@ module Bm25
 
   end
 
-  
+    def test_func2()
+    entry_all = Entry.all.where(:theme_id => params[:id])
+
+    #スレッドのタイトルのノードidを取得する
+    parent_id = []
+    entry_all.each do |entry|
+      if entry["parent_id"].nil?
+        parent_id.push(entry["id"])
+      end
+    end
+
+    thread_array = serch_thread(entry_all , parent_id)
+
+    bm25 = calculate2(entry_all)
+
+    #スレッドごとの文章スレッド(thread_text_array)とスレッドの単語出現数thread_f_arrayとある単語がスレッドの文章にどれだけ出現するか（thread_n_array）文章を出す
+    thread_text_array = []
+    thread_f_array = []
+    thread_n_array = []
+
+    v_array = []
+
+    thread_array.each do |theme|
+      count = 0
+      theme.each do |id|
+        entry = search_id(id , entry_all)
+        text_n = norm_connection2(entry.body)
+        if !entry.title.nil? 
+          text_n.concat(norm_connection2(entry.title))
+        end
+        f = text_n.length
+        v = []
+        count = 0
+        bm25.each{|key, value|
+          num = 0
+          text_n.each do |n|
+            if n == key
+              num = num + 1
+            end
+          end
+
+          v[count] = (num.quo(f).to_f) * value[:score]
+          count = count + 1
+        }
+        v_array.push(v)
+      end
+    end
+
+    # logger.info thread_text_array
+    # logger.info thread_f_array
+    # logger.info thread_n_array
+
+
+
+    # for i in 0..thread_num-1 do
+    #   # logger.info thread_text_array[i]
+    #   # logger.info v_array[i]
+    # end
+
+    logger.info v_array
+
+    kmeans = KMeans.new(v_array, :centroids => 5)
+    kmeans.inspect
+    logger.info kmeans
+
+    #jsで使うように加工
+    cla_array = []
+    kmeans = kmeans.view
+    count = 0
+    kmeans.each do |kmean|
+      if kmean != nil
+        kmean.each do |k|
+          cla_array.push({ :cla => count, :id => parent_id[k]})
+        end
+      end
+      count = count + 1
+    end
+    logger.info cla_array
+
+    return cla_array
+
+  end
 
   def serch_thread(entry_all , parent_array)
     array = []
