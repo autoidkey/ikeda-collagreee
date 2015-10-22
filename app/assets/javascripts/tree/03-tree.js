@@ -494,9 +494,33 @@ function treeJSON(error, treeData , sizeArray){
 
         // Change the circle fill depending on whether it has children and is collapsed
         node.select("circle.nodeCircle")
-            .attr("r", 4.5)
+            .attr("r", 5)
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
+            });
+
+        node.append("text")
+            .attr("text-anchor", function(d) {
+                if(d.children == undefined){
+                    return "end";
+                }else {
+                    return "start";
+                }
+            })
+            .attr({
+              'dy': ".35em",
+              'fill': "red",
+            })
+            .style("font-size", function(d) {
+                
+                return 30;
+       　　  })
+            // iは0から始まるので、+1しておく
+            .text(function(d) {
+                //ここで表示するテキストを返している
+                if(d.id == 3 || d.id == 6|| d.id == 13 || d.id == 15 || d.id == 23 || d.id == 33){
+                    return "合意"
+                 }
             });
 
         // Transition nodes to their new position.

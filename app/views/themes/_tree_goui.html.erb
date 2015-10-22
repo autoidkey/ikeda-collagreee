@@ -49,9 +49,10 @@
                 //ここでtreeJSONを呼び出して生成する
                 var dataAll = <%= raw entryAll.to_json %>
                 var youyakuData = <%= raw youyaku.to_json %>
-                console.log(youyakuData)
+                var claster = <%= raw claster.to_json %>
+                console.log(claster)
                 var title = <%= raw theme.title.to_json %>
-                var treeData = createTreeData(dataAll , title , youyakuData)
+                var treeData = createTreeData(dataAll , title , youyakuData , claster)
                 console.log(treeData)
                 treeJSON("", treeData);
 

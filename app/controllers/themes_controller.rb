@@ -55,7 +55,7 @@ class ThemesController < ApplicationController
       @tree_type = @tree_type[0][:phase_id]
     end
 
-    #idmの実装
+    # idmの実装
     # @idm_result = []
     # @idm_link = 0
     # @idm_n = 0
@@ -86,6 +86,10 @@ class ThemesController < ApplicationController
        @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
        count = count + 1
     end
+
+    @themes_claster = test_func()
+    logger.info @themes_claster
+    
 
   end
 

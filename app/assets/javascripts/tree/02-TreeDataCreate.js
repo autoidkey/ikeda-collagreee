@@ -1,7 +1,7 @@
 
 
 //ツリーに使用するデータを生成する。
-function createTreeData(dataAll,title,youyakuData) {
+function createTreeData(dataAll,title,youyakuData ,claster) {
 
 
     // 要約に使用する
@@ -61,15 +61,20 @@ function createTreeData(dataAll,title,youyakuData) {
     }
 
     function makeClass(link) {
-        var array = []
-        var sep = 5
-        for (var i = 0 ; i < link.length; i++){
-            if (link[i]['source'] == 0){
-                var rand = Math.floor( Math.random() * sep + 1) ;
-                array.push({ cla : rand , id : link[i]['target'] });
-            }
-        }
-        return array
+        // 前までのランダムでクラスターを作るやつ
+        // var array = []
+        // var sep = 5
+        // for (var i = 0 ; i < link.length; i++){
+        //     if (link[i]['source'] == 0){
+        //         var rand = Math.floor( Math.random() * sep + 1) ;
+        //         array.push({ cla : rand , id : link[i]['target'] });
+        //     }
+        // }
+        // return 
+
+        console.log(claster)
+        return claster
+
     }
 
     function serchColor(id){
