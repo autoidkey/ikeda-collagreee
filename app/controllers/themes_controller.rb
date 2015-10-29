@@ -379,7 +379,15 @@ class ThemesController < ApplicationController
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
+    time_flag = 0
     time_bonus = 0        # 投稿時間ボーナス用
+
+    # 新規投稿の実験
+    if entry_params["parent_id"].to_i > 0
+      puts "新規投稿の親スレは#{entry_params[:parent_id]}！！！"
+    else
+      puts "新規投稿はスレッド！！"
+    end
 
     # 最後に投稿されたスレッドの時間
     lastpost = Entry.where(theme_id: params[:id]).where.not(title: nil).reverse_order.last  #なぜか逆順になるので・・・要検証
