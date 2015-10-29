@@ -382,28 +382,42 @@ class ThemesController < ApplicationController
     time_flag = 0
     time_bonus = 0        # 投稿時間ボーナス用
 
-    # 新規投稿の実験
+    # 新規投稿についてスレッドか返信かを判定
     if entry_params["parent_id"].to_i > 0
+      # 返信なら親スレの投稿時刻を見てなんやかんやする
       puts "新規投稿の親スレは#{entry_params[:parent_id]}！！！"
     else
+      # スレッドなら，最後のスレ立てから時間が経っていればボーナスを与える
       puts "新規投稿はスレッド！！"
+
+      # 最後に投稿されたスレッドの時間
+      lastpost = Entry.where(theme_id: params[:id]).where.not(title: nil).reverse_order.last  #なぜか逆順になるので・・・要検証
+      if lastpost != nil
+        @lastpost_time = lastpost[:created_at]
+      else
+        @lastpost_time = -1
+      end
+      puts "最後の書き込みは#{@lastpost_time}です！！"
+
+      # 現在時刻
+      @newpost_time = Time.now
+
+      # 最後に投稿されたスレッドからの時間
+      @sub_time = (@newpost_time - @lastpost_time).floor / 60
+      puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
+
+      # 最後のスレ立てからxx分経っていればボーナスフラグを立てる
+      if @sub_time >= 1   # ここを変える
+        time_flag = 1
+      end
+
     end
 
-    # 最後に投稿されたスレッドの時間
-    lastpost = Entry.where(theme_id: params[:id]).where.not(title: nil).reverse_order.last  #なぜか逆順になるので・・・要検証
-    if lastpost != nil
-      @lastpost_time = lastpost[:created_at]
-    else
-      @lastpost_time = -1
+    puts "ボーナス点はありますか？#{time_flag}"
+    if time_flag == 1
+      time_bonus = 10
     end
-    puts "最後の書き込みは#{@lastpost_time}です！！"
-
-    # 現在時刻
-    @newpost_time = Time.now
-
-    # 最後に投稿されたスレッドからの時間
-    @sub_time = (@newpost_time - @lastpost_time).floor / 60
-    puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
+    
 
     # フェイズidの判別
     phase = Phase.where(theme_id: params[:id]).last
@@ -510,7 +524,7 @@ class ThemesController < ApplicationController
     end
 
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus)
+    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus + time_bonus)
 
     # 投稿内容に応じたポイント付与をやめる場合の処理
     puts "テーマ番号は#{params[:id]}"
