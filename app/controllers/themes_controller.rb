@@ -379,29 +379,32 @@ class ThemesController < ApplicationController
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
-    # 時間取得の実験
-    lastpost = Entry.where(:theme_id => params[:id]).reverse_order.last  #なぜか逆順になるので・・・要検証
+    time_bonus = 0        # 投稿時間ボーナス用
+
+    # 最後に投稿されたスレッドの時間
+    lastpost = Entry.where(theme_id: params[:id]).where.not(title: nil).reverse_order.last  #なぜか逆順になるので・・・要検証
     if lastpost != nil
       @lastpost_time = lastpost[:created_at]
-      # @time_body = time[:body]
     else
       @lastpost_time = -1
-      # @time_body = -1
     end
     puts "最後の書き込みは#{@lastpost_time}です！！"
-    # 最後の書き込みは2015/06/10 16:35です！！　こんな感じで取れる
 
-    newpost_time = Time.now
-    puts "現在の時刻は#{newpost_time}です！！最後の書き込みから#{(newpost_time - @lastpost_time).floor / 60}分です！！"
+    # 現在時刻
+    @newpost_time = Time.now
+
+    # 最後に投稿されたスレッドからの時間
+    @sub_time = (@newpost_time - @lastpost_time).floor / 60
+    puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
 
     # フェイズidの判別
-    phase = Phase.where(:theme_id => params[:id]).last
+    phase = Phase.where(theme_id: params[:id]).last
     if phase != nil
       @phase_now = phase[:phase_id]
     else
       @phase_now = 1
     end
-    puts "現在のフェイズは#{@phase_now}です！！#{@phase_time}に更新されました！！"
+    puts "現在のフェイズは#{@phase_now}です！！"
 
     # 追加ポイント用の係数
     # 3〜4行程度の書き込みで30pt前後になるように調整すること
