@@ -78,9 +78,6 @@
 
          <div id="next" class="next_link_div"><%= link_to_next_page @entries, '次のページを表示', :remote => true, :id => 'next_link', :class=>'next_link_a_tag'  %></div>
 
-
-
-
       </div>
 
       <div class="col-md-4">
@@ -105,6 +102,8 @@
         <%= render 'tags' if user_signed_in? && !current_user.normal? %>
       </div>
     </div>
+
+
   </div>
 
   <!-- ランキンングについて -->
@@ -119,14 +118,15 @@
     </div>
   </div>
 
+
+
   <!-- 議論ツリーについて -->
   <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-12">
-        <%= render 'user_tree', entries: @entries, theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster %>
+        <%= render 'user_tree', theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster %>
       </div>
     </div>
-
   </div>
 
   <% if user_signed_in? %>

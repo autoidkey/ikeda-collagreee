@@ -1,5 +1,27 @@
+ 
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <div id="dialog" title="Basic dialog">
+    </div>
+
     <style type="text/css">
-  
+
+
+.modal_close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: block;
+  /* widthとheightは閉じるボタンの画像の幅を指定 */
+  width: 28px;
+  height: 28px;
+  /* 閉じるボタンの画像は自分で用意 */
+  background: url('../images/close-popup.png') no-repeat;
+  z-index: 2;
+}
+      #dialog {
+        padding-left: 120px
+      }
         .node {
         cursor: pointer;
       }
@@ -41,12 +63,17 @@
     </style>
 
 
+
+
     <script type = "text/javascript"> 
+
       // 表示されたときに議論議論ツリーを表示する
       $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
-        if (isInView) {
+        if (isInView) {  
           if ($(".node").size()==0){
                 //ここでtreeJSONを呼び出して生成する
+                var ent = <%= raw entries.to_json %>
+                console.log(ent)
                 var dataAll = <%= raw entryAll.to_json %>
                 var youyakuData = <%= raw youyaku.to_json %>
                 var claster = <%= raw claster.to_json %>
@@ -54,10 +81,63 @@
                 var title = <%= raw theme.title.to_json %>
                 var treeData = createTreeData(dataAll , title , youyakuData , claster)
                 console.log(treeData)
-                treeJSON("", treeData);
+                treeJSON("", treeData );
 
-            }       
+            }     
         }
+
+
       });
 
+      //ダイアログ
+      $(function() {
+        $( "#dialog" ).dialog({
+          autoOpen: false,
+          minWidth: 800,
+          minHeight:400,
+          modal: true,
+          buttons: {
+            OK: function() {
+              $( this ).dialog( "close" );
+            }
+          }
+        });
+        
+
+        $( "#opener" ).click(function() {
+          $( "#dialog" ).dialog( "open" );
+        });
+      });
+
+
+      function show_dialog(message,id,nid){
+        $("#dialog").empty();
+        var target = "#" + "entry-" + id;
+        var target2 = '#reply-modal-' + nid;
+        $(target).find('#childID_'+nid).css('background-color','orange');
+        // console.log(target)
+        // console.log($(target).html());
+        // console.log(nid)
+        $( "#dialog" ).append('<br>');
+        $( "#dialog" ).append($(target2).html());
+        $( "#dialog" ).append('<br>');
+        $( "#dialog" ).append('<div id="parent-thread"><button class="btn-thread">スレッド一覧</button></div>');
+
+        $('#parent-thread').on(
+          'click',   // イベント名
+          '.btn-thread',    // 子要素セレクター
+          function() {
+            var target = "#" + "entry-" + id;
+            $( "#dialog" ).append($(target).html());
+            $( "#parent-thread").empty();
+          }
+        );
+
+        $("#dialog").dialog("open");
+
+      }
+
+
     </script>
+
+

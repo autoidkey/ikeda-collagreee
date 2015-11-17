@@ -16,3 +16,23 @@
     </div>
   <% end %>
 </div>
+
+
+<% if current_user.admin? || current_user.facilitator? %>
+  <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
+    <li class"tab-pane" id="tree"><a href="#post<%= i %>" role="tab" data-toggle="tab">投稿</a></li>
+    <li><a href="#facilitation<%= i %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
+  </ul>
+<% end %>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class"tab-pane" id="tree">
+    <%= render 'themes/reply_entry_form', entry: entry %>
+  </div>
+  <% if current_user.admin? || current_user.facilitator? %>
+    <div class="tab-pane facilitation-tab" id="facilitation<%= i %>">
+      <%= render 'themes/reply_facilitation_form', { entry: entry, k: i } %>
+    </div>
+  <% end %>
+</div>

@@ -14,13 +14,14 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
     var linkNode = makeLink(dataAll)
     var entryNP = makeNP(dataAll)
     var ClassArray = makeClass(linkNode)
-    console.log(ClassArray)
     var treeData = {
+          "dataID": 0,
           "name" : title,
           "childSize" : 18,
           "np" : 0,
           "color": 0,
-          "children": childArray(0,0)
+          "children": childArray(0,0),
+          "body": title
     }
 
 
@@ -104,6 +105,7 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
          // var nameText = serchDataArray(childId)["body"].substr(0,20)
          // var nameText = youyaku(serchDataArray(childId)["body"])
         // console.log(serchDataArray(childId)["body"])
+        bodyText = serchDataArray(childId)["id"]
         var nameText = youyaku2(serchDataArray(childId)["id"])
         if (serchDataArray(childId)["title"] != null){
            nameText = serchDataArray(childId)["title"]
@@ -111,9 +113,9 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
         
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
-          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color })
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"]})
         }else{
-          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color, "children" : childArray(childId , color)})
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"] ,"children" : childArray(childId , color)})
         }
       }
       return array

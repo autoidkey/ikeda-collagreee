@@ -1,5 +1,5 @@
 // Get JSON data
-function treeJSON(error, treeData , sizeArray){
+function treeJSON(error, treeData ){
 
 
     // Calculate total nodes, max label length
@@ -9,8 +9,8 @@ function treeJSON(error, treeData , sizeArray){
     var selectedNode = null;
     var draggingNode = null;
     // panning variables
-    var panSpeed = 200;
-    var panBoundary = 20; // Within 20px from edges will pan when dragging.
+    var panSpeed = 1000;
+    var panBoundary = 50; // Within 20px from edges will pan when dragging.
     // Misc. variables
     var i = 0;
     var duration = 750;　//表示されるまでの時間 
@@ -54,7 +54,7 @@ function treeJSON(error, treeData , sizeArray){
     // Call visit function to establish maxLabelLength
     visit(treeData, function(d) {
         totalNodes++;
-        maxLabelLength = Math.max(d.name.length, maxLabelLength);
+        maxLabelLength = Math.max(d.name.length, maxLabelLength) ;
 
     }, function(d) {
         return d.children && d.children.length > 0 ? d.children : null;
@@ -238,17 +238,17 @@ function treeJSON(error, treeData , sizeArray){
         });
 
     function endDrag() {
-        selectedNode = null;
-        d3.selectAll('.ghostCircle').attr('class', 'ghostCircle');
-        d3.select(domNode).attr('class', 'node');
-        // now restore the mouseover event or we won't be able to drag a 2nd time
-        d3.select(domNode).select('.ghostCircle').attr('pointer-events', '');
-        updateTempConnector();
-        if (draggingNode !== null) {
-            update(root);
-            centerNode(draggingNode);
-            draggingNode = null;
-        }
+        // selectedNode = null;
+        // d3.selectAll('.ghostCircle').attr('class', 'ghostCircle');
+        // d3.select(domNode).attr('class', 'node');
+        // // now restore the mouseover event or we won't be able to drag a 2nd time
+        // d3.select(domNode).select('.ghostCircle').attr('pointer-events', '');
+        // updateTempConnector();
+        // if (draggingNode !== null) {
+        //     update(root);
+        //     centerNode(draggingNode);
+        //     draggingNode = null;
+        // }
     }
 
     // Helper functions for collapsing and expanding nodes.
@@ -309,7 +309,7 @@ function treeJSON(error, treeData , sizeArray){
     // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
 
     function centerNode(source) {
-        scale = zoomListener.scale();
+        scale = zoomListener.scale() / 2;  //ここで最初にどれだけズームするかを決める
         x = -source.y0;
         y = -source.x0;
         x = x * scale + viewerWidth / 2;
@@ -337,10 +337,7 @@ function treeJSON(error, treeData , sizeArray){
     // Toggle children on click.
 
     function click(d) {
-        if (d3.event.defaultPrevented) return; // click suppressed
-        d = toggleChildren(d);
-        update(d);
-        centerNode(d);
+        show_dialog(d.body ,serchParent(d),d.dataID );
     }
 
     function update(source) {
@@ -360,7 +357,7 @@ function treeJSON(error, treeData , sizeArray){
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) *50; // 25 pixels per line  ノード間の縦の距離
+        var newHeight = d3.max(levelWidth) *60; // 25 pixels per line  ノード間の縦の距離
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
@@ -370,7 +367,7 @@ function treeJSON(error, treeData , sizeArray){
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
             // ここでノード間の長さを決定している最大の長さかけるxである！
-            d.y = (d.depth * (maxLabelLength * 30)); //maxLabelLength * 10px
+            d.y = (d.depth * (maxLabelLength * 35)); //maxLabelLength * 10px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
             // d.y = (d.depth * 500); //500px per level.
@@ -384,7 +381,7 @@ function treeJSON(error, treeData , sizeArray){
 
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("g")
-            .call(dragListener)
+            // .call(dragListener)
             .attr("class", "node")
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
@@ -446,7 +443,6 @@ function treeJSON(error, treeData , sizeArray){
        //          return color;
        // 　　  })
             .style("fill", function(d) {
-                console.log(d.id)
                 if(d.depth==0 ){
                     return "black";
                 }else {
@@ -455,7 +451,7 @@ function treeJSON(error, treeData , sizeArray){
        　　  })
             .attr('class', 'nodeText')
             .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
+                return "end";
             })
             .text(function(d) {
                 return d.name.substr(1);
@@ -478,10 +474,19 @@ function treeJSON(error, treeData , sizeArray){
         // Update the text to reflect whether node has children or not.
         node.select('text')
             .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
+                if(d.depth < 2){
+                    return -10;
+                }else {
+                    return 10;
+                }
+                
             })
             .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
+                if(d.depth < 2){
+                    return "end";
+                }else {
+                    return "start";
+                }
             })
             .text(function(d) {
                 //ここで表示するテキストを返している
@@ -501,10 +506,10 @@ function treeJSON(error, treeData , sizeArray){
 
         node.append("text")
             .attr("text-anchor", function(d) {
-                if(d.children == undefined){
-                    return "end";
-                }else {
+                if(d.depth < 2){
                     return "start";
+                }else {
+                    return "end";
                 }
             })
             .attr({
@@ -606,6 +611,15 @@ function treeJSON(error, treeData , sizeArray){
             d.x0 = d.x;
             d.y0 = d.y;
         });
+    }
+
+    function serchParent(d) {
+        var parent
+        while (d.parent.dataID !=0) {
+            d = d.parent
+        }
+        return d.dataID
+
     }
 
     // Append a group which holds all nodes and which the zoom Listener can act upon.

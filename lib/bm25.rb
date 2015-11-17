@@ -329,8 +329,6 @@ module Bm25
     end
 
     thread_array = serch_thread(entry_all , parent_id)
-    logger.info parent_id
-    logger.info "aaaaaaaaa"
     bm25 = calculate2(entry_all)
 
     #スレッドごとの文章スレッド(thread_text_array)とスレッドの単語出現数thread_f_arrayとある単語がスレッドの文章にどれだけ出現するか（thread_n_array）文章を出す
@@ -352,10 +350,6 @@ module Bm25
           thread_text.push(entry.title)
           n = norm_connection2(entry.title)
           logger.info n
-          n_array.concat(n)
-          count = count + n.length
-          n_array.concat(n)
-          count = count + n.length
           n_array.concat(n)
           count = count + n.length
           n_array.concat(n)
@@ -387,7 +381,7 @@ module Bm25
             num = num + 1
           end
         end
-        v[count] = (num.quo(thread_f_array[i]).to_f) * value[:score]
+        v[count] = (num.quo(thread_f_array[i]).to_f) * value[:score] * 3
         count = count + 1
       }
       v_array[i] = v
@@ -398,6 +392,8 @@ module Bm25
       # logger.info v_array[i]
     end
 
+    logger.info parent_id.length/5
+    logger.info parent_id.length
     kmeans = KMeans.new(v_array, :centroids => 6)
     kmeans.inspect
     logger.info kmeans
@@ -405,7 +401,36 @@ module Bm25
     #jsで使うように加工
     cla_array = []
     kmeans = kmeans.view
-    count = 0
+
+    #クラスタがないのは消して、降順に並び替える
+    temp = []
+    for i in 0..kmeans.length-1 do
+      temp.push(kmeans[i].length)
+    end
+
+    logger.info temp
+
+    temp2 = []
+    while temp2.length!=kmeans.length
+      max = 0
+      t = 0
+      for i in 0..temp.length-1 do
+        if max < temp[i]
+          max = temp[i]
+          t = i
+        end
+      end
+      temp2.push(kmeans[t])
+      logger.info temp2
+      logger.info t
+      temp.delete_at(t)
+      kmeans.delete_at(t)
+    end
+
+    kmeans = temp2
+    logger.info kmeans
+
+    count = 1
     kmeans.each do |kmean|
       if kmean != nil
         kmean.each do |k|
