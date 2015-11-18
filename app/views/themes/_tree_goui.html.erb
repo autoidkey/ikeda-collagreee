@@ -123,17 +123,14 @@
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
         $( "#dialog" ).append('<br>');
-        $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default">スレッド一覧</button></div>');
+        $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧</button></div>');
 
-        $('#parent-thread').on(
-          'click',   // イベント名
-          '.btn-thread',    // 子要素セレクター
-          function() {
+
+        $("#dialog #parent-thread").click(function(){
             var target = "#" + "entry-" + id;
             $( "#dialog" ).append($(target).html());
             $( "#parent-thread").empty();
-          }
-        );
+        } );
 
         $("#dialog").dialog("open");
 
