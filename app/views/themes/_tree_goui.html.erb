@@ -1,7 +1,7 @@
  
 
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-    <div id="dialog" title="Basic dialog">
+    <div id="dialog" title="Opinion dialog">
     </div>
 
     <style type="text/css">
@@ -115,13 +115,15 @@
         var target = "#" + "entry-" + id;
         var target2 = '#reply-modal-' + nid;
         $(target).find('#childID_'+nid).css('background-color','orange');
+
+        $(target2).find("#slider-"+nid).children().remove();
         // console.log(target)
         // console.log($(target).html());
         // console.log(nid)
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
         $( "#dialog" ).append('<br>');
-        $( "#dialog" ).append('<div id="parent-thread"><button class="btn-thread">スレッド一覧</button></div>');
+        $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default">スレッド一覧</button></div>');
 
         $('#parent-thread').on(
           'click',   // イベント名
@@ -134,6 +136,13 @@
         );
 
         $("#dialog").dialog("open");
+
+        //これでスライダーの調節のイベントを設定する
+        slider.set();
+
+        $(".btn btn-default").click(function(){
+          console.log("gogogogoogog!!!")
+        } );
 
       }
 

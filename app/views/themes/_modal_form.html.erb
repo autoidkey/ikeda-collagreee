@@ -18,6 +18,7 @@
       <%= render 'themes/information', entry: child %>
     </div>
 
+<!--     イメージがあったら表示 -->
     <% if child.image? %>
       <%= image_tag child.image.entry_thumb.url %>
     <% end %>
@@ -25,7 +26,7 @@
   </div>
   <hr />
 
-
+<!-- ファシリテータか一般ユーザーの投稿かを選択 -->
   <% if current_user.admin? || current_user.facilitator? %>
     <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
       <li class="active"><a href="#post<%= child.id %>" role="tab" data-toggle="tab">投稿</a></li>
@@ -38,6 +39,7 @@
     <div class="tab-pane active reply-tab" id="post<%= child.id %>">
       <%= render 'themes/reply_entry_form', { entry: child} %>
     </div>
+    
     <% if current_user.admin? || current_user.facilitator? %>
       <div class="tab-pane facilitation-tab" id="facilitation<%= child.id %>">
         <%= render 'themes/reply_facilitation_form', { entry: child, k: child.id } %>

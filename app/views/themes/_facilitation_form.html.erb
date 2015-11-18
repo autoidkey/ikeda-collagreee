@@ -5,8 +5,8 @@
   <div class="form-group">
     <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
   </div>
-  <div class="form-button">
-  合意案: <%= radio_button 'page', 'category', 'rails_base', {} %><br /><br />
+  <div class="form-check_box">
+    この意見を合意案とする<%= f.check_box :agreement, {:value => false}, true, false %>
   </div>
 
   <%= f.hidden_field :user_id, { :value => current_user.id } %>

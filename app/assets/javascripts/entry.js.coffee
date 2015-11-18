@@ -49,6 +49,24 @@ class @Slider
       create: (e, ui) ->
         $("#num").val $(this).slider("option", "value")
 
+  set2: ->
+    $(".slider").empty
+    $(".slider").slider
+      orientation: "horizontal",
+      animate: "fast"
+      range: "min",
+      max: 100,
+      value: 50,
+
+      change: (e, ui) ->
+        $(".np-input").val ui.value
+
+      # 4スライダーの初期化時に、その値をテキストボックスにも反映
+      create: (e, ui) ->
+        $("#num").val $(this).slider("option", "value")
+
+
+
 class @AutoPager
   set: ->
     $.autopager
@@ -81,4 +99,5 @@ class @Modal
 
 $(document).on 'ready page:load', ->
   slider.set()
+  slider.set2()
   modal.set()

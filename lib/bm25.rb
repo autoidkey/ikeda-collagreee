@@ -381,7 +381,11 @@ module Bm25
             num = num + 1
           end
         end
-        v[count] = (num.quo(thread_f_array[i]).to_f) * value[:score] * 3
+        if thread_f_array[i] == 0 
+          v[count] = num
+        else
+          v[count] = (num.quo(thread_f_array[i]).to_f) * value[:score] * 3
+        end
         count = count + 1
       }
       v_array[i] = v
