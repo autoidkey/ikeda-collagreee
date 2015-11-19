@@ -17,5 +17,17 @@ class KeywordJob
         Keyword.new(params).save
       end
     end
+
+    #スレッドのクラスタリングも実行
+    idAll = Theme.all
+    idAll.each do |id|
+      themes_claster = test_func(id)
+      themes_claster.each do |clas|
+        entry = Entry.find(clas[:id])
+        entry["claster"] = clas[:cla]
+        entry.save
+      end
+    end
+
   end
 end

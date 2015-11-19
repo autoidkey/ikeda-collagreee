@@ -523,7 +523,7 @@ function treeJSON(error, treeData ){
             // iは0から始まるので、+1しておく
             .text(function(d) {
                 //ここで表示するテキストを返している
-                if(d.id == 3 || d.id == 6|| d.id == 13 || d.id == 15 || d.id == 23 || d.id == 33){
+                if(d.agreement == true){
                     return "合意"
                  }
             });

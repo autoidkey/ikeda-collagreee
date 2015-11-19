@@ -68,7 +68,7 @@ module Bm25
 
     all_words.uniq.each do |node|
       bm25[node] = {
-        score: (idf(df[node], n)+1) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count))),
+        score: (idf(df[node], n)+1) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count))) * 10,
         agree: agree[node],
         disagree: disagree[node]
       }
@@ -317,8 +317,8 @@ module Bm25
   #ここまで影響の普及モデルで使用する
 
 
-  def test_func()
-    entry_all = Entry.all.where(:theme_id => params[:id])
+  def test_func(id)
+    entry_all = Entry.all.where(:theme_id => id)
 
     #スレッドのタイトルのノードidを取得する
     parent_id = []
@@ -326,6 +326,9 @@ module Bm25
       if entry["parent_id"].nil?
         parent_id.push(entry["id"])
       end
+    end
+    if parent_id.length == 0
+      return []
     end
 
     thread_array = serch_thread(entry_all , parent_id)
@@ -349,7 +352,6 @@ module Bm25
         if !entry.title.nil? 
           thread_text.push(entry.title)
           n = norm_connection2(entry.title)
-          logger.info n
           n_array.concat(n)
           count = count + n.length
           n_array.concat(n)
@@ -396,44 +398,26 @@ module Bm25
       # logger.info v_array[i]
     end
 
-    logger.info parent_id.length/5
-    logger.info parent_id.length
-    kmeans = KMeans.new(v_array, :centroids => 6)
-    kmeans.inspect
-    logger.info kmeans
+    #下の関数で作成
+    kmeans = kmeans_func(v_array)
 
-    #jsで使うように加工
-    cla_array = []
-    kmeans = kmeans.view
-
-    #クラスタがないのは消して、降順に並び替える
-    temp = []
-    for i in 0..kmeans.length-1 do
-      temp.push(kmeans[i].length)
+    #長さの合計値を計算
+    ln = 0
+    kmeans.each do |kmean|
+      ln = ln + kmean.length
     end
+    count = 0 
 
-    logger.info temp
-
-    temp2 = []
-    while temp2.length!=kmeans.length
-      max = 0
-      t = 0
-      for i in 0..temp.length-1 do
-        if max < temp[i]
-          max = temp[i]
-          t = i
-        end
+    while (ln/3) < kmeans[0].length do
+      kmeans = kmeans_func(v_array)
+      count = count + 1
+      if count == 10
+        break
       end
-      temp2.push(kmeans[t])
-      logger.info temp2
-      logger.info t
-      temp.delete_at(t)
-      kmeans.delete_at(t)
     end
 
-    kmeans = temp2
-    logger.info kmeans
-
+    #jsに変換
+    cla_array = []
     count = 1
     kmeans.each do |kmean|
       if kmean != nil
@@ -443,13 +427,51 @@ module Bm25
       end
       count = count + 1
     end
-    logger.info cla_array
 
     return cla_array
 
   end
 
-    def test_func2()
+  def  kmeans_func(v_array)
+    #k-meansのクラス多数の設定！！
+    if v_array.length / 3 == 0
+      kmeans = KMeans.new(v_array, :centroids => 1)
+    else
+      kmeans = KMeans.new(v_array, :centroids => v_array.length / 3)
+    end
+
+    kmeans.inspect
+    # logger.warn kmeans
+
+    #jsで使うように加工
+    kmeans = kmeans.view
+
+    #クラスタがないのは消して、降順に並び替える
+    temp = []
+    for i in 0..kmeans.length-1 do
+      temp.push(kmeans[i].length)
+    end
+    #それぞれの数
+    # logger.warn "それぞれの数"
+    # logger.warn temp
+
+    #ここで並び替え実装!!
+    for i in 0..kmeans.length-1 do
+      for t in i+1..kmeans.length-1 do
+        if kmeans[i].length < kmeans[t].length
+          temp = kmeans
+          temp[i],temp[t] = temp[t],temp[i]
+          kmeans = temp
+        end
+      end
+    end
+
+    return kmeans;
+
+  end
+
+
+    def test_func2(id)
     entry_all = Entry.all.where(:theme_id => params[:id])
 
     #スレッドのタイトルのノードidを取得する
@@ -508,11 +530,9 @@ module Bm25
     #   # logger.info v_array[i]
     # end
 
-    logger.info v_array
 
     kmeans = KMeans.new(v_array, :centroids => 5)
     kmeans.inspect
-    logger.info kmeans
 
     #jsで使うように加工
     cla_array = []
@@ -526,7 +546,7 @@ module Bm25
       end
       count = count + 1
     end
-    logger.info cla_array
+
 
     return cla_array
 

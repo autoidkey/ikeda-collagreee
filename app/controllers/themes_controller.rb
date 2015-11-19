@@ -86,9 +86,13 @@ class ThemesController < ApplicationController
        count = count + 1
     end
 
-    @themes_claster = test_func()
-    logger.info @themes_claster
-    
+    #クラスタリングのjsonを作成
+    @themes_claster = []
+    @entry_tree.each do |entry|
+      if entry["claster"] != nil
+        @themes_claster.push({ :cla => entry["claster"], :id => entry["id"]})
+      end
+    end
 
   end
 
