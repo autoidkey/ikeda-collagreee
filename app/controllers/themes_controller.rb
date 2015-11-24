@@ -65,26 +65,50 @@ class ThemesController < ApplicationController
     # logger.info @idm_K
 
     #要約で必要になるpythonの実行処理が下に記述
-    s = ""
-    youyakuId = []
-    for entry in @entry_tree
-      str = entry.body.gsub(/(\s)/,"")
-      str = str.gsub(/《[^》]+》/, "")
-      str = str.gsub(/　/, "  ")
-      str = str.gsub('(', '（') 
-      str = str.gsub(')', '）') 
-      str = str.gsub('!', '！') 
-      str = str.gsub('&', '＆') 
-      s = s+str+" "
-      youyakuId.push(entry.id)
-    end
+    # s = ""
+    # youyakuId = []
+    # for entry in @entry_tree
+    #   str = entry.body.gsub(/(\s)/,"")
+    #   str = str.gsub(/《[^》]+》/, "")
+    #   str = str.gsub(/　/, "  ")
+    #   str = str.gsub('(', '（') 
+    #   str = str.gsub(')', '）') 
+    #   str = str.gsub('!', '！') 
+    #   str = str.gsub('&', '＆') 
+    #   s = s+str+" "
+    #   youyakuId.push(entry.id)
+    # end
 
-    count = 0
+    # count = 0
+    # @youyaku = []
+    # IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
+    #    @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
+    #    count = count + 1
+    # end
+
+    # s= ""
+    # keywords = Keyword.all.where(:theme_id => params[:id])
+    # s = "今日はいい天気ですね?"+" "+"今日は気分が悪いので、天気はいいですがそう感じません" + " "
+    # keywords.each do |key|
+    #   str = key["word"].gsub(/(\s)/,"")
+    #   str = str.gsub(/《[^》]+》/, "")
+    #   str = str.gsub(/　/, "  ")
+    #   str = str.gsub('(', '（') 
+    #   str = str.gsub(')', '）') 
+    #   str = str.gsub('!', '！') 
+    #   str = str.gsub('&', '＆') 
+    #   s = s + str
+    #   s = s + " "
+    #   s = s + key["score"].to_s
+    #   s = s + " "
+    # end
+    # IO.popen("python ./python/midashi/comment_manager.py #{s}").each do |line|
+    #    logger.warn line
+    # end
+
+    #ようやくデータの生成
     @youyaku = []
-    IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
-       @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
-       count = count + 1
-    end
+    youyakuDatas = Youyaku.all.where(:theme_id => params[:id])
 
     #クラスタリングのjsonを作成
     @themes_claster = []
@@ -224,11 +248,47 @@ class ThemesController < ApplicationController
     BigDecimal((float).to_s).floor(1).to_f
   end
 
+  def change_text(tex)
+    str = tex.gsub(/(\s)/,"")
+    str = str.gsub(/《[^》]+》/, "")
+    str = str.gsub(/　/, "  ")
+    str = str.gsub('(', '（') 
+    str = str.gsub(')', '）') 
+    str = str.gsub('!', '！') 
+    str = str.gsub('&', '＆') 
+    str = str.gsub(/[\r\n]/,"")
+    return str
+  end
+
   # 投稿を反映する時の処理
   def create_entry
     @entry = Entry.new
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
+    entrys = Entry.all
+    #要約文の保存
+    if @new_entry["parent_id"] != nil
+      s= ""
+      keywords = Keyword.all.where(:theme_id => params[:id])
+      parent_tex = change_text(search_id(@new_entry["parent_id"],entrys)["body"])
+      midashi_tex = change_text(@new_entry["body"])
+      logger.warn parent_tex
+      logger.warn midashi_tex
+      s = parent_tex+" "+midashi_tex+" "
+
+      keywords.each do |key|
+        s = s + change_text(key["word"])+" "
+        s = s + key["score"].to_s + " "
+      end
+      IO.popen("python ./python/midashi/comment_manager.py #{s}").each do |line|
+        logger.warn line
+        youyaku = Youyaku.new(body: line, target_id: entrys.length+1 , theme_id: params[:id])
+        youyaku.save
+      end
+    else
+      youyaku = Youyaku.new(body: nil, target_id: entrys.length+1)
+      youyaku.save
+    end
 
     @dynamicpoint = 0
     matching_bonus = 0    # キーワードとの一致ボーナス用
@@ -458,7 +518,7 @@ class ThemesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation , :agreement)
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation , :agreement　, :claster)
   end
 
 end

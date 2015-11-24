@@ -163,11 +163,15 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
                 if(youyakuData[i]["text"].length<20){
                     return youyakuData[i]["text"];
                 }else{
-                    return serchDataArray(id)["body"].substr(0, 20);
+                    return youyakuData[i]["text"].substr(0, 20);
                 }
-                
             }
         }
+
+
+        console.log("ようやくなし")
+        return serchDataArray(id)["body"].substr(0, 20)
+
         // console.log("mis")
         // console.log(id)
     }
