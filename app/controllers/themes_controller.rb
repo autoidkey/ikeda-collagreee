@@ -519,8 +519,18 @@ class ThemesController < ApplicationController
           keyword_len = key[:word].length
           puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
+          # 一致度の計算
           matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * matching_coefficient * matching_rate
+
+          # キーワードのスコアが低すぎるときは底上げ
+          if key[:score] < 0.1
+            score = 0.1
+          else
+            score = key[:score]
+          end
+
+          # 投稿中の名詞に関するポイント
+          matching_point = score * matching_coefficient * matching_rate
           puts "#{matching_point}ポイント獲得!!"
 
           matching_bonus += matching_point
