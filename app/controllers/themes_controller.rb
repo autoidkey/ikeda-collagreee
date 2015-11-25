@@ -491,7 +491,7 @@ class ThemesController < ApplicationController
           puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
           matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * 20 * matching_rate
+          matching_point = key[:score] * matching_coefficient * matching_rate
           puts "#{matching_point}ポイント獲得!!"
 
           matching_bonus += matching_point
@@ -517,7 +517,7 @@ class ThemesController < ApplicationController
       #   end
       # end
 
-      # 新規単語投稿によるポイント付与(0.1pt)
+      # 新規単語投稿によるポイント付与
       if nword_flag == 1
         nword_bonus += nword_coefficient
         puts "「#{w}」は新規単語!! #{nword_coefficient}ポイント獲得!!"
