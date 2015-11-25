@@ -32,6 +32,7 @@
 4. 使い方
 コマンドライン第1引数に入力ファイル名，第2引数に要約率を指定してください．
 例）$ python main.py thread.csv 0.25
+    python main.py entries.csv 0.25
 
 5. 備考
 本プログラムは，指示詞補完と文短縮でKNPを使用します．

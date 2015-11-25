@@ -152,7 +152,7 @@ class ThemesController < ApplicationController
       end
     end
 
-    #csvの出力
+    #csvの出力　python/youyaku1に使用する
     # logger.warn "start"
     # File.open('./python/youyaku1/input_data/backup.csv', 'w') do |f|
     #   csv_string = CSV.generate do |csv|
@@ -328,9 +328,7 @@ class ThemesController < ApplicationController
       keywords = Keyword.all.where(:theme_id => params[:id])
       parent_tex = change_text(search_id(@new_entry["parent_id"],entrys)["body"])
       midashi_tex = change_text(@new_entry["body"])
-      logger.warn parent_tex
-      logger.warn midashi_tex
-      s = parent_tex+" "+midashi_tex+" "
+      s = midashi_tex+" "+parent_tex+" "
 
       keywords.each do |key|
         s = s + change_text(key["word"])+" "
