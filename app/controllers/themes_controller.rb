@@ -1,4 +1,5 @@
 require 'natto'
+require 'time'
 
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
@@ -86,8 +87,37 @@ class ThemesController < ApplicationController
     #    count = count + 1
     # end
 
+
     # s= ""
     # keywords = Keyword.all.where(:theme_id => params[:id])
+    # entries = Entry.all
+    # entries.each do |entry|
+    #   if entry["parent_id"] != nil
+    #     parent_tex = change_text(search_id(entry["parent_id"],entries)["body"])
+    #     midashi_tex = change_text(entry["body"])
+    #     keywords = Keyword.all.where(:theme_id => entry["theme_id"])
+
+    #     s = midashi_tex+" "+parent_tex+" "
+    #     # s = parent_tex + " " + "midashi_tex" + " "
+    #     keywords.each do |key|
+    #       s = s + change_text(key["word"])+" "
+    #       s = s + key["score"].to_s + " "
+    #     end
+    #     IO.popen("python ./python/midashi/comment_manager.py #{s}").each do |line|
+    #       logger.warn "henshin"
+    #       logger.warn parent_tex
+    #       logger.warn "midashi"
+    #       logger.warn midashi_tex
+    #       logger.warn line
+    #       youyaku = Youyaku.new(body: line, target_id: entry["id"] , theme_id: entry["theme_id"])
+    #       youyaku.save
+    #     end
+    #   else
+    #     youyaku = Youyaku.new(body: nil, target_id: entry["id"] , theme_id: entry["theme_id"])
+    #     youyaku.save
+    #   end
+    # end
+
     # s = "今日はいい天気ですね?"+" "+"今日は気分が悪いので、天気はいいですがそう感じません" + " "
     # keywords.each do |key|
     #   str = key["word"].gsub(/(\s)/,"")
@@ -109,6 +139,10 @@ class ThemesController < ApplicationController
     #ようやくデータの生成
     @youyaku = []
     youyakuDatas = Youyaku.all.where(:theme_id => params[:id])
+    youyakuDatas.each do |data|
+      @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
+    end
+
 
     #クラスタリングのjsonを作成
     @themes_claster = []
@@ -117,6 +151,28 @@ class ThemesController < ApplicationController
         @themes_claster.push({ :cla => entry["claster"], :id => entry["id"]})
       end
     end
+
+    #csvの出力
+    # logger.warn "start"
+    # File.open('./python/youyaku1/input_data/backup.csv', 'w') do |f|
+    #   csv_string = CSV.generate do |csv|
+    #     csv << Entry.column_names
+    #     users = Entry.where(:theme_id => params[:id])
+    #     users.each do |user|
+    #       array = user.attributes.values_at("id","title","body","parent_id","created_at","user_id")
+    #       time = array[4].strftime("%Y-%m-%d %H:%M:%S")
+    #       array[4] = time.to_s
+    #       csv << array
+    #       logger.warn user.attributes.values_at("id","title","body","parent_id","created_at","user_id")
+    #     end
+    #   end
+    #   f.puts csv_string
+    # end
+
+    # s = "backup.csv"
+    # IO.popen("python ./python/youyaku1/main.py #{s}").each do |line|
+    #    logger.warn line
+    # end
 
   end
 

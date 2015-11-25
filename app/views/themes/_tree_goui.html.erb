@@ -117,13 +117,17 @@
         $(target).find('#childID_'+nid).css('background-color','orange');
 
         $(target2).find("#slider-"+nid).children().remove();
+
+        $(target2).find("a[href *= ‘post’]").remove();
+        $(target2).find("a[href *= '#post']").remove();
+        $(target2).find("a[href *= '#facili']").remove();
         // console.log(target)
         // console.log($(target).html());
         // console.log(nid)
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
         $( "#dialog" ).append('<br>');
-        $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧</button></div>');
+        $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
 
 
         $("#dialog #parent-thread").click(function(){
