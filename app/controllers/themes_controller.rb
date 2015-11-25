@@ -379,13 +379,39 @@ class ThemesController < ApplicationController
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
+    reply_flag = 0
+    reply_bonus = 0       # 返信時間ボーナス用
+
     time_flag = 0
     time_bonus = 0        # 投稿時間ボーナス用
 
     # 新規投稿についてスレッドか返信かを判定
     if entry_params["parent_id"].to_i > 0
-      # 返信なら親スレの投稿時刻を見てなんやかんやする
+      # 返信なら、素早い返信ならボーナスを与える
       puts "新規投稿の親スレは#{entry_params[:parent_id]}！！！"
+
+      # 親投稿の投稿時間
+      parentpost = Entry.where(id: entry_params[:parent_id]).last
+      if parentpost != nil
+        @parentpost_time = parentpost[:created_at]
+      else
+        @parentpost_time = -1
+      end
+      puts "親投稿の書き込み時間は#{@parentpost_time}です！！"
+
+      if @parentpost_time != -1
+        # 現在時刻
+        @newpost_time = Time.now
+
+        # 親投稿の投稿時間からの時間
+        @sub_time = (@newpost_time - @parentpost_time).floor / 60
+        puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
+
+        # 親投稿の投稿からxx分以内の返信ならボーナスフラグを立てる
+        if @sub_time <= 30   # ここを変える
+          reply_flag = 1
+        end
+      end
     else
       # スレッドなら，最後のスレ立てから時間が経っていればボーナスを与える
       puts "新規投稿はスレッド！！"
@@ -408,18 +434,21 @@ class ThemesController < ApplicationController
         puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
 
         # 最後のスレ立てからxx分経っていればボーナスフラグを立てる
-        if @sub_time >= 30   # ここを変える
+        if @sub_time >= 180   # ここを変える
           time_flag = 1
         end
       end
-
     end
 
-    puts "ボーナス点はありますか？#{time_flag}"
+    puts "返信ボーナス点はありますか？#{reply_flag}"
+    if reply_flag == 1
+      reply_bonus = 5
+    end
+
+    puts "投稿ボーナス点はありますか？#{time_flag}"
     if time_flag == 1
       time_bonus = 10
     end
-    
 
     # フェイズidの判別
     phase = Phase.where(theme_id: params[:id]).last
@@ -526,7 +555,7 @@ class ThemesController < ApplicationController
     end
 
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus + time_bonus)
+    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus + reply_bonus + time_bonus)
 
     # 投稿内容に応じたポイント付与をやめる場合の処理
     puts "テーマ番号は#{params[:id]}"
