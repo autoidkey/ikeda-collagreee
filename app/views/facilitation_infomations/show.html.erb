@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @facilitation_infomation.body %>
+</p>
+
+<p>
+  <strong>Theme:</strong>
+  <%= @facilitation_infomation.theme_id %>
+</p>
+
+<%= link_to 'Edit', edit_facilitation_infomation_path(@facilitation_infomation) %> |
+<%= link_to 'Back', facilitation_infomations_path %>

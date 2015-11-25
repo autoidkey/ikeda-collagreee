@@ -71,6 +71,7 @@ Rails.application.configure do
 
   # config.log_level = :warn
   # config.logger = Logger.new("log/development.log", 5, 1*1024*1024*1024 )
+  
   # config.logger = Logger.new("log/development.log", 5, 10 * 1024 * 1024)
   # config.logger = Logger.new("log/development.log", 'daily')
 

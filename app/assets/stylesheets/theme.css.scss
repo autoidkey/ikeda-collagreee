@@ -258,3 +258,45 @@ nav.pagination {
 .cation-slider {
   float: right;
 }
+
+#stamp input[name="entry[stamp]"]{
+  display: none;
+}
+
+.img-stamp {
+  border-radius: 4px;
+  width: 75px;
+  border: 1px solid rgba( 0,0,0 , 0.1 );
+}
+
+.img-stamp-selected {
+  border-radius: 4px;
+  width: 75px;
+  border: 1px solid rgba( 0,0,0 , 0.5 );
+}
+
+.phase img {
+  width: 60%;
+}
+
+.f_image {
+  float: left;
+  /*border: 1px solid black;*/
+  width: 7%;
+  margin-right: 3%;
+}
+
+.f_image img {
+  width: 100%;
+}
+
+.f_comment {
+  float: left;
+  /*border: 1px solid #000000;*/
+  width: 88%;
+}
+
+.f_comment_btn {
+  clear: both;
+}
+

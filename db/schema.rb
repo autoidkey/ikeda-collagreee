@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20151124040651) do
     t.integer  "has_reply"
     t.boolean  "agreement"
     t.integer  "claster"
+    t.string   "stamp"
   end
 
   add_index "entries", ["parent_id"], name: "index_entries_on_parent_id", using: :btree
@@ -78,6 +79,13 @@ ActiveRecord::Schema.define(version: 20151124040651) do
 
   create_table "exclusions", force: true do |t|
     t.string   "word"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "facilitation_infomations", force: true do |t|
+    t.text     "body"
+    t.integer  "theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -13,5 +13,6 @@
 /app/assets/json/*.txt
 /python/youyakutest/tools/*.pyc
 /python/*.json
+/python/youyakutest/tools/*.pyc
 /*.pyc
 ,/
