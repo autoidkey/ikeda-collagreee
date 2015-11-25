@@ -1,0 +1,27 @@
+<h1>Listing facilitation_infomations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Body</th>
+      <th>Theme</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @facilitation_infomations.each do |facilitation_infomation| %>
+      <tr>
+        <td><%= facilitation_infomation.body %></td>
+        <td><%= facilitation_infomation.theme_id %></td>
+        <td><%= link_to 'Show', facilitation_infomation %></td>
+        <td><%= link_to 'Edit', edit_facilitation_infomation_path(facilitation_infomation) %></td>
+        <td><%= link_to 'Destroy', facilitation_infomation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Facilitation infomation', new_facilitation_infomation_path %>

@@ -22,6 +22,9 @@
       <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
     <% end %>
 
+    <% if entry.stamp? %>
+        <%= image_tag(entry.stamp, class: 'img-radius')%>
+    <% end %>
 
     <!-- 下の詳細を表示する -->
     <div class="info-list">

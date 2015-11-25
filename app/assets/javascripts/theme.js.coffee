@@ -227,3 +227,32 @@ $(document).on
 
 $(document).on 'ready page:load', ->
   check_new()
+
+$(document).ready ->
+  selected = null
+  $('input[name="entry[stamp]"]:radio').change ->
+    selectStamp = (in_radio) ->
+      $(in_radio).parent().children('img').attr 'class', 'img-stamp-selected'
+      $(in_radio).parent().children('img').click ->
+        $('input[name="entry[stamp]"]').attr 'checked', false
+        return
+      $(in_radio).parent().children 'img'
+
+    cancelStamp = (stamp_img) ->
+      stamp_img.attr 'class', 'img-stamp'
+      stamp_img.removeAttr 'onclick'
+      return
+
+    # selectedが無い初期状態
+    if selected == null
+      selected = selectStamp(this)
+    else
+      # 新たにチェックされたものと以前に選択されたものが異なる
+      if $('[name="entry[stamp]"]:checked').val() != selected.attr('src')
+        cancelStamp selected
+        selected = selectStamp(this)
+      else
+        $('input[name="entry[stamp]"]').attr 'checked', false
+        cancelStamp selected
+        selected = null
+    return

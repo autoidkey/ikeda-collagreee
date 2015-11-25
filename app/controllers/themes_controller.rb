@@ -12,6 +12,7 @@ class ThemesController < ApplicationController
   load_and_authorize_resource
 
   include Bm25
+  include Stamp
   require 'time'
 
   def index
@@ -36,6 +37,17 @@ class ThemesController < ApplicationController
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
+
+    @stamps = stamp_list
+
+    # ファシリテータからのお知らせコーナー
+    comment = FacilitationInfomation.where(:theme_id => params[:id]).last
+    if comment != nil
+      @f_comment = comment[:body]
+    else
+      @f_comment = "こんにちは。今回、議論のファシリテータを務めさせていただきます。よろしくお願いします！"
+    end
+    puts "ファシリテータからのコメントは = #{@f_comment}です！！"
 
     # ウェブアクセスをカウントアップ
     # TODO:該当グループ以外のテーマを閲覧した時は除外する
@@ -175,6 +187,7 @@ class ThemesController < ApplicationController
     # end
 
   end
+
 
 
 
@@ -350,11 +363,108 @@ class ThemesController < ApplicationController
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
+    reply_flag = 0
+    reply_bonus = 0       # 返信時間ボーナス用
+
+    time_flag = 0
+    time_bonus = 0        # 投稿時間ボーナス用
+
+    # 新規投稿についてスレッドか返信かを判定
+    if entry_params["parent_id"].to_i > 0
+      # 返信なら、素早い返信ならボーナスを与える
+      puts "新規投稿の親スレは#{entry_params[:parent_id]}！！！"
+
+      # 親投稿の投稿時間
+      parentpost = Entry.where(id: entry_params[:parent_id]).last
+      if parentpost != nil
+        @parentpost_time = parentpost[:created_at]
+      else
+        @parentpost_time = -1
+      end
+      puts "親投稿の書き込み時間は#{@parentpost_time}です！！"
+
+      if @parentpost_time != -1
+        # 現在時刻
+        @newpost_time = Time.now
+
+        # 親投稿の投稿時間からの時間
+        @sub_time = (@newpost_time - @parentpost_time).floor / 60
+        puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
+
+        # 親投稿の投稿からxx分以内の返信ならボーナスフラグを立てる
+        if @sub_time <= 30   # ここを変える
+          reply_flag = 1
+        end
+      end
+    else
+      # スレッドなら，最後のスレ立てから時間が経っていればボーナスを与える
+      puts "新規投稿はスレッド！！"
+
+      # 最後に投稿されたスレッドの時間
+      lastpost = Entry.where(theme_id: params[:id]).where.not(title: nil).reverse_order.last  #なぜか逆順になるので・・・要検証
+      if lastpost != nil
+        @lastpost_time = lastpost[:created_at]
+      else
+        @lastpost_time = -1
+      end
+      puts "最後の書き込みは#{@lastpost_time}です！！"
+
+      if @lastpost_time != -1
+        # 現在時刻
+        @newpost_time = Time.now
+
+        # 最後に投稿されたスレッドからの時間
+        @sub_time = (@newpost_time - @lastpost_time).floor / 60
+        puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
+
+        # 最後のスレ立てからxx分経っていればボーナスフラグを立てる
+        if @sub_time >= 180   # ここを変える
+          time_flag = 1
+        end
+      end
+    end
+
+    puts "返信ボーナス点はありますか？#{reply_flag}"
+    if reply_flag == 1
+      reply_bonus = 5
+    end
+
+    puts "投稿ボーナス点はありますか？#{time_flag}"
+    if time_flag == 1
+      time_bonus = 10
+    end
+
+    # フェイズidの判別
+    phase = Phase.where(theme_id: params[:id]).last
+    if phase != nil
+      @phase_now = phase[:phase_id]
+    else
+      @phase_now = 1
+    end
+    puts "現在のフェイズは#{@phase_now}です！！"
+
     # 追加ポイント用の係数
     # 3〜4行程度の書き込みで30pt前後になるように調整すること
-    matching_coefficient = 25
-    nword_coefficient = 0.3
+    nword_coefficient = 0       # M1 キーワードに不一致（発散）のワードに対しての係数
+    matching_coefficient = 0    # M2 キーワードに一致（収束）のワードに対しての係数
 
+    # フェイズによるインセンティブパラメータの変化
+    # M1,M2の値は要調整
+    if @phase_now == 1
+      puts "発散フェイズだよ"
+      nword_coefficient = 0.7
+      matching_coefficient = 20
+
+    elsif @phase_now == 2
+      puts "収束フェイズだよ"
+      nword_coefficient = 0.5
+      matching_coefficient = 25
+
+    elsif @phase_now == 3
+      puts "合意フェイズだよ"
+      nword_coefficient = 0.3
+      matching_coefficient = 30
+    end
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
     keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
@@ -362,9 +472,9 @@ class ThemesController < ApplicationController
     end
 
     # こっちはファシリテーターが手動で設定したキーワード用
-    facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
-      {id: key.id, word: key.word, score: key.score}
-    end
+    # facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+    #   {id: key.id, word: key.word, score: key.score}
+    # end
 
     # 書き込みの内容を取得
     text = entry_params["body"]
@@ -393,8 +503,18 @@ class ThemesController < ApplicationController
           keyword_len = key[:word].length
           puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
+          # 一致度の計算
           matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * 20 * matching_rate
+
+          # キーワードのスコアが低すぎるときは底上げ
+          if key[:score] < 0.1
+            score = 0.1
+          else
+            score = key[:score]
+          end
+
+          # 投稿中の名詞に関するポイント
+          matching_point = score * matching_coefficient * matching_rate
           puts "#{matching_point}ポイント獲得!!"
 
           matching_bonus += matching_point
@@ -402,25 +522,25 @@ class ThemesController < ApplicationController
         end
       end
 
-      puts "ファシリテーターによる手動キーワードとの一致判定"
-      facilitation_keywords_scores.each do |key|
+      # puts "ファシリテーターによる手動キーワードとの一致判定"
+      # facilitation_keywords_scores.each do |key|
 
-        if key[:word].include?(w)
+      #   if key[:word].include?(w)
 
-          word_len = w.length
-          keyword_len = key[:word].length
-          puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
+      #     word_len = w.length
+      #     keyword_len = key[:word].length
+      #     puts "「#{w}」が「#{key[:word]}」と、#{w.length} / #{key[:word].length} 一致!!"
 
-          matching_rate = word_len.to_f / keyword_len.to_f
-          matching_point = key[:score] * matching_coefficient * matching_rate
-          puts "#{matching_point}ポイント獲得!!"
+      #     matching_rate = word_len.to_f / keyword_len.to_f
+      #     matching_point = key[:score] * matching_coefficient * matching_rate
+      #     puts "#{matching_point}ポイント獲得!!"
 
-          matching_bonus += matching_point
-          nword_flag = 0
-        end
-      end
+      #     matching_bonus += matching_point
+      #     nword_flag = 0
+      #   end
+      # end
 
-      # 新規単語投稿によるポイント付与(0.1pt)
+      # 新規単語投稿によるポイント付与
       if nword_flag == 1
         nword_bonus += nword_coefficient
         puts "「#{w}」は新規単語!! #{nword_coefficient}ポイント獲得!!"
@@ -428,9 +548,8 @@ class ThemesController < ApplicationController
 
     end
 
-
     # 完全一致と部分一致を足した値を追加ポイントとする(小数点第2位以下は切り捨て)
-    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus)
+    @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus + reply_bonus + time_bonus)
 
     # 投稿内容に応じたポイント付与をやめる場合の処理
     puts "テーマ番号は#{params[:id]}"
@@ -458,6 +577,8 @@ class ThemesController < ApplicationController
         format.json { render json: 'json error' }
       end
     end
+
+
   end
 
   def render_new
@@ -572,7 +693,7 @@ class ThemesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation , :agreement　, :claster)
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation　, :agreement　, :claster, :stamp)
   end
 
 end
