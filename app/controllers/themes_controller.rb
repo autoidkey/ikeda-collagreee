@@ -399,16 +399,18 @@ class ThemesController < ApplicationController
       end
       puts "最後の書き込みは#{@lastpost_time}です！！"
 
-      # 現在時刻
-      @newpost_time = Time.now
+      if @lastpost_time != -1
+        # 現在時刻
+        @newpost_time = Time.now
 
-      # 最後に投稿されたスレッドからの時間
-      @sub_time = (@newpost_time - @lastpost_time).floor / 60
-      puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
+        # 最後に投稿されたスレッドからの時間
+        @sub_time = (@newpost_time - @lastpost_time).floor / 60
+        puts "現在の時刻は#{@newpost_time}です！！最後の書き込みから#{@sub_time}分です！！"
 
-      # 最後のスレ立てからxx分経っていればボーナスフラグを立てる
-      if @sub_time >= 1   # ここを変える
-        time_flag = 1
+        # 最後のスレ立てからxx分経っていればボーナスフラグを立てる
+        if @sub_time >= 30   # ここを変える
+          time_flag = 1
+        end
       end
 
     end
