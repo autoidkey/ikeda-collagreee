@@ -305,6 +305,15 @@ module Bm25
     return child_id
   end
 
+  def search_parent(id, entry_all)
+    entry_all.each do |entry|
+      if entry["parent_id"] == id
+        child_id.push(entry["id"])
+      end
+    end
+    return child_id
+  end
+
   def search_id(id , entry_all)
     entry_all.each do |entry|
       if entry["id"] == id
