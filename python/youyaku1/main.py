@@ -41,14 +41,11 @@ if __name__ == "__main__":
     # COLLAGREE過去データをスレッドごとに集計（threads: 辞書）
     # threads = preprocess.remake_file(input_path, output_path)
 
-    # COLLAGREE過去データを読み込む（thread: リスト 連想配列の配列）
-    # print thread[0]["body"]これでbody取得可能
+    # COLLAGREE過去データを読み込む（thread: リスト）
     thread = preprocess.read_thread(input_path)
 
     # SVM正解データを読み込む（svmdata: 辞書）
     svmdata = preprocess.read_svmfile(svm_path)
-
-    print "start2"
 
     # SVM正解データに含まれる文の単語（名詞，動詞）リストなどを作成
     words_svmdata = []
@@ -86,7 +83,6 @@ if __name__ == "__main__":
     # 1つのスレッドに含まれる意見および文の単語リストを作成
     for post in thread:
         # 投稿時刻を扱いやすい形式に変換
-        print post['created_at']
         post['created_at'] = preprocess.fit_time(post['created_at'])
         words_opinion.append(mecab.extract_word(post['body']))
         sents = mecab.separate_text(post['body'])
@@ -121,13 +117,16 @@ if __name__ == "__main__":
     # print "size: vecs concat = %d" % vecs_concat.shape[0]
 
     """3. クラスタリング"""
-    p = clusters.Distance(method='urt').calculate_distance(vecs_opinion, infos=thread)
-    Z = linkage(p, method="average")
-    # print "selecting label"
-    clust_labels = clusters.Label(Z).get_labels(vecs_opinion.shape[0])
-    # print "clusters label:", clust_labels
-    dendrogram(Z)
-    # plt.show()
+    if len(thread) > 2:
+        p = clusters.Distance(method='urt').calculate_distance(vecs_opinion, infos=thread)
+        Z = linkage(p, method="average")
+        # print "selecting label"
+        clust_labels = clusters.Label(Z).get_labels(vecs_opinion.shape[0])
+        # print "clusters label:", clust_labels
+        # dendrogram(Z)
+        # plt.show()
+    else:
+        clust_labels = [1] * len(thread)
 
     # 重要文抽出で必要になる各クラスタの総文字数
     sub_lengths = {0: len(parent['body'].decode('utf-8'))}
@@ -217,13 +216,8 @@ if __name__ == "__main__":
         youyakus.extend(youyaku)
 
     # 時系列が若い順に要約文を出力
-    # preprocess.write_thread(output_path, sorted(youyakus, key=lambda x: x['created_at']))
-    # for youyaku in sorted(youyakus, key=lambda x: x['created_at']):
-    #     print youyaku['sent']
-    # print "string length: (before, after) = (%d, %d)" % (all_length, youyaku_length)
-    # print "compress rate:", float(youyaku_length) / float(all_length)
-
-    for youyaku in youyakus:
-        print youyaku['sent']
-        print youyaku['id']
-
+    preprocess.write_thread(output_path, sorted(youyakus, key=lambda x: x['created_at']))
+    for youyaku in sorted(youyakus, key=lambda x: x['created_at']):
+        print "%s,%s,%s" % (youyaku['id'], parent['id'], youyaku['sent'])
+    print "string length: (before, after) = (%d, %d)" % (all_length, youyaku_length)
+    print "compress rate:", float(youyaku_length) / float(all_length)
