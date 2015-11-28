@@ -31,7 +31,7 @@
 <ul class="nav nav-pills nav-collagree" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
-  <li><a href="#tree" role="tab" data-toggle="tab">議論ツリー</a></li>
+  <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in">議論ツリー</a></li>
   <% if user_signed_in? %>
     <% if smartphone? %>
       <li><a href="#get-point" role="tab" data-toggle="tab">獲得ポイント</a></li>
@@ -129,10 +129,11 @@
   <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-12">
-        <%= render 'user_tree', theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster %>
+        <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id %>
       </div>
     </div>
   </div>
+
 
   <% if user_signed_in? %>
     <% unless smartphone? %>

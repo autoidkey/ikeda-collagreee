@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124040651) do
+ActiveRecord::Schema.define(version: 20151128110846) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -201,6 +201,20 @@ ActiveRecord::Schema.define(version: 20151124040651) do
     t.integer  "admin_id"
     t.string   "image"
     t.boolean  "point_function", default: true
+  end
+
+  create_table "tree_logs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "treedata", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

@@ -90,13 +90,13 @@ class CommentManager(object):
                 #返信先に賛成・反対の要素が最も大きい文を取り出す　賛成・反対は問わない
                 #返信先に賛成で賛成要素の大きい文
                 j = k.get_judgment()
-                if j >= 0.0 and math.fabs(judge_value) < j and need_flag < 1 and think_flag < 1:
+                if j > 1.0 and math.fabs(judge_value) < j and need_flag < 1 and think_flag < 1:
                 #if comment_agree_oppose == 1 and math.fabs(judge_value) < math.fabs(k.get_judgment()) and need_flag < 1 and think_flag < 1:
                     template = "agree"
                     selected_sentence = k
                     judge_value = j
                 #返信先に反対で反対要素の大きい文
-                elif j < 0.0 and math.fabs(judge_value) < math.fabs(j) and need_flag < 1 and think_flag < 1:
+                elif j < -1.0 and math.fabs(judge_value) < math.fabs(j) and need_flag < 1 and think_flag < 1:
                     template = "disagree"
                     selected_sentence = k
                     judge_value = j
@@ -105,12 +105,16 @@ class CommentManager(object):
                     template = "None"
         # 「と思います」「という〜」「のような〜」のような表現で改行されている場合に対応　一つ前の文を取る
         if selected_sentence.get_original_sentence().startswith("と") or selected_sentence.get_original_sentence().startswith("の"):
-            selected_sentence = comment[comment.index(selected_sentence)-1]
+            selected_sentence = self.comment_sentences[self.comment_sentences.index(selected_sentence)-1]
         # 重み付けして見出しを生成
         weight_result = selected_sentence.get_weighting(bm25, template)
         # モデルマッチングができなかったものを処理（先頭１５文字を取得）
-        if weight_result == "kouho error":
-                weight_result = selected_sentence.get_original_sentence()[0:45]
+        if weight_result in ("kouho error", ""):
+            weight_result = ""
+            for chunk in selected_sentence.chunks:
+                if len(weight_result) / 3 > 15:
+                    break
+                weight_result += chunk.chunk
         # 生成した見出しを整形
         judge_sentence = self.format_sentence(weight_result)
         return judge_sentence

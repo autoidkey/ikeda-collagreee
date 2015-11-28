@@ -54,6 +54,8 @@ class ThemesController < ApplicationController
     user_id = user_signed_in? ? current_user.id : nil
     Webview.count_up(user_id,@theme.id)
 
+    @user_id = user_id
+
     render 'show_no_point' unless @theme.point_function
 
     #以下議論ツリーで使用する投稿一覧
@@ -164,18 +166,19 @@ class ThemesController < ApplicationController
       end
     end
 
-    #csvの出力　python/youyaku1に使用する
+    # csvの出力　python/youyaku1に使用する
+
     # logger.warn "start"
     # File.open('./python/youyaku1/input_data/backup.csv', 'w') do |f|
     #   csv_string = CSV.generate do |csv|
     #     csv << Entry.column_names
     #     users = Entry.where(:theme_id => params[:id])
     #     users.each do |user|
-    #       array = user.attributes.values_at("id","title","body","parent_id","created_at","user_id")
-    #       time = array[4].strftime("%Y-%m-%d %H:%M:%S")
-    #       array[4] = time.to_s
+    #       array = user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
+    #       time = array[9].strftime("%Y-%m-%d %H:%M:%S")
+    #       array[9] = time.to_s
     #       csv << array
-    #       logger.warn user.attributes.values_at("id","title","body","parent_id","created_at","user_id")
+    #       logger.warn user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
     #     end
     #   end
     #   f.puts csv_string
@@ -188,9 +191,10 @@ class ThemesController < ApplicationController
 
   end
 
-
-
-
+  def change_session_year
+    test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme]})
+    test.save
+  end
 
 
   def discussion_data
