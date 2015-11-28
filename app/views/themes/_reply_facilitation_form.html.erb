@@ -3,7 +3,7 @@
     <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
   </div>
   <div class="form-check_box">
-    この意見を合意案とする<%= f.check_box :agreement, {:value => false}, true, false %>
+    この意見を合意案とする<%= f.check_box :agreement, {:value => false} %>
   </div>
 
   <%= f.hidden_field :user_id, { :value => current_user.id } %>

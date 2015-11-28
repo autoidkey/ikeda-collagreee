@@ -337,6 +337,7 @@ class ThemesController < ApplicationController
   def create_entry
     @entry = Entry.new
     @new_entry = Entry.new(entry_params)
+    logger.warn @new_entry
     @theme = Theme.find(params[:id])
     entrys = Entry.all
     #要約文の保存
@@ -697,7 +698,7 @@ class ThemesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation　, :agreement　, :claster, :stamp)
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation , :agreement, :claster, :stamp)
   end
 
 end
