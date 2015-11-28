@@ -6,7 +6,7 @@
     <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
   </div>
   <div class="form-check_box">
-    この意見を合意案とする<%= f.check_box :agreement, {:value => false}, true, false %>
+    この意見を合意案とする<%= f.check_box :agreement, {:value => false} %>
   </div>
 
 
@@ -47,6 +47,7 @@
   <%= f.hidden_field :parent_id, { :value => @entry.parent_id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
   <%= f.hidden_field :facilitation, { :value => true } %>
+
   <%= f.submit 'ファシリテーターとして投稿', class: 'btn btn-default' %>
 <% end %>
 
