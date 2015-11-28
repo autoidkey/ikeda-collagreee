@@ -1,10 +1,11 @@
- 
 
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-    <div id="dialog" title="Opinion dialog">
-    </div>
 
-    <style type="text/css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <div id="dialog" title="Opinion dialog">
+  </div>
+
+
+  <style type="text/css">
 
 
 .modal_close {
@@ -71,17 +72,31 @@
       $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
         if (isInView) {  
           if ($(".node").size()==0){
-                //ここでtreeJSONを呼び出して生成する
-                var ent = <%= raw entries.to_json %>
+              　//ここでtreeJSONを呼び出して生成する
+              　var ent = <%= raw entries.to_json %>
                 console.log(ent)
                 var dataAll = <%= raw entryAll.to_json %>
                 var youyakuData = <%= raw youyaku.to_json %>
                 var claster = <%= raw claster.to_json %>
-                console.log(claster)
+                var fas = <%= raw fas.to_json %>
+                var user = <%= raw user.to_json %>
                 var title = <%= raw theme.title.to_json %>
                 var treeData = createTreeData(dataAll , title , youyakuData , claster)
                 console.log(treeData)
                 treeJSON("", treeData );
+
+                $.ajax({
+                  url: "tree/change_session_year",
+                  type: "POST",
+                  data: {user_id : user,
+                          theme: dataAll[0]["theme_id"],
+                          },
+                  dataType: "html",
+                  success: function(data) {
+                  },
+                  error: function(data) {
+                  }
+               });
 
             }     
         }
@@ -117,6 +132,8 @@
         $(target).find('#childID_'+nid).css('background-color','orange');
 
         $(target2).find("#slider-"+nid).children().remove();
+        var button = '<div class="actions"><span class="like_button" data-id='+id+' data-status="attach">いいね！</span></div>'
+        $(target2).find("div.reply-modal-parent").append(button);
 
         $(target2).find("a[href *= ‘post’]").remove();
         $(target2).find("a[href *= '#post']").remove();

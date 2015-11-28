@@ -86,6 +86,7 @@ if __name__ == "__main__":
     # 1つのスレッドに含まれる意見および文の単語リストを作成
     for post in thread:
         # 投稿時刻を扱いやすい形式に変換
+        print post['created_at']
         post['created_at'] = preprocess.fit_time(post['created_at'])
         words_opinion.append(mecab.extract_word(post['body']))
         sents = mecab.separate_text(post['body'])
@@ -224,4 +225,5 @@ if __name__ == "__main__":
 
     for youyaku in youyakus:
         print youyaku['sent']
+        print youyaku['id']
 
