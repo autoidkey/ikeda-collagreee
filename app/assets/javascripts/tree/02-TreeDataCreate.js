@@ -85,6 +85,7 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
                 return ClassArray[i]['cla']
             }
         }
+        return 9
     }
 
 
