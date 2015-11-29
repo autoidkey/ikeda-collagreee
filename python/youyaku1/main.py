@@ -23,16 +23,14 @@ if __name__ == "__main__":
 
     #これでrubyからの引数をとる
     argvs = sys.argv
-    print "start!!!!!"
-    print argvs[1]
-    print "start1"
 
-    # input_path = path.abspath('python/youyaku1/input_data') + '/' + sys.argv[1]
-    # output_path = path.abspath('python/youyaku1/output_data') + '/' + sys.argv[1]
-    # svm_path = path.abspath('python/youyaku1/input_data') + '/svmdata_200.csv'
-    input_path = path.abspath('input_data') + '/' + sys.argv[1]
-    output_path = path.abspath('output_data') + '/' + sys.argv[1]
-    svm_path = path.abspath('input_data') + '/svmdata_200.csv'
+    input_path = path.abspath('python/youyaku1/input_data') + '/' + sys.argv[1]
+    output_path = path.abspath('python/youyaku1/output_data') + '/' + sys.argv[1]
+    svm_path = path.abspath('python/youyaku1/input_data') + '/svmdata_200.csv'
+    # input_path = path.abspath('input_data') + '/' + sys.argv[1]
+    # print input_path
+    # output_path = path.abspath('output_data') + '/' + sys.argv[1]
+    # svm_path = path.abspath('input_data') + '/svmdata_200.csv'
 
     # 要約率の設定
     # youyaku_ritsu = float(sys.argv[2])
@@ -43,6 +41,8 @@ if __name__ == "__main__":
 
     # COLLAGREE過去データを読み込む（thread: リスト）
     thread = preprocess.read_thread(input_path)
+    theme_id =  thread[0]["theme_id"]
+
 
     # SVM正解データを読み込む（svmdata: 辞書）
     svmdata = preprocess.read_svmfile(svm_path)
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
         # 単語数が1未満なら無視
         if len(words) < 1:
-            print body
+            # print body
             continue
 
         words_svmdata.append(words)
@@ -218,6 +218,6 @@ if __name__ == "__main__":
     # 時系列が若い順に要約文を出力
     preprocess.write_thread(output_path, sorted(youyakus, key=lambda x: x['created_at']))
     for youyaku in sorted(youyakus, key=lambda x: x['created_at']):
-        print "%s,%s,%s" % (youyaku['id'], parent['id'], youyaku['sent'])
-    print "string length: (before, after) = (%d, %d)" % (all_length, youyaku_length)
-    print "compress rate:", float(youyaku_length) / float(all_length)
+        print "%s,%s,%s,%s" % (youyaku['id'], parent['id'], theme_id, youyaku['sent'])
+    # print "string length: (before, after) = (%d, %d)" % (all_length, youyaku_length)
+    # print "compress rate:", float(youyaku_length) / float(all_length)

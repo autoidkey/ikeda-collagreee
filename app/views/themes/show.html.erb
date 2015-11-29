@@ -61,7 +61,7 @@
           <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
         </div>
 
-        <!-- 検索するとことのビュー -->
+        <!-- 検索するビュー -->
         <div class="well" id="tl-tool">
           <%= render 'search_form'  %>
         </div>
@@ -70,7 +70,7 @@
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
 
-        <!-- この部分がそれぞれの記事を表示するビューになる -->
+        <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
             <%= render 'panel', entry: entry %>

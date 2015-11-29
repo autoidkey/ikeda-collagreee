@@ -24,7 +24,7 @@ class ThemesController < ApplicationController
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page])
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -166,28 +166,90 @@ class ThemesController < ApplicationController
       end
     end
 
-    # csvの出力　python/youyaku1に使用する
+    entry_all = Entry.all.where(:theme_id => params[:id])
 
-    # logger.warn "start"
-    # File.open('./python/youyaku1/input_data/backup.csv', 'w') do |f|
-    #   csv_string = CSV.generate do |csv|
-    #     csv << Entry.column_names
-    #     users = Entry.where(:theme_id => params[:id])
-    #     users.each do |user|
-    #       array = user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
-    #       time = array[9].strftime("%Y-%m-%d %H:%M:%S")
-    #       array[9] = time.to_s
-    #       csv << array
-    #       logger.warn user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
-    #     end
+    #スレッドのタイトルのノードidを取得する
+    parent_id = []
+    entry_all.each do |entry|
+      if entry["parent_id"].nil?
+        parent_id.push(entry["id"])
+      end
+    end
+    if parent_id.length == 0
+      return []
+    end
+
+    # entry_all = Entry.all
+    # thread_array = serch_thread(entry_all , parent_id)
+    # logger.warn thread_array
+    # #スレッドの中身が１つのやつは消去する
+    # i = 0
+    # while i < thread_array.length-1 do
+    #   logger.warn thread_array[i]
+    #   if thread_array[i].length < 2
+    #     thread_array.delete_at(i)
+    #   else
+    #     i = i + 1
     #   end
-    #   f.puts csv_string
+    # end
+    # logger.warn thread_array
+
+    # csvの出力　python/youyaku1に使用する
+    # count = 0
+    # thread_array.each do |t|
+    #   logger.warn "start"
+    #   name = "./python/youyaku1/input_data/backup"+count.to_s+".csv"
+    #   File.open(name, 'w') do |f|
+    #     csv_string = CSV.generate do |csv|
+    #       csv << Entry.column_names
+    #       users = Entry.where(:theme_id => params[:id] , :id => t)
+    #       #スレッドのタイトルを一番目にする
+    #       flag = 0
+    #       num = 0
+    #       users.each do |user|
+    #         if user["title"] != nil
+    #           num = flag
+    #         else
+    #           flag = flag + 1
+    #         end
+    #       end
+    #       temp = users
+    #       temp[0],temp[num] = temp[num],temp[0]
+    #       users = temp
+    #       #ここまで
+
+    #       users.each do |user|
+    #         array = user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
+    #         time = array[9].strftime("%Y-%m-%d %H:%M:%S")
+    #         array[9] = time.to_s
+    #         csv << array
+    #         logger.warn user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
+    #       end
+    #     end
+    #     f.puts csv_string
+    #     logger.warn csv_string
+    #     count = count + 1
+    #   end
     # end
 
-    # s = "backup.csv"
-    # IO.popen("python ./python/youyaku1/main.py #{s}").each do |line|
-    #    logger.warn line
+    # for i in 0..10
+    #   s = "backup"+i.to_s+".csv"
+    #   IO.popen("python ./python/youyaku1/main.py #{s}").each do |line|
+    #     num = line.index(",")
+    #     target_id = line[0,num]
+    #     line.slice!(0, num+1)
+    #     num = line.index(",")
+    #     parent_id = line[0,num]
+    #     line.slice!(0, num+1)
+    #     num = line.index(",")
+    #     theme_id = line[0,num]
+    #     line.slice!(0, num+1)
+    #     body = line
+    #     youyaku = Youyaku_w.new(target_id: target_id, thread_id: parent_id, theme_id: theme_id, body: line)
+    #     youyaku.save
+    #   end
     # end
+
 
   end
 
@@ -269,7 +331,8 @@ class ThemesController < ApplicationController
 
   def only_timeline
     @entry = Entry.new
-    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    # @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page])
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
     @other_themes = Theme.others(@theme.id)
     @facilitations = Facilitations
@@ -309,7 +372,8 @@ class ThemesController < ApplicationController
       @entries = @theme.sort_by_points(params[:search_entry][:issues])
     end
 
-    @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
+    # @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
+    @entries = Kaminari.paginate_array(@entries).page(params[:page])
 
     respond_to do |format|
       format.js
