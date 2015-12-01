@@ -25,18 +25,15 @@ class YouyakuJob
         i = i + 1
       end
     end
-    puts "デリート"
+
 
     if thread_array[thread_array.length-1].length < 2
-      puts "デリート"
-      puts thread_array.length-1
       thread_array.delete_at(thread_array.length-1)
     end
 
     # csvの出力　python/youyaku1に使用する
     count = 0
     thread_array.each do |t|
-      puts count
       name = "./../../python/youyaku1/input_data/backup"+count.to_s+".csv"
       File.open(name, 'w') do |f|
         csv_string = CSV.generate do |csv|
