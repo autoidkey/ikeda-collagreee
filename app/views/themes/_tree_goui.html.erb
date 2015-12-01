@@ -85,6 +85,7 @@
 
                 treeJSON("", treeData );
 
+                console.log(user)
                 //ここでtreeに入った人のlogを残していく
                 $.ajax({
                   url: "tree/change_session_year",
@@ -95,6 +96,8 @@
                   dataType: "html",
                   success: function(data) {
                     console.log("s")
+                    console.log(data)
+                    console.log(user)
                   },
                   error: function(data) {
                     console.log("e")

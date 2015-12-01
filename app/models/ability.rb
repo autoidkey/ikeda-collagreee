@@ -36,6 +36,7 @@ class Ability
       can :create_entry, Theme
       can :check_new_message_2015_1, Theme
       can :auto_facilitation_test, Theme
+      can :change_session_year, Theme
     else                        # guest
       can :read, Theme
       can :check_new, Theme
