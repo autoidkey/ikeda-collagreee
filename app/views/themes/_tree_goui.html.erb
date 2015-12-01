@@ -17,7 +17,7 @@
   width: 28px;
   height: 28px;
   /* 閉じるボタンの画像は自分で用意 */
-  background: url('../images/close-popup.png') no-repeat;
+/*  background: url('../images/close-popup.png') no-repeat;*/
   z-index: 2;
 }
       #dialog {
@@ -82,9 +82,10 @@
                 var user = <%= raw user.to_json %>
                 var title = <%= raw theme.title.to_json %>
                 var treeData = createTreeData(dataAll , title , youyakuData , claster)
-                console.log(treeData)
+
                 treeJSON("", treeData );
 
+                //ここでtreeに入った人のlogを残していく
                 $.ajax({
                   url: "tree/change_session_year",
                   type: "POST",
@@ -93,8 +94,11 @@
                           },
                   dataType: "html",
                   success: function(data) {
+                    console.log("s")
                   },
                   error: function(data) {
+                    console.log("e")
+                    console.log(data)
                   }
                });
 
@@ -126,6 +130,14 @@
 
 
       function show_dialog(message,id,nid){
+        // idが親のid
+        // nidが自分のid
+
+        console.log("testダイアログ")
+            var yText = ""
+            var youyaku_thread = <%= raw youyaku_thread.to_json %>
+            console.log(youyaku_thread)
+
         $("#dialog").empty();
         var target = "#" + "entry-" + id;
         var target2 = '#reply-modal-' + nid;
@@ -141,10 +153,15 @@
         // console.log(target)
         // console.log($(target).html());
         // console.log(nid)
+
+
+
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
+        $( "#dialog" ).append('<br>');
+        $( "#dialog" ).append('<div id="parent-thread-y"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド要約表示</button></div>');
 
 
         $("#dialog #parent-thread").click(function(){
@@ -153,13 +170,29 @@
             $( "#parent-thread").empty();
         } );
 
+        $("#dialog #parent-thread-y").click(function(){
+            // 要約記事作成
+            console.log("testダイアログ")
+            var yText = ""
+            var youyaku_thread = <%= raw youyaku_thread.to_json %>
+            console.log(youyaku_thread)
+            for (i = 0; i < youyaku_thread.length; i++) {
+              if (youyaku_thread[i]["parent_id"] == id){
+                console.log(youyaku_thread[i]["body"])
+                yText = yText + youyaku_thread[i]["body"]
+              }
+            }
+            var content = '<div id = "youyakuT">'+yText+'</div>'
+            $( "#dialog" ).append(content);
+            $( "#parent-thread-y").empty();
+        } );
+
         $("#dialog").dialog("open");
 
         //これでスライダーの調節のイベントを設定する
         slider.set();
 
         $(".btn btn-default").click(function(){
-          console.log("gogogogoogog!!!")
         } );
 
       }

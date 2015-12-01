@@ -13,6 +13,7 @@ import lexrank
 import re
 import sys
 import copy
+import numpy as np
 import matplotlib.pyplot as plt
 from os import path
 from scipy.cluster.hierarchy import dendrogram, linkage
@@ -20,15 +21,15 @@ from prettyprint import pp
 
 if __name__ == "__main__":
     """1. 前処理"""
-
     #これでrubyからの引数をとる
     argvs = sys.argv
-
-    input_path = path.abspath('python/youyaku1/input_data') + '/' + sys.argv[1]
-    output_path = path.abspath('python/youyaku1/output_data') + '/' + sys.argv[1]
-    svm_path = path.abspath('python/youyaku1/input_data') + '/svmdata_200.csv'
+    input_path = path.abspath('./../../python/youyaku1/input_data') + '/' + sys.argv[1]
+    output_path = path.abspath('./../../python/youyaku1/output_data') + '/' + sys.argv[1]
+    svm_path = path.abspath('./../../python/youyaku1/input_data') + '/svmdata_200.csv'
+    # input_path = path.abspath('python/youyaku1/input_data') + '/' + sys.argv[1]
+    # output_path = path.abspath('python/youyaku1/output_data') + '/' + sys.argv[1]
+    # svm_path = path.abspath('python/youyaku1/input_data') + '/svmdata_200.csv'
     # input_path = path.abspath('input_data') + '/' + sys.argv[1]
-    # print input_path
     # output_path = path.abspath('output_data') + '/' + sys.argv[1]
     # svm_path = path.abspath('input_data') + '/svmdata_200.csv'
 
@@ -42,7 +43,6 @@ if __name__ == "__main__":
     # COLLAGREE過去データを読み込む（thread: リスト）
     thread = preprocess.read_thread(input_path)
     theme_id =  thread[0]["theme_id"]
-
 
     # SVM正解データを読み込む（svmdata: 辞書）
     svmdata = preprocess.read_svmfile(svm_path)
@@ -69,8 +69,8 @@ if __name__ == "__main__":
     for post in thread:
         all_length += len(post['body'].decode('utf-8'))
 
-    # スレッド主の発言は重要であるため別処理
-    parent = thread.pop(0)
+    # # スレッド主の発言は重要であるため別処理
+    # parent = thread.pop(0)
 
     """2. ベクトル化"""
     # 1つのスレッドに含まれるすべての意見と文の単語リスト
@@ -104,19 +104,28 @@ if __name__ == "__main__":
     # print "vectorizing opinion"
     d2v_opinion = doc2vec.Doc2Vec(words_opinion, size=200)
     vecs_opinion = d2v_opinion.vectorizer()
-    # print "size: vecs opinion = %d" % vecs_opinion.shape[0]
 
     # print "vectorizing sentence"
     d2v_sentence = doc2vec.Doc2Vec(words_sentence, size=200)
     vecs_sentence = d2v_sentence.vectorizer()
-    # print "size: vecs sentence = %d" % vecs_sentence.shape[0]
 
-    # print "vectorizing sentence and svm data"
+    # print "vectorizing svm data and sentence"
     d2v_concat = doc2vec.Doc2Vec(words_svmdata+words_sentence, size=200)
     vecs_concat = d2v_concat.vectorizer()
-    # print "size: vecs concat = %d" % vecs_concat.shape[0]
 
     """3. クラスタリング"""
+    # スレッド主の発言は重要であるため別処理
+    parent = thread.pop(0)
+    parent_vecs = vecs_sentence[0: len(parent['sents'])]
+    del vecs_sentence[0: len(parent['sents'])]
+    del vecs_opinion[0]
+    del vecs_concat[len(words_svmdata): len(words_svmdata) + len(parent['sents'])]
+    del test_lengths[0: len(parent['sents'])]
+
+    vecs_opinion = np.array(vecs_opinion)
+    vecs_sentence = np.array(vecs_sentence)
+    vecs_concat = np.array(vecs_concat)
+
     if len(thread) > 2:
         p = clusters.Distance(method='urt').calculate_distance(vecs_opinion, infos=thread)
         Z = linkage(p, method="average")
@@ -170,6 +179,7 @@ if __name__ == "__main__":
                 info = copy.deepcopy(tmp)
                 info['sent'] = sent
                 info['rank'] = 0.0
+                info['vec'] = vecs_sentence[index]
                 clusts[post['cluster']].append(info)
             else:
                 # print "not need:", sent
@@ -182,8 +192,8 @@ if __name__ == "__main__":
 
     # スレッド主の発言の情報を取得
     clusts[0] = []
-    for sent in sents:
-        info = {'id': parent['id'], 'sent': sent, 'user_id': parent['user_id'], 'parent_id': parent['parent_id'], 'created_at': preprocess.fit_time(parent['created_at']), 'rank': 0.0}
+    for index, sent in enumerate(sents):
+        info = {'id': parent['id'], 'sent': sent, 'user_id': parent['user_id'], 'parent_id': parent['parent_id'], 'created_at': parent['created_at'], 'rank': 0.0, 'vec': parent_vecs[index]}
         clusts[0].append(info)
 
     # クラスタごとに要約文を生成
@@ -192,12 +202,13 @@ if __name__ == "__main__":
 
         # 1つのクラスタに含まれるすべての文
         sentences = [info['sent'] for info in clusts[clust]]
+        vectors = [info['vec'] for info in clusts[clust]]
 
         # 要素数が1以下のクラスタはLexRankを用いない
         if len(clusts[clust]) > 1:
-            lr = lexrank.LexRank(sentences, cosine_threshold=0.1)
+            lr = lexrank.LexRank(sentences, vectors, cosine_threshold=0.1)
             rank = lr.cont_lexrank(clusts[clust])
-            # lexrank.best_print(sentences, rank)
+            lexrank.best_print(sentences, rank)
 
             # 文の情報にランクを付与
             for index, info in enumerate(clusts[clust]):
@@ -209,6 +220,11 @@ if __name__ == "__main__":
             # 要約文が制約文字数を超えたとき
             if sub_lengths[clust] * youyaku_ritsu <= length:
                 break
+
+            # 中身が空っぽのとき
+            if len(info['sent']) == 0:
+                continue
+
             youyaku.append(info)
             length += len(info['sent'])
             youyaku_length += len(info['sent'])
@@ -219,5 +235,3 @@ if __name__ == "__main__":
     preprocess.write_thread(output_path, sorted(youyakus, key=lambda x: x['created_at']))
     for youyaku in sorted(youyakus, key=lambda x: x['created_at']):
         print "%s,%s,%s,%s" % (youyaku['id'], parent['id'], theme_id, youyaku['sent'])
-    # print "string length: (before, after) = (%d, %d)" % (all_length, youyaku_length)
-    # print "compress rate:", float(youyaku_length) / float(all_length)

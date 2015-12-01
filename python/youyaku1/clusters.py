@@ -63,7 +63,7 @@ class Label:
         return labels
 
 def cosine(vec1, vec2):
-    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+    return 1.0 + np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
 def pearson(vec1, vec2):
     # 単純な合計
@@ -127,7 +127,7 @@ class Distance():
         return dist.squareform(dMatrix)
 
     def weight_time(self, info1, info2):
-        alpha = 0.1
+        alpha = 0.01
         delta = abs(info1['created_at'] - info2['created_at']).seconds / (60.0 * 60.0)
 
         return np.exp(-alpha * (delta * delta)) # [0, 1]

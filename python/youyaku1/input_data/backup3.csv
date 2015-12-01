@@ -1,0 +1,4 @@
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,agreement,claster,stamp
+115,通信インフラの進化,wifiやLTE、Bluetoothなどの通信インフラが実用的かつ低コストで利用できる環境になったことが大きいと思う,,0,23,false,false,false,2015-06-15 21:17:59,2015-12-01 12:35:30,4,,,,false,1,
+127,,"それは大きな要因ですね。
+デバイス自体の性能向上については考えていましたが、まわりの環境が追いついて初めて使い物になるというものですね。",115,0,1,true,false,false,2015-06-15 22:27:40,2015-11-18 14:28:47,4,,,,false,,

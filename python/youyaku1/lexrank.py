@@ -12,8 +12,9 @@ from sklearn.decomposition import TruncatedSVD
 from collections import OrderedDict
 
 class LexRank:
-    def __init__(self, sentences, cosine_threshold):
+    def __init__(self, sentences, vectors, cosine_threshold):
         self.sentences = sentences
+        self.vectors = vectors
         self.cosine_threshold = cosine_threshold
 
     def lexrank(self):
@@ -21,14 +22,14 @@ class LexRank:
         cosine_matrix = np.zeros([size, size])
         degree = np.zeros(size)
         # vectors = self.sentence_to_tfidf()
-        vectors = self.sentence_to_doc2vec()
-        # print vectors
+        # vectors = self.sentence_to_doc2vec()
+        # print self.vectors
         # print "ranking %d sentences" % (size)
 
         # build cosine matrix
         for i in range(0, size):
             for j in range(0, size):
-                cosine_matrix[i][j] = self.idf_modified_cosine(vectors[i], vectors[j])
+                cosine_matrix[i][j] = self.idf_modified_cosine(self.vectors[i], self.vectors[j])
                 # print "%d:%d\t%lf" % (i, j, cosine_matrix[i][j])
                 if cosine_matrix[i][j] > self.cosine_threshold:
                     cosine_matrix[i][j] = 1.0
@@ -51,14 +52,14 @@ class LexRank:
         cosine_matrix = np.zeros([size, size])
         row_sums = np.zeros(size)
         # vectors = self.sentence_to_tfidf()
-        vectors = self.sentence_to_doc2vec()
-        # print vectors
+        # vectors = self.sentence_to_doc2vec()
+        # print self.vectors
         # print "ranking %d sentences" % (size)
 
         # build cosine matrix
         for i in range(0, size):
             for j in range(0, size):
-                cosine_matrix[i][j] = (1.0 + self.idf_modified_cosine(vectors[i], vectors[j])) * self.rel(infos[i], infos[j])
+                cosine_matrix[i][j] = (1.0 + self.idf_modified_cosine(self.vectors[i], self.vectors[j])) * self.rel(infos[i], infos[j])
                 row_sums[i] += cosine_matrix[i][j]
 
         for i in range(0, size):
@@ -111,20 +112,23 @@ class LexRank:
     def sentence_to_tfidf(self):
         wakatis = []
         for sentence in self.sentences:
-            sentence = sentence.encode('utf_8')
+            sentence = sentence.encode('utf-8')
             wakati = mecab.extract_word(sentence)
             wakatis.append(" ".join([w for w in wakati]))
 
         vectorizer = TfidfVectorizer(use_idf=True)
         vectors = vectorizer.fit_transform(wakatis)
-        vectors = self.compress_vector(vectors, dim=10)
+        if vectors.shape[0] > 10:
+            vectors = self.compress_vector(vectors, dim=10)
         return vectors
 
     def sentence_to_doc2vec(self):
         words = []
         for sentence in self.sentences:
-            sentence = sentence.encode('utf_8')
+            sentence = sentence.encode('utf-8')
             words.append(mecab.extract_word(sentence))
+
+        pp(words)
 
         d2v = doc2vec.Doc2Vec(words, size=10)
         vectors = d2v.vectorizer()
