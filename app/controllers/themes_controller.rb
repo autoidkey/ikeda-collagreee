@@ -143,9 +143,13 @@ class ThemesController < ApplicationController
       @youyaku_thread << {"parent_id" => data["thread_id"] , "body" => data["body"]}
     end
 
+    logger.warn "aaaaa"
+
   end
 
   def change_session_year
+    logger.warn "aaaaa"
+    logger.warn params[:user_id]
     test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme]})
     test.save
   end
