@@ -1,6 +1,0 @@
-id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,agreement,claster,stamp
-9,投稿テスト,テストです。短文だとポイントが少ないです。,,0,1,false,false,false,2015-06-12 23:29:12,2015-11-25 18:49:17,3,,,,false,1,
-223,,"よくわかりました。
-長い方がいい得点なんですね",9,51,2,false,false,false,2015-11-24 10:41:25,2015-11-24 10:41:25,3,,,,,,
-213,,ああああ,9,50,2,false,false,false,2015-11-17 14:27:06,2015-11-18 14:28:46,3,,,,false,,
-220,,テスト,9,35,2,false,false,false,2015-11-18 12:59:14,2015-11-18 14:28:45,3,,,,false,,
