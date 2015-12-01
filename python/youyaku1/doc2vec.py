@@ -45,7 +45,7 @@ class Doc2Vec:
         vectors = []
 
         try:
-            vectors = np.array([model.docvecs["SENT_%s" % uid] for uid in range(len(self.text_words))])
+            vectors = [model.docvecs["SENT_%s" % uid] for uid in range(len(self.text_words))]
         except:
             print "cannot find SENT_%s" % uid
             pass

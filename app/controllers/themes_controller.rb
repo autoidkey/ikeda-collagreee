@@ -79,20 +79,7 @@ class ThemesController < ApplicationController
     # new_idm
     # logger.info @idm_K
 
-    #要約で必要になるpythonの実行処理が下に記述
-    # s = ""
-    # youyakuId = []
-    # for entry in @entry_tree
-    #   str = entry.body.gsub(/(\s)/,"")
-    #   str = str.gsub(/《[^》]+》/, "")
-    #   str = str.gsub(/　/, "  ")
-    #   str = str.gsub('(', '（') 
-    #   str = str.gsub(')', '）') 
-    #   str = str.gsub('!', '！') 
-    #   str = str.gsub('&', '＆') 
-    #   s = s+str+" "
-    #   youyakuId.push(entry.id)
-    # end
+
 
     # count = 0
     # @youyaku = []
@@ -132,25 +119,8 @@ class ThemesController < ApplicationController
     #   end
     # end
 
-    # s = "今日はいい天気ですね?"+" "+"今日は気分が悪いので、天気はいいですがそう感じません" + " "
-    # keywords.each do |key|
-    #   str = key["word"].gsub(/(\s)/,"")
-    #   str = str.gsub(/《[^》]+》/, "")
-    #   str = str.gsub(/　/, "  ")
-    #   str = str.gsub('(', '（') 
-    #   str = str.gsub(')', '）') 
-    #   str = str.gsub('!', '！') 
-    #   str = str.gsub('&', '＆') 
-    #   s = s + str
-    #   s = s + " "
-    #   s = s + key["score"].to_s
-    #   s = s + " "
-    # end
-    # IO.popen("python ./python/midashi/comment_manager.py #{s}").each do |line|
-    #    logger.warn line
-    # end
 
-    #ようやくデータの生成
+    #見出しデータの生成
     @youyaku = []
     youyakuDatas = Youyaku.all.where(:theme_id => params[:id])
     youyakuDatas.each do |data|
@@ -166,90 +136,12 @@ class ThemesController < ApplicationController
       end
     end
 
-    entry_all = Entry.all.where(:theme_id => params[:id])
-
-    #スレッドのタイトルのノードidを取得する
-    parent_id = []
-    entry_all.each do |entry|
-      if entry["parent_id"].nil?
-        parent_id.push(entry["id"])
-      end
+    #スレッド要約データの生成
+    @youyaku_thread = []
+    youyakuDatas = Youyakudata.all.where(:theme_id => params[:id])
+    youyakuDatas.each do |data|
+      @youyaku_thread << {"parent_id" => data["thread_id"] , "body" => data["body"]}
     end
-    if parent_id.length == 0
-      return []
-    end
-
-    # entry_all = Entry.all
-    # thread_array = serch_thread(entry_all , parent_id)
-    # logger.warn thread_array
-    # #スレッドの中身が１つのやつは消去する
-    # i = 0
-    # while i < thread_array.length-1 do
-    #   logger.warn thread_array[i]
-    #   if thread_array[i].length < 2
-    #     thread_array.delete_at(i)
-    #   else
-    #     i = i + 1
-    #   end
-    # end
-    # logger.warn thread_array
-
-    # csvの出力　python/youyaku1に使用する
-    # count = 0
-    # thread_array.each do |t|
-    #   logger.warn "start"
-    #   name = "./python/youyaku1/input_data/backup"+count.to_s+".csv"
-    #   File.open(name, 'w') do |f|
-    #     csv_string = CSV.generate do |csv|
-    #       csv << Entry.column_names
-    #       users = Entry.where(:theme_id => params[:id] , :id => t)
-    #       #スレッドのタイトルを一番目にする
-    #       flag = 0
-    #       num = 0
-    #       users.each do |user|
-    #         if user["title"] != nil
-    #           num = flag
-    #         else
-    #           flag = flag + 1
-    #         end
-    #       end
-    #       temp = users
-    #       temp[0],temp[num] = temp[num],temp[0]
-    #       users = temp
-    #       #ここまで
-
-    #       users.each do |user|
-    #         array = user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
-    #         time = array[9].strftime("%Y-%m-%d %H:%M:%S")
-    #         array[9] = time.to_s
-    #         csv << array
-    #         logger.warn user.attributes.values_at("id","title","body","parent_id","np","user_id","facilitation","invisible","top_fix","created_at","updated_at","theme_id","image","has_point","has_reply","agreement","claster","stamp")
-    #       end
-    #     end
-    #     f.puts csv_string
-    #     logger.warn csv_string
-    #     count = count + 1
-    #   end
-    # end
-
-    # for i in 0..10
-    #   s = "backup"+i.to_s+".csv"
-    #   IO.popen("python ./python/youyaku1/main.py #{s}").each do |line|
-    #     num = line.index(",")
-    #     target_id = line[0,num]
-    #     line.slice!(0, num+1)
-    #     num = line.index(",")
-    #     parent_id = line[0,num]
-    #     line.slice!(0, num+1)
-    #     num = line.index(",")
-    #     theme_id = line[0,num]
-    #     line.slice!(0, num+1)
-    #     body = line
-    #     youyaku = Youyaku_w.new(target_id: target_id, thread_id: parent_id, theme_id: theme_id, body: line)
-    #     youyaku.save
-    #   end
-    # end
-
 
   end
 

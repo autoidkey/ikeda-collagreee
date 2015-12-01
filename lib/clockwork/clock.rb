@@ -2,6 +2,8 @@ require 'clockwork'
 require File.expand_path('../../../config/boot', __FILE__)
 require File.expand_path('../../../config/environment', __FILE__)
 
+
+require_relative 'youyaku_job'
 require_relative 'keyword_job'
 require_relative 'user_keyword_job'
 require_relative 'point_job'
@@ -15,6 +17,7 @@ module Clockwork
     puts "====== #{job.class} finish ======="
   end
 
+  every(6.hours, YouyakuJob.new)
   every(5.minute, KeywordJob.new)
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)

@@ -28,8 +28,7 @@ out_param = [
     "sent",
     "user_id",
     "parent_id",
-    "created_at",
-    "rank"
+    "created_at"
 ]
 
 def remake_file(input_path, output_path):
@@ -39,7 +38,7 @@ def remake_file(input_path, output_path):
         for row in reader:
             # if row['facilitation'] == "true": # ファシリテータ発言
             #     continue
-            if row['title'] != "NULL" and row['parent_id'] == "": # 親意見
+            if row['title'] != "NULL" and row['parent_id'] == "NULL": # 親意見
                 threads[row['id']] = [row]
             else: # 親意見以外
                 try: # 子意見
@@ -58,12 +57,12 @@ def remake_file(input_path, output_path):
                         threads[row['id']] = [row]
                         # print "返信元: %s, 返信先: %s" % (row['id'], row['parent_id'])
 
-        with open(output_path, 'w') as output_file:
-            writer = csv.DictWriter(output_file, in_param)
-            writer.writerow(dict(zip(in_param, in_param)))
-            for thread in threads.values():
-                for opinion in thread:
-                    writer.writerow(opinion)
+    with open(output_path, 'w') as output_file:
+        writer = csv.DictWriter(output_file, in_param)
+        writer.writerow(dict(zip(in_param, in_param)))
+        for thread in threads.values():
+            for opinion in thread:
+                writer.writerow(opinion)
 
     return threads
 
@@ -78,7 +77,7 @@ def read_thread(input_path):
 
 def write_thread(output_path, thread):
     with open(output_path, 'w') as output_file:
-        writer = csv.DictWriter(output_file, out_param)
+        writer = csv.DictWriter(output_file, out_param, extrasaction='ignore')
         writer.writerow(dict(zip(out_param, out_param)))
         for post in thread:
             post['sent'] = post['sent'].encode('utf-8')

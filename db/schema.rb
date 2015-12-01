@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151129020859) do
+ActiveRecord::Schema.define(version: 20151130074042) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -255,7 +255,7 @@ ActiveRecord::Schema.define(version: 20151129020859) do
   add_index "webviews", ["theme_id"], name: "index_webviews_on_theme_id", using: :btree
   add_index "webviews", ["user_id"], name: "index_webviews_on_user_id", using: :btree
 
-  create_table "youyaku_ws", force: true do |t|
+  create_table "youyakudata", force: true do |t|
     t.integer  "target_id"
     t.integer  "thread_id"
     t.integer  "theme_id"
