@@ -7,9 +7,9 @@
 
     <div class="info-list">
       <% if child.np >= 50 %>
-        <span class="label label-success">賛成</span>
+        <span class="label label-success">反対</span>
       <% else %>
-        <span class="label label-warning">反対</span>
+        <span class="label label-warning">賛成</span>
       <% end %>
       <span class="user-name">
         <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
