@@ -20,7 +20,7 @@ class PointHistory < ActiveRecord::Base
   # 今後これらを基礎ポイントとする
   ENTRY_POINT = 10.00
   REPLY_POINT = 5.00
-  LIKE_POINT = 5.00
+  LIKE_POINT = 1.00
   REPLIED_POINT = 15.00
   LIKED_POINT = 5.00
 
