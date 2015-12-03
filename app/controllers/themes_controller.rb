@@ -140,7 +140,7 @@ class ThemesController < ApplicationController
     @youyaku_thread = []
     youyakuDatas = Youyakudata.all.where(:theme_id => params[:id])
     youyakuDatas.each do |data|
-      @youyaku_thread << {"parent_id" => data["thread_id"] , "body" => data["body"]}
+      @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
 
 

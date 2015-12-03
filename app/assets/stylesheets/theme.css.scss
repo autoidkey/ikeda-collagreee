@@ -241,14 +241,14 @@ nav.pagination {
 
 // override
 .label-success {
-  background-color: #3498DB !important;
-}
-.label-warning{
   background-color: #E05151 !important;
 }
+.label-warning{
+  background-color: #3498DB !important;
+}
 
-.slider_np_bar {background: #3498DB !important;margin-top:2px;}
-.slider .ui-slider-range { background: #E05151; }
+.slider_np_bar {background: #E05151 !important;margin-top:2px;}
+.slider .ui-slider-range { background: #3498DB; }
 .slider .ui-slider-handle { border-color: #a3a3a3; }
 
 .np-slider-label .label-success {

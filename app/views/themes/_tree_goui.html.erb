@@ -142,15 +142,18 @@
             console.log(youyaku_thread)
 
         $("#dialog").empty();
+
         var target = "#" + "entry-" + id;
         var target2 = '#reply-modal-' + nid;
         $(target).find('#childID_'+nid).css('background-color','orange');
+        //いいねボタンの作成
+        var newbutton = $(target).find('#childID_'+nid).find(".actions")
+        $(newbutton).find("a[href *= 'reply-modal']").remove()
+        $(target2).find("div.info-list").append(newbutton);
 
+
+        // $(target2).find("a[href *= ‘post’]").remove();
         $(target2).find("#slider-"+nid).children().remove();
-        // var button = '<div class="actions"><span class="like_button" data-id='+id+' data-status="attach">いいね！</span></div>'
-        // $(target2).find("div.reply-modal-parent").append(button);
-
-        $(target2).find("a[href *= ‘post’]").remove();
         $(target2).find("a[href *= '#post']").remove();
         $(target2).find("a[href *= '#facili']").remove();
         // console.log(target)
@@ -158,36 +161,38 @@
         // console.log(nid)
 
 
-
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
-        $( "#dialog" ).append('<br>');
-        $( "#dialog" ).append('<div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
-        $( "#dialog" ).append('<br>');
-        $( "#dialog" ).append('<div id="parent-thread-y"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド要約表示</button></div>');
-
+        $( "#dialog" ).append('<br><div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
+        //要約記事作成
+        var yText = ""
+        var youyaku_thread = <%= raw youyaku_thread.to_json %>
+        console.log(youyaku_thread)
+        parent = 0
+        for (i = 0; i < youyaku_thread.length; i++) {
+          if (youyaku_thread[i]["parent_id"] == id){
+            if (parent == 0){
+              $( "#dialog" ).append('<br><span class="entry-title">スレッド要約</span>');
+            }
+            if (parent !=  youyaku_thread[i]["target_id"] && parent != 0 ){
+              yText = yText + "<br>"
+              parent = youyaku_thread[i]["target_id"] 
+            }
+            console.log(parent = youyaku_thread[i]["target_id"] )
+            console.log(youyaku_thread[i]["body"])
+            yText = yText + youyaku_thread[i]["body"]
+          }
+        }
+        var content = '<div id = "youyakuT">'+yText+'</div>'
+        $( "#dialog" ).append(content);
+        //スレッド要約ここまで
 
         $("#dialog #parent-thread").click(function(){
             var target = "#" + "entry-" + id;
+            $(target).find("a[href *= 'reply-modal']").remove()
+            $( "#dialog" ).append("<hr>")
             $( "#dialog" ).append($(target).html());
             $( "#parent-thread").empty();
-        } );
-
-        $("#dialog #parent-thread-y").click(function(){
-            // 要約記事作成
-            console.log("testダイアログ")
-            var yText = ""
-            var youyaku_thread = <%= raw youyaku_thread.to_json %>
-            console.log(youyaku_thread)
-            for (i = 0; i < youyaku_thread.length; i++) {
-              if (youyaku_thread[i]["parent_id"] == id){
-                console.log(youyaku_thread[i]["body"])
-                yText = yText + youyaku_thread[i]["body"]
-              }
-            }
-            var content = '<div id = "youyakuT">'+yText+'</div>'
-            $( "#dialog" ).append(content);
-            $( "#parent-thread-y").empty();
         } );
 
         $("#dialog").dialog("open");
