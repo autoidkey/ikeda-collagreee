@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   get 'themes/tree_data' => 'themes#tree_data'
   post 'themes/:id/update_phase/:phase' => 'themes#update_phase'
   post "themes/tree/change_session_year" => 'themes#change_session_year'
+  post "themes/tree/tree_log_get" => 'themes#tree_log_get'
 
   # api
   get 'users/:id' =>  'users#show'

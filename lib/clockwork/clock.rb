@@ -17,7 +17,7 @@ module Clockwork
     puts "====== #{job.class} finish ======="
   end
 
-  every(6.hours, YouyakuJob.new)
+  every(4.hours, YouyakuJob.new)
   every(5.minute, KeywordJob.new)
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)
