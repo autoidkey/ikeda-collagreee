@@ -1,5 +1,5 @@
 // Get JSON data
-function treeJSON(error, treeData ){
+function treeJSON(error, treeData ,user){
 
 
     // Calculate total nodes, max label length
@@ -523,9 +523,23 @@ function treeJSON(error, treeData ){
             // iは0から始まるので、+1しておく
             .text(function(d) {
                 //ここで表示するテキストを返している
+                var text = " "
                 if(d.agreement == true){
-                    return "合意"
+                    text = text + "合意";
                  }
+                if(d.user_id == user ){
+                    if(text != " "){
+                        text = text + "・";
+                    }
+                    text = text + "あなたの意見";
+                }
+                if(d.newEntry == true ){
+                    if(text != " "){
+                        text = text + "・";
+                    }
+                    text = text + "NEW!";
+                }
+                return text;
             });
 
         // Transition nodes to their new position.

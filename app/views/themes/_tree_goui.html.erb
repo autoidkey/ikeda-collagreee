@@ -83,9 +83,8 @@
                 var title = <%= raw theme.title.to_json %>
                 var treeData = createTreeData(dataAll , title , youyakuData , claster)
 
-                treeJSON("", treeData );
+                treeJSON("", treeData ,user);
 
-                console.log(user)
                 //ここでtreeに入った人のlogを残していく
                 $.ajax({
                   url: "tree/change_session_year",
@@ -95,19 +94,13 @@
                           },
                   dataType: "html",
                   success: function(data) {
-                    console.log("s")
-                    console.log(data)
-                    console.log(user)
                   },
                   error: function(data) {
-                    console.log("e")
-                    console.log(data)
                   }
                });
 
             }     
         }
-
 
       });
 
@@ -135,11 +128,26 @@
       function show_dialog(message,id,nid){
         // idが親のid
         // nidが自分のid
+        var dataAll = <%= raw entryAll.to_json %>
+        var user = <%= raw user.to_json %>
+        $.ajax({
+          url: "tree/tree_log_get",
+          type: "POST",
+          data: {user_id : user,
+                  theme: dataAll[0]["theme_id"],
+                  target: nid,
+                  },
+          dataType: "html",
+          success: function(data) {
+          },
+          error: function(data) {
+          }
+       });
 
-        console.log("testダイアログ")
-            var yText = ""
-            var youyaku_thread = <%= raw youyaku_thread.to_json %>
-            console.log(youyaku_thread)
+  
+        var yText = ""
+        var youyaku_thread = <%= raw youyaku_thread.to_json %>
+        console.log(youyaku_thread)
 
         $("#dialog").empty();
 

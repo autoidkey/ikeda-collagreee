@@ -14,6 +14,8 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
     var linkNode = makeLink(dataAll)
     var entryNP = makeNP(dataAll)
     var ClassArray = makeClass(linkNode)
+    var newEntryNum = makeNewEntryNum(dataAll)
+    console.log(newEntryNum)
     var treeData = {
           "dataID": 0,
           "name" : title,
@@ -22,7 +24,9 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
           "color": 0,
           "children": childArray(0,0),
           "agreement":false,
-          "body": title
+          "body": title,
+          "user_id": "",
+          "newEntry":false,
     }
 
 
@@ -118,9 +122,9 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
         
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
-          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"]})
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"] ,"user_id": serchDataArray(childId)["user_id"], "newEntry":serchNewEntry(childId) })
         }else{
-          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"],"children" : childArray(childId , color)})
+          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"] ,"user_id": serchDataArray(childId)["user_id"], "newEntry":serchNewEntry(childId),children : childArray(childId , color)})
         }
       }
       return array
@@ -156,6 +160,49 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
                 newText = newText.substr(20)
             }
         return newText
+    }
+
+    //投稿時間が新しい５つの記事idを出す
+    function makeNewEntryNum(dataAll){
+        if (dataAll.length < 1){
+            return [];
+        }
+        //exam :array = [1,2,3,5,6]最新の記事５個のidを入れる
+        array = []
+        array.push({time: dataAll[0]["created_at"], id: dataAll[0]["id"]});
+
+        for(var i = 1 ; i < dataAll.length ; i++){
+            var flag = 0
+            for(var t = 0 ; t < array.length ; t++){
+                if(dataAll[i]["created_at"] >= array[t]["time"] && flag == 0){
+                    array.splice( t , 0 , {time:dataAll[i]["created_at"],id:dataAll[i]["id"]} ) ;
+                    flag = 1
+                    if(array.length > 4){
+                        array.pop()
+                    }
+                    break;
+                }
+            }
+            if (flag == 0 && array.length < 6){
+                array.splice( array.length , 0 , {time:dataAll[i]["created_at"],id:dataAll[i]["id"]} ) ;
+            }
+        }
+        rArray = []
+        for(var i = 0 ; i < array.length ; i++){
+            rArray.push(array[i]["id"])
+        }
+
+        return rArray
+    }
+
+    //idを入れて新しい記事ならtrue,違うならfalaseを返す
+    function serchNewEntry(id){
+        for(var i = 0 ; i < newEntryNum.length ; i++){
+            if(id == newEntryNum[i]){
+                return true;
+            }
+        }
+        return false;
     }
 
     //pythonを使用した要約

@@ -21,6 +21,7 @@ class Ability
       can :json_user_point, Theme
       can :create_entry, Theme
       can :check_new_message_2015_1, Theme
+      can :tree_log_get, Theme
     when 'normal'
       can :read, Theme
       can :create, Entry
@@ -37,6 +38,7 @@ class Ability
       can :check_new_message_2015_1, Theme
       can :auto_facilitation_test, Theme
       can :change_session_year, Theme
+      can :tree_log_get, Theme
     else                        # guest
       can :read, Theme
       can :check_new, Theme

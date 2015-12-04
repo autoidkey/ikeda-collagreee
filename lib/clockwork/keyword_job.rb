@@ -20,6 +20,7 @@ class KeywordJob
 
     #スレッドのクラスタリングも実行
     idAll = Theme.all
+    Entry.record_timestamps = false
     idAll.each do |id|
       themes_claster = test_func(id)
       themes_claster.each do |clas|
@@ -28,6 +29,7 @@ class KeywordJob
         entry.save
       end
     end
+    Entry.record_timestamps = true
 
   end
 end

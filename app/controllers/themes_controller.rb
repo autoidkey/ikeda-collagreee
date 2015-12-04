@@ -147,7 +147,14 @@ class ThemesController < ApplicationController
   end
 
   def change_session_year
+    puts "testyear"
     test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme]})
+    test.save
+  end
+
+  def tree_log_get
+    puts "test"
+    test = TreeLog.new({user_id: params[:user_id],targer_id: params[:target], theme_id: params[:theme]})
     test.save
   end
 
