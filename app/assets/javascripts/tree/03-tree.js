@@ -337,7 +337,11 @@ function treeJSON(error, treeData ,user){
     // Toggle children on click.
 
     function click(d) {
-        show_dialog(d.body ,serchParent(d),d.dataID );
+        if (d.dataID == 0){
+            entry_dialog();
+        }else{
+            show_dialog(d.body ,serchParent(d),d.dataID );
+        }
     }
 
     function update(source) {
@@ -629,7 +633,7 @@ function treeJSON(error, treeData ,user){
 
     function serchParent(d) {
         var parent
-        while (d.parent.dataID !=0) {
+        while (d.parent.dataID !=　0) {
             d = d.parent
         }
         return d.dataID
