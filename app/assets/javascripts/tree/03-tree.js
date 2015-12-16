@@ -522,7 +522,7 @@ function treeJSON(error, treeData ,user){
             })
             .style("font-size", function(d) {
                 
-                return 30;
+                return 40;
        　　  })
             // iは0から始まるので、+1しておく
             .text(function(d) {
@@ -541,6 +541,9 @@ function treeJSON(error, treeData ,user){
                     if(text != " "){
                         text = text + "・";
                     }
+                    text = text + "NEW!";
+                }
+                if(d.dataID == 24 || d.dataID == 25 || d.dataID == 27 || d.dataID == 28 || d.dataID == 35 ){
                     text = text + "NEW!";
                 }
                 return text;
