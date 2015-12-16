@@ -1,0 +1,8 @@
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,agreement,claster,stamp
+8,投稿テスト,テストです。,,0,1,false,false,false,2015-06-12 23:28:41,2015-12-04 13:05:45,4,,,,false,1,
+270,,俺もグッドだと思う,266,61,2,false,false,false,2015-12-04 14:09:21,2015-12-04 14:09:21,4,,,,false,,
+264,,テスト２２２２,8,7,2,false,false,false,2015-12-03 23:52:57,2015-12-04 14:09:06,4,,,,false,,
+269,,goodgoodgood!!,264,50,2,false,false,false,2015-12-04 14:09:06,2015-12-04 14:09:06,4,,,,false,,
+265,,反対,264,21,2,false,false,false,2015-12-03 23:53:17,2015-12-04 13:22:26,4,,,,false,,
+267,,反対反対絶対反対,265,27,2,false,false,false,2015-12-04 13:22:26,2015-12-04 13:22:26,4,,,,false,,
+266,,賛成,265,93,2,false,false,false,2015-12-03 23:53:34,2015-12-04 14:09:21,4,,,,false,,
