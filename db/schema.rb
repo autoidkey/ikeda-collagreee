@@ -69,9 +69,9 @@ ActiveRecord::Schema.define(version: 20151203131422) do
     t.string   "image"
     t.integer  "has_point"
     t.integer  "has_reply"
+    t.string   "stamp"
     t.boolean  "agreement"
     t.integer  "claster"
-    t.string   "stamp"
   end
 
   add_index "entries", ["parent_id"], name: "index_entries_on_parent_id", using: :btree
