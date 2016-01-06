@@ -26,8 +26,6 @@
 </div>
 
 <% if user_signed_in? %><% @themes.each do |theme| %>
-      <% if (theme.id == 3 and ((current_user.id >= 3 and 21 >= current_user.id) or (current_user.id > 40 and current_user.id % 2 == 0))) or (theme.id == 4 and ((current_user.id >= 22 and 40 >= current_user.id) or (current_user.id > 40 and current_user.id % 2 == 1))) or user_admin?(current_user) %>
-        <%= render 'theme', theme: theme %>
-      <% end %>
+    <%= render 'theme', theme: theme %>
   <% end %>
 <% end %>
