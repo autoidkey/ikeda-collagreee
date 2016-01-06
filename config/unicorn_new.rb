@@ -8,15 +8,15 @@ require 'pathname'
 config  = {}
 config["development"] = {
   :port => 3000,
-  :socket => '/home/okumura/rails/new_collagree/tmp/sockets/unicorn_new_collagree.sock',
+  :socket => '/tmp/collagree_ss.sock',
   :worker_processes => 2,
   :working_directory => Pathname.new(File.dirname(__FILE__) + "/..").realpath
 }
 config["production"] = {
   :port => 8500,
-  :socket => '/home/okumura/rails/new_collagree/tmp/sockets/unicorn_new_collagree.sock',
+  :socket => '/tmp/collagree_ss.sock',
   :worker_processes => 6,
-  :working_directory => "#{ENV['HOME']}/rails/new_collagree"
+  :working_directory => "#{ENV['HOME']}/programing/rails/collagree_ss"
 }
 #--------------------------------------------------------
 #rails_env = ENV['RAILS_ENV'] || 'production'
