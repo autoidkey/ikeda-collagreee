@@ -196,3 +196,26 @@ button.btn-thread {
     color: #333333;
     text-decoration: none;
 }
+
+.facilitate-table{
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.show-stamp {
+  margin-top: 15px;
+  margin-left: -125px;
+  border-radius: 4px;
+  width: 125px;
+}
+
+.entry-left{
+  display: table-cell;
+}
+
+.entry-right{
+  display: table-cell;
+  width: 100%;
+  vertical-align: top;
+}

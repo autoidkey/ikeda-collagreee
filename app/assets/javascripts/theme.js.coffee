@@ -114,7 +114,7 @@ like_notice = (like, theme_id) ->
 
 check_new = () ->
   theme_id = location.href.match(".+/(.+?)$")[1]
-  url = '/themes/check_new/' + theme_id
+  url = '/collagree_ss/themes/check_new/' + theme_id
 
   setTimeout(
       (=>
@@ -228,7 +228,7 @@ $(document).on
 $(document).on 'ready page:load', ->
   check_new()
 
-$(document).ready ->
+$(document).on 'ready page:load', ->
   selected = null
   $('input[name="entry[stamp]"]:radio').change ->
     selectStamp = (in_radio) ->
