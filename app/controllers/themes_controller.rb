@@ -16,7 +16,7 @@ class ThemesController < ApplicationController
   require 'time'
 
   def index
-    @themes = Theme.where(id: 5)
+    @themes = Theme.where(id: 6)
   end
 
   def show
