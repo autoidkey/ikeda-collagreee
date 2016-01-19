@@ -9,6 +9,8 @@ class ThemesController < ApplicationController
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
+
+  before_action :check_user, only:[:show]
   load_and_authorize_resource
 
   include Bm25
@@ -16,7 +18,8 @@ class ThemesController < ApplicationController
   require 'time'
 
   def index
-    @themes = Theme.where(id: 6)
+    @user_list = [104,105,106,107,108,109,110,111,112,113,58,1]
+    @themes = Theme.where(id: [3,4,6])
   end
 
   def show
@@ -142,6 +145,8 @@ class ThemesController < ApplicationController
     youyakuDatas.each do |data|
       @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
+
+
 
 
   end
@@ -610,6 +615,13 @@ class ThemesController < ApplicationController
 
 
   private
+
+  def check_user
+    @user_list = [104,105,106,107,108,109,110,111,112,113,58,1]
+    if !@user_list.include?(current_user.id)
+      redirect_to root_path
+    end
+  end
 
   def user_join?
     user_signed_in? && !@theme.join?(current_user) && !current_user.facilitator?
