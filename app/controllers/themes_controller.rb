@@ -24,12 +24,12 @@ class ThemesController < ApplicationController
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
-    if params[:id] == 6
-      @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
-      if !@user_list.include?(current_user.id)
-        redirect_to root_path
-      end
-    end
+    # if params[:id] == 6
+    #   @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
+    #   if !@user_list.include?(current_user.id)
+    #     redirect_to root_path
+    #   end
+    # end
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
