@@ -10,20 +10,26 @@ class ThemesController < ApplicationController
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
 
-  before_action :check_user, only:[:show]
   load_and_authorize_resource
 
   include Bm25
   include Stamp
-  require 'time'
+  # require 'time'
 
   def index
-    @user_list = [104,105,106,107,108,109,110,111,112,113,58,1]
+    @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
     @themes = Theme.where(id: [3,4,6])
   end
 
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
+
+    if params[:id] == 6
+      @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
+      if !@user_list.include?(current_user.id)
+        redirect_to root_path
+      end
+    end
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
@@ -62,7 +68,7 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #以下議論ツリーで使用する投稿一覧
-    @entry_tree = Entry.all.where(:theme_id => params[:id])
+    @entry_tree = Entry.where(:theme_id => params[:id])
 
     #他のでも使用できるファシリテータが選んだフェーズナンバー
     @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
@@ -616,12 +622,6 @@ class ThemesController < ApplicationController
 
   private
 
-  def check_user
-    @user_list = [104,105,106,107,108,109,110,111,112,113,58,1]
-    if !@user_list.include?(current_user.id)
-      redirect_to root_path
-    end
-  end
 
   def user_join?
     user_signed_in? && !@theme.join?(current_user) && !current_user.facilitator?
