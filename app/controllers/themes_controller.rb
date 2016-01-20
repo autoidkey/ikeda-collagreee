@@ -18,7 +18,7 @@ class ThemesController < ApplicationController
 
   def index
     @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
-    @themes = Theme.where(id: [3,4,6])
+    @themes = Theme.where(id: [3,4,7])
   end
 
   def show
