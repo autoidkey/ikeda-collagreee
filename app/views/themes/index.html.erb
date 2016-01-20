@@ -27,7 +27,7 @@
 
 <% if user_signed_in? %><% @themes.each do |theme| %>
         
-        <% if theme.id == 6 %>
+        <% if theme.id == 7 %>
           <% if @user_list.include?(current_user.id) %>
             <%= render 'theme', theme: theme %>
           <% end %>
