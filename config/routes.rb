@@ -42,7 +42,9 @@ Rails.application.routes.draw do
   post "themes/tree/tree_log_get" => 'themes#tree_log_get'
 
   # api
+  get 'users' =>  'users#index'
   get 'users/:id' =>  'users#show'
+  post 'users/update' => 'users#update'
   post 'users/delete_notice' =>  'users#delete_notice'
   post 'users/read_reply_notice' =>  'users#read_reply_notice'
   post 'users/read_like_notice' =>  'users#read_like_notice'

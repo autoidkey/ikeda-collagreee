@@ -1,0 +1,92 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">検索</div>
+  </div>
+  <div class="panel-body">
+    <%= search_form_for(@q, method: :get) do |f| %>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <%= f.label :name_eq %>
+            <%= f.text_field :name_eq, class: "form-control", placeholder: "完全一致" %>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <%= f.label :name_cont %>
+            <%= f.text_field :name_cont, class: "form-control", placeholder: "部分一致" %>
+          </div>
+        </div>
+      </div>
+      <%= f.submit '検索', class: "btn btn-primary" %>
+      <%= link_to 'クリア', url_for, class: "btn btn-default" %>
+    <% end %>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>check_box</th>
+      <th>image</th>
+      <th>name</th>
+      <th>role</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= form_for @user, :url => {:action => 'update'} do |f| %>
+      <% @users.each do |user| %>
+        <tr>
+        <td>
+          <%= label :user, :check %><br>
+          <%= check_box_tag 'users[' + user.id.to_s + '][check]', true, false, {} %>
+        </td>
+        <td>
+          <%= image_tag user_icon_path(user), class: 'user-icon img-circle' %>
+        </td>
+        <td>
+          <%= user.name %>
+        </td>
+        <td>
+          <%= user.role %>
+          <%= label :user, :role %><br>
+          <%= select_tag 'users[' + user.id.to_s + '][role]', options_for_select(User.roles, :selected => user[:role]) %>
+        </td>
+        </tr>
+      <% end %>
+      <%= f.submit %>
+    <% end %>
+  </tbody>
+</div>
+
+  <!--
+  <tbody>
+    <%= form_for @user, :url => {:action => 'update'} do |f| %>
+      <% @users.each do |user| %>
+        <div class="field">
+          <%= label :user, :check %><br>
+          <%= check_box_tag 'users[' + user.id.to_s + '][check]', true, false, {} %>
+        </div>
+        <div class="field">
+          <%= label :user, :role %><br>
+          <%= select_tag 'users[' + user.id.to_s + '][role]', options_for_select(User.roles) %>
+        </div>
+      <% end %>
+      <%= f.submit %>
+    <% end %>
+  </tbody>
+  -->
+
+  <!--
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= image_tag user_icon_path(user), class: 'user-icon img-circle' %></td>
+        <td><%= user.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  -->
+</table>
+

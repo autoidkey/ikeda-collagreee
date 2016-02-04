@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
   # point_api
   include Bm25
+
+  def index
+    @users = User.all
+    @q = User.ransack(params[:q])
+    @users = @q.result
+    @user = User.new
+  end
+
   def show
     @user = User.find(params[:id])
     @keyword = @user.keywords.group_by(&:theme_id)
@@ -10,6 +18,16 @@ class UsersController < ApplicationController
       ['返信', @entries.where.not(parent_id: nil).count],
       ['賛同', @user.likes.status_on.count]
     ]
+  end
+
+  # idとroleの値の組を送る
+  def update
+    params[:users].each do |(id, value)|
+      if value[:check] then
+        User.find(id).update_attributes(:role => value[:role].to_i)
+      end
+    end
+    redirect_to index
   end
 
   def bm25(entries)

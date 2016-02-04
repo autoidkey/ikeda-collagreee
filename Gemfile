@@ -36,6 +36,8 @@ gem 'redis'
 gem 'rails_autolink'           # URLの自動リンク化
 gem 'k_means'
 
+gem 'ransack'
+
 
 
 
