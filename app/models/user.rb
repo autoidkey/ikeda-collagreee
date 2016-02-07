@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :point_histories
   has_many :notices
 
-  enum role: %i(admin facilitator normal)
+  enum role: %i(admin facilitator normal organizer)
   enum gender: %i(男性 女性)
   enum age: %i(10代未満 10代 20代 30代 40代 50代 60代 70代以上)
   enum home: %i(名古屋市在住 名古屋市以外在住)
@@ -112,6 +112,10 @@ class User < ActiveRecord::Base
 
   def self.admin?(type)
     type == 0
+  end
+
+  def self.organizer?(type)
+    type == 3
   end
 
   def update_user!(password, email, user_data)

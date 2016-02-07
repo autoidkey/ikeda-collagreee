@@ -3,10 +3,17 @@ class UsersController < ApplicationController
   include Bm25
 
   def index
-    @users = User.all
-    @q = User.ransack(params[:q])
-    @users = @q.result
-    @user = User.new
+    if current_user.admin?
+      @q = User.where.not(role: 0).ransack(params[:q])
+      @users = @q.result
+      @user = User.new
+    elsif current_user.organizer?
+      @q = User.where.not(role: [0, 3]).ransack(params[:q])
+      @users = @q.result
+      @user = User.new
+    else
+      render file: "#{Rails.root}/public/404.html"
+    end
   end
 
   def show

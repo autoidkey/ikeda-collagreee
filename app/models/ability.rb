@@ -7,6 +7,8 @@ class Ability
     case user.role
     when 'admin'
       can :manage, :all
+    when 'organizer'
+      can :manage, :all
     when 'facilitator'
       can :read, Theme
       can :manage, Issue

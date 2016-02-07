@@ -38,8 +38,7 @@
     <%= form_for @user, :url => {:action => 'update'} do |f| %>
       <% @users.each do |user| %>
         <tr>
-        <td>
-          <%= label :user, :check %><br>
+          <td>
           <%= check_box_tag 'users[' + user.id.to_s + '][check]', true, false, {} %>
         </td>
         <td>
@@ -49,44 +48,12 @@
           <%= user.name %>
         </td>
         <td>
-          <%= user.role %>
-          <%= label :user, :role %><br>
           <%= select_tag 'users[' + user.id.to_s + '][role]', options_for_select(User.roles, :selected => user[:role]) %>
         </td>
-        </tr>
-      <% end %>
-      <%= f.submit %>
-    <% end %>
-  </tbody>
-</div>
-
-  <!--
-  <tbody>
-    <%= form_for @user, :url => {:action => 'update'} do |f| %>
-      <% @users.each do |user| %>
-        <div class="field">
-          <%= label :user, :check %><br>
-          <%= check_box_tag 'users[' + user.id.to_s + '][check]', true, false, {} %>
-        </div>
-        <div class="field">
-          <%= label :user, :role %><br>
-          <%= select_tag 'users[' + user.id.to_s + '][role]', options_for_select(User.roles) %>
-        </div>
-      <% end %>
-      <%= f.submit %>
-    <% end %>
-  </tbody>
-  -->
-
-  <!--
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= image_tag user_icon_path(user), class: 'user-icon img-circle' %></td>
-        <td><%= user.name %></td>
       </tr>
     <% end %>
+    <%= f.submit %>
+  <% end %>
   </tbody>
-  -->
 </table>
 
