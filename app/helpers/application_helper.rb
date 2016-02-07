@@ -8,6 +8,10 @@ module ApplicationHelper
     user && user.admin?
   end
 
+  def user_organizer?(user)
+    user && user.organizer?
+  end
+
   def cut_off(text, length)
     if text.present?
       if text.length > length

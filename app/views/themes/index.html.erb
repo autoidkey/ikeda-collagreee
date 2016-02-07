@@ -22,7 +22,7 @@
 
 <div class="page-header">
   <h1>Theme<small>/テーマ</small></h1>
-  <%= link_to 'テーマ追加', new_theme_path, { class: 'btn btn-default', id: 'theme_create_btn'} if user_admin?(current_user) %>
+  <%= link_to 'テーマ追加', new_theme_path, { class: 'btn btn-default', id: 'theme_create_btn'} if (user_admin?(current_user) || user_organizer?(current_user)) %>
 </div>
 
 <% if user_signed_in? %><% @themes.each do |theme| %>
