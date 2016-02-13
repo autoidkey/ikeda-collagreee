@@ -1,3 +1,5 @@
-id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,agreement,claster,stamp
-238,スマホについて,どんな意見がありますか？,,0,42,false,false,false,2015-11-25 18:47:36,2015-12-04 13:05:55,3,,,,,3,
-239,,スマホが大好きです,238,80,42,false,false,false,2015-11-25 18:48:06,2015-11-25 18:48:06,3,,,,,,
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,stamp,agreement,claster
+30,松崎町合宿への出席,出席する方が決まりましたらお知らせください。人数が分かりますとありがたいです。,,0,8,false,false,false,2015-12-21 19:11:27,2016-01-07 03:48:08,17,,,,,,
+91,,"伊藤先生と仙石が行きます
+返信遅くなりすみません
+",30,50,3,false,false,false,2016-01-07 03:48:08,2016-01-07 03:48:08,17,,,,false,,

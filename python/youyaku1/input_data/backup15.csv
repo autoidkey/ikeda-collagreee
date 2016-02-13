@@ -1,6 +1,6 @@
-id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,agreement,claster,stamp
-128,デメリット・欠点,"逆に、スマホの欠点はなんだと思いますか？
-皆さんの意見を聞かせてください。",,0,1,false,false,false,2015-06-15 22:28:55,2015-12-01 12:35:30,4,,,,false,1,
-136,,"Xさんが仰るように人間の機能低下があると思います。
-他にも例を挙げるとカーナビによる地理把握能力の低下だとかひしひしと感じます。
-便利さと引き換えに機械に振り回されてる感覚が怖いような、でももう機械無しでは居られない自分が居ます。",128,1,22,false,false,false,2015-06-15 22:52:16,2015-11-18 14:28:47,4,,,,false,,
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,stamp,agreement,claster
+13,ログインしたら一言,ようこそ！,,0,8,false,false,false,2015-12-15 18:48:20,2015-12-16 11:43:42,15,,,,,,
+18,,考えるな！走るんだ！　こんな感じ？,13,10,14,false,false,false,2015-12-16 11:43:42,2015-12-16 11:43:42,15,,,,false,,
+15,,おはようございます＾＾　こんな感じで大丈夫でしょうか？？,13,50,13,false,false,false,2015-12-16 10:52:35,2015-12-16 11:23:07,15,,,,false,,
+17,,こんな感じです！,15,50,8,false,false,false,2015-12-16 11:23:07,2015-12-16 11:23:07,15,,,,false,,
+14,,こんにちは！,13,20,12,false,false,false,2015-12-16 08:49:09,2015-12-16 08:49:09,15,,,,false,,
