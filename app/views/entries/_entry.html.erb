@@ -21,7 +21,7 @@
     <div class="info-list">
     <span class="user-name">
       <% if entry.facilitation? %>
-        ファシリテーター
+        <%= t('entries.facilitator') %>
       <% else %>
         <%= entry.user.name %>
       <% end %>
@@ -32,7 +32,7 @@
 
       <% if user_signed_in? %>
         <a rel="leanModal" href="#reply-modal-<%= entry.id %>">
-          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
+          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="<%= t('entries.reply') %>"></span>
         </a>
         <%= render 'themes/like_button', entry: entry %>
       <% end %>
