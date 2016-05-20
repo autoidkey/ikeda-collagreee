@@ -1,0 +1,9 @@
+en:
+  homes:
+    about:
+      management:
+        title: "Management Entity"
+        one: Eizou Hidejima - Dept. of , Nagoya Institute of Technology
+        two: Takayuki Ito -　Dept. of Computer Science, Nagoya Institute of Technology
+        three: Koki Ito - Dept. of , Nagoya Institute of Technology
+      description: "COLLAGREE System is being developed by Hidejima lab, Takayuki Ito lab, and Koki Ito lab. Collected data is used for our study and paper under the protection of personal information."
