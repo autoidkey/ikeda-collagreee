@@ -1,12 +1,12 @@
 <%= form_for @entry_new, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_area :body , class: 'form-control', placeholder: 'コメントします' %>
+    <%= f.text_area :body , class: 'form-control', placeholder: t('entries.comment') %>
   </div>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
   <%= f.hidden_field :facilitation, { :value => true } %>
-  <%= f.submit 'ファシリテーターとして投稿', class: 'btn btn-default' %>
+  <%= f.submit t('entries.post_facilitator'), class: 'btn btn-default' %>
 <% end %>
 
 <div class="facilitation-phrase">

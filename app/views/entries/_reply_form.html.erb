@@ -1,7 +1,7 @@
 <% if current_user.admin? || current_user.facilitator? %>
 <ul class="nav nav-tabs" role="tablist">
-  <li class="active"><a href="#post<%= i %>" role="tab" data-toggle="tab">投稿</a></li>
-  <li><a href="#facilitation<%= i %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
+  <li class="active"><a href="#post<%= i %>" role="tab" data-toggle="tab"><%= t('entries.post') %></a></li>
+  <li><a href="#facilitation<%= i %>" role="tab" data-toggle="tab"><%= t('entries.facilitation') %></a></li>
 </ul>
 <% end %>
 

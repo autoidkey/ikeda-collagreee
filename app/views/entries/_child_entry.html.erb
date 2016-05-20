@@ -10,19 +10,19 @@
 
     <div class="info-list">
       <% if child.np >= 50 %>
-        <span class="label label-success">反対</span>
+        <span class="label label-success"><%= t('entries.disagree') %></span>
       <% else %>
-        <span class="label label-warning">賛成</span>
+        <span class="label label-warning"><%= t('entries.agree') %></span>
       <% end %>
       <span class="user-name">
-        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+        <%= child.facilitation ? t('entries.facilitator') : child.user.name  %>
       </span>
       <span class="timestamp"> [<%= child.created_at %>]</span>
       <%= render 'themes/information', entry: child %>
 
       <% if user_signed_in? %>
         <a rel="leanModal" href="#reply-modal-<%= child.id %>">
-          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="返信する"></span>
+          <span class="glyphicon glyphicon-share-alt set-popover" data-toggle="popover" data-placement="right" data-content="<%= t('entries.reply') %>"></span>
         </a>
         <%= render 'themes/like_button', entry: child %>
       <% end %>

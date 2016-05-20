@@ -7,12 +7,12 @@
 
       <div class="info-list">
         <% if child.np >= 50 %>
-          <span class="label label-success">反対</span>
+          <span class="label label-success"><%= t('entries.disagree') %></span>
         <% else %>
-          <span class="label label-warning">賛成</span>
+          <span class="label label-warning"><%= t('entries.agree') %></span>
         <% end %>
         <span class="user-name">
-          <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+          <%= child.facilitation ? t('entries.facilitator') : child.user.name  %>
         </span>
         <span class="timestamp"> [<%= child.created_at %>]</span>
         <%= render 'themes/information', entry: child %>
@@ -29,8 +29,8 @@
 
   <% if current_user.admin? || current_user.facilitator? %>
     <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
-      <li class="active"><a href="#post<%= child.id %>" role="tab" data-toggle="tab">投稿</a></li>
-      <li><a href="#facilitation<%= child.id %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
+      <li class="active"><a href="#post<%= child.id %>" role="tab" data-toggle="tab"><%= t('entries.post') %></a></li>
+      <li><a href="#facilitation<%= child.id %>" role="tab" data-toggle="tab"><%= t('entries.facilitation') %></a></li>
     </ul>
   <% end %>
 
