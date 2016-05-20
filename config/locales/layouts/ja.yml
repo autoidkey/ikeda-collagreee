@@ -1,0 +1,14 @@
+ja:
+  layouts:
+    header:
+      management: '運営主体'
+      operation: '操作方法'
+      greet: "ようこそ、%{name}さん"
+      administrator: '管理者'
+      edit: 'ユーザ権限編集'
+      logout: "ログアウト"
+      signup: '新規登録'
+      login: 'ログイン'
+    footer:
+      terms: "利用規約"
+      privacy: "プライバシーポリシー"

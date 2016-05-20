@@ -13,18 +13,18 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to '運営主体', homes_about_path %></li>
-        <li><%= link_to '操作方法', '/collagree_ss/new_help.pdf' %></li>
+        <li><%= link_to t('layouts.header.management'), homes_about_path %></li>
+        <li><%= link_to t('layouts.header.operation'), '/collagree_ss/new_help.pdf' %></li>
 
         <% if user_signed_in? %>
           <li class='nav-user-icon'><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
-          <li><%= link_to "ようこそ、#{ current_user.name }さん", edit_user_registration_path %></li>
-          <li><%= link_to '管理者', admin_root_path if current_user.admin? %></li>
-          <li><%= link_to 'ユーザ権限編集', users_path if current_user.admin? || current_user.organizer? %></li>
-          <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete  %></li>
+          <li><%= link_to t('layouts.header.greet',{name: current_user.name}), edit_user_registration_path %></li>
+          <li><%= link_to t('layouts.header.administrator'), admin_root_path if current_user.admin? %></li>
+          <li><%= link_to t('layouts.header.edit'), users_path if current_user.admin? || current_user.organizer? %></li>
+          <li><%= link_to t('layouts.header.logout'), destroy_user_session_path, method: :delete  %></li>
         <% else %>
-          <li><%= link_to '新規登録', new_user_registration_path %></li>
-          <li><%= link_to 'ログイン', new_user_session_path %></li>
+          <li><%= link_to t('layouts.header.signup'), new_user_registration_path %></li>
+          <li><%= link_to t('layouts.header.login'), new_user_session_path %></li>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
