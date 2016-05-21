@@ -1,26 +1,26 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <h2>ログイン</h2>
+    <h2><%= t('users.registration.login')</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="form-group">
-        <label>メールアドレス：</label>
+        <label><%= t('users.registration.mail') %></label>
         <div><%= f.email_field :email, autofocus: true, class: 'form-control' %></div>
       </div>
 
       <div class="form-group">
-        <label>パスワード：</label>
+        <label><%= t('users.registration.password') %></label>
         <div><%= f.password_field :password, autocomplete: "off", class: 'form-control' %></div>
       </div>
 
-    <div><%= f.check_box :remember_me, {:checked => "checked"} %> 
-      <%= f.label :remember_me, '次回から自動的にログイン', :style => 'display: inline-block;' %>
+    <div><%= f.check_box :remember_me, {:checked => "checked"} %>
+      <%= f.label :remember_me, t('users.registration.auto_login'), :style => 'display: inline-block;' %>
 </div>
       <!-- <% if devise_mapping.rememberable? -%> -->
       <!--   <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div> -->
       <!-- <% end -%> -->
 
-      <div><%= f.submit 'ログイン', class: 'btn btn-default login-btn' %></div>
+      <div><%= f.submit t('users.registration.login'), class: 'btn btn-default login-btn' %></div>
     <% end %>
 
     <%#= render "users/shared/links" %>

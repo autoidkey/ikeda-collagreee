@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-12 padding">
-    <h1><%= @user.name %> さん</h1>
+    <h1><%= @user.name %> <%= t('users.unlocks.san') %></h1>
     <div class="row">
       <div class="col-md-4">
-        <h3>活動割合</h3>
+        <h3><%= t('users.unlocks.activity') %></h3>
         <div id="user-action-chart"></div>
         <table class="table table-striped">
           <tbody>
@@ -18,7 +18,7 @@
 
       </div>
       <div class="col-md-8">
-        <h3>テーマ別興味キーワード</h3>
+        <h3><%= t('users.unlocks.keyword') %></h3>
         <% @keyword.each do |key, value| %>
           <h4>【<%= Theme.find(key).title %>】</h4>
           <% value.sort_by { |k| -k.score }.each do |word| %>
