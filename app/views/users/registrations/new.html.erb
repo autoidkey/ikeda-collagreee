@@ -1,37 +1,37 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <h2>アカウント新規登録</h2>
+    <h2><%= t('users.registration.create') %></h2>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= devise_error_messages! %>
 
       <div class="form-group">
-        <%= f.label :email, 'メールアドレス：' %>
+        <%= f.label :email, t('users.registration.mail') %>
         <%= f.email_field :email, autofocus: true, class: 'form-control' %>
       </div>
 
       <div class="form-group">
-        <%= f.label :name, 'ニックネーム：' %>
+        <%= f.label :name, t('users.registration.nickname') %>
         <%= f.text_field :name, autocomplete: "off", class: 'form-control' %>
       </div>
 
       <div class="form-group">
-        <%= f.label :realname, '氏名：' %>
+        <%= f.label :realname, t('users.registration.name') %>
         <%= f.text_field :realname, autocomplete: "off", class: 'form-control' %>
       </div>
 
       <div class="form-group">
-        <%= f.label :gender, '性別：' %>
+        <%= f.label :gender, t('users.registration.gender') %>
         <%= f.select :gender, User.genders.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
       <div class="form-group">
-        <%= f.label :age, '年齢：' %>
+        <%= f.label :age, t('users.registration.age') %>
         <%= f.select :age, User.ages.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
       <div class="form-group">
-        <%= f.label :home, '住まい：' %>
+        <%= f.label :home, t('users.registration.home') %>
         <%= f.select :home, User.homes.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
@@ -51,20 +51,20 @@
       <!-- </div> -->
 
       <div class="form-group">
-        <label for="user_image">アイコン：</label>
+        <label for="user_image"><%= t('users.registration.icon') %></label>
         <%= f.file_field :image %>
       </div>
 
       <div class="form-group">
-        <label for="">パスワード <% if @validatable %>(<%= @minimum_password_length %> 文字以上)<% end %>：</label>
+        <label for=""><%= t('users.registration.password') %> <% if @validatable %>(<%= @minimum_password_length %> <%= t('users.registration.restrict') %>)<% end %>：</label>
         <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
       </div>
 
       <div class="form-group">
-        <label for="">パスワードの確認：</label>
+        <label for=""><%= t('users.registration.password_confirm') %></label>
         <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %></div>
 
-      <div><%= f.submit "登録", class: 'btn btn-default login-btn' %></div>
+      <div><%= f.submit t('users.registration.register'), class: 'btn btn-default login-btn' %></div>
     <% end %>
 
     <%#= render "users/shared/links" %>

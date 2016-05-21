@@ -1,0 +1,28 @@
+en:
+  users:
+    registration:
+      edit: "Acount Settings"
+      create:
+      mail: 'Email：'
+      nickname: 'Nickname：'
+      name: 'Name：'
+      gender: 'Gender：'
+      age: 'Age：'
+      home: 'Home：'
+      icon: 'Icon：'
+      password: "Password"
+      restrict: "or more"
+      password_confirm: "Password Confirmation："
+      current_password: 'Current Password：'
+      update: "Update"
+      register: "Register"
+      login: "Login"
+      auto_login: "Remember Me"
+    unlocks:
+      search: "search"
+      match_all: "Perfect Matching"
+      match_partial: "Partial Matching"
+      clear: "Clear"
+      san: ""
+      activity: "Activity"
+      keyword: "Interesting Keyword"

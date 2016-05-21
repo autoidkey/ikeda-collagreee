@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <div class="panel-title">検索</div>
+    <div class="panel-title"><%= t('users.unlocks.search') %></div>
   </div>
   <div class="panel-body">
     <%= search_form_for(@q, method: :get) do |f| %>
@@ -8,18 +8,18 @@
         <div class="col-sm-6">
           <div class="form-group">
             <%= f.label :name_eq %>
-            <%= f.text_field :name_eq, class: "form-control", placeholder: "完全一致" %>
+            <%= f.text_field :name_eq, class: "form-control", placeholder: t('users.unlocks.match_all') %>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             <%= f.label :name_cont %>
-            <%= f.text_field :name_cont, class: "form-control", placeholder: "部分一致" %>
+            <%= f.text_field :name_cont, class: "form-control", placeholder: t('users.unlocks.match_partial') %>
           </div>
         </div>
       </div>
-      <%= f.submit '検索', class: "btn btn-primary" %>
-      <%= link_to 'クリア', url_for, class: "btn btn-default" %>
+      <%= f.submit t('users.unlocks.search'), class: "btn btn-primary" %>
+      <%= link_to t('users.unlocks.clear'), url_for, class: "btn btn-default" %>
     <% end %>
   </div>
 </div>
@@ -56,4 +56,3 @@
   <% end %>
   </tbody>
 </table>
-

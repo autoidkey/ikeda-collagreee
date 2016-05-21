@@ -1,0 +1,28 @@
+ja:
+  users:
+    registration:
+      edit: "アカウント情報編集"
+      create: "アカウント新規登録"
+      mail: 'メールアドレス：'
+      nickname: 'ニックネーム：'
+      name: '氏名：'
+      gender: '性別：'
+      age: '年齢：'
+      home: '住まい：'
+      icon: 'アイコン：'
+      password: "パスワード"
+      restrict: "文字以上"
+      password_confirm: "パスワードの確認："
+      current_password: '現在のパスワード：'
+      update: "更新"
+      register: "登録"
+      login: "ログイン"
+      auto_login: '次回から自動的にログイン'
+    unlocks:
+      search: "検索"
+      match_all: "完全一致"
+      match_partial: "部分一致"
+      clear: "クリア"
+      san: "さん"
+      activity: "活動割合"
+      keyword: "テーマ別興味キーワード"
