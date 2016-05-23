@@ -2,7 +2,7 @@ en:
   users:
     registration:
       edit: "Acount Settings"
-      create:
+      create: "New Account"
       mail: 'Email：'
       nickname: 'Nickname：'
       name: 'Name：'

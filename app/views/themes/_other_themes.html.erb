@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <h3>Other theme / 他のテーマ</h3>
+    <h3><%= t('themes.other_themes') %></h3>
     <% @other_themes.each do |theme| %>
       <% if theme.image? %>
         <%= image_tag theme.image.user_thumb.url %>

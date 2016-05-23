@@ -1,9 +1,9 @@
 <a rel="leanModal" href="#reply-modal-<%= entry.id %>">
   <% if smartphone? %>
     <button class="reply_button btn btn-default btn-xs" data-id="<%= entry.id %>">
-      <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 返信する
+      <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= t('themes.do_reply') %>
     </button>
   <% else %>
-    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="reply_button" data-id="<%= entry.id %>"> 返信する</span>
+    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="reply_button" data-id="<%= entry.id %>"> <%= t('themes.do_reply') %></span>
   <% end %>
 </a>

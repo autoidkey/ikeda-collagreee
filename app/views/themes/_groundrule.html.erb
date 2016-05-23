@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> News from the facilitator / ファシリテータからのお知らせ</h4>
+    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span><%= t('themes.news_title') %></h4>
   </div>
   <div class="panel-body">
     <% if @tree_type == 1 %>
@@ -8,10 +8,10 @@
         <%= image_tag 'phase/phase1.png' %>
       </div>
       <div class="phase_comment">
-        <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> 発散フェイズって？</h4>
-        発散フェイズは新しい意見を出すフェイズです。現実的かどうかは置いておいて、どんどん案を出していきましょう！
+        <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> <%= t('themes.what_divergence') %></h4>
+        <%= t('themes.description_divergence') %>
         <% if params[:id] != "4" %>
-          <br>新しい発言をすればするほど、獲得できる議論ポイントもアップします！！
+          <br><%= t('themes.what_divergence') %>
         <% end %>
       </div>
     <% elsif @tree_type == 2 %>
@@ -19,10 +19,10 @@
         <%= image_tag 'phase/phase2.png' %>
       </div>
       <div class="phase_comment">
-        <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> 収束フェイズって？</h4>
-        収束フェイズはこれまでに出た意見をより深めるフェイズです。これまでの意見に、付け足しや修正を行いましょう！
+        <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> <%= t('themes.what_convergence') %></h4>
+        <%= t('themes.description_convergence') %>
         <% if params[:id] != "4" %>
-          <br>表示されてるキーワードについて意見を深めていくほど、獲得できる議論ポイントもアップします！！
+          <br><%= t('themes.advertise_convergence') %>
         <% end %>
       </div>
     <% else %>
@@ -30,15 +30,15 @@
         <%= image_tag 'phase/phase3.png' %>
       </div>
       <div class="phase_comment">
-        <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> 合意フェイズって？</h4>
-        合意フェイズは最終的な合意案を作成するフェイズです。収束フェイズまでに出た案を吟味し、最終的な案の質を上げていきましょう！
+        <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> <%= t('themes.what_consensus') %></h4>
+        <%= t('themes.description_consensus') %>
         <% if params[:id] != "4" %>
-          <br>表示されてるキーワードについて議論・吟味するほど、獲得できる議論ポイントもアップします！！
+          <br><%= t('themes.advertise_consensus') %>
         <% end %>
       </div>
     <% end %>
     <hr>
-    
+
     <div class="facilitation_infomations">
       <div class="f_image">
         <%= image_tag 'faci_icon.png' %>
@@ -49,7 +49,7 @@
       <div class="f_comment_btn">
       <br>
         <% if user_admin?(current_user) %>
-          <%= link_to 'コメント更新', new_facilitation_infomation_path(theme_id: params[:id]) ,class: 'btn btn-default' %>
+          <%= link_to t('themes.update_comments'), new_facilitation_infomation_path(theme_id: params[:id]) ,class: 'btn btn-default' %>
         <% end %>
       </div>
     </div>

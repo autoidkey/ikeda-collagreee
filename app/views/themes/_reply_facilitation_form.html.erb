@@ -1,16 +1,16 @@
 <%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
+    <%= f.text_area :body , class: 'form-control', placeholder: t('themes.facilitation_do') %>
   </div>
   <div class="form-check_box">
-    この意見を合意案とする<%= f.check_box :agreement, {:value => false} %>
+    <%= t('themes.draft_agreement') %><%= f.check_box :agreement, {:value => false} %>
   </div>
 
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
   <%= f.hidden_field :facilitation, { :value => true } %>
-  <%= f.submit 'ファシリテーターとして投稿', class: 'btn btn-default' %>
+  <%= f.submit t('themes.post_as_facilitator'), class: 'btn btn-default' %>
 <% end %>
 
 <div class="facilitation-phrase">

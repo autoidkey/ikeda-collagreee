@@ -7,12 +7,12 @@
 
     <div class="info-list">
       <% if child.np >= 50 %>
-        <span class="label label-warning">賛成</span>
+        <span class="label label-warning"><%= t('themes.agree') %></span>
       <% else %>
-        <span class="label label-success">反対</span>
+        <span class="label label-success"><%= t('themes.disagree') %></span>
       <% end %>
       <span class="user-name">
-        <%= child.facilitation ? "ファシリテータ" : child.user.name  %>
+        <%= child.facilitation ? t('themes.facilitator') : child.user.name  %>
       </span>
       <span class="timestamp">・<%= child.created_at.to_s(:timeline) %></span>
       <%= render 'themes/information', entry: child %>
@@ -29,8 +29,8 @@
 <!-- ファシリテータか一般ユーザーの投稿かを選択 -->
   <% if current_user.admin? || current_user.facilitator? %>
     <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
-      <li class="active"><a href="#post<%= child.id %>" role="tab" data-toggle="tab">投稿</a></li>
-      <li><a href="#facilitation<%= child.id %>" role="tab" data-toggle="tab">ファシリテーション</a></li>
+      <li class="active"><a href="#post<%= child.id %>" role="tab" data-toggle="tab"><%= t('themes.post') %></a></li>
+      <li><a href="#facilitation<%= child.id %>" role="tab" data-toggle="tab"><%= t('themes.facilitation') %></a></li>
     </ul>
   <% end %>
 
@@ -39,7 +39,7 @@
     <div class="tab-pane active reply-tab" id="post<%= child.id %>">
       <%= render 'themes/reply_entry_form', { entry: child} %>
     </div>
-    
+
     <% if current_user.admin? || current_user.facilitator? %>
       <div class="tab-pane facilitation-tab" id="facilitation<%= child.id %>">
         <%= render 'themes/reply_facilitation_form', { entry: child, k: child.id } %>

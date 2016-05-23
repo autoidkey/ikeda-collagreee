@@ -1,9 +1,9 @@
 <%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_field :title , class: 'form-control', placeholder: 'あなたの意見のタイトルを入力してください。(20字以下)', rows: 2 %>
+    <%= f.text_field :title , class: 'form-control', placeholder: t('themes.opinion_title'), rows: 2 %>
   </div>
   <div class="form-group">
-    <%= f.text_area :body , class: 'form-control', placeholder: 'あなたはどんな意見ですか' %>
+    <%= f.text_area :body , class: 'form-control', placeholder: t('themes.opinion_body') %>
   </div>
   <div class="form-group">
     <%= f.file_field :image %>
@@ -18,5 +18,5 @@
   <%= f.hidden_field :parent_id, { :value => @entry.parent_id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
   <%= f.hidden_field :facilitation, { :value => false } %>
-  <%= f.submit '投稿', class: 'btn btn-default', id: 'main-submit' %>
+  <%= f.submit t('themes.post'), class: 'btn btn-default', id: 'main-submit' %>
 <% end %>
