@@ -1,13 +1,13 @@
 <div class="panel panel-default entry-panel">
   <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Post / 投稿</h4>
+    <h4 class=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <%= t('themes.post_title') %></h4>
   </div>
 
   <div class="panel-body">
     <% if current_user.admin? || current_user.facilitator? %>
       <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
-        <li class="active"><a href="#facilitation" role="tab" data-toggle="tab">ファシリテーション</a></li>
-        <li><a href="#post" role="tab" data-toggle="tab">投稿</a></li>
+        <li class="active"><a href="#facilitation" role="tab" data-toggle="tab"><%= t('themes.facilitation') %></a></li>
+        <li><a href="#post" role="tab" data-toggle="tab"><%= t('themes.post') %></a></li>
       </ul>
     <% end %>
 

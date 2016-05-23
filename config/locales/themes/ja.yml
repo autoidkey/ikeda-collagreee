@@ -53,3 +53,38 @@ ja:
     do_comment: 'コメントしましょう'
     move_bar: '※ 賛成/反対に応じてバーを調整してください'
     facilitation: 'ファシリテーション'
+    sort: "【並び替え】"
+    whats_new: "新着"
+    narrow: "【絞り込み】"
+    search: '検索'
+    tag_title: 'Tags / 論点タグ'
+    theme_title: 'Theme / テーマ'
+    post_title: 'Post / 投稿'
+    four_point_ranking: '第4部ポイントランキング'
+    user: 'ユーザー'
+    count_like: '件 / Like '
+    three_point_ranking: '第3部ポイントランキング'
+    post_count_ranking: '投稿数ランキング'
+    post_count: '投稿件数'
+    overall_point_ranking: '総合ポイントランキング'
+    user_title: 'Users / 閲覧ユーザ'
+    main_title_html: "いつでも どこでも 何人でも <br />
+      Web上の議論の場"
+    login: 'ログイン'
+    signup: '新規登録'
+    theme_cap: '/テーマ'
+    add_theme: 'テーマ追加'
+    create_theme: 'テーマ作成'
+    newpost_ga: '新着投稿が'
+    count_arimasu: '件あります'
+    reply_count: '返信数'
+    next: '次へ'
+    divergence: '発散フェーズ'
+    convergence: '収束フェーズ'
+    consensus: '合意フェーズ'
+    switch_divergence: "発散フェーズモードに切り替えてもよろしいですか？"
+    switch_convergence: "収束フェーズモードに切り替えてもよろしいですか？"
+    switch_consensus: "合意フェーズモードに切り替えてもよろしいですか？"
+    debate: '議論'
+    debate_tree: '議論ツリー'
+    point_acquired: '獲得ポイント'
