@@ -1,19 +1,19 @@
 <%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_field :title , class: 'form-control', placeholder: 'あなたの意見のタイトルを入力してください。(20字以下)' %>
+    <%= f.text_field :title , class: 'form-control', placeholder: t('themes.opinion_title') %>
   </div>
   <div class="form-group">
-    <%= f.text_area :body , class: 'form-control', placeholder: 'ファシリテーションしましょう' %>
+    <%= f.text_area :body , class: 'form-control', placeholder: t('themes.facilitation_do') %>
   </div>
   <div class="form-check_box">
-    この意見を合意案とする<%= f.check_box :agreement, {:value => false} %>
+    <%= t('themes.draft_agreement') %><%= f.check_box :agreement, {:value => false} %>
   </div>
 
 
 
   <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
-      <li class="active"><a href="#stamp" role="tab" data-toggle="tab">スタンプ</a></li>
-      <li><a href="#phrase" role="tab" data-toggle="tab">ファシリテーションフレーズ</a></li>
+      <li class="active"><a href="#stamp" role="tab" data-toggle="tab"><%= t('themes.stamp') %></a></li>
+      <li><a href="#phrase" role="tab" data-toggle="tab"><%= t('themes.facilitation_phrase') %></a></li>
   </ul>
 
   <div class="tab-content">
@@ -48,7 +48,7 @@
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
   <%= f.hidden_field :facilitation, { :value => true } %>
 
-  <%= f.submit 'ファシリテーターとして投稿', class: 'btn btn-default' %>
+  <%= f.submit t('themes.post_as_facilitator'), class: 'btn btn-default' %>
 <% end %>
 
 

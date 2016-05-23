@@ -1,25 +1,25 @@
 <%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_area :body, class: 'form-control reply-entry-form', placeholder: 'コメントしましょう', :data => {:id => entry.id} %>
+    <%= f.text_area :body, class: 'form-control reply-entry-form', placeholder: t('themes.do_comment'), :data => {:id => entry.id} %>
   </div>
   <div class="form-group">
     <%= f.file_field :image %>
   </div>
 
   <div class="np-slider-label">
-    <span class="label label-warning">賛成</span>
-    <span class="label label-success">反対</span>
+    <span class="label label-warning"><%= t('themes.agree') %></span>
+    <span class="label label-success"><%= t('themes.disagree') %></span>
   </div>
 
   <div class="slider slider_np_bar" id="slider-<%= entry.id %>"></div>
 
-  <span class="cation-slider">※ 賛成/反対に応じてバーを調整してください</span><br />
-  
+  <span class="cation-slider"><%= t('themes.move_bar') %></span><br />
+
   <%= f.hidden_field :np, { :class=> 'np-input', :id => 'np-input-' + entry.id.to_s, :value => 50 } %>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
   <%= f.hidden_field :facilitation, { :value => false } %>
   <%= f.hidden_field :agreement, { :value => false } %>
-  <%= f.submit '投稿', class: 'btn btn-default' %>
+  <%= f.submit t('themes.post'), class: 'btn btn-default' %>
 <% end %>

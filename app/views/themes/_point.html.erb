@@ -1,20 +1,20 @@
 <div class="panel panel-default">
   <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Point / 議論ポイント</h4>
+    <h4 class=""><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> <%= t('themes.point_title') %></h4>
   </div>
   <div class="panel-body">
-    <span id="">あなたの議論ポイントは</span>
+    <span id=""><%= t('themes.your_point_is') %></span>
     <!-- point_listはthemes_controller.rbの中で定義されている -->
     <span id="sum_point">  <%= point_list[:sum] %></span>
-    <span id="">ポイントです！</span>
+    <span id=""><%= t('themes.point_desu') %></span>
 
     <table class="table point-table">
       <thead>
         <tr>
-          <th>投稿</th>
-          <th>返信</th>
-          <th>賛同</th>
-          <th>活動ポイント</th>
+          <th><%= t('themes.post') %></th>
+          <th><%= t('themes.reply') %></th>
+          <th><%= t('themes.approval') %></th>
+          <th><%= t('themes.point_activity') %></th>
           </tr>
       </thead>
       <tbody>
@@ -30,10 +30,10 @@
     <table class="table point-table">
       <thead>
         <tr>
-          <th>返信された</th>
-          <th>賛同された</th>
+          <th><%= t('themes.replied') %></th>
+          <th><%= t('themes.approvaled') %></th>
           <th></th>
-          <th>評価ポイント</th>
+          <th><%= t('themes.point_activity') %></th>
         </tr>
       </thead>
       <tbody>
@@ -46,7 +46,7 @@
       </tbody>
     </table>
 
-    <h4>ポイント履歴</h4>
+    <h4><%= t('themes.point_history') %></h4>
     <div style="max-height:300px; overflow-y:scroll;">
       <table height="" class="table">
         <thead>

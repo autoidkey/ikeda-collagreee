@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <h3>Activity / あなたの活動</h3>
+    <h3><%= t('themes.activity') %></h3>
     <% @activities.each do |activity| %>
       <%= activity.created_at %>
       <%= activity.atype %>
