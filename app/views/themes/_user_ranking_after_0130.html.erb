@@ -1,14 +1,14 @@
 <div class="panel panel-default">
   <div class="panel-header">
-    <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> 第4部ポイントランキング</h4>
+    <h4 class=""><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> <%= t('themes.four_point_ranking') %></h4>
   </div>
   <div class="panel-body">
     <table class="table table-striped ranking-table">
       <thead>
         <tr>
-          <th>順位</th>
-          <th>ユーザー</th>
-          <th>ポイント</th>
+          <th><%= t('themes.ranking') %></th>
+          <th><%= t('themes.user') %></th>
+          <th><%= t('themes.post') %></th>
         </tr>
       </thead>
       <tbody>
@@ -21,7 +21,7 @@
                            data: {
                              toggle: "popover",
                              placement: "right",
-                             content: user.name.to_s + '｜投稿 ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + '件'
+                             content: user.name.to_s + '｜' + t('themes.post') +' ' + user.entries.count.to_s + t('themes.count_like') + user.likes.status_on.count.to_s + t('themes.count')
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>

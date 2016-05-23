@@ -5,20 +5,20 @@
   <div class="btn-group btn-group-justified" role="group" aria-label="">
 
     <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1' , method: :post, data: { confirm: "発散フェーズモードに切り替えてもよろしいですか？" } do %>
-        <button type="button" class="btn btn-default">発散フェーズ</button>
+      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
+        <button type="button" class="btn btn-default"><%= t('themes.divergence') %></button>
       <% end %>
     </div>
 
     <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/2', method: :post, data: { confirm: "収束フェーズモードに切り替えてもよろしいですか？" } do %>
-        <button type="button" class="btn btn-default">収束フェーズ</button>
+      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/2', method: :post, data: { confirm: t('themes.switch_convergence') } do %>
+        <button type="button" class="btn btn-default"><%= t('themes.convergence') %></button>
       <% end %>
     </div>
 
     <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3', method: :post, data: { confirm: "合意フェーズモードに切り替えてもよろしいですか？" } do %>
-        <button type="button" class="btn btn-default">合意フェーズ</button>
+      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3', method: :post, data: { confirm: t('themes.switch_consensus') } do %>
+        <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
       <% end %>
     </div>
   </div>
@@ -29,12 +29,12 @@
 
 <!-- roleは役割を表す -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
-  <li class="active"><a href="#discussion" role="tab" data-toggle="tab">議論</a></li>
-  <li><a href="#infomation" role="tab" data-toggle="tab">ランキング</a></li>
-  <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in">議論ツリー</a></li>
+  <li class="active"><a href="#discussion" role="tab" data-toggle="tab"><%= t('themes.debate') %></a></li>
+  <li><a href="#infomation" role="tab" data-toggle="tab"><%= t('themes.ranking') %></a></li>
+  <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in"><%= t('themes.debate_tree') %></a></li>
   <% if user_signed_in? %>
     <% if smartphone? %>
-      <li><a href="#get-point" role="tab" data-toggle="tab">獲得ポイント</a></li>
+      <li><a href="#get-point" role="tab" data-toggle="tab"><%= t('themes.point_acquired') %></a></li>
     <% end %>
   <% end %>
 </ul>
@@ -58,7 +58,7 @@
         <hr />
 
         <div class="well" id="entry_notice">
-          <span>新着投稿が</span><span id="entry_notice_count">0</span>件あります
+          <span><%= t('themes.newpost_ga') %></span><span id="entry_notice_count">0</span><%= t('themes.count_arimasu') %>
         </div>
 
         <!-- 検索するビュー -->
@@ -81,7 +81,7 @@
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
 
-         <div id="next" class="next_link_div"><%= link_to_next_page @entries, '次のページを表示', :remote => true, :id => 'next_link', :class=>'next_link_a_tag'  %></div>
+         <div id="next" class="next_link_div"><%= link_to_next_page @entries, t('themes.next_page'), :remote => true, :id => 'next_link', :class=>'next_link_a_tag'  %></div>
 
       </div>
 
