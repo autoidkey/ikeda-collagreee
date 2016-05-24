@@ -926,7 +926,7 @@ a:hover{color:#30495c !important}.wrapper .logo div{color:#41637e}.wrapper .logo
                           <tbody><tr>
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
 
-            <h3 style="Margin-top: 0;color: #555;font-weight: normal;font-size: 32px;line-height: 42px;Margin-bottom: 20px;font-family: Arial, Georgia,serif;text-align: center">返信ポイント<%= "%.1f" % @point %>pt 獲得！</h3>
+            <h3 style="Margin-top: 0;color: #555;font-weight: normal;font-size: 32px;line-height: 42px;Margin-bottom: 20px;font-family: Arial, Georgia,serif;text-align: center"><%= t('mailer.got_replied_point',{point: "%.1f" % @point})%></h3>
 
                             </td>
                           </tr>
@@ -950,9 +950,9 @@ a:hover{color:#30495c !important}.wrapper .logo div{color:#41637e}.wrapper .logo
                           <tbody><tr>
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
 
-                              <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 32px;text-align: center">あなたの投稿「<%= cut_off(@entry.body, 100) %>」が<%= @from.name %>さんに返信されました。</p>
-            <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 32px;text-align: center">返信内容「<%= cut_off(@reply.body, 200) %>」</p>
-                              <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 13px;line-height: 32px;Margin-bottom: 0;text-align: center">いつでも どこでも 何人でも Web上の議論の場</p>
+                              <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 32px;text-align: center"><%= t('mailer.replied',{post: cut_off(@entry.body, 100),name: @from.name}) %></p>
+            <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 32px;text-align: center"><%= t('mailer.replied_cap') %>「<%= cut_off(@reply.body, 200) %>」</p>
+                              <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 13px;line-height: 32px;Margin-bottom: 0;text-align: center"><%= t('mailer.replied_cap') %></p>
                               <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 21px;line-height: 32px;Margin-bottom: 32px;text-align: center"><a style="text-decoration: none;transition: all .2s;color: #41637e;border-bottom: 1px solid #41637e" data-emb-href-display="collagree.com" href="<%= @url %>">COLLAGREE</a></p>
 
                             </td>
