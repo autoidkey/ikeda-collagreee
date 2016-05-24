@@ -32,7 +32,7 @@
               <span class="user-score">
                 <%= user.entries.where(theme_id: theme, facilitation: false).count %>
               </span>
-              件</td>
+              <%= t('themes.count') %></td>
           </tr>
         <% end %>
       </tbody>

@@ -1,6 +1,6 @@
 <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
 <%= t('themes.sort') %>
-  <%= f.radio_button :order, 'time', {:checked => true} %> 新着
+  <%= f.radio_button :order, 'time', {:checked => true} %> <%= t('themes.new') %>
   <!-- <%= f.radio_button :order, 'popular' %> 返信数 -->
   <%= f.radio_button :order, 'point' %> <%= t('themes.point') %>
 
