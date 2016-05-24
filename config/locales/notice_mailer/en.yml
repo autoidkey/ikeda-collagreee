@@ -1,14 +1,14 @@
 ja:
   mailer:
-    post_from_facilitator: 'ファシリテータから投稿がありました。確認しましょう。'
-    facilitator: 'ファシリテータ'
-    main_title: 'いつでも どこでも 何人でも Web上の議論の場'
-    liked_title: "いいねされました！"
-    liked: "あなたの投稿が%{name}さんにいいね！されました。"
-    liked_post: "いいね！されたあなたの投稿"
-    liked_body: "あなたの投稿「%{post}」が%{name}さんにLikeされました。"
-    got_point: "いいねポイント%{point}pt 獲得！"
-    replied: "あなたの投稿「%{post}」が%{name}さんに返信されました。"
-    replied_cap: "返信内容"
-    replied_title: "返信されました！"
-    got_replied_point: "返信ポイント%{point}pt 獲得！"
+    post_from_facilitator: "Post from facilitator arrives! Why don't you take a look?"
+    facilitator: 'facilitator'
+    main_title: 'Whenever Wherever However many you are Discussion Forums on the Web'
+    liked_title: "Someone Liked your post!"
+    liked: "Your post is Liked by %{name}"
+    liked_post: "Content"
+    liked_body: "Your post [%{post}] is Liked by %{name}"
+    got_point: "You got %{point} Liked Point!"
+    replied: "Your post [%{post}] is replied by %{name}"
+    replied_cap: "Content"
+    replied_title: "Someone replied to your post!"
+    got_replied_point: "You got %{point} Replied Point!"
