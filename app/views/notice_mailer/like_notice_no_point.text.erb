@@ -1,5 +1,5 @@
-Likeされました！
+<%= t('mailer.liked_title') %>
 
-あなたの投稿「<%= cut_off(@entry.body, 30) %>」が<%= @from.name %>さんにLikeされました。
+<%= t('mailer.liked_body', {post: cut_off(@entry.body, 30),name: @from.name}) %>
 
 collagree / <a href="http://www.collagree.com">collagree.com</a>

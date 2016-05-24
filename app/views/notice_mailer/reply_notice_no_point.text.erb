@@ -1,8 +1,8 @@
-返信されました！
+<%= t('mailer.replied_title') %>
 
-あなたの投稿「<%= cut_off(@entry.body, 30) %>」が<%= @from.name %>さんに返信されました。
+<%= t('mailer.replied',{post: @entry.body,name: @from.name}) %>
 
-【返信内容】
+【<%= t('mailer.replied_cap') %>】
 <%= @reply.body %>
 
 collagree / http://www.collagree.com
