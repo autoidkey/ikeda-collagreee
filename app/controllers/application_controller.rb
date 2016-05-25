@@ -18,6 +18,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #翻訳関係
+  before_action :set_locale
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  # link_toなどのすべてのURLにlocaleパラメータを設定するようにする
+  def default_url_options(options = {})
+    { locale: I18n.locale }.merge options
+  end
+
   protected
 
   def configure_permitted_parameters
