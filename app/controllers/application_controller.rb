@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   def authenticate_admin_user!
     authenticate_user!
     unless current_user.admin?
-      flash[:alert] = 'adminユーザのみ利用可能です'
+      flash[:alert] = t('controllers.only_admin')
       redirect_to root_path
     end
   end

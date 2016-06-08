@@ -60,7 +60,7 @@
                 <span class="bold"><%= ap.point %>pt </span><span class="glyphicon glyphicon-chevron-right small"></span>
                 <% case ap.action
                    when "投稿" %>
-                投稿しました (投稿 No.<%= ap.entry.id %>)
+                <%= t('themes.posted') %> (<%= t('themes.post_no') %><%= ap.entry.id %>)
                 <% when "返信" %>
                 <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry.id %>)
                 <% when "Like" %>

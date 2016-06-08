@@ -54,9 +54,9 @@ class ThemesController < ApplicationController
     if comment != nil
       @f_comment = comment[:body]
     else
-      @f_comment = "こんにちは。今回、議論のファシリテータを務めさせていただきます。よろしくお願いします！"
+      @f_comment = t('controllers.greet')
     end
-    puts "ファシリテータからのコメントは = #{@f_comment}です！！"
+    puts t('controllers.comment_from_facilitator')
 
     # ウェブアクセスをカウントアップ
     # TODO:該当グループ以外のテーマを閲覧した時は除外する
@@ -74,7 +74,7 @@ class ThemesController < ApplicationController
     @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
     if @tree_type[0] == nil then
       @tree_type = 1
-    else 
+    else
       @tree_type = @tree_type[0][:phase_id]
     end
 
@@ -84,7 +84,7 @@ class ThemesController < ApplicationController
     # @idm_n = 0
     # @idm_F = []
     # @idm_K = []
-    # idm  
+    # idm
     # new_idm
     # logger.info @idm_K
 
@@ -300,10 +300,10 @@ class ThemesController < ApplicationController
     str = tex.gsub(/(\s)/,"")
     str = str.gsub(/《[^》]+》/, "")
     str = str.gsub(/　/, "  ")
-    str = str.gsub('(', '（') 
-    str = str.gsub(')', '）') 
-    str = str.gsub('!', '！') 
-    str = str.gsub('&', '＆') 
+    str = str.gsub('(', '（')
+    str = str.gsub(')', '）')
+    str = str.gsub('!', '！')
+    str = str.gsub('&', '＆')
     str = str.gsub(/[\r\n]/,"")
     return str
   end
@@ -339,7 +339,7 @@ class ThemesController < ApplicationController
 
     @dynamicpoint = 0
     matching_bonus = 0    # キーワードとの一致ボーナス用
-    
+
     nword_flag = 0
     nword_bonus = 0       # 新規単語ボーナス用
 
@@ -447,24 +447,24 @@ class ThemesController < ApplicationController
     end
 
     # DBからキーワードとスコアを抽出してハッシュに入れる
-    keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key| 
+    keywords_scores = Keyword.where(user_id: nil, theme_id: params[:id]).map do |key|
       {id: key.id, word: key.word, score: key.score}
     end
 
     # こっちはファシリテーターが手動で設定したキーワード用
-    # facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+    # facilitation_keywords_scores = FacilitationKeyword.where(theme_id: params[:id]).map do |key|
     #   {id: key.id, word: key.word, score: key.score}
     # end
 
     # 書き込みの内容を取得
     text = entry_params["body"]
 
-    # MeCabによる投稿内容の形態素解析 
+    # MeCabによる投稿内容の形態素解析
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
     word = norm_connection2(text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
-    
+
     # 抽出したワードを1つずつ読み込んでいく
     word.each do |w|
 
@@ -536,14 +536,14 @@ class ThemesController < ApplicationController
     if params[:id] == "4" # ここを適当に変える
       @dynamicpoint = 20
     end
-    
+
     puts "----------------------------------------------------------"
     puts "獲得した追加ポイント = #{@dynamicpoint}!!"
     puts "----------------------------------------------------------"
 
     @facilitations = Facilitations
     @count = @theme.entries.root.count
-    
+
     respond_to do |format|
       if @new_entry.save
         print "#エントリーをセーブ"
@@ -636,7 +636,7 @@ class ThemesController < ApplicationController
   end
 
   def set_facilitation_keyword
-    @facilitation_keyword = FacilitationKeyword.where(theme_id: params[:id]).map do |key| 
+    @facilitation_keyword = FacilitationKeyword.where(theme_id: params[:id]).map do |key|
       {id: key.id, word: key.word, score: key.score}
     end
   end

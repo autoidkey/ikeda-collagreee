@@ -4,23 +4,43 @@
 
   <div class="btn-group btn-group-justified" role="group" aria-label="">
 
-    <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
-        <button type="button" class="btn btn-default"><%= t('themes.divergence') %></button>
-      <% end %>
-    </div>
+    <% if params[:locale] == 'ja' %>
+      <div class="btn-group" role="group">
+        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
+          <button type="button" class="btn btn-default"><%= t('themes.divergence') %></button>
+        <% end %>
+      </div>
 
-    <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/2', method: :post, data: { confirm: t('themes.switch_convergence') } do %>
-        <button type="button" class="btn btn-default"><%= t('themes.convergence') %></button>
-      <% end %>
-    </div>
+      <div class="btn-group" role="group">
+        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/2', method: :post, data: { confirm: t('themes.switch_convergence') } do %>
+          <button type="button" class="btn btn-default"><%= t('themes.convergence') %></button>
+        <% end %>
+      </div>
 
-    <div class="btn-group" role="group">
-      <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3', method: :post, data: { confirm: t('themes.switch_consensus') } do %>
-        <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
-      <% end %>
-    </div>
+      <div class="btn-group" role="group">
+        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3', method: :post, data: { confirm: t('themes.switch_consensus') } do %>
+          <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
+        <% end %>
+      </div>
+    <% elsif params[:locale] == 'en' %>
+      <div class="btn-group" role="group">
+        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1?locale=en' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
+          <button type="button" class="btn btn-default"><%= t('themes.divergence') %></button>
+        <% end %>
+      </div>
+
+      <div class="btn-group" role="group">
+        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/2?locale=en', method: :post, data: { confirm: t('themes.switch_convergence') } do %>
+          <button type="button" class="btn btn-default"><%= t('themes.convergence') %></button>
+        <% end %>
+      </div>
+
+      <div class="btn-group" role="group">
+        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3?locale=en', method: :post, data: { confirm: t('themes.switch_consensus') } do %>
+          <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <br />
 <% end %>

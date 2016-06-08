@@ -26,15 +26,15 @@ class HomesController < ApplicationController
         user_id = notice_item["user_id"]
         user = User.find(user_id)
         mail_title = ""
-        
+
         if ntype == 0
-          title =  "議論に参加しましょう！" 
-          mail_title = "議論に参加しましょう！" 
+          title =  "議論に参加しましょう！"
+          mail_title = "議論に参加しましょう！"
           mail_body  = "議論で意見をまだ投稿していないようです。システム上での議論ということで緊張されている方もいらっしゃるかもしれませんが、発言の良し悪しは関係ありません。どしどし発言してください。"
         end
         if ntype == 1
-          title =  "意見を投稿しましょう！" 
-          mail_title = "意見を投稿しましょう！" 
+          title =  "意見を投稿しましょう！"
+          mail_title = "意見を投稿しましょう！"
           mail_body  = "議論に参加していただきありがとうございます！ご自身の意見も投稿してみましょう！"
         end
 
@@ -159,7 +159,7 @@ class HomesController < ApplicationController
     theme.point_histories.delete_all
 
     entries = Entry.all.includes(:user).includes(:issues).in_theme(theme_id).root
-    
+
     webviews = Webview.get_all(theme_id)
 
     entries_json = {}

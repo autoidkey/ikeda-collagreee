@@ -8,16 +8,16 @@
     <%= render 'user_icon', entry: child %>
 
     <% if child.np >= 50 %>
-      <span class="label label-warning thumb-box">賛成</span>
+      <span class="label label-warning thumb-box"><%= t('themes.agree') %></span>
     <% else %>
-      <span class="label label-success thumb-box">反対</span>
+      <span class="label label-success thumb-box"><%= t('themes.disagree') %></span>
     <% end %>
 
 
     <div id="childID_<%= child.id %>"　class="<%= 'facilitation-back' if child.facilitation? %>"　>
 
     <div class="child-body">
-      <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %> 
+      <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %>
       <!-- (No.<%= child.id %>) -->
       <%#= simple_format(child.body) %>
        <!-- (No.<%= child.id %>) -->
@@ -29,12 +29,12 @@
 
     <div class="info-list">
       <span class="user-name">
-        <%= child.facilitation ? "ファシリテーター" : child.user.name %>
+        <%= child.facilitation ? t('themes.facilitator') : child.user.name %>
       </span>
       <span class="timestamp">・<%= child.created_at.to_s(:timeline) %></span>
       <%= render 'information', entry: child %>
 
-      <span class="entry-number">投稿No.<%= child.id %></span>
+      <span class="entry-number"><%= t('themes.post_no') %><%= child.id %></span>
     </div>
 
     <% if user_signed_in? && !smartphone? %>

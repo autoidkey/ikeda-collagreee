@@ -26,8 +26,11 @@
           <li><%= link_to t('layouts.header.signup'), new_user_registration_path %></li>
           <li><%= link_to t('layouts.header.login'), new_user_session_path %></li>
         <% end %>
-        <li><%= link_to '日本語', "#{request.path}" %> </li>
+        <% if params[:locale] != 'en' %>
         <li><%= link_to 'English', "#{request.path}?locale=en" %></li>
+        <% else %>
+        <li><%= link_to 'Japanese', "#{request.path}" %> </li>
+        <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

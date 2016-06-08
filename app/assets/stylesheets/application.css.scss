@@ -117,3 +117,12 @@ img.user-icon {
 	/* 閉じるボタンの画像は自分で用意 */
 	z-index: 2;
 }
+
+@media print {
+  a[href]:after {
+    content: ""!important;
+  }
+  abbr[title]:after {
+    content: ""!important;
+  }
+}

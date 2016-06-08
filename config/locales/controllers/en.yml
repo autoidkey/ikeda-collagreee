@@ -1,0 +1,6 @@
+en:
+  controllers:
+    greet: "Hello, I am the facilitator of this discussion. Nice to meet you."
+    comment_from_facilitator: "comment from facilitator: %{comment}"
+    only_admin: "adminユーザのみ利用可能です"
+    participate_discuss: "議論に参加しましょう！"

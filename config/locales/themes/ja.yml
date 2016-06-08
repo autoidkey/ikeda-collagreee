@@ -89,3 +89,8 @@ ja:
     debate_tree: '議論ツリー'
     point_acquired: '獲得ポイント'
     new: '新着'
+    posted: '投稿しました'
+    reply_done: '%{name}さんの投稿に返信しました '
+    like_done: "%{name}さんの投稿にいいね！しました "
+    replied_done: "あなたの投稿が%{name}さんに返信されました "
+    liked_done: "あなたの投稿が%{name}さんにいいね！されました "

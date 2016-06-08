@@ -1,0 +1,6 @@
+ja:
+  controllers:
+    greet: "こんにちは。今回、議論のファシリテータを務めさせていただきます。よろしくお願いします！"
+    comment_from_facilitator: "ファシリテータからのコメントは = #{@f_comment}です！！"
+    only_admin: "adminユーザのみ利用可能です"
+    participate_discuss: "議論に参加しましょう！"
