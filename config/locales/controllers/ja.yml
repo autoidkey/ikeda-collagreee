@@ -4,3 +4,8 @@ ja:
     comment_from_facilitator: "ファシリテータからのコメントは = #{@f_comment}です！！"
     only_admin: "adminユーザのみ利用可能です"
     participate_discuss: "議論に参加しましょう！"
+    create_tag: "tagを作成しました"
+    change_phase: "フェーズを変更しました"
+    post: '投稿'
+    reply: '返信'
+    approve: '賛同'

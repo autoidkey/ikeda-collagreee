@@ -7,7 +7,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       if @issue.save
-        format.html { redirect_to theme_path(@issue.theme), notice: 'tagを作成しました' }
+        format.html { redirect_to theme_path(@issue.theme), notice: t('controllers.create_tag') }
         format.json { render action: 'show', status: :created, location: @issue }
       else
         format.html { render action: 'new' }
