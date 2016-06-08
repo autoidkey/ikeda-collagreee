@@ -1,14 +1,14 @@
 en:
   layouts:
     header:
-      management: 'Manager'
-      operation: 'Usage'
-      greet: "Hello, %{name}!"
-      administrator: "Administrator"
-      edit: "Edit"
-      logout: "Logout"
-      signup: "Sign up"
-      login: "Login"
+      management: 'manager'
+      operation: 'usage'
+      greet: "hello, %{name}!"
+      administrator: "administrator"
+      edit: "edit"
+      logout: "logout"
+      signup: "sign up"
+      login: "login"
     footer:
-      terms: "Terms of service"
-      privacy: "Privacy policy"
+      terms: "terms of service"
+      privacy: "privacy policy"

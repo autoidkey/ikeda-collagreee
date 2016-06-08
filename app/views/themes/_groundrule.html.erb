@@ -5,18 +5,26 @@
   <div class="panel-body">
     <% if @tree_type == 1 %>
       <div class="phase">
+        <% if params[:locale] != 'en' %>
         <%= image_tag 'phase/phase1.png' %>
+        <% else %>
+        <%= image_tag 'phase/phase1_en.png' %>
+        <% end %>
       </div>
       <div class="phase_comment">
         <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> <%= t('themes.what_divergence') %></h4>
         <%= t('themes.description_divergence') %>
         <% if params[:id] != "4" %>
-          <br><%= t('themes.what_divergence') %>
+          <br><%= t('themes.advertise_divergence') %>
         <% end %>
       </div>
     <% elsif @tree_type == 2 %>
       <div class="phase">
+        <% if params[:locale] != 'en' %>
         <%= image_tag 'phase/phase2.png' %>
+        <% else %>
+        <%= image_tag 'phase/phase2_en.png' %>
+        <% end %>
       </div>
       <div class="phase_comment">
         <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> <%= t('themes.what_convergence') %></h4>
@@ -27,7 +35,11 @@
       </div>
     <% else %>
       <div class="phase">
+        <% if params[:locale] != 'en' %>
         <%= image_tag 'phase/phase3.png' %>
+        <% else %>
+        <%= image_tag 'phase/phase3_en.png' %>
+        <% end %>
       </div>
       <div class="phase_comment">
         <h4 class=""><span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span> <%= t('themes.what_consensus') %></h4>
