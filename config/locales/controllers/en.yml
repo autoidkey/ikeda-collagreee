@@ -4,3 +4,8 @@ en:
     comment_from_facilitator: "comment from facilitator: %{comment}"
     only_admin: "adminユーザのみ利用可能です"
     participate_discuss: "議論に参加しましょう！"
+    create_tag: "new tag is created"
+    change_phase: "phase changed"
+    post: 'post'
+    reply: 'reply'
+    approve: 'agree'

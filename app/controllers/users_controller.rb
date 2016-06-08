@@ -21,9 +21,9 @@ class UsersController < ApplicationController
     @keyword = @user.keywords.group_by(&:theme_id)
     @entries = @user.entries
     @data = [
-      ['投稿', @entries.root.count],
-      ['返信', @entries.where.not(parent_id: nil).count],
-      ['賛同', @user.likes.status_on.count]
+      [t('controllers.post'), @entries.root.count],
+      [t('controllers.reply'), @entries.where.not(parent_id: nil).count],
+      [t('controllers.approve'), @user.likes.status_on.count]
     ]
   end
 
