@@ -71,9 +71,11 @@ Rails.application.configure do
 
   # config.log_level = :warn
   # config.logger = Logger.new("log/development.log", 5, 1*1024*1024*1024 )
-  
+
   # config.logger = Logger.new("log/development.log", 5, 10 * 1024 * 1024)
   # config.logger = Logger.new("log/development.log", 'daily')
+
+  # config.assets.initialize_on_precompile = true
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
