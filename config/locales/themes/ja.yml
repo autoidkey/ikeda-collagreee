@@ -94,3 +94,6 @@ ja:
     like_done: "%{name}さんの投稿にいいね！しました "
     replied_done: "あなたの投稿が%{name}さんに返信されました "
     liked_done: "あなたの投稿が%{name}さんにいいね！されました "
+    liked_no_done: "投稿(No.%{id})が%{name}さんにいいね！されました "
+    liked_related_done: "投稿(No.%{id})に関連する投稿が%{name}さんにいいね！されました "
+    liked_delated: "投稿(No.%{id})への%{name}さんのいいね！が削除されました "
