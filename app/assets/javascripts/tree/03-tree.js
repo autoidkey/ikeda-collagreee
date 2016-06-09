@@ -13,7 +13,7 @@ function treeJSON(error, treeData ,user){
     var panBoundary = 50; // Within 20px from edges will pan when dragging.
     // Misc. variables
     var i = 0;
-    var duration = 750;　//表示されるまでの時間 
+    var duration = 750;　//表示されるまでの時間
     var root;
 
     var d3Color = d3.scale.category10();  // 20色を指定
@@ -395,7 +395,7 @@ function treeJSON(error, treeData ,user){
                 return d._children ? "lightsteelblue" : "#fff";
             });
 
-        //ここでテキストに関する設定を先行できる    
+        //ここでテキストに関する設定を先行できる
         nodeEnter.append("text")
             .attr("x", function(d) {
                 return d.children || d._children ? -10 : 10;
@@ -404,7 +404,7 @@ function treeJSON(error, treeData ,user){
             .attr("color", 'red')
             .style("font-size", function(d) {
                 // if(d.depth==1){
-                //     console.log(d.childSize/2 + 14)    
+                //     console.log(d.childSize/2 + 14)
                 //     console.log(d.name)
                 // }
                 // if(d.childSize*1.4 + 15>40){
@@ -434,7 +434,7 @@ function treeJSON(error, treeData ,user){
        //              }
        //              console.log(red)
        //              console.log(green)
-       //              var color = "#" 
+       //              var color = "#"
        //              color = color + red
        //              color = color + green
        //              color = color + "00"
@@ -479,7 +479,7 @@ function treeJSON(error, treeData ,user){
                 }else {
                     return 10;
                 }
-                
+
             })
             .attr("text-anchor", function(d) {
                 if(d.depth < 2){
@@ -517,7 +517,7 @@ function treeJSON(error, treeData ,user){
               'fill': "red",
             })
             .style("font-size", function(d) {
-                
+
                 return 30;
        　　  })
             // iは0から始まるので、+1しておく
@@ -531,7 +531,7 @@ function treeJSON(error, treeData ,user){
                     if(text != " "){
                         text = text + "・";
                     }
-                    text = text + "あなたの意見";
+                    text = text + "あなたの意見"
                 }
                 if(d.newEntry == true ){
                     if(text != " "){
@@ -648,5 +648,3 @@ function treeJSON(error, treeData ,user){
     update(root);
     centerNode(root);
 };
-
- 
