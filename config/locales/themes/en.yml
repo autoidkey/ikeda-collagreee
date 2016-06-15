@@ -1,36 +1,36 @@
 en:
   themes:
     activity: "Activity"
-    opinion_title: 'comment title'
-    opinion_body: 'comment'
+    opinion_title: 'Comment title'
+    opinion_body: 'Comment'
     post: 'post'
     ranking_title: 'post ranking'
-    ranking: 'ranking'
+    ranking: 'Ranking'
     post_user: 'post user'
     point: 'point'
     facilitator: 'facilitator'
     post_no: 'No.'
-    facilitation_do: "facilitation comment"
-    draft_agreement: 'set this as draft agreement'
+    facilitation_do: "Facilitation comment"
+    draft_agreement: 'Set this as draft agreement'
     stamp: 'stamps'
     facilitation_phrase: 'facilitation phrase'
-    post_as_facilitator: 'post as facilitator'
+    post_as_facilitator: 'Post as facilitator'
     keyword_title: 'Keywords'
     keyword: 'keyword'
     subject_title: 'Subjects for discussion'
     score: 'score'
-    with_pointing: 'with pointing'
-    without_pointing: 'without pointing'
+    with_pointing: 'with function'
+    without_pointing: 'without function'
     create: 'create'
     news_title: 'Comments from the facilitator'
     what_divergence: 'What is Divergence Phase?'
-    description_divergence: "We can give opinions in Divergence Phase. Why don't you speak your opinion freely?"
+    description_divergence: "You can give free opinion as much as possible like brain storming."
     advertise_divergence: ''
     what_convergence: 'What is Convergence Phase?'
-    description_convergence: "We can deepen the opinions in Convergence Phase. Let's improve existing opinions!"
+    description_convergence: "You can deepen our discussion in Convergence Phase. Let's improve our opinions."
     advertise_convergence: ''
     what_consensus: 'What is Consensus Phase?'
-    description_consensus: 'We can create final draft agreement in Consensus Phase. Create the best opinion!'
+    description_consensus: 'We can summarize final draft agreement in Consensus. Create the best agreement.'
     advertise_consensus: ''
     update_comments: 'update comments'
     like: 'Like'
@@ -68,24 +68,24 @@ en:
     post_count: 'post counts'
     overall_point_ranking: 'Overall point ranking'
     user_title: 'Users'
-    main_title_html: "Discussion Forums on the Web"
+    main_title_html: "Discussions on the Web"
     login: 'login'
     signup: 'sign up'
     theme_cap: ''
-    add_theme: 'add theme'
+    add_theme: 'Add theme'
     create_theme: 'create theme'
     newpost_ga: 'new posts: '
     count_arimasu: ''
     reply_count: 'replies: '
     next: 'next'
-    divergence: 'divergence Phase'
-    convergence: 'convergence Phase'
-    consensus: 'consensus Phase'
+    divergence: 'Divergence phase'
+    convergence: 'Convergence phase'
+    consensus: 'Consensus phase'
     switch_divergence: "Are you sure you want to switch to divergence phase?"
     switch_convergence: "Are you sure you want to switch to convergence phase?"
     switch_consensus: "Are you sure you want to switch to consensus phase?"
-    debate: 'discussion'
-    debate_tree: 'discussion tree'
+    debate: 'Discussion'
+    debate_tree: 'Discussion tree'
     point_acquired: 'acquired point'
     new: 'new'
     posted: 'posted'
