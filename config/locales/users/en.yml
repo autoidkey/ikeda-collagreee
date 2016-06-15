@@ -1,7 +1,7 @@
 en:
   users:
     registration:
-      edit: "Acount Settings"
+      edit: "Your Profile"
       create: "New Account"
       mail: 'Email：'
       nickname: 'Nickname：'
