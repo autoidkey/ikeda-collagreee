@@ -1,6 +1,7 @@
 <section class="margin-bottom bck">
   <div class="row padding">
     <div class="column_12 margin-bottom">
+    <% if params[:locale] != 'en' %>
       <h2 class="white theme margin-top margin-bottom text bold color theme">プライバシーポリシー</h2>
       <h5 class="margin-bottom margin-top"><strong>当サイトにおける個人情報保護方針</strong></h5>
       当ウェブサイト（http://collagree.com/ 以下「当サイト」といいます。）は、名古屋工業大学大学院 秀島栄三研究室・伊藤孝行研究室・伊藤孝紀研究室が運営しています。
@@ -23,6 +24,23 @@
       <br />
       以上 <br />
       2013年11月5日
+    <% else %>
+    <h2 class="white theme margin-top margin-bottom text bold color theme">Privacy Policy</h2>
+
+    <p>The Collagree respects your privacy. We do not collect personally identifiable information about you unless you voluntarily provide it, such as when you provide email contact information to send feedback to us, subscribe to the Collagree newsletter, or respond to a survey. If you voluntarily provide your email address or other contact information, we might also use it to inform you of changes to the Collagree or to survey you about your use or opinion of Collagree. At your request, we will remove your contact information from our files.</p>
+
+    <p>We do not make your contact information or any other personally identifiable information available to anyone outside the Collagree or its service providers (who use the information only for authorized Collagree purposes) unless we are legally required to do so.</p>
+
+    <p>In addition to the above, we collect certain anonymous (non-personally identifiable) information to help us improve the Collagree site and to evaluate the access and use of Collagree materials and the impact of Collagree.</p>
+
+    <p>We collect information you provide about your use of and satisfaction with Collagree through email you send us and through Collagree surveys, whether or not you voluntarily include your contact information.</p>
+
+    <p>We may use web analysis tools that are built into the Collagree site to measure and collect anonymous session information.</p>
+
+    <p>We also use "cookies" to improve your Collagree web experience and to collect anonymous information about how you use Collagree. However, cookies are not required for Collagree use. If your browser is configured not to accept cookies, you will still be able to access Collagree and its content.</p>
+
+    <p>When we report information about Collagree access, use, and impact, we report aggregate, non-personally identifiable data. Occasionally, we report quoted feedback from users. We do not attribute feedback to specific individuals unless we obtain permission to use that person's name along with the feedback.</p>
+    <% end %>
     </div>
   </div>
 </section>
