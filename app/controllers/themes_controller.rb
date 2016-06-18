@@ -47,7 +47,7 @@ class ThemesController < ApplicationController
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
 
-    @stamps = stamp_list
+    @stamps = stamp_list(params[:locale])
 
     # ファシリテータからのお知らせコーナー
     comment = FacilitationInfomation.where(:theme_id => params[:id]).last
