@@ -1,0 +1,5 @@
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,stamp,agreement,claster
+6,今日の一言,曇りですね,,0,8,false,false,false,2015-12-15 10:28:55,2015-12-15 10:31:47,11,,,,,,
+11,,マインドマップっぽい,6,50,9,false,false,false,2015-12-15 10:31:47,2015-12-15 10:31:47,11,,,,false,,
+9,,どんよりですね,6,1,11,false,false,false,2015-12-15 10:29:49,2015-12-15 10:29:49,11,,,,false,,
+8,,いいね！,6,90,10,false,false,false,2015-12-15 10:29:46,2015-12-15 10:29:46,11,,,,false,,
