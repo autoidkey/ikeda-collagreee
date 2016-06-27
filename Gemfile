@@ -38,8 +38,6 @@ gem 'k_means'
 
 gem 'ransack'
 
-gem "i18n-js" #jsの翻訳
-
 # gem 'nkf'
 
 group :development do
