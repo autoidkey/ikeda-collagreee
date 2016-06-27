@@ -1,0 +1,3 @@
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,stamp,agreement,claster
+3,テスト,いいですね,,0,7,false,false,false,2015-12-11 16:08:44,2015-12-11 16:09:12,12,,,,,,
+4,,いいね,3,50,5,false,false,false,2015-12-11 16:09:12,2015-12-11 16:09:12,12,,,,false,,
