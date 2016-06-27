@@ -22,8 +22,6 @@
 //= require jquery.autopager-1.0.0
 //= require jquery.leanModal.min
 //= require jquery-ui
-//= require i18n
-//= require i18n/translations
 
 // jquery.leanModal
 $(function() {
