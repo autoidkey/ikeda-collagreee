@@ -23,7 +23,8 @@
   <%= link_to t('themes.add_theme'), new_theme_path, { class: 'btn btn-default', id: 'theme_create_btn'} if (user_admin?(current_user) || user_organizer?(current_user)) %>
 </div>
 
-<% if user_signed_in? %><% @themes.each do |theme| %>
-    <%= render 'theme', theme: theme %>
-  <% end %>
+<% if user_signed_in? %>
+    <% @themes.each do |theme| %>
+        <%= render 'theme', theme: theme %>
+    <% end %>
 <% end %>
