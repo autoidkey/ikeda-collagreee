@@ -61,7 +61,7 @@ group :development, :test do
   gem 'factory_girl_rails', '4.2.1'
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
   gem 'capybara', '~> 2.2.0'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.0.0'
   gem 'guard', '~> 2.6.0'
   gem 'guard-rspec', '~> 4.2.8'
   gem 'timecop'
