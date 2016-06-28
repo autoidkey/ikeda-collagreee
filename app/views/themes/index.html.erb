@@ -24,7 +24,9 @@
 </div>
 
 <% if user_signed_in? %>
-    <% @themes.each do |theme| %>
-        <%= render 'theme', theme: theme %>
+    <% if current_user.id.even? %>
+        <%= render 'theme', theme: @themes[2] %>
+    <% else %>
+        <%= render 'theme', theme: @themes[3] %>
     <% end %>
 <% end %>
