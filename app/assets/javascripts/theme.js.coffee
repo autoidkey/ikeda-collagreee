@@ -114,7 +114,7 @@ like_notice = (like, theme_id) ->
 
 check_new = () ->
   theme_id = location.href.match(".+/(.+?)$")[1]
-  url = '/collagree_ss/themes/check_new/' + theme_id
+  url = '/themes/check_new/' + theme_id
 
   setTimeout(
       (=>

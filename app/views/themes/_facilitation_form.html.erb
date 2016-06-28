@@ -17,7 +17,7 @@
   <div class="tab-pane active form-group" id="stamp">
     <% @stamps.each do |stamp| %>
         <label>
-            <%= f.radio_button :stamp, "/collagree_ss" + stamp %>
+            <%= f.radio_button :stamp, stamp %>
             <%= image_tag(stamp, class: 'img-stamp')%>
         </label>
     <% end %>
