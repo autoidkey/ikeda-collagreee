@@ -1,0 +1,34 @@
+<h1>Listing thread_classes</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th width="300" >Title</th>
+    <th>Body</th>
+    <th>Class</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @threads.each do |thread| %>
+      <tr>
+        <td width="300" ><%= thread.title %></td>
+        <td><%= thread.body %></td>
+        <td><%= thread.claster %></td>
+        <td>
+          <%= form_for thread, :url => {:controller => :thread_classes, :action => :set, :id => thread.id } do |f| %>
+            <div class="field">
+              <%= f.label :claster %><br>
+              <%= f.number_field :claster %>
+            </div>
+
+            <div class="actions">
+              <%= f.submit %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
