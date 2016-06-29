@@ -17,7 +17,11 @@ class ThemesController < ApplicationController
   require 'time'
 
   def index
+
     @themes = Theme.all
+    # 実験用に追加
+    @theme1 = Theme.find(2)
+    @theme2 = Theme.find(3)
   end
 
   def show
@@ -151,7 +155,7 @@ class ThemesController < ApplicationController
 
   def change_session_year
     puts "testyear"
-    test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme]})
+    test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme], out_flag: params[:flag]})
     test.save
   end
 

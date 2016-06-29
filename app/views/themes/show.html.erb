@@ -274,4 +274,29 @@
       ) ;
     } ) ;
 
+    $(window).bind("beforeunload", function() {
+      console.log("tsts")
+
+      var user = <%= raw current_user.id.to_json %>;
+      var theme = <%= raw @theme.id.to_json %>;
+      console.log(user);
+      console.log(theme);
+
+
+      $.ajax({
+        url: "tree/change_session_year",
+        type: "POST",
+        data: {user_id : user,
+          theme: theme,
+          flag: true,
+        },
+        dataType: "html",
+        success: function(data) {
+        },
+        error: function(data) {
+          console.log(data);
+        }
+      });
+    });
+
 </script>
