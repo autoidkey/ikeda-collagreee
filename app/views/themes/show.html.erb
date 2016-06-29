@@ -52,6 +52,9 @@
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab" id="discussion-nav-btn"><%= t('themes.debate') %></a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab"><%= t('themes.ranking') %></a></li>
   <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn"><%= t('themes.debate_tree') %></a></li>
+  <% if current_user.admin? || current_user.facilitator? %>
+      <li><%= link_to "議論ツリー編集", thread_classes_all_path(@theme.id) %></li>
+  <% end %>
   <% if user_signed_in? %>
     <% if smartphone? %>
       <li><a href="#get-point" role="tab" data-toggle="tab"><%= t('themes.point_acquired') %></a></li>

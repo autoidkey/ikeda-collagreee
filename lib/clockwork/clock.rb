@@ -18,7 +18,7 @@ module Clockwork
   end
 
   every(15.hours, YouyakuJob.new)
-  every(5.minute, KeywordJob.new)
+  every(5.minute, KeywordJob.new) #スレッドのクラスタリングも実行
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)
   every(5.minute, EntryPointJob.new)
