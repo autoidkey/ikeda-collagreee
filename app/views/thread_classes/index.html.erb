@@ -1,0 +1,27 @@
+<h1>Listing thread_classes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Parent class</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @thread_classes.each do |thread_class| %>
+      <tr>
+        <td><%= thread_class.title %></td>
+        <td><%= thread_class.parent_class %></td>
+        <td><%= link_to 'Show', thread_class %></td>
+        <td><%= link_to 'Edit', edit_thread_class_path(thread_class) %></td>
+        <td><%= link_to 'Destroy', thread_class, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Thread class', new_thread_class_path %>
