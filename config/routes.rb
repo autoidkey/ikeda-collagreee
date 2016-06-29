@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :thread_classes
+
   resources :facilitation_infomations
 
   resources :facilitation_keywords
