@@ -1,5 +1,50 @@
 <h1>Listing thread_classes</h1>
+<%= link_to "議論画面へ", theme_path(@theme.id) %>
 
+<% @threads.each_with_index do |thread, i| %>
+  <% if thread[1] == "" %>
+    <%= render "thread_classes/form",thread_class: @thread_class_new, claster_id: i+1 %>
+  <% else %>
+    <%= render "thread_classes/form",thread_class: thread[1], claster_id: i+1 %>
+  <% end %>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th width="300" >Title</th>
+      <th>Body</th>
+      <th>Class</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      <% thread[0].each do |entry| %>
+        <tr>
+          <td width="300" ><%= entry.title %></td>
+          <td><%= entry.body %></td>
+          <td><%= entry.claster %></td>
+          <td>
+            <%= form_for entry, :url => {:controller => :thread_classes, :action => :set, :id => entry.id } do |f| %>
+              <div class="field">
+                <%= f.label :claster %><br>
+                <%= f.number_field :claster %>
+              </div>
+
+              <div class="actions">
+                <%= f.submit %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end  %>
+    </tbody>
+  </table>
+  <hr>
+<% end %>
+
+
+<h3>クラスに所属していないエントリー</h3>
 <table class="table">
   <thead>
   <tr>
@@ -11,13 +56,13 @@
   </thead>
 
   <tbody>
-  <% @threads.each do |thread| %>
+    <% @entry_noclasses.each do |entry| %>
       <tr>
-        <td width="300" ><%= thread.title %></td>
-        <td><%= thread.body %></td>
-        <td><%= thread.claster %></td>
+        <td width="300" ><%= entry.title %></td>
+        <td><%= entry.body %></td>
+        <td><%= entry.claster %></td>
         <td>
-          <%= form_for thread, :url => {:controller => :thread_classes, :action => :set, :id => thread.id } do |f| %>
+          <%= form_for entry, :url => {:controller => :thread_classes, :action => :set, :id => entry.id } do |f| %>
             <div class="field">
               <%= f.label :claster %><br>
               <%= f.number_field :claster %>
@@ -29,6 +74,8 @@
           <% end %>
         </td>
       </tr>
-  <% end %>
+    <% end  %>
   </tbody>
 </table>
+
+<br>
