@@ -107,12 +107,15 @@
 
                 treeJSON("", treeData ,user);
 
+                console.log(dataAll);
+
                 //ここでtreeに入った人のlogを残していく
                 $.ajax({
                   url: "tree/change_session_year",
                   type: "POST",
                   data: {user_id : user,
                           theme: dataAll[0]["theme_id"],
+                          flag: false,
                           },
                   dataType: "html",
                   success: function(data) {
