@@ -15,7 +15,29 @@ class ThreadClassesController < ApplicationController
   end
 
   def all
-    @threads = Entry.where(theme_id: @theme.id, parent_id: nil)
+    @clasters = Entry.where(theme_id: @theme.id, parent_id: nil).reorder("claster ASC").pluck(:claster).uniq
+    if @clasters[0]==nil
+      @clasters.shift
+    end
+    @threads = []
+    @clasters.each do |claster|
+      if ThreadClass.exists?(claster_id: claster, theme_id: @theme.id)
+        array = []
+        array[0] = Entry.where(theme_id: @theme.id, parent_id: nil, claster: claster)
+        array[1] = ThreadClass.find_by(claster_id: claster, theme_id: @theme.id)
+        logger.info({testtest2: array[1]})
+        @threads.push(array)
+      else
+        array = []
+        array[0] = Entry.where(theme_id: @theme.id, parent_id: nil, claster: claster)
+        array[1] = ""
+        @threads.push(array)
+      end
+    end
+
+    @entry_noclasses = Entry.where(theme_id: @theme.id, parent_id: nil, claster: nil)
+    @thread_class_new = ThreadClass.new
+    # @threads = Entry.where(theme_id: @theme.id, parent_id: nil).reorder("claster ASC")
   end
 
   def set 
@@ -42,7 +64,7 @@ class ThreadClassesController < ApplicationController
 
     respond_to do |format|
       if @thread_class.save
-        format.html { redirect_to @thread_class, notice: 'Thread class was successfully created.' }
+        format.html { redirect_to thread_classes_all_path(@thread_class.theme_id), notice: 'Thread class was successfully created.' }
         format.json { render :show, status: :created, location: @thread_class }
       else
         format.html { render :new }
@@ -91,7 +113,7 @@ class ThreadClassesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def thread_class_params
-      params.require(:thread_class).permit(:title, :parent_class)
+      params.require(:thread_class).permit(:title, :parent_class, :theme_id, :claster_id)
     end
 
     def entry_params

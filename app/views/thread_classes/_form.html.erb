@@ -1,24 +1,11 @@
-<%= form_for(@thread_class) do |f| %>
-  <% if @thread_class.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@thread_class.errors.count, "error") %> prohibited this thread_class from being saved:</h2>
-
-      <ul>
-      <% @thread_class.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for(thread_class) do |f| %>
   <div class="field">
     <%= f.label :title %><br>
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :size => 100 %>
   </div>
-  <div class="field">
-    <%= f.label :parent_class %><br>
-    <%= f.text_field :parent_class %>
-  </div>
+  <%= f.hidden_field :parent_class, :value => nil %>
+  <%= f.hidden_field :theme_id, :value => @theme.id %>
+  <%= f.hidden_field :claster_id, :value => claster_id %>
   <div class="actions">
     <%= f.submit %>
   </div>
