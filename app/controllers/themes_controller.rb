@@ -64,7 +64,8 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #以下議論ツリーで使用する投稿一覧
-    @entry_tree = Entry.where(:theme_id => params[:id])
+    @entry_tree = Entry.where(:theme_id => @theme.id)
+    @classes = ThreadClass.where(:theme_id => @theme.id)
 
     #他のでも使用できるファシリテータが選んだフェーズナンバー
     @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
