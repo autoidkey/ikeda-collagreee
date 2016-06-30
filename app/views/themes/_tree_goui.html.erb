@@ -103,7 +103,9 @@
                 var fas = <%= raw fas.to_json %>
                 var user = <%= raw user.to_json %>
                 var title = <%= raw theme.title.to_json %>
-                var treeData = createTreeData(dataAll , title , youyakuData , claster)
+                var classes = <%= raw classes.to_json %>
+                var dataAll = tree_data_change(dataAll,classes);
+                var treeData = createTreeData(dataAll , title , youyakuData , claster, classes);
 
                 treeJSON("", treeData ,user);
 

@@ -152,7 +152,7 @@
   <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-12">
-        <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id,youyaku_thread:@youyaku_thread%>
+        <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
       </div>
     </div>
   </div>
@@ -278,12 +278,9 @@
     } ) ;
 
     $(window).bind("beforeunload", function() {
-      console.log("tsts")
 
       var user = <%= raw current_user.id.to_json %>;
       var theme = <%= raw @theme.id.to_json %>;
-      console.log(user);
-      console.log(theme);
 
 
       $.ajax({
