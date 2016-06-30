@@ -458,7 +458,11 @@ function treeJSON(error, treeData ,user){
                 return "end";
             })
             .text(function(d) {
-                return d.name.substr(1);
+                if(d.name.charAt(0)=="n"){
+                    return d.name.substr(4);
+                }else{
+                    return d.name.substr(1);
+                }
             })
             .style("fill-opacity", 0);
 
@@ -495,8 +499,12 @@ function treeJSON(error, treeData ,user){
             .text(function(d) {
                 //ここで表示するテキストを返している
                 if(d.depth!=0){
-                    return d.name.substr(1);
-                }else {
+                    if(d.name.charAt(0)=="n"){
+                        return d.name.substr(4);
+                    }else{
+                        return d.name.substr(1);
+                    }
+                }else{
                     return d.name;
                 }
             });
