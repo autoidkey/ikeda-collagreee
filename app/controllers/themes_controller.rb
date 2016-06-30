@@ -20,8 +20,8 @@ class ThemesController < ApplicationController
 
     @themes = Theme.all
     # 実験用に追加
-    @theme1 = Theme.find(2)
-    @theme2 = Theme.find(3)
+    @theme1 = Theme.find(3)
+    @theme2 = Theme.find(4)
   end
 
   def show
