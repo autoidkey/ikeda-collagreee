@@ -51,9 +51,13 @@
 <ul class="nav nav-pills nav-collagree" role="tablist">
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab" id="discussion-nav-btn"><%= t('themes.debate') %></a></li>
   <li><a href="#infomation" role="tab" data-toggle="tab"><%= t('themes.ranking') %></a></li>
-  <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn"><%= t('themes.debate_tree') %></a></li>
   <% if current_user.admin? || current_user.facilitator? %>
-      <li><%= link_to "議論ツリー編集", thread_classes_all_path(@theme.id) %></li>
+    <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn"><%= t('themes.debate_tree') %></a></li>
+    <li><%= link_to "議論ツリー編集", thread_classes_all_path(@theme.id) %></li>
+  <% else %>
+    <% if current_user.id.even? %>
+      <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn"><%= t('themes.debate_tree') %></a></li>
+    <% end %>
   <% end %>
   <% if user_signed_in? %>
     <% if smartphone? %>
@@ -149,13 +153,15 @@
 
 
   <!-- 議論ツリーについて -->
-  <div class="tab-pane" id="tree">
-    <div class="row">
-      <div class="col-md-12">
-        <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
+  <% if current_user.id.even? %>
+    <div class="tab-pane" id="tree">
+      <div class="row">
+        <div class="col-md-12">
+          <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 
 
   <% if user_signed_in? %>
@@ -208,9 +214,8 @@
 <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag 'mobile.css' if smartphone? %>
 
-<script>
-    modal.set();
-
+<% if current_user.id.even? %>
+  <script>
     // 議論ツリー移動ボタンよう
     // グローバル変数
     var syncerTimeout = null ;
@@ -298,5 +303,10 @@
         }
       });
     });
+  </script>
+<% end %>
+
+<script>
+    modal.set();
 
 </script>
