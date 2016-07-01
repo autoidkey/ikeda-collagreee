@@ -17,7 +17,7 @@ module Clockwork
     puts "====== #{job.class} finish ======="
   end
 
-  every(15.hours, YouyakuJob.new)
+  # every(30.minute, YouyakuJob.new) スレッドの要約が動かない状態！ここ直したい
   every(5.minute, KeywordJob.new) #スレッドのクラスタリングも実行
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)

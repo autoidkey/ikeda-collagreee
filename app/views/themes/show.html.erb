@@ -150,10 +150,9 @@
     </div>
   </div>
 
-
-
+  
   <!-- 議論ツリーについて -->
-  <% if current_user.id.even? %>
+  <% if current_user.id.even? || current_user.admin? %>
     <div class="tab-pane" id="tree">
       <div class="row">
         <div class="col-md-12">
