@@ -20,7 +20,7 @@ a.next_link_a_tag:hover{
 }
 
 .hero-image {
-  background-image: url(/collagree_ss/images/discussion2.jpg);
+  background-image: url(/images/discussion2.jpg);
   background-size: cover;
   margin: -20px -15px;
 }
@@ -298,5 +298,75 @@ nav.pagination {
 
 .f_comment_btn {
   clear: both;
+}
+
+
+.page-top
+{
+  display: none ;
+  margin: 0 ;
+  padding: 0 ;
+}
+
+.page-top p
+{
+  margin: 0 ;
+  padding: 0 ;
+
+  position: fixed ;
+  right: 16px ;
+  bottom: 16px ;
+}
+
+a.move-page-top:link {
+  color: #ffffff;
+  background: #3498db;
+  text-decoration: none;
+}
+a.move-page-top:visited {
+  color: #ffffff;
+  background: #3498db;
+  text-decoration: none;
+}
+a.move-page-top:hover {
+  color: #ffffff;
+  background: #3498db;
+  text-decoration: none;
+}
+a.move-page-top:active {
+  color: #ffffff;
+  background: #3498db;
+  text-decoration: none;
+}
+
+.move-page-top
+{
+  display: block ;
+  background: #3498db ;
+  width: 100px ;
+  height: 50px ;
+  cursor: pointer ;
+
+  color: #fff ;
+  line-height: 50px ;
+  text-decoration: none ;
+  text-align: center ;
+
+  border-radius: 4px;        /* CSS3草案 */
+  -webkit-border-radius: 4px;    /* Safari,Google Chrome用 */
+  -moz-border-radius: 4px;   /* Firefox用 */
+
+  -webkit-transition:all 0.3s ;
+  -moz-transition:all 0.3s ;
+  transition:all 0.3s ;
+}
+
+
+@media screen and ( min-width:1130px )
+{
+  .move-page-top:hover
+  {
+    opacity: 0.85 ;
+  }
 }
 

@@ -4,6 +4,20 @@
   <div id="dialog" title="Opinion dialog">
   </div>
 
+<!--   <div class="tag-push">
+    <h4><span class="glyphicon glyphicon-tags" aria-hidden="true"> 意見タグ追加</span></h4>
+    <div class='tag-list'>
+      合意案<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
+      代替案<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
+      注目<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
+      質問<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
+      提案<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
+    </div>
+    <div class="form-group">
+      <input class="form-control" id="issue_name" name="issue[name]" type="text">
+    </div>
+    <input class="btn btn-default" name="commit" type="submit" value="＋">
+  </div> -->
 
   <style type="text/css">
 
@@ -61,6 +75,14 @@
            display: none;
       }
 
+      .tag-push{
+        display: none;
+        font-size: 18px;
+      }
+     .tag-list{
+        padding: 10px;
+     }
+
     </style>
 
 
@@ -81,9 +103,13 @@
                 var fas = <%= raw fas.to_json %>
                 var user = <%= raw user.to_json %>
                 var title = <%= raw theme.title.to_json %>
-                var treeData = createTreeData(dataAll , title , youyakuData , claster)
+                var classes = <%= raw classes.to_json %>
+                var dataAll = tree_data_change(dataAll,classes);
+                var treeData = createTreeData(dataAll , title , youyakuData , claster, classes);
 
                 treeJSON("", treeData ,user);
+
+                console.log(dataAll);
 
                 //ここでtreeに入った人のlogを残していく
                 $.ajax({
@@ -91,6 +117,7 @@
                   type: "POST",
                   data: {user_id : user,
                           theme: dataAll[0]["theme_id"],
+                          flag: false,
                           },
                   dataType: "html",
                   success: function(data) {
@@ -124,6 +151,18 @@
         });
       });
 
+      function entry_dialog(){
+        console.log("start ntry_dialog")
+        $("#dialog").empty();
+        var target1 = '.panel-body-theme';
+        var item = '<br><div class="panel-header"><h4 class=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Post / 投稿</h4></div>';
+        var target2 = '.panel-body';
+        $("#dialog").append($(target1).html());
+        $("#dialog").append(item);
+        $("#dialog").append($(target2).html());
+        $("#dialog").dialog("open");
+      }
+
 
       function show_dialog(message,id,nid){
         // idが親のid
@@ -144,10 +183,7 @@
           }
        });
 
-  
-        var yText = ""
-        var youyaku_thread = <%= raw youyaku_thread.to_json %>
-        console.log(youyaku_thread)
+
 
         $("#dialog").empty();
 
@@ -171,7 +207,11 @@
 
         $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
-        $( "#dialog" ).append('<br><div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
+        $( "#dialog" ).append('<hr>');
+        var item2 = $('.tag-push').html();
+        $("#dialog").append(item2);
+        $( "#dialog" ).append('<hr>');
+
         //要約記事作成
         var yText = ""
         var youyaku_thread = <%= raw youyaku_thread.to_json %>
@@ -180,7 +220,7 @@
         for (i = 0; i < youyaku_thread.length; i++) {
           if (youyaku_thread[i]["parent_id"] == id){
             if (parent == 0){
-              $( "#dialog" ).append('<br><span class="entry-title">スレッド要約</span>');
+              $( "#dialog" ).append('<h4><span class="glyphicon glyphicon-comment" aria-hidden="true"> 意見要約</span></h4>');
             }
             if (parent !=  youyaku_thread[i]["target_id"] && parent != 0 ){
               yText = yText + "<br>"
@@ -194,6 +234,8 @@
         var content = '<div id = "youyakuT">'+yText+'</div>'
         $( "#dialog" ).append(content);
         //スレッド要約ここまで
+        $( "#dialog" ).append('<br><div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
+
 
         $("#dialog #parent-thread").click(function(){
             var target = "#" + "entry-" + id;

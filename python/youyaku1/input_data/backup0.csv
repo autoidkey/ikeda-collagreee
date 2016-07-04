@@ -1,0 +1,7 @@
+id,title,body,parent_id,np,user_id,facilitation,invisible,top_fix,created_at,updated_at,theme_id,image,has_point,has_reply,stamp,agreement,claster
+116,おはよう,どうもー,,0,9,false,false,false,2016-01-27 09:22:14,2016-01-27 09:24:38,14,,,,,,
+123,,コメントする,116,50,8,false,false,false,2016-01-27 09:24:38,2016-01-27 09:24:38,14,,,,false,,
+120,,テスト,116,50,3,false,false,false,2016-01-27 09:23:18,2016-01-27 09:23:18,14,,,,false,,
+119,,テスト,116,50,3,false,false,false,2016-01-27 09:23:02,2016-01-27 09:23:02,14,,,,false,,
+118,,おはよー,116,50,8,false,false,false,2016-01-27 09:22:51,2016-01-27 09:22:51,14,,,,false,,
+117,,おはよー,116,50,8,false,false,false,2016-01-27 09:22:40,2016-01-27 09:22:40,14,,,,false,,

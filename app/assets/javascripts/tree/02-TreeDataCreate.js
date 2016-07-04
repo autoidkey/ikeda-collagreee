@@ -1,7 +1,7 @@
 
 
 //ツリーに使用するデータを生成する。
-function createTreeData(dataAll,title,youyakuData ,claster) {
+function createTreeData(dataAll, title, youyakuData, claster, classes) {
 
 
     // 要約に使用する
@@ -15,23 +15,27 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
     var entryNP = makeNP(dataAll)
     var ClassArray = makeClass(linkNode)
     var newEntryNum = makeNewEntryNum(dataAll)
-    console.log(newEntryNum)
+    // console.log(newEntryNum)
     var treeData = {
-          "dataID": 0,
-          "name" : title,
-          "childSize" : 18,
-          "np" : 0,
-          "color": 0,
-          "children": childArray(0,0),
-          "agreement":false,
-          "body": title,
-          "user_id": "",
-          "newEntry":false,
+      "dataID": 0,
+      "name" : title,
+      "childSize" : 18,
+      "np" : 0,
+      "color": 0,
+      "children": childArray(0,0),
+      "agreement":false,
+      "body": title,
+      "user_id": "",
+      "newEntry":false,
     }
 
 
     return treeData
     //------------------------------------------------
+
+    function make_classter_children(treedata, cla){
+
+    }
 
     //子供の要素を返す関数
     function serchChild(id) {
@@ -102,8 +106,10 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
         var childId = child[i];
         //渡す色を選択する
         var color = ParentColor
+
+
         if(ParentColor == 0){
-            color = serchColor(childId)
+            color = serchDataArray(childId)["claster"]
         }
 
         var child2 = serchChild(childId);
@@ -119,13 +125,14 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
         }else {
             nameText = youyaku2(serchDataArray(childId)["id"])
         }
-        
+
         //子供の要素があるかを見て会ったらその子供を入れる
         if (child2.length == 0){
-          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"] ,"user_id": serchDataArray(childId)["user_id"], "newEntry":serchNewEntry(childId) })
+            array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"] ,"user_id": serchDataArray(childId)["user_id"], "newEntry":serchNewEntry(childId) })
         }else{
-          array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"sRate" :sRate(childId,1,1),"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"] ,"user_id": serchDataArray(childId)["user_id"], "newEntry":serchNewEntry(childId),children : childArray(childId , color)})
+            array.push({"name":String(color)+nameText,"childSize":childSize(childId),"np":entryNP[childId] ,"class" : color ,"body":serchDataArray(childId)["body"],"dataID":serchDataArray(childId)["id"],"agreement":serchDataArray(childId)["agreement"] ,"user_id": serchDataArray(childId)["user_id"], "newEntry":serchNewEntry(childId),children : childArray(childId , color)})
         }
+    
       }
       return array
     }
@@ -333,6 +340,6 @@ function createTreeData(dataAll,title,youyakuData ,claster) {
         wkStr=wkStr.replace(/[-|｜:：・]/g,"。");
         wkStr=wkStr.replace(/[「」（）\(\)\[\]【】]/g," ");
         return wkStr;
-    }   
+    }
 
 }

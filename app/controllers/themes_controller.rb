@@ -14,22 +14,18 @@ class ThemesController < ApplicationController
 
   include Bm25
   include Stamp
-  # require 'time'
+  require 'time'
 
   def index
-    @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
-    @themes = Theme.where(id: [3,4,7])
+
+    @themes = Theme.all
+    # 実験用に追加
+    @theme1 = Theme.find(3)
+    @theme2 = Theme.find(4)
   end
 
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
-
-    # if params[:id] == 6
-    #   @user_list = [104,105,106,107,108,109,110,111,58,1,66,74,71]
-    #   if !@user_list.include?(current_user.id)
-    #     redirect_to root_path
-    #   end
-    # end
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
@@ -68,7 +64,8 @@ class ThemesController < ApplicationController
     render 'show_no_point' unless @theme.point_function
 
     #以下議論ツリーで使用する投稿一覧
-    @entry_tree = Entry.where(:theme_id => params[:id])
+    @entry_tree = Entry.where(:theme_id => @theme.id)
+    @classes = ThreadClass.where(:theme_id => @theme.id)
 
     #他のでも使用できるファシリテータが選んだフェーズナンバー
     @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
@@ -159,7 +156,7 @@ class ThemesController < ApplicationController
 
   def change_session_year
     puts "testyear"
-    test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme]})
+    test = Treedata.new({user_id: params[:user_id], theme_id: params[:theme], out_flag: params[:flag]})
     test.save
   end
 
@@ -674,7 +671,7 @@ class ThemesController < ApplicationController
   end
 
   def entry_params
-    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation , :agreement, :claster, :stamp)
+    params.require(:entry).permit(:title, :body, :user_id, :parent_id, :np, :theme_id, :image, :facilitation , :claster, :stamp)
   end
 
 end

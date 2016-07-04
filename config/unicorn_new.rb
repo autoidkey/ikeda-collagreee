@@ -8,15 +8,15 @@ require 'pathname'
 config  = {}
 config["development"] = {
   :port => 3000,
-  :socket => '/tmp/collagree_ss.sock',
+  :socket => '/home/okumura/rails/new_collagree/tmp/sockets/unicorn_new_collagree.sock',
   :worker_processes => 2,
   :working_directory => Pathname.new(File.dirname(__FILE__) + "/..").realpath
 }
 config["production"] = {
   :port => 8500,
-  :socket => '/tmp/collagree_ss.sock',
+  :socket => '/home/okumura/rails/new_collagree/tmp/sockets/unicorn_new_collagree.sock',
   :worker_processes => 6,
-  :working_directory => "#{ENV['HOME']}/programing/rails/collagree_ss"
+  :working_directory => "#{ENV['HOME']}/rails/new_collagree"
 }
 #--------------------------------------------------------
 #rails_env = ENV['RAILS_ENV'] || 'production'
@@ -63,5 +63,4 @@ after_fork do |server, worker|
   rescue Errno::ENOENT, Errno::ESRCH => e
     puts "old master quit failed!: #{e.message}"
   end
-
 end

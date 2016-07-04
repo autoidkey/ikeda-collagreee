@@ -90,6 +90,5 @@ class YouyakuJob
         youyaku.save
       end
     end
-
   end
 end

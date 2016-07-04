@@ -1,0 +1,12 @@
+<%= form_for(thread_class) do |f| %>
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title, :size => 100 %>
+  </div>
+  <%= f.hidden_field :parent_class, :value => nil %>
+  <%= f.hidden_field :theme_id, :value => @theme.id %>
+  <%= f.hidden_field :claster_id, :value => claster_id %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

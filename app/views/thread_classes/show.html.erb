@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @thread_class.title %>
+</p>
+
+<p>
+  <strong>Parent class:</strong>
+  <%= @thread_class.parent_class %>
+</p>
+
+<%= link_to 'Edit', edit_thread_class_path(@thread_class) %> |
+<%= link_to 'Back', thread_classes_path %>

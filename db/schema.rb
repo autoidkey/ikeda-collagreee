@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203131422) do
+ActiveRecord::Schema.define(version: 20160629100242) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -203,6 +203,15 @@ ActiveRecord::Schema.define(version: 20151203131422) do
     t.boolean  "point_function", default: true
   end
 
+  create_table "thread_classes", force: true do |t|
+    t.string   "title"
+    t.string   "parent_class"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "theme_id"
+    t.integer  "claster_id"
+  end
+
   create_table "tree_logs", force: true do |t|
     t.integer  "user_id"
     t.integer  "theme_id"
@@ -216,6 +225,7 @@ ActiveRecord::Schema.define(version: 20151203131422) do
     t.integer  "theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "out_flag"
   end
 
   create_table "users", force: true do |t|
