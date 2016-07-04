@@ -14,5 +14,6 @@
 /python/youyakutest/tools/*.pyc
 /python/*.json
 /python/youyakutest/tools/*.pyc
+/python/youyaku1/input_data
 /*.pyc
 ,/

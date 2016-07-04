@@ -5,9 +5,6 @@
   <div class="form-group">
     <%= f.text_area :body , class: 'form-control', placeholder: t('themes.facilitation_do') %>
   </div>
-  <div class="form-check_box">
-    <%= t('themes.draft_agreement') %><%= f.check_box :agreement, {:value => false} %>
-  </div>
 
 
 
@@ -20,7 +17,7 @@
   <div class="tab-pane active form-group" id="stamp">
     <% @stamps.each do |stamp| %>
         <label>
-            <%= f.radio_button :stamp, "/collagree_ss" + stamp %>
+            <%= f.radio_button :stamp, stamp %>
             <%= image_tag(stamp, class: 'img-stamp')%>
         </label>
     <% end %>

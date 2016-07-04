@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  resources :facilitation_infomations
 
+  resources :thread_classes
+  resources :facilitation_infomations
   resources :facilitation_keywords
 
   ActiveAdmin.routes(self)
@@ -69,6 +70,10 @@ Rails.application.routes.draw do
   get 'homes/:id/auto_facilitation_json' => 'homes#auto_facilitation_json'
   get 'homes/:id/auto_facilitation_post' => 'homes#auto_facilitation_post'
   get 'homes/:id/auto_facilitation_notice' => 'homes#auto_facilitation_notice'
+
+  get 'thread_classes/all/:id' => 'thread_classes#all',as: "thread_classes_all"
+  post 'thread_classes/set/:id' => 'thread_classes#set'
+  patch 'thread_classes/set/:id' => 'thread_classes#set'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

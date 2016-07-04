@@ -337,7 +337,11 @@ function treeJSON(error, treeData ,user){
     // Toggle children on click.
 
     function click(d) {
-        show_dialog(d.body ,serchParent(d),d.dataID );
+        if (d.dataID == 0){
+            entry_dialog();
+        }else{
+            show_dialog(d.body ,serchParent(d),d.dataID );
+        }
     }
 
     function update(source) {
@@ -454,7 +458,11 @@ function treeJSON(error, treeData ,user){
                 return "end";
             })
             .text(function(d) {
-                return d.name.substr(1);
+                if(d.name.charAt(0)=="n"){
+                    return d.name.substr(4);
+                }else{
+                    return d.name.substr(1);
+                }
             })
             .style("fill-opacity", 0);
 
@@ -491,8 +499,12 @@ function treeJSON(error, treeData ,user){
             .text(function(d) {
                 //ここで表示するテキストを返している
                 if(d.depth!=0){
-                    return d.name.substr(1);
-                }else {
+                    if(d.name.charAt(0)=="n"){
+                        return d.name.substr(4);
+                    }else{
+                        return d.name.substr(1);
+                    }
+                }else{
                     return d.name;
                 }
             });
@@ -518,7 +530,7 @@ function treeJSON(error, treeData ,user){
             })
             .style("font-size", function(d) {
 
-                return 30;
+                return 40;
        　　  })
             // iは0から始まるので、+1しておく
             .text(function(d) {
@@ -537,6 +549,9 @@ function treeJSON(error, treeData ,user){
                     if(text != " "){
                         text = text + "・";
                     }
+                    text = text + "NEW!";
+                }
+                if(d.dataID == 24 || d.dataID == 25 || d.dataID == 27 || d.dataID == 28 || d.dataID == 35 ){
                     text = text + "NEW!";
                 }
                 return text;
@@ -629,7 +644,7 @@ function treeJSON(error, treeData ,user){
 
     function serchParent(d) {
         var parent
-        while (d.parent.dataID !=0) {
+        while (d.parent.dataID !=　0) {
             d = d.parent
         }
         return d.dataID
