@@ -1,14 +1,14 @@
 ja:
   mailer:
-    post_from_facilitator: "Post from facilitator arrives! Why don't you take a look?"
+    post_from_facilitator: "Post from facilitator arrives! Why don't you take a look?" # The facilitator has posted a message! Why don't you take a look?"
     facilitator: 'facilitator'
-    main_title: 'Whenever Wherever However many you are Discussion Forums on the Web'
-    liked_title: "Someone Liked your post!"
-    liked: "Your post is Liked by %{name}"
+    main_title: 'Whenever Wherever However many you are Discussion Forums on the Web' # "Whenever, Wherever, However Many, Discussion Forums on the Web"
+    liked_title: "Someone Liked your post!" # lowercase "liked"
+    liked: "Your post is Liked by %{name}" # see above
     liked_post: "Content"
-    liked_body: "Your post [%{post}] is Liked by %{name}"
-    got_point: "You got %{point} Liked Point!"
-    replied: "Your post [%{post}] is replied by %{name}"
+    liked_body: "Your post [%{post}] is Liked by %{name}" # see above
+    got_point: "You got %{point} Liked Point!" # I would personally call them "Like Points" and below, "Reply Points"
+    replied: "Your post [%{post}] is replied by %{name}" # I think it would be more natural to say "%{name} replied to you post [%{post}]!"
     replied_cap: "Content"
     replied_title: "Someone replied to your post!"
     got_replied_point: "You got %{point} Replied Point!"
