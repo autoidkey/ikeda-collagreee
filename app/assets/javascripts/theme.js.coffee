@@ -49,11 +49,11 @@ class @PointCount
   animation: (action, Dpoint) ->
     switch action
       when 'entry'
-        comment = "投稿ポイント" + (ENTRY_POINT + Dpoint) + " pt 獲得！！"
+        comment = "You got " + (ENTRY_POINT + Dpoint) + " pts !!"
       when 'reply'
-        comment = "返信ポイント" + (REPLY_POINT + Dpoint) + " pt 獲得！！"
+        comment = "You got " + (REPLY_POINT + Dpoint) + " pts !!"
       when 'like'
-        comment = "Likeポイント" + LIKE_POINT + " pt 獲得！！"
+        comment = "You got " + LIKE_POINT + " pts !!"
 
     $('#header-alert').css 'display', 'block'
     $('#point-alert').text(comment)
