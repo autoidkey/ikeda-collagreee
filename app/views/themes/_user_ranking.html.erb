@@ -16,6 +16,7 @@
           <tr>
             <td class="rank rank-<%= user.rank(@theme) %>" id=""><%= user.rank(@theme) %></td>
             <td class="rank-image">
+              <% if params[:locale] != 'en' %>
               <%= link_to (image_tag user_icon_path(user),
                            class: 'user-icon img-circle set-popover',
                            data: {
@@ -24,6 +25,16 @@
                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + t('themes.count')
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
+              <% else %>
+              <%= link_to (image_tag user_icon_path(user),
+                           class: 'user-icon img-circle set-popover',
+                           data: {
+                             toggle: "popover",
+                             placement: "right",
+                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + t('themes.count')
+                           }
+                           ), '/users/' + user.id.to_s + '?locale=en'%>　<%= user.name %>
+              <% end %>
             </td>
             <td class="rank-score">
               <span class="user-score"><%= user.score(theme) %></span>

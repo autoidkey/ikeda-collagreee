@@ -4,6 +4,7 @@
   </div>
   <div class="panel-body">
     <% @theme.users.each do |user| %>
+      <% if params[:locale] != 'en' %>
       <%= link_to image_tag(user_icon_path(user),
                             class: 'user-icon img-circle set-popover',
                             data: {
@@ -12,6 +13,16 @@
                               content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + t('themes.count')
                             }
                             ), '/users/' + user.id.to_s %>
+      <% else %>
+      <%= link_to image_tag(user_icon_path(user),
+                            class: 'user-icon img-circle set-popover',
+                            data: {
+                              toggle: "popover",
+                              placement: "bottom",
+                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + t('themes.count')
+                            }
+                            ), '/users/' + user.id.to_s + '?locale=en'%>
+      <% end %>
     <% end %>
   </div>
 </div>

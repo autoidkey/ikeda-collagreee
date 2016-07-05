@@ -134,13 +134,6 @@ ActiveRecord::Schema.define(version: 20160629100242) do
     t.integer  "version_id"
   end
 
-  create_table "model_accesses", force: true do |t|
-    t.integer  "theme_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "notices", force: true do |t|
     t.integer  "ntype"
     t.integer  "user_id"
@@ -192,13 +185,6 @@ ActiveRecord::Schema.define(version: 20160629100242) do
   create_table "tagged_entries", force: true do |t|
     t.integer  "entry_id",   null: false
     t.integer  "issue_id",   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "theme_accesses", force: true do |t|
-    t.integer  "theme_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

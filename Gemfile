@@ -38,9 +38,6 @@ gem 'k_means'
 
 gem 'ransack'
 
-
-
-
 # gem 'nkf'
 
 group :development do
