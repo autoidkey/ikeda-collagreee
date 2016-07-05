@@ -1,5 +1,6 @@
 require 'natto'
 require 'time'
+# require 'EnglishTokenizer'
 
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
@@ -14,6 +15,8 @@ class ThemesController < ApplicationController
 
   include Bm25
   include Stamp
+  # include EnglishTokenizer
+  # include call_test
   require 'time'
 
   def index
@@ -312,6 +315,7 @@ class ThemesController < ApplicationController
     logger.warn @new_entry
     @theme = Theme.find(params[:id])
     entrys = Entry.all
+
     #要約文の保存
     if @new_entry["parent_id"] != nil
       s= ""
@@ -456,10 +460,13 @@ class ThemesController < ApplicationController
     # 書き込みの内容を取得
     text = entry_params["body"]
 
+    print(get_nouns(text))
+
     # MeCabによる投稿内容の形態素解析
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
-    word = norm_connection2(text).uniq
+    word = get_nouns(text)  # 英語の時はこっち
+    # word = norm_connection2(text).uniq
     print "\n 抽出したワードは、#{word}です。\n"
 
     # 抽出したワードを1つずつ読み込んでいく

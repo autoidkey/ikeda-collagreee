@@ -24,7 +24,8 @@ module Bm25
     n = entries.count.to_f # 全ドキュメント数
 
     entries.each do |text|
-      norms = norm_connection(text.body) # 連結単語取り出し
+      # norms = norm_connection(text.body) # 連結単語取り出し
+      norms = get_nouns(text.body)
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
 
@@ -592,6 +593,30 @@ module Bm25
       end
     end
     return temp_array
+  end
+
+  def tokenize_english(text)
+    command = "echo \"#{text}\" | tteng"
+    raw_text = `#{command}`
+    words = raw_text.split("\n")
+    results = Array.new
+    words.each do |word|
+      results.push(word.split("\t"))
+    end
+    return results
+  end
+
+  def get_nouns(text)
+    nouns = Array.new
+    tokens = tokenize_english(text)
+    tokens.each do |token|
+      if token[1] == "NN"
+        nouns.push(token[0])
+      elsif token[1] == "NNS"
+        nouns.push(token[2])
+      end
+    end
+    return nouns
   end
 
 end
