@@ -82,7 +82,6 @@ function createTreeData(dataAll, title, youyakuData, claster, classes) {
         // }
         // return 
 
-        console.log(claster)
         return claster
 
     }
@@ -105,8 +104,8 @@ function createTreeData(dataAll, title, youyakuData, claster, classes) {
       for(var i = 0 ; i < child.length ; i++){
         var childId = child[i];
         //渡す色を選択する
-        var color = ParentColor
 
+        var color = ParentColor
 
         if(ParentColor == 0){
             color = serchDataArray(childId)["claster"]

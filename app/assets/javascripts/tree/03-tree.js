@@ -361,7 +361,7 @@ function treeJSON(error, treeData ,user){
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) *65; // 25 pixels per line  ノード間の縦の距離
+        var newHeight = d3.max(levelWidth) * 55; // 25 pixels per line  ノード間の縦の距離
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
