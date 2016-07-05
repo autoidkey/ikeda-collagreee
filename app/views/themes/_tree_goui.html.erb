@@ -96,7 +96,6 @@
           if ($(".node").size()==0){
               　//ここでtreeJSONを呼び出して生成する
               　var ent = <%= raw entries.to_json %>
-                console.log(ent)
                 var dataAll = <%= raw entryAll.to_json %>
                 var youyakuData = <%= raw youyaku.to_json %>
                 var claster = <%= raw claster.to_json %>
@@ -109,7 +108,6 @@
 
                 treeJSON("", treeData ,user);
 
-                console.log(dataAll);
 
                 //ここでtreeに入った人のlogを残していく
                 $.ajax({
