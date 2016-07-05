@@ -1,0 +1,63 @@
+- heading: "Prompting participants' posts"
+  scenes:
+    - scene: "Few posts at the initial stage"
+      phrases:
+        - 'Does anyone have ideas about ...?'
+        - 'Do you have any ideas about ...?'
+        - 'Please post your ideas about ...!'
+    - scene: 'Few responses to the posts'
+      phrases:
+        - 'Does anyone have arguments for or against the above posts?'
+        - 'Do you have any arguments for or against the above posts?'
+        - 'Please post your arguments for or against the above posts!'
+    - scene: 'Few posts'
+      phrases:
+        - "If you feel nervous about posting on the system, please don't worry about the quality of ideas. Please feel free to post your ideas or opinions!"
+    - scene: 'To promote the use of the system functions'
+      phrases:
+        - 'You can use "論点 tag" when posting your ideas.'
+        - 'By clicking on the 論点 tags, you can browse your targeted arguments.'
+        - '"Keywords" are selected by the frequency of words for your information and guidance.'
+    - scene: 'デザイン案を引き出す場合'
+      phrases:
+        - 'コンセプトを踏まえて、スケッチなどデザイン案を投稿してください。'
+    - scene: 'デザイン案が少ない場合'
+      phrases:
+        - '絵のうまい下手は関係ありません。どしどし投稿してください。'
+- heading: 'Dig down into the detail'
+  scenes:
+    - scene: 'Insufficient explanation'
+      phrases:
+        - 'Could you explain this idea in more concrete terms?'
+        - 'Could you instantiate this idea?'
+    - scene: 'To promote opinions from new viewpoints'
+      phrases:
+        - 'Does anyone have opinions from different viewpoints?'
+        - 'If you have opinions from different viewpoints, please post it.'
+    - scene: "To grasp the participants' comprehension of discussion"
+      phrases:
+        - 'Does anyone have questions about the above discussion?'
+        - 'Do you have any questions about the above discussion?'
+    - scene: 'To focus discussion on a specific point'
+      phrases:
+        - 'What about concrete solutions on ...?'
+        - 'What about merits or demerits on ...?'
+    - scene: 'To resolve conflicts'
+      phrases:
+        - 'The focus of discussion seems to be ...'
+        - 'If you change your opinion with considering ..., please post the new opinion.'
+    - scene: 'To promote integrate ideas'
+      phrases:
+        - 'Could you integrate the ideas into a new idea?'
+    - scene: 'To promote the expansion of ideas'
+      phrases:
+        - "Let's expand the potential of ides."
+- heading: 'Summarization'
+  scenes:
+    - scene: 'To summarize opinions'
+      phrases:
+        - 'Could you summarize the above opinions?'
+    - scene: 'To conclude discussion'
+      phrases:
+        - "Do you agree with the conclusion that ..., don't you?"
+        - "Now I'd like to confirm our consensus. We reached the consensus that ..., didn't we?"

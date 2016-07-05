@@ -36,8 +36,10 @@ class ThemesController < ApplicationController
 
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
+    @ja = params[:locale] == 'ja'
+
     @other_themes = Theme.others(@theme.id)
-    @facilitations = Facilitations
+    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
 
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
@@ -66,6 +68,9 @@ class ThemesController < ApplicationController
     #以下議論ツリーで使用する投稿一覧
     @entry_tree = Entry.where(:theme_id => @theme.id)
     @classes = ThreadClass.where(:theme_id => @theme.id)
+
+    #英語か日本語化で日本語ならtrue
+    @ja = params[:locale] == 'ja'
 
     #他のでも使用できるファシリテータが選んだフェーズナンバー
     @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
@@ -243,7 +248,7 @@ class ThemesController < ApplicationController
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page])
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
     @other_themes = Theme.others(@theme.id)
-    @facilitations = Facilitations
+    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
   end
@@ -269,7 +274,7 @@ class ThemesController < ApplicationController
   def search_entry
     @entry = Entry.new
     @issue = Issue.new
-    @facilitations = Facilitations
+    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
     @page = params[:page] || 1
 
     if params[:search_entry][:order] == 'time'
@@ -538,7 +543,7 @@ class ThemesController < ApplicationController
     puts "獲得した追加ポイント = #{@dynamicpoint}!!"
     puts "----------------------------------------------------------"
 
-    @facilitations = Facilitations
+    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
     @count = @theme.entries.root.count
 
     respond_to do |format|
@@ -563,7 +568,7 @@ class ThemesController < ApplicationController
     @entry = Entry.new
 
     @theme = Theme.find(params[:id])
-    @facilitations = Facilitations
+    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
 
     respond_to do |format|
       format.js
