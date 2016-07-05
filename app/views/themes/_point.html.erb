@@ -62,19 +62,19 @@
                    when "投稿" %>
                 <%= t('themes.posted') %> (<%= t('themes.post_no') %><%= ap.entry.id %>)
                 <% when "返信" %>
-                <%= ap.entry.parent.user.name %>さんの投稿に返信しました (投稿 No.<%= ap.entry.id %>)
+                <%= t('themes.reply_done',{name: ap.entry.parent.user.name}) %>(<%= t('themes.post_no') %><%= ap.entry.id %>)
                 <% when "Like" %>
-                <%= ap.entry.user.name %>さんの投稿にいいね！しました (Like No.<%= ap.like.id %>)
+                <%= t('themes.like_done',{name: ap.entry.user.name}) %>(Like No.<%= ap.like.id %>)
                 <% when "返信され" %>
-                <%= ap.reply.user.name if ap.reply.present? %>さんに返信されました (投稿 No.<%= ap.entry.id %>)
+                <%= t('themes.replied_done',{name: ap.reply.user.name}) %>(<%= t('themes.post_no') %><%= ap.entry.id %>)
                 <% when "Likeされ" %>
                 <% if ap.depth == 0 %>
-                  投稿(No.<%= ap.entry.id %>)が<%= ap.like.user.name %>さんにいいね！されました (Agree No.<%= ap.like.id %>)
+                  <%= t('liked_no_done',{id: ap.entry.id,name: ap.like.user.name})%>(Agree No.<%= ap.like.id %>)
                 <% else %>
-                  投稿(No.<%= ap.entry.id %>)に関連する投稿が<%= ap.like.user.name %>さんにいいね！されました (Agree No.<%= ap.like.id %>)
+                  <%= t('liked_related_done',{id: ap.entry.id,name: ap.like.user.name})%>Agree No.<%= ap.like.id %>)
                 <% end %>
                 <% when "Likeを削除され" %>
-                投稿(No.<%= ap.entry.id %>)への<%= ap.like.user.name %>さんのいいね！が削除されました (Like No.<%= ap.like.id %>)
+                <%= t('liked_delated',{id: ap.entry.id,name: ap.like.user.name})%>(Like No.<%= ap.like.id %>)
           <% end %>
 </td>
 </tr>

@@ -2,8 +2,8 @@ en:
   homes:
     about:
       management:
-        title: "Management Entity"
-        one: Eizou Hidejima - Dept. of Social Technology, Nagoya Institute of Technology
+        title: "Organizers"
+        one: Eizou Hideshima - Dept. of Architecture, Civil Engineering, Nagoya Institute of Technology # "Dept. of Architecture & Civil Engineering" or "Dept. of Architecture/Civil Engineering", just to be consistent with comma use
         two: Takayuki Ito -　Dept. of Computer Science, Nagoya Institute of Technology
-        three: Takanori Ito - Dept. of Social Technology, Nagoya Institute of Technology
-      description: "COLLAGREE System is being developed by Hidejima lab, Takayuki Ito lab, and Koki Ito lab. Collected data is used for our study and paper under the privacy policy."
+        three: Takanori Ito - Dept. of Architecture, Civil Engineering and Industrial Management, Nagoya Institute of Technology # See above
+      description: "The COLLAGREE System is being developed by Hideshima lab, Takayuki Ito lab, and Takanori Ito lab. Collected data will be used for our study and paper under the privacy policy." # Here's how I would translate it: "TThe COLLAGREE system is being developed by the labs of Drs. Eizou Hideshima, Takayuki Ito, and Takanori Ito. Collected data will be used for our research and published in scientific papers according to the privacy policy."

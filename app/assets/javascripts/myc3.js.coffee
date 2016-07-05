@@ -88,6 +88,7 @@ class @C3
       )
 
   user_action_chart: (data, user_name)->
+
     chart = c3.generate(
       bindto: "#user-action-chart"
       data:
@@ -105,7 +106,7 @@ class @C3
         type: "donut"
 
       donut:
-        title: user_name + "さんの活動割合"
+        title: user_name + "'s activity"
     )
 
 @myc3 = new C3()
