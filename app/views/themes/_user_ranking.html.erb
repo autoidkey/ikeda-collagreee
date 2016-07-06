@@ -22,7 +22,7 @@
                            data: {
                              toggle: "popover",
                              placement: "right",
-                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + t('themes.count')
+                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + ' / Like ' + user.likes.status_on.count.to_s + t('themes.count')
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
               <% else %>
@@ -31,7 +31,7 @@
                            data: {
                              toggle: "popover",
                              placement: "right",
-                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + '件 / Like ' + user.likes.status_on.count.to_s + t('themes.count')
+                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + ' / Like ' + user.likes.status_on.count.to_s + t('themes.count')
                            }
                            ), '/users/' + user.id.to_s + '?locale=en'%>　<%= user.name %>
               <% end %>

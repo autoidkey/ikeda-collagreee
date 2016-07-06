@@ -6,7 +6,7 @@
                data: {
                  toggle: "popover",
                  placement: "right",
-                 content: entry.user.name.to_s + '｜' + t('themes.post') + ' ' + entry.user.entries.count.to_s + '件 / Like ' +entry.user.likes.status_on.count.to_s + t('themes.count')
+                 content: entry.user.name.to_s + '｜' + t('themes.post') + ' ' + entry.user.entries.count.to_s + ' / Like ' +entry.user.likes.status_on.count.to_s + t('themes.count')
                }
                ), '/users/' + entry.user.id.to_s %>
 <% end %>
