@@ -1,12 +1,30 @@
+require 'natto'
+
 class ThreadClassesController < ApplicationController
   before_action :set_thread_class, only: [:show, :edit, :update, :destroy]
   before_action :set_theme, only: [:all]
   before_action :set_entry, only: [:set]
 
+  include Bm25
+
   # GET /thread_classes
   # GET /thread_classes.json
   def index
     @thread_classes = ThreadClass.all
+
+    clastering_en(4)
+
+  end
+
+  def change_text(tex)
+    str = tex.gsub(/《[^》]+》/, "")
+    str = str.gsub(/　/, "  ")
+    str = str.gsub('(', '（')
+    str = str.gsub(')', '）')
+    str = str.gsub('!', '！')
+    str = str.gsub('&', '＆')
+    str = str.gsub(/[\r\n]/,"")
+    return str
   end
 
   # GET /thread_classes/1
