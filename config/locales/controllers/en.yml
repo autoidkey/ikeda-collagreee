@@ -2,8 +2,8 @@ en:
   controllers:
     greet: "Hello, I am the facilitator of this discussion. Nice to meet you."
     comment_from_facilitator: "comment from facilitator: %{comment}"
-    only_admin: "adminユーザのみ利用可能です" # "Only admins can use this"
-    participate_discuss: "議論に参加しましょう！" # "Let's participate in this discussion!"
+    only_admin: "Only admins can use this" # "Only admins can use this"
+    participate_discuss: "Let's participate in this discussion!" # "Let's participate in this discussion!"
     create_tag: "new tag is created" # "new tag created" without the "is" sounds a bit more natural here
     change_phase: "phase changed"
     post: 'post'

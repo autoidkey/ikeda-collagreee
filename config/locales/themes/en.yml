@@ -23,19 +23,19 @@ en:
     without_pointing: 'without function'
     create: 'create'
     news_title: 'Comments from the facilitator'
-    what_divergence: 'What is Divergence Phase?' # "What is the Divergence Phase?"
+    what_divergence: 'What is the Divergence Phase?' # "What is the Divergence Phase?"
     description_divergence: "You can give free opinion as much as possible like brain storming." # An informal message: "This phase is like brainstorming. You can give as many opinions as you want!" Or perhaps more formally: "In this phase, you can brainstorm ideas and give multiple different opinions."
     advertise_divergence: ''
-    what_convergence: 'What is Convergence Phase?' # Same as above, perhaps add a "the"
+    what_convergence: 'What is the Convergence Phase?' # Same as above, perhaps add a "the"
     description_convergence: "You can deepen our discussion in Convergence Phase. Let's improve our opinions." # "In this phase, we can deepen our discussion and clarify and focus our opinions." or something like this perhaps
     advertise_convergence: ''
-    what_consensus: 'What is Consensus Phase?' # See above
+    what_consensus: 'What is the Consensus Phase?' # See above
     description_consensus: 'We can summarize final draft agreement in Consensus. Create the best agreement.' # "In this phase, we can summarize our discussion and draft an agreement." or something like this perhaps
     advertise_consensus: ''
     update_comments: 'update comments'
     like: 'Like'
     count: ''
-    cancel_like: "Don't like" # I would say "cancel like", because "don't like" sounds like you want to add a negative comment
+    cancel_like: "cancel like" # I would say "cancel like", because "don't like" sounds like you want to add a negative comment
     agree: 'agree'
     disagree: 'disagree'
     other_themes_title: 'Other theme'
@@ -53,9 +53,9 @@ en:
     do_comment: 'comment'
     move_bar: '※ adjust the rate of your agreement'
     facilitation: 'facilitation'
-    sort: "【sorting】" # I would use English brackets, if possible. For example, "(sorting)" or "[sorting]"
+    sort: "[sorting]" # I would use English brackets, if possible. For example, "(sorting)" or "[sorting]"
     whats_new: "What's New"
-    narrow: "【narrowing】" # See above
+    narrow: "[narrowing]" # See above
     search: 'search'
     tag_title: 'Tags'
     theme_title: 'Theme'
@@ -81,16 +81,16 @@ en:
     divergence: 'Divergence phase' # I would maybe capitalize these like "Divergence Phase" and "Convergence Phase", but again, consistency is most important
     convergence: 'Convergence phase'
     consensus: 'Consensus phase'
-    switch_divergence: "Are you sure you want to switch to divergence phase?" # "... switch to the Divergence Phase?"
-    switch_convergence: "Are you sure you want to switch to convergence phase?" # See above
-    switch_consensus: "Are you sure you want to switch to consensus phase?" # See above
+    switch_divergence: "Are you sure you want to switch to the divergence phase?" # "... switch to the Divergence Phase?"
+    switch_convergence: "Are you sure you want to switch to the convergence phase?" # See above
+    switch_consensus: "Are you sure you want to switch to the consensus phase?" # See above
     debate: 'Discussion'
     debate_tree: 'Discussion tree'
     debate_tree_edit: 'Edit discussion tree'
     point_acquired: 'acquired point'
     new: 'new'
     posted: 'posted'
-    reply_done: "you replied %{name}'s post " # "You replied to %{name}'s post."
+    reply_done: "you replied to %{name}'s post " # "You replied to %{name}'s post."
     like_done: "you liked %{name}'s post " # Perhaps capitalize "You" and add a period at the end.
     replied_done: "you were replied by %{name} "
-    liked_done: "you were liked by %{name} " # "Your post was liked by %{name}."
+    liked_done: "your post liked by %{name} " # "Your post was liked by %{name}."
