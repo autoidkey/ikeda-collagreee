@@ -6,11 +6,6 @@
       <%= simple_format(child.body) %>
 
     <div class="info-list">
-      <% if child.np >= 50 %>
-        <span class="label label-warning"><%= t('themes.agree') %></span>
-      <% else %>
-        <span class="label label-success"><%= t('themes.disagree') %></span>
-      <% end %>
       <span class="user-name">
         <%= child.facilitation ? t('themes.facilitator') : child.user.name  %>
       </span>

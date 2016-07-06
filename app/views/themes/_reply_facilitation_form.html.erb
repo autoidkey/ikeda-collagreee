@@ -2,9 +2,6 @@
   <div class="form-group">
     <%= f.text_area :body , class: 'form-control', placeholder: t('themes.facilitation_do') %>
   </div>
-  <div class="form-check_box">
-    <%= t('themes.draft_agreement') %><%= f.check_box :agreement, {:value => false} %>
-  </div>
 
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
   <%= f.hidden_field :parent_id, { :value => entry.id } %>
