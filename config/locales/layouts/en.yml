@@ -10,5 +10,5 @@ en:
       signup: "Sign up"
       login: "Login"
     footer:
-      terms: "Terms of service" # I think it's more common to see it capitalized like "Terms of Service" and "Privacy Policy"
-      privacy: "Privacy policy"
+      terms: "Terms of Service" # I think it's more common to see it capitalized like "Terms of Service" and "Privacy Policy"
+      privacy: "Privacy Policy"
