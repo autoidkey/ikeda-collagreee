@@ -1,6 +1,6 @@
 - heading: "Prompting participants' posts"
   scenes:
-    - scene: "Few posts at the initial stage"
+    - scene: 'Few posts at the initial stage'
       phrases:
         - 'Does anyone have ideas about ...?'
         - 'Do you have any ideas about ...?'
@@ -15,15 +15,9 @@
         - "If you feel nervous about posting on the system, please don't worry about the quality of ideas. Please feel free to post your ideas or opinions!"
     - scene: 'To promote the use of the system functions'
       phrases:
-        - 'You can use "論点 tag" when posting your ideas.'
-        - 'By clicking on the 論点 tags, you can browse your targeted arguments.'
+        - 'You can use "Issue Tags" when posting your ideas.'
+        - 'By clicking on the issue tags, you can browse your targeted arguments.'
         - '"Keywords" are selected by the frequency of words for your information and guidance.'
-    - scene: 'デザイン案を引き出す場合'
-      phrases:
-        - 'コンセプトを踏まえて、スケッチなどデザイン案を投稿してください。'
-    - scene: 'デザイン案が少ない場合'
-      phrases:
-        - '絵のうまい下手は関係ありません。どしどし投稿してください。'
 - heading: 'Dig down into the detail'
   scenes:
     - scene: 'Insufficient explanation'

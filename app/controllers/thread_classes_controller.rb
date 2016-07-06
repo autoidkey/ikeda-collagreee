@@ -12,8 +12,6 @@ class ThreadClassesController < ApplicationController
   def index
     @thread_classes = ThreadClass.all
 
-    clastering_en(4)
-
   end
 
   def change_text(tex)

@@ -338,8 +338,9 @@ module Bm25
 
 
 
+
   #英語のクラスタリング
-  def clastering_en(id)
+  def clustering_en(id)
     path = "#{Rails.root}/python/clustering"
 
     entries = Entry.where(theme_id: id)
@@ -356,7 +357,7 @@ module Bm25
     # 最後にDBに保存できるように最後の文字とidを保存する
     thread_s = []
     # ファイルへの書き込み
-    File.open("#{path}/file/test.txt", "w") do |file|
+    File.open("#{path}/file/input.txt", "w") do |file|
       thread_array.each do |threads|
         # sはスレッドを文字列をつなげ文字列
         s = ""
@@ -369,6 +370,7 @@ module Bm25
         file.puts s
       end
     end
+    puts "aaaa"
 
     # あとからid読み出せるよう
     thread_ids = {}
@@ -377,8 +379,9 @@ module Bm25
     end
 
 
-    IO.popen("python #{path}/clustering.py #{path}/file/test.txt #{path}/file/output.txt").each do |line|
+    IO.popen("python #{path}/clustering.py #{path}/file/input.txt #{path}/file/output.txt").each do |line|
       puts line
+      puts "aaaa"
     end
 
     # pythonで書き込んだfileを読み出す
