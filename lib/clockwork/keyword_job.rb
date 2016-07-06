@@ -18,7 +18,8 @@ class KeywordJob
       end
     end
 
-    #スレッドのクラスタリングも実行
+    # スレッドのクラスタリングも実行
+
     # idAll = Theme.all
     # Entry.record_timestamps = false
     # idAll.each do |id|
@@ -30,6 +31,11 @@ class KeywordJob
     #   end
     # end
     # Entry.record_timestamps = true
+
+    # 英語版のクラスタリング
+    Theme.all.each do |theme|
+      clastering_en(theme.id)
+    end
 
   end
 end

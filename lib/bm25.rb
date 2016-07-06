@@ -335,6 +335,8 @@ module Bm25
 
   #ここまで影響の普及モデルで使用する
 
+
+
   #英語のクラスタリング
   def clastering_en(id)
     path = "#{Rails.root}/python/clustering"
@@ -346,29 +348,33 @@ module Bm25
     # スレッドごとの記事のidが配列で入っている
     thread_array = serch_thread(entries , parent_ids)
     # logger.info({t: thread_array})
+    if thread_array.length < 6
+      return
+    end
 
     # 最後にDBに保存できるように最後の文字とidを保存する
-    thread_ids = {}
+    thread_s = []
     # ファイルへの書き込み
     File.open("#{path}/file/test.txt", "w") do |file|
-      thread_array.each_with_index do |threads, i|
+      thread_array.each do |threads|
         # sはスレッドを文字列をつなげ文字列
         s = ""
         threads.each do |entry_id|
           # スレッドの記事をつなげる
-          body = Entry.find(entry_id).body
-          if body[body.length-1] != "."
-            body = body + "."
-          end 
-          s = s + change_text(body)
+          s = s + change_text(Entry.find(entry_id).body)
         end
-        thread_ids[s[-6..-1]] = parent_ids[i]
-        logger.info({t: thread_ids})
-
+        thread_s.push(s)
         # ファイルに書き込む 
         file.puts s
       end
     end
+
+    # あとからid読み出せるよう
+    thread_ids = {}
+    thread_s.each_with_index do |s,i|
+      thread_ids[s[-4..-1]] = parent_ids[i]
+    end
+
 
     IO.popen("python #{path}/clustering.py #{path}/file/test.txt #{path}/file/output.txt").each do |line|
       puts line
@@ -378,7 +384,7 @@ module Bm25
     File.open("#{path}/file/output.txt") do |file|
       file.each_line do |labmen|
         # idがthread_ids[labmen[-7..-2]]で\nが入るので-1してある
-        entry = Entry.find(thread_ids[labmen[-7..-2]])
+        entry = Entry.find(thread_ids[labmen[-5..-2]])
 
         cl = labmen[0, labmen.index(":")]
         entry.update(claster: cl)
