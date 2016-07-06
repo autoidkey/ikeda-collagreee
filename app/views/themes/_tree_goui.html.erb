@@ -1,27 +1,8 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<div id="dialog" title="Opinion dialog">
+</div>
 
-
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-  <div id="dialog" title="Opinion dialog">
-  </div>
-
-<!--   <div class="tag-push">
-    <h4><span class="glyphicon glyphicon-tags" aria-hidden="true"> 意見タグ追加</span></h4>
-    <div class='tag-list'>
-      合意案<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
-      代替案<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
-      注目<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
-      質問<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
-      提案<input id="entry_agreement" name="entry[agreement]" type="checkbox" value="1">
-    </div>
-    <div class="form-group">
-      <input class="form-control" id="issue_name" name="issue[name]" type="text">
-    </div>
-    <input class="btn btn-default" name="commit" type="submit" value="＋">
-  </div> -->
-
-  <style type="text/css">
-
-
+<style type="text/css">
 .modal_close {
   position: absolute;
   top: 12px;
@@ -31,100 +12,95 @@
   width: 28px;
   height: 28px;
   /* 閉じるボタンの画像は自分で用意 */
-/*  background: url('../images/close-popup.png') no-repeat;*/
+  /*  background: url('../images/close-popup.png') no-repeat;*/
   z-index: 2;
 }
-      #dialog {
-        padding-left: 120px
-      }
-        .node {
-        cursor: pointer;
-      }
+#dialog {
+  padding-left: 120px
+}
+  .node {
+  cursor: pointer;
+}
 
-      .overlay{
-          background-color:#f7fbff;
-      }
-       
-      .node circle {
-        fill: #fff;
-        stroke: steelblue;
-        stroke-width: 1.5px;
-      }
-       
-      .node text {
-        font-size:13px; 
-        font-family:sans-serif;
-      }
-       
-      .link {
-        fill: none;
-        stroke-width: 1.5px;
-      }
+.overlay{
+    background-color:#f7fbff;
+}
+ 
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+ 
+.node text {
+  font-size:13px; 
+  font-family:sans-serif;
+}
+ 
+.link {
+  fill: none;
+  stroke-width: 1.5px;
+}
 
-      .templink {
-        fill: none;
-        stroke: red;
-        stroke-width: 3px;
-      }
+.templink {
+  fill: none;
+  stroke: red;
+  stroke-width: 3px;
+}
 
-      .ghostCircle.show{
-          display:block;
-      }
+.ghostCircle.show{
+    display:block;
+}
 
-      .ghostCircle, .activeDrag .ghostCircle{
-           display: none;
-      }
+.ghostCircle, .activeDrag .ghostCircle{
+     display: none;
+}
 
-      .tag-push{
-        display: none;
-        font-size: 18px;
-      }
-     .tag-list{
-        padding: 10px;
-     }
-
-    </style>
-
-
-
-
+.tag-push{
+  display: none;
+  font-size: 18px;
+}
+.tag-list{
+  padding: 10px;
+}
+</style>
     <script type = "text/javascript"> 
 
       // 表示されたときに議論議論ツリーを表示する
       $('#panel-tree').on('inview', function(event, isInView, visiblePartX, visiblePartY) {
         if (isInView) {  
           if ($(".node").size()==0){
-              　//ここでtreeJSONを呼び出して生成する
-              　var ent = <%= raw entries.to_json %>
-                var dataAll = <%= raw entryAll.to_json %>
-                var youyakuData = <%= raw youyaku.to_json %>
-                var claster = <%= raw claster.to_json %>
-                var fas = <%= raw fas.to_json %>
-                var user = <%= raw user.to_json %>
-                var title = <%= raw theme.title.to_json %>
-                var classes = <%= raw classes.to_json %>
-                var dataAll = tree_data_change(dataAll,classes);
-                var treeData = createTreeData(dataAll , title , youyakuData , claster, classes);
+          　//ここでtreeJSONを呼び出して生成する
+            var la = <%= raw @la.to_json %>
+          　var ent = <%= raw entries.to_json %>
+            var dataAll = <%= raw entryAll.to_json %>
+            var youyakuData = <%= raw youyaku.to_json %>
+            var claster = <%= raw claster.to_json %>
+            var fas = <%= raw fas.to_json %>
+            var user = <%= raw user.to_json %>
+            var title = <%= raw theme.title.to_json %>
+            var classes = <%= raw classes.to_json %>
+            var dataAll = tree_data_change(dataAll,classes);
+            var treeData = createTreeData(dataAll , title , youyakuData , claster, classes, la);
 
-                treeJSON("", treeData ,user);
+            treeJSON("", treeData ,user, la);
 
+            //ここでtreeに入った人のlogを残していく
+            $.ajax({
+              url: "tree/change_session_year",
+              type: "POST",
+              data: {user_id : user,
+                      theme: dataAll[0]["theme_id"],
+                      flag: false,
+                      },
+              dataType: "html",
+              success: function(data) {
+              },
+              error: function(data) {
+              }
+            });
 
-                //ここでtreeに入った人のlogを残していく
-                $.ajax({
-                  url: "tree/change_session_year",
-                  type: "POST",
-                  data: {user_id : user,
-                          theme: dataAll[0]["theme_id"],
-                          flag: false,
-                          },
-                  dataType: "html",
-                  success: function(data) {
-                  },
-                  error: function(data) {
-                  }
-               });
-
-            }     
+          }     
         }
 
       });

@@ -1,7 +1,7 @@
 
 
 //ツリーに使用するデータを生成する。
-function createTreeData(dataAll, title, youyakuData, claster, classes) {
+function createTreeData(dataAll, title, youyakuData, claster, classes, la) {
 
 
     // 要約に使用する
@@ -219,10 +219,18 @@ function createTreeData(dataAll, title, youyakuData, claster, classes) {
                 // console.log(youyakuData[i]["text"])
                 // console.log(serchDataArray(childId)["body"])
                 // console.log(youyakuData[i]["text"])
-                if(youyakuData[i]["text"].length < 20){
-                    return youyakuData[i]["text"];
+                if(la=="en"){
+                    if(youyakuData[i]["text"].length < 60){
+                        return youyakuData[i]["text"];
+                    }else{
+                        return youyakuData[i]["text"].substr(0, 60);
+                    }
                 }else{
-                    return youyakuData[i]["text"].substr(0, 20);
+                    if(youyakuData[i]["text"].length < 25){
+                        return youyakuData[i]["text"];
+                    }else{
+                        return youyakuData[i]["text"].substr(0, 25);
+                    }
                 }
             }
         }
