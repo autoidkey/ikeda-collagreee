@@ -6,14 +6,6 @@
     <%= f.file_field :image %>
   </div>
 
-  <div class="np-slider-label">
-    <span class="label label-warning"><%= t('themes.agree') %></span>
-    <span class="label label-success"><%= t('themes.disagree') %></span>
-  </div>
-
-  <div class="slider slider_np_bar" id="slider-<%= entry.id %>"></div>
-
-  <span class="cation-slider"><%= t('themes.move_bar') %></span><br />
 
   <%= f.hidden_field :np, { :class=> 'np-input', :id => 'np-input-' + entry.id.to_s, :value => 50 } %>
   <%= f.hidden_field :user_id, { :value => current_user.id } %>

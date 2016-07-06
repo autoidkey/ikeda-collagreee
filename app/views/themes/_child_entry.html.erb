@@ -7,12 +7,6 @@
 
     <%= render 'user_icon', entry: child %>
 
-    <% if child.np >= 50 %>
-      <span class="label label-warning thumb-box"><%= t('themes.agree') %></span>
-    <% else %>
-      <span class="label label-success thumb-box"><%= t('themes.disagree') %></span>
-    <% end %>
-
 
     <div id="childID_<%= child.id %>"　class="<%= 'facilitation-back' if child.facilitation? %>"　>
 

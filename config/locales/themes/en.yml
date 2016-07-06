@@ -57,7 +57,7 @@ en:
     whats_new: "What's New"
     narrow: "[narrowing]" # See above
     search: 'search'
-    tag_title: 'Tags'
+    tag_title: 'Issue Tags'
     theme_title: 'Theme'
     post_title: 'Post'
     four_point_ranking: 'fourth point ranking'
