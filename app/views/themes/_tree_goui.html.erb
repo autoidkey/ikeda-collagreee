@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<div id="dialog" title="Opinion dialog">
+<div id="dialog" title="Opinion Dialog">
 </div>
 
 <style type="text/css">
@@ -80,7 +80,7 @@
             var user = <%= raw user.to_json %>
             var title = <%= raw theme.title.to_json %>
             var classes = <%= raw classes.to_json %>
-            var dataAll = tree_data_change(dataAll,classes);
+            // var dataAll = tree_data_change(dataAll,classes);
             var treeData = createTreeData(dataAll , title , youyakuData , claster, classes, la);
 
             treeJSON("", treeData ,user, la);
@@ -126,7 +126,6 @@
       });
 
       function entry_dialog(){
-        console.log("start ntry_dialog")
         $("#dialog").empty();
         var target1 = '.panel-body-theme';
         var item = '<br><div class="panel-header"><h4 class=""><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Post / 投稿</h4></div>';
@@ -143,6 +142,7 @@
         // nidが自分のid
         var dataAll = <%= raw entryAll.to_json %>
         var user = <%= raw user.to_json %>
+        var la = <%= raw @la.to_json %>
         $.ajax({
           url: "tree/tree_log_get",
           type: "POST",
@@ -156,8 +156,6 @@
           error: function(data) {
           }
        });
-
-
 
         $("#dialog").empty();
 
@@ -179,17 +177,15 @@
         // console.log(nid)
 
 
-        $( "#dialog" ).append('<br>');
+        // $( "#dialog" ).append('<br>');
         $( "#dialog" ).append($(target2).html());
-        $( "#dialog" ).append('<hr>');
+        // $( "#dialog" ).append('<hr>');
         var item2 = $('.tag-push').html();
         $("#dialog").append(item2);
-        $( "#dialog" ).append('<hr>');
 
         //要約記事作成
         var yText = ""
         var youyaku_thread = <%= raw youyaku_thread.to_json %>
-        console.log(youyaku_thread)
         parent = 0
         for (i = 0; i < youyaku_thread.length; i++) {
           if (youyaku_thread[i]["parent_id"] == id){
@@ -208,13 +204,18 @@
         var content = '<div id = "youyakuT">'+yText+'</div>'
         $( "#dialog" ).append(content);
         //スレッド要約ここまで
-        $( "#dialog" ).append('<br><div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧表示</button></div>');
+        if(la=="en"){
+          $( "#dialog" ).append('<br><div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">Thread List</button></div>');
+        }else{
+          $( "#dialog" ).append('<br><div id="parent-thread"><button class="btn btn-default" name="commit" type="submit" value="投稿">スレッド一覧</button></div>');
+        }
+
 
 
         $("#dialog #parent-thread").click(function(){
             var target = "#" + "entry-" + id;
             $(target).find("a[href *= 'reply-modal']").remove()
-            $( "#dialog" ).append("<hr>")
+            // $( "#dialog" ).append("<hr>")
             $( "#dialog" ).append($(target).html());
             $( "#parent-thread").empty();
         } );
