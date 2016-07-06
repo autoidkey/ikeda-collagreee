@@ -1,5 +1,6 @@
 require 'natto'
 require 'time'
+require 'ots'
 
 class ThemesController < ApplicationController
   add_template_helper(ApplicationHelper)
@@ -133,9 +134,11 @@ class ThemesController < ApplicationController
 
     #見出しデータの生成
     @youyaku = []
-    youyakuDatas = Youyaku.all.where(:theme_id => params[:id])
+    youyakuDatas = Youyaku.where(:theme_id => @theme.id)
     youyakuDatas.each do |data|
       @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
+      logger.info("test---")
+      logger.info(@youyaku)
     end
 
 
@@ -149,7 +152,7 @@ class ThemesController < ApplicationController
 
     #スレッド要約データの生成
     @youyaku_thread = []
-    youyakuDatas = Youyakudata.all.where(:theme_id => params[:id])
+    youyakuDatas = Youyakudata.where(:theme_id => params[:id])
     youyakuDatas.each do |data|
       @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
@@ -314,30 +317,8 @@ class ThemesController < ApplicationController
   def create_entry
     @entry = Entry.new
     @new_entry = Entry.new(entry_params)
-    logger.warn @new_entry
     @theme = Theme.find(params[:id])
-    entrys = Entry.all
-    #要約文の保存
-    if @new_entry["parent_id"] != nil
-      s= ""
-      keywords = Keyword.all.where(:theme_id => params[:id])
-      parent_tex = change_text(search_id(@new_entry["parent_id"],entrys)["body"])
-      midashi_tex = change_text(@new_entry["body"])
-      s = midashi_tex+" "+parent_tex+" "
 
-      keywords.each do |key|
-        s = s + change_text(key["word"])+" "
-        s = s + key["score"].to_s + " "
-      end
-      IO.popen("python ./python/midashi/comment_manager.py #{s}").each do |line|
-        logger.warn line
-        youyaku = Youyaku.new(body: line, target_id: entrys.length+1 , theme_id: params[:id])
-        youyaku.save
-      end
-    else
-      youyaku = Youyaku.new(body: nil, target_id: entrys.length+1)
-      youyaku.save
-    end
 
     @dynamicpoint = 0
     matching_bonus = 0    # キーワードとの一致ボーナス用
@@ -548,6 +529,46 @@ class ThemesController < ApplicationController
 
     respond_to do |format|
       if @new_entry.save
+        
+        #要約文の生成と保存
+        if @new_entry["parent_id"] != nil
+
+          if params[:locale] == 'ja'
+
+            #　日本語要約
+            keywords = Keyword.where(:theme_id => @theme.id)
+            entryies = Entry.where(:theme_id => @theme.id)
+
+            s = ""
+            parent_tex = change_text(search_id(@new_entry["parent_id"],entryies)["body"])
+            midashi_tex = change_text(@new_entry["body"])
+            s = midashi_tex+" "+parent_tex+" "
+
+            keywords.each do |key|
+              s = s + change_text(key["word"])+" "
+              s = s + key["score"].to_s + " "
+            end
+
+            IO.popen("python #{Rails.root}/python/midashi/comment_manager.py #{s}").each do |line|
+              youyaku = Youyaku.new(body: line, target_id: @new_entry["id"], theme_id: @theme.id)
+            end
+
+          else
+            #  英語要約
+            article = OTS.parse(@new_entry["body"])
+            rate = 60 * 100 / @new_entry["body"].length
+            youyaku = Youyaku.new(body: article.summarize(percent: rate)[0][:sentence], target_id: @new_entry["id"], theme_id: @theme.id)
+          end
+
+        else
+          youyaku = Youyaku.new(body: nil, target_id: @new_entry["id"], theme_id: @theme.id)
+        end
+        if youyaku.body.length > 5
+          youyaku.save
+        end
+        # ここまで要約
+
+
         print "#エントリーをセーブ"
         # after_saveの方を消して、こっちを追加
         @new_entry.logging_point(@dynamicpoint)  # インスタンスメソッドだからこうやって書くべき

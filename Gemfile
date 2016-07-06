@@ -38,7 +38,7 @@ gem 'k_means'
 
 gem 'ransack'
 
-# gem 'nkf'
+gem 'ots' #英語の要約
 
 group :development do
   gem 'bullet'
