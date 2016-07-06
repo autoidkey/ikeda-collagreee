@@ -86,6 +86,7 @@ en:
     switch_consensus: "Are you sure you want to switch to consensus phase?" # See above
     debate: 'Discussion'
     debate_tree: 'Discussion tree'
+    debate_tree_edit: 'Edit discussion tree'
     point_acquired: 'acquired point'
     new: 'new'
     posted: 'posted'

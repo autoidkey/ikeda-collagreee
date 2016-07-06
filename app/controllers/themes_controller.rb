@@ -37,10 +37,10 @@ class ThemesController < ApplicationController
 
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
-    @ja = params[:locale] == 'ja'
+    @la = params[:locale]
 
     @other_themes = Theme.others(@theme.id)
-    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  @la == 'ja' ? Facilitations : Facilitations_en
 
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
@@ -70,9 +70,6 @@ class ThemesController < ApplicationController
     @entry_tree = Entry.where(:theme_id => @theme.id)
     @classes = ThreadClass.where(:theme_id => @theme.id)
 
-    #英語か日本語化で日本語ならtrue
-    @ja = params[:locale] == 'ja'
-
     #他のでも使用できるファシリテータが選んだフェーズナンバー
     @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
     if @tree_type[0] == nil then
@@ -81,64 +78,12 @@ class ThemesController < ApplicationController
       @tree_type = @tree_type[0][:phase_id]
     end
 
-    # idmの実装
-    # @idm_result = []
-    # @idm_link = 0
-    # @idm_n = 0
-    # @idm_F = []
-    # @idm_K = []
-    # idm
-    # new_idm
-    # logger.info @idm_K
-
-
-
-    # count = 0
-    # @youyaku = []
-    # IO.popen("python ./python/youyakutest/test.py #{s}").each do |line|
-    #    @youyaku << {"id" => youyakuId[count] , "text" => line.chomp}
-    #    count = count + 1
-    # end
-
-
-    # s= ""
-    # keywords = Keyword.all.where(:theme_id => params[:id])
-    # entries = Entry.all
-    # entries.each do |entry|
-    #   if entry["parent_id"] != nil
-    #     parent_tex = change_text(search_id(entry["parent_id"],entries)["body"])
-    #     midashi_tex = change_text(entry["body"])
-    #     keywords = Keyword.all.where(:theme_id => entry["theme_id"])
-
-    #     s = midashi_tex+" "+parent_tex+" "
-    #     # s = parent_tex + " " + "midashi_tex" + " "
-    #     keywords.each do |key|
-    #       s = s + change_text(key["word"])+" "
-    #       s = s + key["score"].to_s + " "
-    #     end
-    #     IO.popen("python ./python/midashi/comment_manager.py #{s}").each do |line|
-    #       logger.warn "henshin"
-    #       logger.warn parent_tex
-    #       logger.warn "midashi"
-    #       logger.warn midashi_tex
-    #       logger.warn line
-    #       youyaku = Youyaku.new(body: line, target_id: entry["id"] , theme_id: entry["theme_id"])
-    #       youyaku.save
-    #     end
-    #   else
-    #     youyaku = Youyaku.new(body: nil, target_id: entry["id"] , theme_id: entry["theme_id"])
-    #     youyaku.save
-    #   end
-    # end
-
 
     #見出しデータの生成
     @youyaku = []
     youyakuDatas = Youyaku.where(:theme_id => @theme.id)
     youyakuDatas.each do |data|
       @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
-      logger.info("test---")
-      logger.info(@youyaku)
     end
 
 
@@ -529,7 +474,7 @@ class ThemesController < ApplicationController
 
     respond_to do |format|
       if @new_entry.save
-        
+
         #要約文の生成と保存
         if @new_entry["parent_id"] != nil
 
