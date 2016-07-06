@@ -323,19 +323,78 @@ module Bm25
     return nil
   end
 
-  #ここまで影響の普及モデルで使用する
-
-
-  def test_func(id)
-    entry_all = Entry.all.where(:theme_id => id)
-
-    #スレッドのタイトルのノードidを取得する
+  def parent_ids(entry_all)
     parent_id = []
     entry_all.each do |entry|
       if entry["parent_id"].nil?
         parent_id.push(entry["id"])
       end
     end
+    return parent_id
+  end
+
+  #ここまで影響の普及モデルで使用する
+
+  #英語のクラスタリング
+  def clastering_en(id)
+    path = "#{Rails.root}/python/clustering"
+
+    entries = Entry.where(theme_id: id)
+    # 親の投稿のidの一覧
+    parent_ids = parent_ids(entries)
+    # logger.info({t: parent_ids})
+    # スレッドごとの記事のidが配列で入っている
+    thread_array = serch_thread(entries , parent_ids)
+    # logger.info({t: thread_array})
+
+    # 最後にDBに保存できるように最後の文字とidを保存する
+    thread_ids = {}
+    # ファイルへの書き込み
+    File.open("#{path}/file/test.txt", "w") do |file|
+      thread_array.each_with_index do |threads, i|
+        # sはスレッドを文字列をつなげ文字列
+        s = ""
+        threads.each do |entry_id|
+          # スレッドの記事をつなげる
+          body = Entry.find(entry_id).body
+          if body[body.length-1] != "."
+            body = body + "."
+          end 
+          s = s + change_text(body)
+        end
+        thread_ids[s[-6..-1]] = parent_ids[i]
+        logger.info({t: thread_ids})
+
+        # ファイルに書き込む 
+        file.puts s
+      end
+    end
+
+    IO.popen("python #{path}/clustering.py #{path}/file/test.txt #{path}/file/output.txt").each do |line|
+      puts line
+    end
+
+    # pythonで書き込んだfileを読み出す
+    File.open("#{path}/file/output.txt") do |file|
+      file.each_line do |labmen|
+        # idがthread_ids[labmen[-7..-2]]で\nが入るので-1してある
+        entry = Entry.find(thread_ids[labmen[-7..-2]])
+
+        cl = labmen[0, labmen.index(":")]
+        entry.update(claster: cl)
+      end
+    end
+
+  end
+
+  #ここまで
+
+
+  def test_func(id)
+    entry_all = Entry.all.where(:theme_id => id)
+
+    #スレッドのタイトルのノードidを取得する
+    parent_id = parent_ids(entry_all)
     if parent_id.length == 0
       return []
     end
@@ -592,6 +651,19 @@ module Bm25
       end
     end
     return temp_array
+  end
+
+  # 不要な文字列を削除する themesのコントローラーで使われる
+  def change_text(tex)
+    str = tex.gsub(/(\s)/,"")
+    str = str.gsub(/《[^》]+》/, "")
+    str = str.gsub(/　/, "  ")
+    str = str.gsub('(', '（')
+    str = str.gsub(')', '）')
+    str = str.gsub('!', '！')
+    str = str.gsub('&', '＆')
+    str = str.gsub(/[\r\n]/,"")
+    return str
   end
 
 end
