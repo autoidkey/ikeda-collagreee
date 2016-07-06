@@ -34,7 +34,7 @@ class KeywordJob
 
     # 英語版のクラスタリング
     Theme.all.each do |theme|
-      clastering_en(theme.id)
+      clustering_en(theme.id)
     end
 
   end
