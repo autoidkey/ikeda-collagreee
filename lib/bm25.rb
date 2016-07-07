@@ -677,17 +677,6 @@ module Bm25
   end
 
 
-  def tokenize_english(text)
-    command = "echo \"#{text}\" | tteng"
-    raw_text = `#{command}`
-    words = raw_text.split("\n")
-    results = Array.new
-    words.each do |word|
-      results.push(word.split("\t"))
-    end
-    return results
-  end
-
   def get_nouns(text)
     nouns = Array.new
     tokens = tokenize_english(text)
@@ -699,6 +688,17 @@ module Bm25
       end
     end
     return nouns
+  end
+
+  def tokenize_english(text)
+    command = "echo \"#{text}\" | tteng"
+    raw_text = `#{command}`
+    words = raw_text.split("\n")
+    results = Array.new
+    words.each do |word|
+      results.push(word.split("\t"))
+    end
+    return results
   end
 
 end

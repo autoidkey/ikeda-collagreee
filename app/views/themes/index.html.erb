@@ -25,15 +25,7 @@
 
 
 <% if user_signed_in? %>
-    <% if current_user.admin? || current_user.facilitator? %>
-        <% @themes.each do |theme| %>
-            <%= render 'theme', theme: theme %>
-        <% end %>
-    <% else %>
-        <% if current_user.id.even? %>
-            <%= render 'theme', theme: @theme1 %>
-        <% else %>
-            <%= render 'theme', theme: @theme2 %>
-        <% end %>
-    <% end %>
+  <% @themes.each do |theme| %>
+    <%= render 'theme', theme: theme %>
+  <% end %>
 <% end %>
