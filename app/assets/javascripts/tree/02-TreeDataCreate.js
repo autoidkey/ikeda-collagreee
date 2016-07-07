@@ -121,6 +121,10 @@ function createTreeData(dataAll, title, youyakuData, claster, classes, la) {
         var nameText = ""
         if (serchDataArray(childId)["title"] != null){
             nameText = serchDataArray(childId)["title"]
+            // 60行以上の場合はカットする
+            if(nameText.length > 60){
+                nameText = nameText.substr(0, 60)
+            }
         }else {
             nameText = youyaku2(serchDataArray(childId)["id"])
         }

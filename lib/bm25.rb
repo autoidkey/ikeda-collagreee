@@ -370,27 +370,26 @@ module Bm25
         file.puts s
       end
     end
-    puts "aaaa"
 
     # あとからid読み出せるよう
     thread_ids = {}
     thread_s.each_with_index do |s,i|
-      thread_ids[s[-4..-1]] = parent_ids[i]
+      thread_ids[s[-3..-1]] = parent_ids[i]
     end
 
 
     IO.popen("python #{path}/clustering.py #{path}/file/input.txt #{path}/file/output.txt").each do |line|
       puts line
-      puts "aaaa"
     end
 
     # pythonで書き込んだfileを読み出す
     File.open("#{path}/file/output.txt") do |file|
       file.each_line do |labmen|
         # idがthread_ids[labmen[-7..-2]]で\nが入るので-1してある
-        entry = Entry.find(thread_ids[labmen[-5..-2]])
+        entry = Entry.find(thread_ids[labmen[-4..-2]])
 
-        cl = labmen[0, labmen.index(":")]
+        cl = labmen[0, labmen.index(":")].to_i + 1
+        # クラスの0はタイトルのために使うので0にはしない
         entry.update(claster: cl)
       end
     end

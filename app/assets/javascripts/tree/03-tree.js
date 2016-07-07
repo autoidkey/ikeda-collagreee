@@ -374,7 +374,7 @@ function treeJSON(error, treeData, user, la){
             // ここでノード間の長さを決定している最大の長さかけるxである！
             d.y = (d.depth * (maxLabelLength * 35)); //maxLabelLength * 10px
             if(la=="en"){
-               d.y = (d.depth * (maxLabelLength * 20)); 
+               d.y = (d.depth * (maxLabelLength * 17)); 
             }
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
@@ -502,15 +502,16 @@ function treeJSON(error, treeData, user, la){
             })
             .text(function(d) {
                 //ここで表示するテキストを返している
-                if(d.depth!=0){
-                    if(d.name.charAt(0)=="n"){
-                        return d.name.substr(4);
-                    }else{
-                        return d.name.substr(1);
-                    }
-                }else{
-                    return d.name;
-                }
+                // if(d.depth!=0){
+                //     if(d.name.charAt(0)=="n"){
+                //         return d.name.substr(4);
+                //     }else{
+                //         return d.name.substr(1);
+                //     }
+                // }else{
+                //     return d.name;
+                // }
+                return d.name;
             });
 
         // Change the circle fill depending on whether it has children and is collapsed

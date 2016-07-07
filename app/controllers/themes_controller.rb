@@ -267,6 +267,8 @@ class ThemesController < ApplicationController
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
 
+    puts "test" 
+
     @dynamicpoint = 0
     matching_bonus = 0    # キーワードとの一致ボーナス用
 
@@ -513,9 +515,8 @@ class ThemesController < ApplicationController
         else
           youyaku = Youyaku.new(body: nil, target_id: @new_entry["id"], theme_id: @theme.id)
         end
-        if youyaku.body.length > 5
-          youyaku.save
-        end
+        
+        youyaku.save
         # ここまで要約
 
 
