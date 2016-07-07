@@ -501,16 +501,16 @@ function treeJSON(error, treeData, user, la){
                 }
             })
             .text(function(d) {
-                //ここで表示するテキストを返している
-                // if(d.depth!=0){
-                //     if(d.name.charAt(0)=="n"){
-                //         return d.name.substr(4);
-                //     }else{
-                //         return d.name.substr(1);
-                //     }
-                // }else{
-                //     return d.name;
-                // }
+                ここで表示するテキストを返している
+                if(d.depth!=0){
+                    if(d.name.charAt(0)=="n"){
+                        return d.name.substr(4);
+                    }else{
+                        return d.name.substr(1);
+                    }
+                }else{
+                    return d.name;
+                }
                 return d.name;
             });
 
