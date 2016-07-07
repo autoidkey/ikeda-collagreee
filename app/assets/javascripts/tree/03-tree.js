@@ -511,7 +511,6 @@ function treeJSON(error, treeData, user, la){
                 }else{
                     return d.name;
                 }
-                return d.name;
             });
 
         // Change the circle fill depending on whether it has children and is collapsed
