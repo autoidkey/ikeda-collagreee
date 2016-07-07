@@ -25,7 +25,5 @@
 
 
 <% if user_signed_in? %>
-  <% @themes.each do |theme| %>
-    <%= render 'theme', theme: theme %>
-  <% end %>
+    <%= render 'theme', theme: @theme %>
 <% end %>

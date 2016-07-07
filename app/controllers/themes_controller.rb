@@ -22,7 +22,9 @@ class ThemesController < ApplicationController
 
   def index
 
-    @themes = Theme.all
+    # @themes = Theme.all
+    @theme = Theme.find(3)
+
   end
 
   def show
