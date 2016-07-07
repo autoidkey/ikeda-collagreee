@@ -501,7 +501,7 @@ function treeJSON(error, treeData, user, la){
                 }
             })
             .text(function(d) {
-                ここで表示するテキストを返している
+                // ここで表示するテキストを返している
                 if(d.depth!=0){
                     if(d.name.charAt(0)=="n"){
                         return d.name.substr(4);
@@ -534,7 +534,7 @@ function treeJSON(error, treeData, user, la){
             })
             .style("font-size", function(d) {
 
-                return 30;
+                return 26;
        　　  })
             // iは0から始まるので、+1しておく
             .text(function(d) {
@@ -548,7 +548,7 @@ function treeJSON(error, treeData, user, la){
                         text = text + "・";
                     }
                     if(la=="en"){
-                        text = text + "Your opinion"
+                        text = text + "Your"
                     }else{
                         text = text + "あなたの意見"
                     }

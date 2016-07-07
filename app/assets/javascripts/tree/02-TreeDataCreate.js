@@ -174,7 +174,7 @@ function createTreeData(dataAll, title, youyakuData, claster, classes, la) {
 
     //投稿時間が新しい５つの記事idを出す
     function makeNewEntryNum(dataAll){
-        if (dataAll.length < 1){
+        if (dataAll.length < 10){
             return [];
         }
         //exam :array = [1,2,3,5,6]最新の記事５個のidを入れる
