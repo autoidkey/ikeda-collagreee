@@ -23,8 +23,8 @@
   scenes: 
     - scene: 'To move on to the next theme'
       phrases:
-        - "Now let's move on to the next theme, that is, "..."' "
-        - "Now I'd like to move on to the next theme! "...""
+        - "Now let's move on to the next theme, that is"
+        - "Now I'd like to move on to the next theme!"
 - heading: 'Digging down into the detail'
   scenes:
     - scene: 'Insufficient explanation'
@@ -61,4 +61,4 @@
     - scene: 'To conclude discussion'
       phrases:
         - "Do you agree with the conclusion that ..., don't you?"
-        - 'Now I'd like to confirm our consensus. We reached the consensus that ..., didn't we?'
+        - "Now I'd like to confirm our consensus. We reached the consensus that ..., didn't we?"
