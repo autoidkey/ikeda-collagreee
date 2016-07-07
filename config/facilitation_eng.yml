@@ -12,13 +12,20 @@
         - 'Please post your arguments for or against the above posts!'
     - scene: 'Few posts'
       phrases:
-        - "If you feel nervous about posting on the system, please don't worry about the quality of ideas. Please feel free to post your ideas or opinions!"
+        - "If you feel nervous about posting on the system, please don't worry about the quality of ideas. Please feel free to post your ideas, opinions, or questions!"
+        - 'You can post your ideas or questions at any time during the speech!'
     - scene: 'To promote the use of the system functions'
       phrases:
         - 'You can use "Issue Tags" when posting your ideas.'
         - 'By clicking on the issue tags, you can browse your targeted arguments.'
         - '"Keywords" are selected by the frequency of words for your information and guidance.'
-- heading: 'Dig down into the detail'
+- heading: 'Shifting discussion theme'
+  scenes: 
+    - scene: 'To move on to the next theme'
+      phrases:
+        - "Now let's move on to the next theme, that is, "..."' "
+        - "Now I'd like to move on to the next theme! "...""
+- heading: 'Digging down into the detail'
   scenes:
     - scene: 'Insufficient explanation'
       phrases:
@@ -54,4 +61,4 @@
     - scene: 'To conclude discussion'
       phrases:
         - "Do you agree with the conclusion that ..., don't you?"
-        - "Now I'd like to confirm our consensus. We reached the consensus that ..., didn't we?"
+        - 'Now I'd like to confirm our consensus. We reached the consensus that ..., didn't we?'
