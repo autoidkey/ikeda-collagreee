@@ -14,6 +14,8 @@ class UsersController < ApplicationController
     else
       render file: "#{Rails.root}/public/404.html"
     end
+
+    @themes = Theme.all
   end
 
   def show

@@ -25,5 +25,9 @@
 
 
 <% if user_signed_in? %>
-    <%= render 'theme', theme: @theme %>
+  <% @themes.each do |theme| %>
+    <% if !theme.secret %>
+      <%= render 'theme', theme: theme %>
+    <% end %>
+  <% end %>
 <% end %>

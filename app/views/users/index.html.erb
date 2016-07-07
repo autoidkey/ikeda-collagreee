@@ -56,3 +56,34 @@
   <% end %>
   </tbody>
 </table>
+
+<hr>
+
+<h3>Theme Edit</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Body</th>
+      <th>State</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @themes.each do |theme| %>
+      <tr>
+        <td><%= theme.id %></td>
+        <td><%= theme.title %></td>
+        <td><%= theme.body %></td>
+        <td><%= secret = theme.secret ? "非公開中" : "公開中" %></td>
+        <% if theme.secret %>
+          <td><%= link_to "公開にする",themes_change_secret_path(theme.id), :method => :post,class: "btn" %></td>
+        <% else %>
+          <td><%= link_to "非公開にする",themes_change_secret_path(theme.id), :method => :post,class: "btn" %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
