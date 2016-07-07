@@ -361,7 +361,10 @@ function treeJSON(error, treeData, user, la){
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) * 70; // 25 pixels per line  ノード間の縦の距離
+        // var newHeight = d3.max(levelWidth) * 70; // 25 pixels per line  ノード間の縦の距離
+        // var newHeight = 1200
+        // console.log(d3.max(levelWidth))
+        var newHeight = d3.max(levelWidth) * 90;
 
         tree = tree.size([newHeight, viewerWidth]);
 
@@ -372,10 +375,12 @@ function treeJSON(error, treeData, user, la){
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
             // ここでノード間の長さを決定している最大の長さかけるxである！
-            d.y = (d.depth * (maxLabelLength * 35)); //maxLabelLength * 10px
-            if(la=="en"){
-               d.y = (d.depth * (maxLabelLength * 17)); 
-            }
+            // d.y = (d.depth * (maxLabelLength * 35)); //maxLabelLength * 10px
+            // if(la=="en"){
+            //    d.y = (d.depth * (maxLabelLength * 17)); 
+            // }
+            d.y = (d.depth * 800);
+             console.log(d.depth * 1000);
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
             // d.y = (d.depth * 500); //500px per level.
