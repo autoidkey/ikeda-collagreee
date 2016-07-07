@@ -23,9 +23,6 @@ class ThemesController < ApplicationController
   def index
 
     @themes = Theme.all
-    # 実験用に追加
-    @theme1 = Theme.find(3)
-    @theme2 = Theme.find(4)
   end
 
   def show
@@ -515,7 +512,7 @@ class ThemesController < ApplicationController
         else
           youyaku = Youyaku.new(body: nil, target_id: @new_entry["id"], theme_id: @theme.id)
         end
-        
+
         youyaku.save
         # ここまで要約
 
