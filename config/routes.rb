@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   post 'themes/:id/update_phase/:phase' => 'themes#update_phase'
   post "themes/tree/change_session_year" => 'themes#change_session_year'
   post "themes/tree/tree_log_get" => 'themes#tree_log_get'
+  post "themes/change_secret/:id" => "themes#change_secret" ,as: "themes_change_secret"
 
   # api
   get 'users' =>  'users#index'

@@ -21,10 +21,7 @@ class ThemesController < ApplicationController
   require 'time'
 
   def index
-
-    # @themes = Theme.all
-    @theme = Theme.find(3)
-
+    @themes = Theme.all
   end
 
   def show
@@ -565,6 +562,16 @@ class ThemesController < ApplicationController
     end
   end
 
+  def change_secret
+    set_theme
+    if @theme.secret
+      @theme.update(secret: false)
+    else
+      @theme.update(secret: true)
+    end
+    redirect_to users_path
+  end
+
   def check_new
     notice = Notice.new_notice(current_user, params[:id])
     data = {
@@ -643,7 +650,7 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function)
+    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :secret)
   end
 
   def entry_params

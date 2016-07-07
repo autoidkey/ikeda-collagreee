@@ -18,6 +18,7 @@
   <div id="form-group">
     <%= f.file_field :image %>
   </div>
+  <%= f.hidden_field :secret, { :value => false } %>
   <%= f.hidden_field :admin_id, { :value => current_user.id } %>
 
   <div class="actions">
