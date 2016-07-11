@@ -578,6 +578,12 @@ class ThemesController < ApplicationController
     end
   end
 
+  def destroy
+    set_theme
+    @theme.destroy
+    redirect_to :root, notice: 'Theme was successfully destroyed.' 
+  end
+
   def change_secret
     set_theme
     if @theme.secret
