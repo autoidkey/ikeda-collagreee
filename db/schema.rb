@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629100242) do
+ActiveRecord::Schema.define(version: 20160711085309) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -201,6 +201,7 @@ ActiveRecord::Schema.define(version: 20160629100242) do
     t.integer  "admin_id"
     t.string   "image"
     t.boolean  "point_function", default: true
+    t.text     "body_text"
   end
 
   create_table "thread_classes", force: true do |t|
