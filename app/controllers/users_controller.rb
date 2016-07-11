@@ -16,6 +16,16 @@ class UsersController < ApplicationController
     end
 
     @themes = Theme.all
+
+    comment = FacilitationInfomation.where(:theme_id => params[:id]).last
+    if comment != nil
+      @f_comment = comment[:body]
+    else
+      @f_comment = "こんにちは。今回、議論のファシリテータを務めさせていただきます。よろしくお願いします！"
+    end
+    puts "ファシリテータからのコメントは = #{@f_comment}です！！"
+
+    @users_all =User.all
   end
 
   def show
