@@ -126,3 +126,8 @@ img.user-icon {
     content: ""!important;
   }
 }
+
+a#navbar-brand-top:link { background-color: transparent; text-decoration:none }
+a#navbar-brand-top:visited { background-color: transparent; text-decoration:none }
+a#navbar-brand-top:hover { background-color: transparent; text-decoration:none }
+a#navbar-brand-top:active { background-color: transparent; text-decoration:none }

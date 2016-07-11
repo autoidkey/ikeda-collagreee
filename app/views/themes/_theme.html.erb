@@ -1,18 +1,32 @@
 <div class="panel panel-default">
-  <div class="panel-heading"><%= link_to theme.title, theme, data={"no-turbolink" => true} %></div>
+  <% if !theme.secret %>
+    <div class="panel-heading"><%= link_to theme.title, theme, data={"no-turbolink" => true ,id: "top-theme"} %></div>
+  <% else %>
+    <div class="panel-heading"><%= theme.title %> (Comming Soon)</div>
+  <% end %>
   <div class="panel-body">
     <!-- パーシャル使えないか -->
     <div class="theme-image">
       <div class="row">
-        <div class="col-md-1">
-          <% if theme.image? %>
-            <%= image_tag theme.image.user_thumb.url %>
-          <% else %>
-            <%= image_tag 'noimage.gif' %>
-          <% end %>
+        <div class="col-md-3">
+          <div class="theme-image-top">
+            <% if !theme.secret %>
+              <% if theme.image? %>
+                <%= link_to (image_tag theme.image.url(:theme_thumb)), theme, data={"no-turbolink" => true ,id: "top-theme"} %>
+              <% else %>
+                <%= link_to (image_tag 'noimage.gif'), theme, data={"no-turbolink" => true ,id: "top-theme"} %>
+              <% end %>
+            <% else %>
+              <% if theme.image? %>
+                <%= image_tag theme.image.url(:theme_thumb) %>
+              <% else %>
+                <%= image_tag 'noimage.gif' %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
-        <div class="col-md-11">
-          <%= theme.body %>
+        <div class="col-md-9">
+          <%= simple_format(theme.body) %>
         </div>
       </div>
     </div>

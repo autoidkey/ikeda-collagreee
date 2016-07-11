@@ -1,6 +1,6 @@
-<div class="panel panel-default">
+<!-- <div class="panel panel-default">
   <div class="panel-heading">
-    <div class="panel-title"><%= t('users.unlocks.search') %></div>
+    <div class="panel-title">検索</div>
   </div>
   <div class="panel-body">
     <%= search_form_for(@q, method: :get) do |f| %>
@@ -8,18 +8,18 @@
         <div class="col-sm-6">
           <div class="form-group">
             <%= f.label :name_eq %>
-            <%= f.text_field :name_eq, class: "form-control", placeholder: t('users.unlocks.match_all') %>
+            <%= f.text_field :name_eq, class: "form-control", placeholder: "完全一致" %>
           </div>
         </div>
         <div class="col-sm-6">
           <div class="form-group">
             <%= f.label :name_cont %>
-            <%= f.text_field :name_cont, class: "form-control", placeholder: t('users.unlocks.match_partial') %>
+            <%= f.text_field :name_cont, class: "form-control", placeholder: "部分一致" %>
           </div>
         </div>
       </div>
-      <%= f.submit t('users.unlocks.search'), class: "btn btn-primary" %>
-      <%= link_to t('users.unlocks.clear'), url_for, class: "btn btn-default" %>
+      <%= f.submit '検索', class: "btn btn-primary" %>
+      <%= link_to 'クリア', url_for, class: "btn btn-default" %>
     <% end %>
   </div>
 </div>
@@ -55,9 +55,7 @@
     <%= f.submit %>
   <% end %>
   </tbody>
-</table>
-
-<hr>
+</table> -->
 
 <h3>Theme Edit</h3>
 <table class="table table-striped">
@@ -67,7 +65,8 @@
       <th>Title</th>
       <th>Body</th>
       <th>State</th>
-      <th>Change</th>
+      <th>Edit</th>
+      <th>DELETE</th>
     </tr>
   </thead>
 
@@ -78,12 +77,54 @@
         <td><%= theme.title %></td>
         <td><%= theme.body %></td>
         <td><%= secret = theme.secret ? "非公開中" : "公開中" %></td>
-        <% if theme.secret %>
-          <td><%= link_to "公開にする",themes_change_secret_path(theme.id), :method => :post,class: "btn" %></td>
-        <% else %>
-          <td><%= link_to "非公開にする",themes_change_secret_path(theme.id), :method => :post,class: "btn" %></td>
-        <% end %>
+        <td><%= link_to "編集する",edit_theme_path(theme.id),class: "btn" %></td>
+        <td><%= link_to "消去する",theme_path(theme.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<h3>User All</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>email</th>
+      <th>本名</th>
+      <th>ユーザ名</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users_all.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.email %></td>
+        <td><%= user.realname %></td>
+        <td><%= user.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- <div class="panel panel-default">
+  <div class="panel-header">
+    <h4 class=""><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> News from the facilitator / ファシリテータからのお知らせ</h4>
+  </div>
+  <div class="panel-body">
+    <div class="facilitation_infomations">
+      <div class="f_image">
+        <%= image_tag 'faci_icon.png' %>
+      </div>
+      <div class="f_comment">
+        <%= simple_format(@f_comment) %>
+      </div>
+      <div class="f_comment_btn">
+      <br>
+        <% if user_admin?(current_user) %>
+          <%= link_to 'コメント更新', new_facilitation_infomation_path(theme_id: params[:id]) ,class: 'btn btn-default' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -548,6 +548,10 @@ class ThemesController < ApplicationController
     @theme = Theme.new
   end
 
+  def edit
+    set_theme
+  end
+
   def create
     @theme = Theme.new(theme_params)
 
@@ -557,6 +561,18 @@ class ThemesController < ApplicationController
         format.json { render action: 'show', status: :created, location: @theme }
       else
         format.html { render action: 'new' }
+        format.json { render json: @theme.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @theme.update(theme_params)
+        format.html { redirect_to :root, notice: 'theme was successfully updated.' }
+        format.json { render :root, status: :ok, location: @theme }
+      else
+        format.html { render :edit }
         format.json { render json: @theme.errors, status: :unprocessable_entity }
       end
     end
