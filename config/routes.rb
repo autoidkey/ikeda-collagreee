@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'analysis/index'
+
   resources :thread_classes
   resources :facilitation_infomations
   resources :facilitation_keywords
