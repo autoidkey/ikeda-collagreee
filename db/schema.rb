@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721132938) do
+ActiveRecord::Schema.define(version: 20160721140131) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -36,33 +36,6 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.datetime "updated_at"
     t.integer  "theme_id"
     t.integer  "entry_id"
-  end
-
-  create_table "belongs", force: true do |t|
-    t.string   "name"
-    t.integer  "number"
-    t.string   "person"
-    t.integer  "menu_id"
-    t.text     "other"
-    t.boolean  "check"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "clusters", force: true do |t|
-    t.integer  "entry_id"
-    t.integer  "cla"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "comment_menus", force: true do |t|
-    t.text     "body"
-    t.integer  "user_id"
-    t.integer  "menu_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "theme_id"
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -115,7 +88,6 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.integer  "theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "facilitation_keywords", force: true do |t|
@@ -160,38 +132,6 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.datetime "updated_at"
     t.integer  "status"
     t.integer  "version_id"
-    t.integer  "menu_id"
-  end
-
-  create_table "menu_backs", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "theme_id"
-    t.text     "back_body"
-    t.text     "action_body"
-    t.text     "feel_body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "menus", force: true do |t|
-    t.string   "title"
-    t.text     "body"
-    t.integer  "time_at"
-    t.integer  "agreement"
-    t.integer  "user_id"
-    t.integer  "theme_id"
-    t.integer  "parent_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "order"
-    t.string   "image"
-  end
-
-  create_table "model_accesses", force: true do |t|
-    t.integer  "theme_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "notices", force: true do |t|
@@ -242,16 +182,6 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.integer  "sum"
   end
 
-  create_table "tagayashis", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "theme_id"
-    t.text     "think"
-    t.text     "people"
-    t.text     "place"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "tagged_entries", force: true do |t|
     t.integer  "entry_id",   null: false
     t.integer  "issue_id",   null: false
@@ -259,16 +189,9 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.datetime "updated_at"
   end
 
-  create_table "theme_accesses", force: true do |t|
-    t.integer  "theme_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "themes", force: true do |t|
     t.string   "title"
-    t.text     "body"
+    t.string   "body"
     t.string   "color"
     t.boolean  "facilitation",   default: false
     t.boolean  "nolink",         default: false
@@ -278,12 +201,6 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.integer  "admin_id"
     t.string   "image"
     t.boolean  "point_function", default: true
-    t.text     "other_body"
-    t.integer  "owner_id"
-    t.integer  "theme_type"
-    t.string   "team"
-    t.string   "place"
-    t.datetime "started_at"
     t.text     "body_text"
   end
 
@@ -335,9 +252,8 @@ ActiveRecord::Schema.define(version: 20160721132938) do
     t.integer  "remind",                 default: 0
     t.integer  "mail_format",            default: 0
     t.string   "image"
-    t.text     "body"
-    t.integer  "team"
     t.string   "group"
+    t.text     "body"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
