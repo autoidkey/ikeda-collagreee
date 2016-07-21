@@ -480,6 +480,7 @@ class ThemesController < ApplicationController
 
         #要約文の生成と保存
         if @new_entry["parent_id"] != nil
+          youyaku = Youyaku.new
 
           if params[:locale] == 'ja'
 
@@ -496,6 +497,7 @@ class ThemesController < ApplicationController
               s = s + change_text(key["word"])+" "
               s = s + key["score"].to_s + " "
             end
+
 
             IO.popen("python #{Rails.root}/python/midashi/comment_manager.py #{s}").each do |line|
               youyaku = Youyaku.new(body: line, target_id: @new_entry["id"], theme_id: @theme.id)
