@@ -44,7 +44,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   version :reply_thumb do
-    process :resize_to_fill => [20, 20]
+    process :resize_to_fill => [50, 50]
   end
 
   version :theme_thumb do
