@@ -263,6 +263,8 @@ class ThemesController < ApplicationController
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
 
+    @stamps = stamp_list(params[:locale])
+
     puts "test" 
 
     @dynamicpoint = 0
