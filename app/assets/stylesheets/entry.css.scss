@@ -42,7 +42,7 @@
 
 .img-radius {
   border-radius: 4px;
-  width: 75px;
+  width: 130px;
 }
 
 .box {
@@ -204,14 +204,16 @@ button.btn-thread {
 }
 
 .show-stamp {
-  margin-top: 15px;
-  margin-left: -125px;
+  margin-top: -10px;
+  // margin-left: -125px;
   border-radius: 4px;
   width: 125px;
+  padding-right: 15px;
 }
 
 .entry-left{
   display: table-cell;
+  padding-right: 15px;
 }
 
 .entry-right{
