@@ -4,12 +4,14 @@ ja:
       edit: "アカウント情報編集"
       create: "アカウント新規登録"
       mail: 'メールアドレス：'
-      nickname: 'ニックネーム：'
+      nickname: 'ニックネーム：(公開)'
       name: '氏名：'
       gender: '性別：'
       age: '年齢：'
       home: '住まい：'
+      move: '職業：'
       icon: 'アイコン：'
+      team: '所属している団体、企業：'
       password: "パスワード"
       restrict: "文字以上"
       password_confirm: "パスワードの確認："

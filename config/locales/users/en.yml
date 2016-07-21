@@ -4,11 +4,12 @@ en:
       edit: "Your Profile"
       create: "New Account"
       mail: 'Email：'
-      nickname: 'Nickname：'
+      nickname: 'Nickname：(Public)'
       name: 'Name：'
       gender: 'Gender：'
       age: 'Age：'
       home: 'Home：'
+      move: 'Profession'
       icon: 'Icon：'
       password: "Password"
       restrict: "or more"

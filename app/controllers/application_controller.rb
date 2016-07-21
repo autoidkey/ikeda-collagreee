@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    %i(name realname gender age home move remind mail_format image).each do |col|
+    %i(name realname gender age home move remind mail_format image body team group).each do |col|
       devise_parameter_sanitizer.for(:account_update) << col
       devise_parameter_sanitizer.for(:sign_up) << col
     end
