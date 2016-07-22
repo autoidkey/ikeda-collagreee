@@ -24,8 +24,8 @@ module Bm25
     n = entries.count.to_f # 全ドキュメント数
 
     entries.each do |text|
-      # norms = norm_connection(text.body) # 連結単語取り出し
-      norms = get_nouns(text.body)
+      norms = norm_connection(text.body) # 連結単語取り出し（日本語）
+      # norms = get_nouns(text.body)  # 英語版のときはこっち
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
 
