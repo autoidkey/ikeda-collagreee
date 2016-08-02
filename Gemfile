@@ -40,6 +40,8 @@ gem 'ransack'
 
 gem 'ots' #英語の要約
 
+gem 'spreadsheet'
+
 group :development do
   gem 'bullet'
   gem 'spring', '~> 1.1.2'

@@ -1,6 +1,7 @@
 class AnalysisController < ApplicationController
-	require 'csv'
 	include Bm25
+	require 'csv'
+
 	def index
 	  	serch_theme_id = 1
 	  	file_name = "entry_top3_"
@@ -12,8 +13,8 @@ class AnalysisController < ApplicationController
 	  	# serch_user_id = [92,19,17,15,58]
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
-	  	start_time =  Time.local(2016, 7, 12, 14, 48, 35)
-	  	end_time = Time.local(2016, 7, 12, 16, 23, 35)
+	  	start_time =  Time.local(2016, 7, 12, 14, 48, 53)
+	  	end_time = Time.local(2016, 7, 12, 16, 23, 53)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
@@ -23,46 +24,92 @@ class AnalysisController < ApplicationController
 
 	  	serch_user = active_user
 
+	  	# もじおこしのデータをxlsから読み込む
+	  	##############################
+	 #  	array_text = []
+	 #  	book = Spreadsheet.open("log/csv2/kumamoto2.xls")    
+	 #  	sheet = book.worksheet('Sheet1')                                                                        
+		# sheet.each do |row|                                                                                          
+		# 	row.each do |r|
+		# 		array_text.push(r)
+		# 	end
+		# end
+
+		# file_name = "log/csv2/"+"keywords_kumamoto"+".csv"
+		# File.open(file_name, 'w') {|file|
+		# 	calculate3(array_text).each do |key, val|
+		# 		write = key.to_s+","+val[:score].to_s+"\n"
+		# 		file.write write
+		# 	end
+		# }
+
+		#######################################
+
+		#######################################
+		# COLLAGREEの全体のキーワード
+		# @theme = Theme.find(serch_theme_id) 
+		# @keyword = @theme.keywords.select { |k| k.user_id.nil? }.sort_by { |k| -k.score }.group_by(&:score)
+		# p @keyword
+		# file_name = "log/csv2/"+"keyword_collagree"+".csv"
+		# File.open(file_name, 'w') {|file|
+		# 	@keyword.each_with_index do |(key, val), idx|
+		# 		val.each do |wordlist|
+		# 			write = key.to_s+","+wordlist[:word]+"\n"
+		# 			file.write write
+		# 		end
+		# 	end
+		# }
+
+		#######################################
 
 	  	# 時間ごとのキーワード
 		##############################
-	  	times.each do |time|
+	 #  	times.each do |time|
 
-	  		file_name = "thread_open_sum_"
-		  	object = Entry.where(user_id: serch_user)
-		  	interval = 60*time
+	 #  		file_name = "keywords_"
+		#   	object = Entry.where(user_id: serch_user)
+		#   	interval = 60*time
 
-		  		  	# 時間ごとの投稿の推移
-	  		date_array = []
-	  		@data_all = []
-	  		start = start_time
-		  	while ((end_time - start) > 0)
-		  		t = object.where(theme_id: serch_theme_id ,parent_id: nil ,created_at: start .. (start + interval - 1)).count
-		  		date_array.push({start.to_s(:time) => t})
-		  		# start = start.tomorrow １日毎に集計
-		  		start = start + interval
-		  		logger.info({time: start.to_s})
-		  	end
-		  	@data_all.push(date_array)
+		#   	# 時間ごとの投稿の推移
+	 #  		date_array = []
+	 #  		@data_all = []
+	 #  		start = start_time
+		#   	while ((end_time - start) > 0)
+		#   		entries = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1))
+		#   		keyword_array = []
+		#   		calculate(entries).each do |key, val|
+		# 	        params = {
+		# 	          word: key,
+		# 	          score: val[:score]
+		# 	        }
+		# 	        keyword_array.push(params)
+		# 	    end
+		# 	    logger.info({keywords: keyword_array})
+		#   		date_array.push({start.to_s(:time) => keyword_array})
+		#   		# start = start.tomorrow １日毎に集計
+		#   		start = start + interval
+		#   	end
+		#   	@data_all.push(date_array)
 
-			logger.info({data: @data_all})
+		# 	logger.info({data: @data_all})
 
-			file_name = "log/csv2/"+file_name+time.to_s+".csv"
-			File.open(file_name, 'w') {|file|
-			@data_all.each do |data|
+		# 	file_name = "log/csv2/"+file_name+time.to_s+".csv"
+		# 	File.open(file_name, 'w') {|file|
+		# 	@data_all.each do |data|
 
-				sum = 0
-			  		data.each do |d|
-					  	key = d.keys[0]
-					  	sum = sum + d[key]
-					    write = key.to_s+","+d[key].to_s + "\n"
-					    file.write write
-					end
-				file.write "sum,"+sum.to_s+"\n"+"\n"
-			 end
-			}
+		# 	  		data.each do |d|
+		# 			  	key = d.keys[0]
+		# 			  	array = d[key]
+		# 			    write = key.to_s+"\n"
+		# 			    array.each do |a|
+		# 			    	write = write+a[:word].to_s+","+a[:score].to_s+"\n"
+		# 				end
+		# 			    file.write write
+		# 			end
+		# 	 end
+		# 	}
 
-		end
+		# end
 
 		##############################
 
@@ -71,11 +118,11 @@ class AnalysisController < ApplicationController
 	  	##############################
 	 #  	times.each do |time|
 
-	 #  		file_name = "like_sum_"
-		#   	object = Like.where(user_id: serch_user)
+	 #  		file_name = "webview_sum_"
+		#   	object = Webview.where(user_id: serch_user)
 		#   	interval = 60*time
 
-		#   		  	# 時間ごとの投稿の推移
+		#   	# 時間ごとの投稿の推移
 	 #  		date_array = []
 	 #  		@data_all = []
 	 #  		start = start_time
