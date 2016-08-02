@@ -24,16 +24,19 @@ module Bm25
     n = entries.count.to_f # 全ドキュメント数
 
     entries.each do |text|
-      norms = norm_connection(text.body) # 連結単語取り出し（日本語）
-      # norms = get_nouns(text.body)  # 英語版のときはこっち
+
+      norms = get_nouns(text.body) # 英語版のときはこっち
+      #norms = norm_connection(text.body) # 連結単語取り出し（日本語）
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
+      logger.info({count_s_norm: norms})
 
       freq_calc(norms, freq, text, agree, disagree)
       df_calc(norms, df, all_words)
     end
 
     avg_word_count = sum_words / n
+    logger.info({count_s: all_words})
 
     all_words.uniq.each do |node|
       bm25[node] = {
@@ -42,6 +45,7 @@ module Bm25
         disagree: disagree[node]
       }
     end
+
     bm25
   end
 
@@ -77,6 +81,38 @@ module Bm25
     bm25
   end
 
+  def calculate3(entries)
+    freq = {} # 単語出現回数
+    df = {} # 単語出現文書数
+    bm25 = {} # BM25値
+    agree = {}
+    disagree = {}
+
+    all_words = %w()
+    sum_words = 0.0
+    n = entries.count.to_f # 全ドキュメント数
+
+    entries.each do |text|
+      norms = get_nouns(text) # 英語版のときはこっち
+      sum_words += all_word_count(text) # 全単語数
+      # is_agree ||= text.np < 50 ? false : true
+
+      freq_calc2(norms, freq, text, agree, disagree)
+      df_calc(norms, df, all_words)
+    end
+
+    avg_word_count = sum_words / n
+
+    all_words.uniq.each do |node|
+      bm25[node] = {
+        score: (idf(df[node], n)+1) * (freq[node] * K + 1) / (freq[node] + K * (1 - B + B * (sum_words / avg_word_count))) * 10,
+        agree: agree[node],
+        disagree: disagree[node]
+      }
+    end
+    bm25
+  end
+
   def freq_calc(norms, freq, text, agree, disagree)
     norms.each do |node|
       freq[node] ||= 0
@@ -90,6 +126,15 @@ module Bm25
           disagree[node] += 1
         end
       end
+    end
+  end
+
+  def freq_calc2(norms, freq, text, agree, disagree)
+    norms.each do |node|
+      freq[node] ||= 0
+      freq[node] += 1
+      agree[node] ||= 0
+      disagree[node] ||= 0
     end
   end
 
