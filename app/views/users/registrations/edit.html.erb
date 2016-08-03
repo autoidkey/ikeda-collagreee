@@ -31,7 +31,7 @@
         <%= f.select :age, User.ages.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
-      <div class="form-group">
+<!--       <div class="form-group">
         <%= f.label :home, t('users.registration.home') %>
         <%= f.select :home, User.homes.keys.to_a, {}, { class: "form-control" } %>
       </div> 
@@ -44,7 +44,7 @@
       <div class="form-group">
         <%= f.label :group, t('users.registration.team') %>
         <%= f.text_field :group, { class: "form-control" } %>
-      </div>
+      </div> -->
 
       <div class="form-group">
         <%= f.label :body, 'ひとこと：(公開)' %>

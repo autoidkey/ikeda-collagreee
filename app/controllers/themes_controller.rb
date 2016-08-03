@@ -88,11 +88,10 @@ class ThemesController < ApplicationController
 
     #クラスタリングのjsonを作成
     @themes_claster = []
-    @entry_tree.each do |entry|
-      if entry["claster"] != nil
-        @themes_claster.push({ :cla => entry["claster"], :id => entry["id"]})
-      end
+    EntryClaster.all.each do |cla|
+      @themes_claster.push({ :cla => cla["coaster"], :id => cla["entry_id"]})
     end
+
 
     #スレッド要約データの生成
     @youyaku_thread = []

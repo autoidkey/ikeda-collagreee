@@ -18,24 +18,5 @@ class KeywordJob
       end
     end
 
-    # スレッドのクラスタリングも実行
-
-    # idAll = Theme.all
-    # Entry.record_timestamps = false
-    # idAll.each do |id|
-    #   themes_claster = test_func(id)
-    #   themes_claster.each do |clas|
-    #     entry = Entry.find(clas[:id])
-    #     entry["claster"] = clas[:cla]
-    #     entry.save
-    #   end
-    # end
-    # Entry.record_timestamps = true
-
-    # 英語版のクラスタリング
-    Theme.all.each do |theme|
-      clustering_en(theme.id)
-    end
-
   end
 end

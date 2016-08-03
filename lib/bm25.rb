@@ -25,18 +25,16 @@ module Bm25
 
     entries.each do |text|
 
-      norms = get_nouns(text.body) # 英語版のときはこっち
-      #norms = norm_connection(text.body) # 連結単語取り出し（日本語）
+      # norms = get_nouns(text.body) # 英語版のときはこっち
+      norms = norm_connection(text.body) # 連結単語取り出し（日本語）
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
-      logger.info({count_s_norm: norms})
 
       freq_calc(norms, freq, text, agree, disagree)
       df_calc(norms, df, all_words)
     end
 
     avg_word_count = sum_words / n
-    logger.info({count_s: all_words})
 
     all_words.uniq.each do |node|
       bm25[node] = {

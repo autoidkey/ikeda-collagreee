@@ -8,6 +8,7 @@ require_relative 'keyword_job'
 require_relative 'user_keyword_job'
 require_relative 'point_job'
 require_relative 'entry_point_job'
+require_relative 'cluster_job'
 #require_relative 'aichi_dl_job'
 
 module Clockwork
@@ -18,7 +19,8 @@ module Clockwork
   end
 
   # every(30.minute, YouyakuJob.new) スレッドの要約が動かない状態！ここ直したい
-  every(5.minute, KeywordJob.new) #スレッドのクラスタリングも実行
+  every(5.minute, KeywordJob.new) 
+  every(5.minute, ClusterJob.new)
   every(5.minute, UserKeywordJob.new)
   every(5.minute, PointJob.new)
   every(5.minute, EntryPointJob.new)
