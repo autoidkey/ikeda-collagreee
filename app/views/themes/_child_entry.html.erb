@@ -12,16 +12,16 @@
 
     <div class="entry-body">
       <div class="entry-table">
-        <% if child.image? || child.stamp? %>
-          <div class="entry-left">
+        <div class="entry-left">
+          <% if child.image? || child.stamp? %>
             <% if child.image? %>
               <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
             <% end %>
             <% if child.stamp? %>
               <%= image_tag(child.stamp, class: 'show-stamp')%>
             <% end %>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
         <div class="entry-right">
           <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %> 
         </div>
