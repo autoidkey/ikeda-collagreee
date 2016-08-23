@@ -68,12 +68,9 @@
     <div class="row">
       <div class="col-md-8">
 
-        <!-- 投稿フォームについて -->
-        <% if current_user.admin? || current_user.facilitator? %>
         <div id="main-form">
           <%= render 'top_form' if user_signed_in? %>
         </div>
-        <% end %>
 
         <div id="main-form">
           <%= render 'groundrule' %>
