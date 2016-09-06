@@ -28,15 +28,7 @@
       </div>
     </div>
 
-    <div class="info-list">
-      <span class="user-name">
-        <%= child.facilitation ? t('themes.facilitator') : child.user.name %>
-      </span>
-      <span class="timestamp">・<%= child.created_at.to_s(:timeline) %></span>
-      <%= render 'information', entry: child %>
-
-      <span class="entry-number"><%= t('themes.post_no') %><%= child.id %></span>
-    </div>
+    <%= render 'information', entry: child %>
 
     <% if user_signed_in? && !smartphone? %>
       <div class="actions">
@@ -44,16 +36,9 @@
         <%= render 'like_button', entry: child %>
       </div>
     <% end %>
-    <hr />
+    <hr>
 
   </div>
-
-    <% if user_signed_in? && smartphone? %>
-      <div class="buttons">
-        <%= render 'reply_button', entry: child %>
-        <%= render 'like_button', entry: child %>
-      </div>
-    <% end %>
 
 
     <div class="replies">

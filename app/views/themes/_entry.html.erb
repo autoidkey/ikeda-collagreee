@@ -2,7 +2,7 @@
   <div class="panel-body">
     <div class="content">
       <div class="entry-box post-content" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
-        
+
         <div class="entry-points">
           <p class="points" id="point-<%= entry.id %>"><%= entry.score %></p>
           <p class="points-text">points</p>
@@ -13,20 +13,36 @@
 
         <div class="entry-body">
           <div class="entry-table">
-            <!-- 画像とスタンプがあれば表示 -->
-            <div class="entry-left">
-              <% if entry.image? %>
-                <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
-              <% end %>
-              <% if entry.stamp? %>
-                <%= image_tag(entry.stamp, class: 'show-stamp')%>
-              <% end %>
-            </div>
-            <!-- タイトルと内容を表示 -->
-            <div class="entry-right">
-              <span class="entry-title"><%= entry.title %></span>
-              <%= simple_format(auto_link(entry.body, html: { target: '_blank' }, link: :urls)) %>
-            </div>
+            <!-- スマホで画面変更 -->
+            <% if smartphone? %>
+              <div class="entry-left"></div>
+              <div class="entry-right">
+                <span class="entry-title"><%= entry.title %></span>
+                <div class="entry-padding"></div>
+                <%= simple_format(auto_link(entry.body, html: { target: '_blank' }, link: :urls)) %> 
+                <% if entry.image? %>
+                  <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), "/collagree_ss"+entry.image_url %>
+                <% end %>
+                <% if entry.stamp? %>
+                  <%= image_tag(entry.stamp, class: 'show-stamp')%>
+                <% end %>
+              </div>
+            <% else %>
+              <!-- 画像とスタンプがあれば表示 -->
+              <div class="entry-left">
+                <% if entry.image? %>
+                  <%= link_to (image_tag entry.image.entry_thumb.url, class: 'img-radius'), entry.image_url %>
+                <% end %>
+                <% if entry.stamp? %>
+                  <%= image_tag(entry.stamp, class: 'show-stamp')%>
+                <% end %>
+              </div>
+              <!-- タイトルと内容を表示 -->
+              <div class="entry-right">
+                <span class="entry-title"><%= entry.title %></span>
+                <%= simple_format(auto_link(entry.body, html: { target: '_blank' }, link: :urls)) %>
+              </div>
+            <% end %>
           </div>
         </div>
 
@@ -35,49 +51,26 @@
         <% end %>
 
 
-        <!-- 下の詳細を表示する -->
-        <div class="info-list">
-          <span class="user-name">
-            <% if entry.facilitation? %>
-              <%= t('themes.facilitator') %>
-            <% else %>
-              <%= entry.user.name %>
-            <% end %>
-          </span>
+        <!-- 投稿の情報 -->
+        <%= render 'information', entry: entry %>
 
-          <span class="timestamp">・<%= entry.created_at.to_s(:timeline) %></span>
-    <!--       <%= render 'thumb', entry: entry %> -->
-          <%= render 'information', entry: entry %>
-
-          <span class="entry-number"><%= t('themes.post_no') %><%= entry.id %></span>
-        </div>
 
 
         <!-- いいねボタンと返信ボタン -->
         <% #unless entry.facilitation %>
-          <% if user_signed_in? && !smartphone? %>
+          <% if user_signed_in? %>
             <div class="actions">
               <%= render 'reply_button', entry: entry %>
               <%= render 'like_button', entry: entry %>
             </div>
           <% end %>
+          <hr>
 
-          <% if user_signed_in? && smartphone? %>
-            <div class="buttons">
-              <%= render 'reply_button', entry: entry %>
-              <%= render 'like_button', entry: entry %>
-            </div>
-            <hr />
-          <% end %>
-        <% #end %>
 
         <!-- スレッドの子供の記事を表示していく -->
         <div class="children">
           <% entry.thread_entries.each do |child| %>
             <%= render 'child_entry', child: child %>
-            <% if smartphone? %>
-              <hr />
-            <% end %>
           <% end %>
         </div>
 
