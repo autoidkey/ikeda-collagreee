@@ -1,15 +1,7 @@
 <% unless entry.mine?(current_user) %>
   <% if entry.liked?(current_user) %>
-    <% if smartphone? %>
-      <%= button_tag t('themes.cancel_like'), data: {id: entry.id, status: "remove"}, class: "like_button btn btn-default btn-xs"%>
-    <% else %>
       <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
-    <% end %>
   <% else %>
-    <% if smartphone? %>
-      <%= button_tag t('themes.like'), data: {id: entry.id, status: "attach"}, class: "like_button btn btn-default btn-xs" %>
-    <% else %>
       <span class="like_button" data-id="<%= entry.id %>" data-status="attach"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.like') %></span>
-    <% end %>
   <% end %>
 <% end %>

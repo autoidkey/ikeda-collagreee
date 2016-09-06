@@ -1,1 +1,22 @@
-<%= t('themes.like') %><span class="like_count info-icon"><%= entry.like_count %><%= t('themes.count') %></span>
+
+<div class="info-list">
+
+	<!-- ユーザー名 -->
+	<span class="user-name">
+	<% if entry.facilitation? %>
+	  <%= t('themes.facilitator') %>
+	<% else %>
+	  <%= entry.user.name %>
+	<% end %>
+	</span>
+
+	<% if smartphone?%><br><% end %>
+	<!-- 作成された時間 -->
+  	<span class="timestamp">・<%= entry.created_at.to_s(:timeline) %></span>
+
+  	<!-- いいねの数 -->
+  	<%= t('themes.like') %><span class="like_count info-icon"><%= entry.like_count %><%= t('themes.count') %></span>
+
+  	<!-- エントリーのid -->
+  	<span class="entry-number"><%= t('themes.post_no') %><%= entry.id %></span>
+</div>
