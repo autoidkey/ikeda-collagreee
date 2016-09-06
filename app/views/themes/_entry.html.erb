@@ -64,12 +64,12 @@
               <%= render 'like_button', entry: entry %>
             </div>
           <% end %>
-          <hr>
 
 
         <!-- スレッドの子供の記事を表示していく -->
-        <div class="children">
+        <div class="children" style="<%='margin-left: -20px;' if smartphone? %>">
           <% entry.thread_entries.each do |child| %>
+            <hr>
             <%= render 'child_entry', child: child %>
           <% end %>
         </div>

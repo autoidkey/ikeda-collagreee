@@ -1,4 +1,4 @@
-<div class="child-content ">
+<div class="child-content">
   <div id="entry-<%= child.id %>" class="child post-content" data-id="<%= child.id %>">
     <div class="child-points">
       <p class="points" id="point-<%= child.id %>"><%= child.score %></p>
@@ -9,47 +9,44 @@
 
 
     <div id="childID_<%= child.id %>"　class="<%= 'facilitation-back' if child.facilitation? %>"　>
-
-    <div class="entry-body">
-      <div class="entry-table">
-        <div class="entry-left">
-          <% if child.image? || child.stamp? %>
-            <% if child.image? %>
-              <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
+      <div class="entry-body">
+        <div class="entry-table">
+          <div class="entry-left">
+            <% if child.image? || child.stamp? %>
+              <% if child.image? %>
+                <%= link_to (image_tag child.image.entry_thumb.url, class: 'img-radius'), child.image_url %>
+              <% end %>
+              <% if child.stamp? %>
+                <%= image_tag(child.stamp, class: 'show-stamp')%>
+              <% end %>
             <% end %>
-            <% if child.stamp? %>
-              <%= image_tag(child.stamp, class: 'show-stamp')%>
-            <% end %>
-          <% end %>
-        </div>
-        <div class="entry-right">
-          <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %> 
+          </div>
+          <div class="entry-right">
+            <%= simple_format(auto_link(child.body, html: { target: '_blank' }, link: :urls)) %> 
+          </div>
         </div>
       </div>
-    </div>
 
-    <%= render 'information', entry: child %>
+      <%= render 'information', entry: child %>
 
-    <% if user_signed_in? && !smartphone? %>
-      <div class="actions">
-        <%= render 'reply_button', entry: child %>
-        <%= render 'like_button', entry: child %>
-      </div>
-    <% end %>
-    <hr>
-
-  </div>
-
-
-    <div class="replies">
-      <% child.thread_childrens.each do |c| %>
-        <%= render 'child_entry', child: c %>
+      <% if user_signed_in? %>
+        <div class="actions">
+          <%= render 'reply_button', entry: child %>
+          <%= render 'like_button', entry: child %>
+        </div>
       <% end %>
     </div>
+
+
+    <% child.thread_childrens.each do |c| %>
+      <div class="replies" style="padding-top:5px; <%= 'margin-left: -5px;' if smartphone? %>" >
+        <hr>
+        <%= render 'child_entry', child: c %>
+      </div>
+    <% end %>
 
     <% if user_signed_in? %>
       <%= render 'modal_form', child: child  %>
     <% end %>
-
   </div>
 </div>
