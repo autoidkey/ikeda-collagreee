@@ -5,7 +5,7 @@ class AnalysisController < ApplicationController
 	def index
 	  	serch_theme_id = 1
 	  	file_name = "entry_top3_"
-	  	times = [5] ##配列で管理
+	  	times = [3] ##配列で管理
 	  	serch_user_id = User.pluck(:id) ##データを取る参加者
 	  	remove_user = [1,251,252,253,254,255,256,257,258,259,260,214,271,265]
 	  	active_user = [178, 146, 221, 58, 96, 41, 262, 210, 40, 97, 261, 263, 264, 74, 44, 266, 158, 267, 268, 269, 224, 50, 270, 273, 272, 125]
@@ -13,8 +13,8 @@ class AnalysisController < ApplicationController
 	  	# serch_user_id = [92,19,17,15,58]
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
-	  	start_time =  Time.local(2016, 7, 12, 14, 48, 53)
-	  	end_time = Time.local(2016, 7, 12, 16, 23, 53)
+	  	start_time =  Time.local(2016, 7, 12, 14, 58, 53)
+	  	end_time = Time.local(2016, 7, 12, 16, 28, 53)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
@@ -115,11 +115,11 @@ class AnalysisController < ApplicationController
 
 
 	  	# なんでも使える
-	  	##############################
+	  	#############################
 	 #  	times.each do |time|
 
-	 #  		file_name = "webview_sum_"
-		#   	object = Webview.where(user_id: serch_user)
+	 #  		file_name = "like_sum"
+		#   	object = Like.where(user_id: serch_user)
 		#   	interval = 60*time
 
 		#   	# 時間ごとの投稿の推移
@@ -250,6 +250,118 @@ class AnalysisController < ApplicationController
 		# 	}
 
 		# end
+
+		##############################
+
+		# 投稿か閲覧の投稿者数 
+	  	############################
+	  	times.each do |time|
+
+	  		file_name = "view_person_sum_"
+		  	object = Webview.where(user_id: serch_user)
+		  	interval = 60*time
+
+		  	# 時間ごとの投稿の推移
+	  		date_array = []
+	  		@data_all = []
+	  		start = start_time
+		  	while ((end_time - start) > 0)
+		  		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1))
+	
+		  		array = []
+		  		t.each do |a|
+		  			array.push(a.user_id)
+		  		end
+
+		  		date_array.push({start.to_s(:time) => array.uniq.count})
+		  		# start = start.tomorrow １日毎に集計
+		  		start = start + interval
+		  		logger.info({time: start.to_s})
+		  	end
+		  	@data_all.push(date_array)
+
+			logger.info({data: @data_all})
+
+
+			#からむの作成
+
+			file_name = "log/csv2/"+file_name+time.to_s+".csv"
+			File.open(file_name, 'w') {|file|
+			@data_all.each do |data|
+
+				sum = 0
+			  		data.each do |d|
+					  	key = d.keys[0]
+					  	# logger.warn key
+					  	# logger.warn d[key]
+					  	sum = sum + d[key]
+					    write = key.to_s+","+d[key].to_s + "\n"
+					    file.write write
+					end
+				file.write "sum,"+sum.to_s+"\n"+"\n"
+			 end
+			}
+
+		end
+
+
+		##############################
+
+		# 単語数（指定時間における）
+	  	############################
+	  	times.each do |time|
+
+	  		file_name = "entry_word_sum_"
+		  	object = Entry.where(user_id: serch_user)
+		  	interval = 60*time
+
+		  	# 時間ごとの投稿の推移
+	  		date_array = []
+	  		@data_all = []
+	  		start = start_time
+		  	while ((end_time - start) > 0)
+		  		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1))
+	
+		  		array = []
+		  		count = 0
+		  		t.each do |a|
+		  			words = count_words(a.body)
+		  			p words
+		  			words.each{|key, value|
+					  count = count + value
+					}
+		  		end
+
+		  		date_array.push({start.to_s(:time) => count})
+		  		# start = start.tomorrow １日毎に集計
+		  		start = start + interval
+		  	end
+		  	@data_all.push(date_array)
+
+			logger.info({data: @data_all})
+
+
+			#からむの作成
+
+			file_name = "log/csv2/"+file_name+time.to_s+".csv"
+			File.open(file_name, 'w') {|file|
+			@data_all.each do |data|
+
+				sum = 0
+			  		data.each do |d|
+					  	key = d.keys[0]
+					  	# logger.warn key
+					  	# logger.warn d[key]
+					  	sum = sum + d[key]
+					    write = key.to_s+","+d[key].to_s + "\n"
+					    file.write write
+					end
+				file.write "sum,"+sum.to_s+"\n"+"\n"
+			 end
+			}
+
+		end
+
 
 		##############################
 
@@ -503,6 +615,20 @@ class AnalysisController < ApplicationController
 		
 
 		# puts('書き込み完了')
+	end
+
+	def count_words(text)
+	  # 単語の構成文字
+	  word_char = '[\w’\/-]'
+	  # Google Play Awards や Clash of Kings のような複合語を検索する
+	  compound_words = /[A-Z]#{word_char}*(?: of| [A-Z]#{word_char}*)+/
+	  # 英単語を検索する
+	  words = /#{word_char}+/
+	  # 複合語が優先的に検索されるように正規表現を結合する
+	  regex = Regexp.union(compound_words, words)
+	  text.scan(regex).each_with_object(Hash.new(0)) do |word, count_table|
+	    count_table[word] += 1
+	  end
 	end
 
 	def childlen_serching(id)

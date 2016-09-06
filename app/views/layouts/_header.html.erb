@@ -23,7 +23,6 @@
         <% if user_signed_in? %>
           <li class='nav-user-icon'><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
           <li><%= link_to t('layouts.header.greet',{name: current_user.name}), edit_user_registration_path %></li>
-          <li><%= link_to t('layouts.header.administrator'), admin_root_path if current_user.admin? %></li>
           <li><%= link_to t('layouts.header.edit'), users_path if current_user.admin? || current_user.organizer? %></li>
           <li><%= link_to t('layouts.header.logout'), destroy_user_session_path, method: :delete  %></li>
         <% else %>
