@@ -73,6 +73,7 @@ en:
     signup: 'sign up'
     theme_cap: ''
     add_theme: 'Add theme'
+    edit_theme: 'Edit theme'
     create_theme: 'create theme'
     newpost_ga: 'new posts: '
     count_arimasu: ''

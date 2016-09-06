@@ -74,6 +74,7 @@ ja:
     signup: '新規登録'
     theme_cap: '/テーマ'
     add_theme: 'テーマ追加'
+    edit_theme: 'テーマ編集'
     create_theme: 'テーマ作成'
     newpost_ga: '新着投稿が'
     count_arimasu: '件あります'
