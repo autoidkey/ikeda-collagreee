@@ -675,7 +675,7 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :secret, :body_text)
+    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :secret, :body_text, :nolink)
   end
 
   def entry_params
