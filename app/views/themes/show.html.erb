@@ -96,7 +96,7 @@
         <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <%= render 'panel', entry: entry %>
+            <%= render 'entry', entry: entry %>
           <% end %>
         </div>
 
