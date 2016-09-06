@@ -205,16 +205,16 @@ button.btn-thread {
 }
 
 .show-stamp {
-  // margin-top: -10px;
+  margin-top: -10px;
   // margin-left: -125px;
   border-radius: 4px;
   width: 125px;
-  padding-right: 15px;
 }
 
 .entry-left{
   display: table-cell;
-  padding-right: 15px;
+  padding-right: 8px;
+  padding-left: 8px;
 }
 
 .entry-right{
@@ -222,3 +222,10 @@ button.btn-thread {
   width: 100%;
   vertical-align: top;
 }
+
+.entry-padding {
+    padding: 2px;
+}
+
+
+

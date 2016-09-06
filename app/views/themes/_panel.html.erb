@@ -1,9 +1,0 @@
-<div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>">
-  <div class="panel-body">
-    <% if entry.stamp? %>
-      <%= render 'entry_with_stamp', entry: entry %>
-    <% else %>
-      <%= render 'entry', entry: entry %>
-    <% end %>
-  </div>
-</div>
