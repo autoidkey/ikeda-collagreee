@@ -39,7 +39,7 @@
 
 
     <% child.thread_childrens.each do |c| %>
-      <div class="replies" style="padding-top:5px; <%= 'margin-left: -5px;' if smartphone? %>" >
+      <div class="replies" style=" <%= 'margin-left: -5px;' if smartphone? %>" >
         <hr>
         <%= render 'child_entry', child: c %>
       </div>
