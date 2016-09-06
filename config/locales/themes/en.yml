@@ -7,7 +7,7 @@ en:
     ranking_title: 'post ranking'
     ranking: 'Ranking'
     post_user: 'post user'
-    point: 'point'
+    point: 'Point'
     facilitator: 'facilitator'
     post_no: 'No.' # Is the period necessary?
     facilitation_do: "Facilitation comment"
@@ -61,7 +61,7 @@ en:
     theme_title: 'Theme'
     post_title: 'Post'
     four_point_ranking: 'fourth point ranking'
-    user: 'user'
+    user: 'User'
     count_like: ' / Like '
     three_point_ranking: 'third point ranking'
     post_count_ranking: 'Post ranking'

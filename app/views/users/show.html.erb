@@ -53,6 +53,7 @@
         <div class="user-entries-show">
           <% @user.entries.each do |entry| %>
             <%= render "users/user_entry", child: entry %>
+            <hr>
           <% end %>
         </div>
       </div>
