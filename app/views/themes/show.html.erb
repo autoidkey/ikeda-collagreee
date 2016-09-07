@@ -96,7 +96,7 @@
         <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <%= render 'entry', entry: entry %>
+            <%= render 'panel', entry: entry, count_entry: i %>
           <% end %>
         </div>
 
@@ -195,8 +195,7 @@
   // グローバル変数
   var syncerTimeout = null ;
   // 一連の処理
-  $( function()
-  {
+  $( function(){
     // スクロールイベントの設定
     $( window ).scroll( function()
     {
@@ -254,13 +253,37 @@
           $("#discussion-nav-btn").parents('li').removeClass("active");
         }
     ) ;
-  } ) ;
+
+    $('[id^=entry-top-hidden]')
+    // マウスポインターが画像に乗った時の動作
+    .mouseover(function(e) {
+        $(this).css('opacity','0.5');
+        // $(this).css('background','#e1e8ed');
+        $(this).css('cursor','pointer');
+    })
+    // マウスポインターが画像から外れた時の動作
+    .mouseout(function(e) {
+      $(this).css('opacity','1');
+        // $(this).css('background','white');
+        $(this).css('cursor','default');
+    });
+
+    $('[id^=entry-top-hidden]').click(function(){
+      $("#child-entry-hidden"+$(this).attr('entry-id')).show();
+      $('#entry-child-count'+$(this).attr('entry-id')).remove();
+      $('#entry-top-hidden'+$(this).attr('entry-id')).unbind();
+      $(this).css('opacity','1');
+      $(this).css('cursor','default');
+    });
+
+    $('[id^=child-entry-hidden]').hide();
+
+  });
 
   $(window).bind("beforeunload", function() {
 
     var user = <%= raw current_user.id.to_json %>;
     var theme = <%= raw @theme.id.to_json %>;
-
 
     $.ajax({
       url: "tree/change_session_year",

@@ -54,4 +54,21 @@ module ApplicationHelper
              after.to_i(16).chr('UTF-8'))
     end
   end
+
+  def childlen_count(id,entry)
+    count = 0
+    serchlist = []
+    serchlist.push(id)
+
+    while(serchlist.count != 0)
+      serchid = serchlist.shift
+      entry.each do |e|
+        if e.parent_id == serchid
+          count = count + 1
+          serchlist.push(e.id)
+        end
+      end
+    end
+    return count
+  end
 end

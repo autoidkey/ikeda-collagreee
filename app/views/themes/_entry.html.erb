@@ -1,50 +1,47 @@
-<div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>">
-  <div class="panel-body">
-    <div class="content">
-      <div class="entry-box post-content" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
 
-        <div class="entry-points">
-          <p class="points" id="point-<%= entry.id %>"><%= entry.score %></p>
-          <p class="points-text">points</p>
-        </div>
+<div class="content">
+  <div class="entry-box post-content" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
 
-        <%= render 'user_icon', entry: entry %>
-        <%= render 'entry_show', entry: entry %>
-
-        <% entry.issues.each do |issue| %>
-          <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
-        <% end %>
-
-
-        <!-- 投稿の情報 -->
-        <%= render 'information', entry: entry %>
-
-
-
-        <!-- いいねボタンと返信ボタン -->
-        <% #unless entry.facilitation %>
-          <% if user_signed_in? %>
-            <div class="actions">
-              <%= render 'reply_button', entry: entry %>
-              <%= render 'like_button', entry: entry %>
-            </div>
-          <% end %>
-
-
-        <!-- スレッドの子供の記事を表示していく -->
-        <div class="children" style="<%='margin-left: -20px;' if smartphone? %>">
-          <% entry.thread_entries.each do |child| %>
-            <hr>
-            <%= render 'child_entry', child: child %>
-          <% end %>
-        </div>
-
-        <% if user_signed_in? %>
-          <%= render 'modal_form', child: entry  %>
-        <% end %>
-
-
-      </div>
+    <div class="entry-points">
+      <p class="points" id="point-<%= entry.id %>"><%= entry.score %></p>
+      <p class="points-text">points</p>
     </div>
+
+    <%= render 'user_icon', entry: entry %>
+    <%= render 'entry_show', entry: entry %>
+
+    <% entry.issues.each do |issue| %>
+      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+    <% end %>
+
+
+    <!-- 投稿の情報 -->
+    <%= render 'information', entry: entry %>
+
+
+
+    <!-- いいねボタンと返信ボタン -->
+    <% #unless entry.facilitation %>
+      <% if user_signed_in? %>
+        <div class="actions">
+          <%= render 'reply_button', entry: entry %>
+          <%= render 'like_button', entry: entry %>
+        </div>
+      <% end %>
+
+
+    <!-- スレッドの子供の記事を表示していく -->
+    <div class="children" id="<%= "child-entry-hidden#{count_entry}" if count_entry > 2 %>" style="<%='margin-left: -20px;' if smartphone? %>" >
+      <% entry.thread_entries.each do |child| %>
+        <hr>
+        <%= render 'child_entry', child: child %>
+      <% end %>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= render 'modal_form', child: entry  %>
+    <% end %>
+
+
   </div>
 </div>
