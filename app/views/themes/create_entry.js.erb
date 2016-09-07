@@ -1,6 +1,6 @@
 // 返信の投稿ボタンを押したときに使用されるjs
 if(<%= @new_entry.is_root? %>) {
-  $('#timeline').prepend($("<%=j render 'panel', entry: @new_entry %>").hide().fadeIn('slow'));
+  $('#timeline').prepend($("<%=j render 'entry', entry: @new_entry %>").hide().fadeIn('slow'));
   <% if @new_entry.theme.point_function %>
     point.entry(<%= @dynamicpoint %>);
     // point.animation();
