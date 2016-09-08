@@ -44,6 +44,8 @@ gem 'ots' #英語の要約
 
 gem 'spreadsheet'
 
+gem 'rdoc-data', '~> 4.1' #heroku用
+
 group :development do
   gem 'bullet'
   gem 'spring', '~> 1.1.2'

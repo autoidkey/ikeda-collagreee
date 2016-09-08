@@ -6,7 +6,6 @@
 /log/csv2
 /tmp
 /vendor/bundle
-
 /public/uploads
 /public/assets
 .ruby-version
