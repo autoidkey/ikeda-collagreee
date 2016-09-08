@@ -1,7 +1,9 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 gem 'rails', '4.1.2'
 gem 'mysql2', '0.3.17'
+gem 'mysql'
 gem 'sass-rails', '~> 5.0.1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -68,6 +70,10 @@ end
 
 # Use unicorn as the app server
   gem 'unicorn'
+
+group :production do
+  gem 'rails_12factor'
+end
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
