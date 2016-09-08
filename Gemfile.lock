@@ -241,6 +241,8 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.2)
       json (~> 1.4)
+    rdoc-data (4.1.0)
+      rdoc (~> 4.0)
     redis (3.3.0)
     remotipart (1.2.1)
     responders (1.1.2)
@@ -361,6 +363,7 @@ DEPENDENCIES
   rails_12factor
   rails_autolink
   ransack
+  rdoc-data (~> 4.1)
   redis
   remotipart (~> 1.2)
   rmagick (~> 2.15)
