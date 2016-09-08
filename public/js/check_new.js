@@ -46,25 +46,27 @@ like_notice = function(like, theme_id) {
 check_new = function() {
   var theme_id, url;
   theme_id = location.href.match(".+/(.+?)$")[1];
-  url = '/themes/check_new/' + theme_id;
-  return setTimeout(((function(_this) {
-    return function() {
-      console.log('checking...');
-      $.get(url, function(data) {
-        console.log(data);
-        if (data.entry.length > 0) {
-          render_new(data, theme_id);
-        }
-        if (data.reply.length > 0) {
-          reply_notice(data.reply, theme_id);
-        }
-        if (data.like.length > 0) {
-          return like_notice(data.like, theme_id);
-        }
-      });
-      return check_new();
-    };
-  })(this)), 10000);
+  if(theme_id.search( /^[0-9]+$/ )){
+    url = '/themes/check_new/' + theme_id;
+    return setTimeout(((function(_this) {
+      return function() {
+        console.log('checking...');
+        $.get(url, function(data) {
+          console.log(data);
+          if (data.entry.length > 0) {
+            render_new(data, theme_id);
+          }
+          if (data.reply.length > 0) {
+            reply_notice(data.reply, theme_id);
+          }
+          if (data.like.length > 0) {
+            return like_notice(data.like, theme_id);
+          }
+        });
+        return check_new();
+      };
+    })(this)), 10000);
+  }
 };
 
 $(document).on('ready page:load', function() {
