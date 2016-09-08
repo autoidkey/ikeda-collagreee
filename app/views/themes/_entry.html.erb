@@ -31,7 +31,7 @@
 
 
     <!-- スレッドの子供の記事を表示していく -->
-    <div class="children" id="<%= "child-entry-hidden#{count_entry}" if count_entry > 2 %>" style="<%='margin-left: -20px;' if smartphone? %>" >
+    <div class="children" id="entry-<%= entry.id %> <%= "child-entry-hidden#{count_entry}" if count_entry > 2 %>" style="<%='margin-left: -20px;' if smartphone? %>" >
       <% entry.thread_entries.each do |child| %>
         <hr>
         <%= render 'child_entry', child: child %>
