@@ -114,8 +114,8 @@ like_notice = (like, theme_id) ->
 
 check_new = () ->
   theme_id = location.href.match(".+/(.+?)$")[1]
-  theme_id = theme_id.match(/[0-9]+\.?[0-9]*/g)[0]
   if theme_id.search( /^[0-9]+$/ )==0
+    theme_id = theme_id.match(/[0-9]+\.?[0-9]*/g)[0]
     url = '/themes/check_new/' + theme_id
 
     setTimeout(
