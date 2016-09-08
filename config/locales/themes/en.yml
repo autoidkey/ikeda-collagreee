@@ -95,3 +95,4 @@ en:
     like_done: "you liked %{name}'s post " # Perhaps capitalize "You" and add a period at the end.
     replied_done: "you were replied by %{name} "
     liked_done: "your post liked by %{name} " # "Your post was liked by %{name}."
+    reply_entry_count: "Reply Opinions"

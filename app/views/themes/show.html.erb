@@ -147,7 +147,6 @@
 
   
   <!-- 議論ツリーについて -->
-  <% if false %>
   <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-12">
@@ -155,7 +154,6 @@
       </div>
     </div>
   </div>
-  <% end %>
 
 
   <% if user_signed_in? %>
@@ -179,10 +177,12 @@
 
 </div>
 
-<!--議論ツリーへ移動するボタン-->
-<div id="page-top" class="page-top">
-  <p><a href="#tree" id="move-page-top" class="move-page-top" role="tab" data-toggle="tab" action="signed_in"><%= t('themes.debate_tree') %></a></p>
-</div>
+<% if !smartphone? %>
+  <!--議論ツリーへ移動するボタン-->
+  <div id="page-top" class="page-top">
+    <p><a href="#tree" id="move-page-top" class="move-page-top" role="tab" data-toggle="tab" action="signed_in"><%= t('themes.debate_tree') %></a></p>
+  </div>
+<% end %>
 
 <%= render 'render_c3' %>
 
