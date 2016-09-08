@@ -46,7 +46,8 @@ like_notice = function(like, theme_id) {
 check_new = function() {
   var theme_id, url;
   theme_id = location.href.match(".+/(.+?)$")[1];
-  if(theme_id.search( /^[0-9]+$/ )){
+  if((theme_id.search( /^[0-9]+$/ ))==0){
+    console.log(theme_id)
     url = '/themes/check_new/' + theme_id;
     return setTimeout(((function(_this) {
       return function() {
