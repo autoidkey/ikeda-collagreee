@@ -25,8 +25,8 @@ module Bm25
 
     entries.each do |text|
 
-      # norms = get_nouns(text.body) # 英語版のときはこっち
-      norms = norm_connection(text.body) # 連結単語取り出し（日本語）
+      norms = get_nouns(text.body) # 英語版のときはこっち　(英語)
+      # norms = norm_connection(text.body) # 連結単語取り出し（日本語）
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
 
@@ -79,6 +79,7 @@ module Bm25
     bm25
   end
 
+  # entry = ["afdfa","fafa"]のような文章集合に対して
   def calculate3(entries)
     freq = {} # 単語出現回数
     df = {} # 単語出現文書数
