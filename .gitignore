@@ -6,7 +6,7 @@
 /log/csv2
 /tmp
 /vendor/bundle
-/Gemfile.lock
+
 /public/uploads
 /public/assets
 .ruby-version
