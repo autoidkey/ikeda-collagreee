@@ -13,7 +13,8 @@ init_timer = (e) ->
   clearTimeout(timeout) if timeout
   timeout = setTimeout(
     (->
-      content_change e
+      # これでnpの判定を行う
+      # content_change e
     ), INTERVAL
   )
 
