@@ -31,11 +31,13 @@
 
 
     <!-- スレッドの子供の記事を表示していく -->
-    <div class="children" id="entry-<%= entry.id %> <%= "child-entry-hidden#{count_entry}" if count_entry > 2 %>" style="<%='margin-left: -20px;' if smartphone? %>" >
-      <% entry.thread_entries.each do |child| %>
-        <hr>
-        <%= render 'child_entry', child: child %>
-      <% end %>
+    <div class="children" id="entry-<%= entry.id %>" style="<%='margin-left: -20px;' if smartphone? %>" >
+      <div id = "<%= "child-entry-hidden#{entry.id}" if count_entry > 2 %>">
+        <% entry.thread_entries.each do |child| %>
+          <hr>
+          <%= render 'child_entry', child: child %>
+        <% end %>
+      </div>
     </div>
 
     <% if user_signed_in? %>
