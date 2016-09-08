@@ -14,7 +14,7 @@ gem 'turbolinks', '~> 1.3.1'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-gem 'natto', '~> 0.9.6'
+gem 'natto'
 gem 'carrierwave', '~> 0.10.0'
 gem 'remotipart', '~> 1.2'
 gem 'rmagick', '~> 2.15',  require: 'RMagick'
@@ -25,7 +25,7 @@ gem 'cancancan'
 gem 'bootstrap-sass', '~> 3.3.5.1'
 gem 'activeadmin', github: 'activeadmin'
 gem 'rails-i18n', '~> 4.0.0'
-gem 'clockwork', '~> 1.0.0'
+gem 'clockwork'
 gem 'enum_help'
 gem 'kaminari'
 # gem 'tuktuk-rails', '~> 0.0.10' 使い方書いてなくてアレ

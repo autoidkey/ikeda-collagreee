@@ -332,7 +332,7 @@ DEPENDENCIES
   cancancan
   capybara (~> 2.2.0)
   carrierwave (~> 0.10.0)
-  clockwork (~> 1.0.0)
+  clockwork
   coffee-rails (~> 4.0.0)
   daemons
   database_cleaner!
@@ -353,7 +353,7 @@ DEPENDENCIES
   kaminari
   mysql
   mysql2 (= 0.3.17)
-  natto (~> 0.9.6)
+  natto
   ots
   pry
   pry-doc
