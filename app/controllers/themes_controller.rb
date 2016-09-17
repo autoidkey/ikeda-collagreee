@@ -23,7 +23,6 @@ class ThemesController < ApplicationController
   def index
     p I18n.default_locale
     p I18n.available_locales.map(&:to_s)
-    p "aaaa"
     @themes = Theme.all
   end
 
@@ -39,10 +38,10 @@ class ThemesController < ApplicationController
 
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
-    @la = I18n.default_locale
+    @la = I18n.default_locale == :ja ? "ja" : "en"
 
     @other_themes = Theme.others(@theme.id)
-    @facilitations =  @la == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
 
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
@@ -197,7 +196,7 @@ class ThemesController < ApplicationController
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page])
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
     @other_themes = Theme.others(@theme.id)
-    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
   end
@@ -223,7 +222,7 @@ class ThemesController < ApplicationController
   def search_entry
     @entry = Entry.new
     @issue = Issue.new
-    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
     @page = params[:page] || 1
 
     if params[:search_entry][:order] == 'time'
@@ -395,7 +394,7 @@ class ThemesController < ApplicationController
     # MeCabによる投稿内容の形態素解析
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
-    if I18n.default_locale == 'ja'
+    if I18n.default_locale == :ja
       word = norm_connection2(text).uniq # 日本語の時はこっち
     else
       word = get_nouns(text) # 英語の時はこっち
@@ -478,7 +477,7 @@ class ThemesController < ApplicationController
     puts "獲得した追加ポイント = #{@dynamicpoint}!!"
     puts "----------------------------------------------------------"
 
-    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
     @count = @theme.entries.root.count
 
     respond_to do |format|
@@ -488,7 +487,7 @@ class ThemesController < ApplicationController
         if @new_entry["parent_id"] != nil
           youyaku = Youyaku.new
 
-          if I18n.default_locale == 'ja'
+          if I18n.default_locale == :ja
 
             #　日本語要約
             keywords = Keyword.where(:theme_id => @theme.id)
@@ -544,7 +543,7 @@ class ThemesController < ApplicationController
     @entry = Entry.new
 
     @theme = Theme.find(params[:id])
-    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
 
     respond_to do |format|
       format.js

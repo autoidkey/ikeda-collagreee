@@ -4,7 +4,7 @@ class ClusterJob
 
   def execute
     # スレッドのクラスタリングも実行
-    if I18n.default_locale == 'ja'
+    if I18n.default_locale == :ja
       # 日本語版のクラスタリング
       EntryClaster.destroy_all
       idAll = Theme.all
