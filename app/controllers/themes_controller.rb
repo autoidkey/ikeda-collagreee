@@ -21,6 +21,9 @@ class ThemesController < ApplicationController
   require 'time'
 
   def index
+    p I18n.default_locale
+    p I18n.available_locales.map(&:to_s)
+    p "aaaa"
     @themes = Theme.all
   end
 
@@ -36,7 +39,7 @@ class ThemesController < ApplicationController
 
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
 
-    @la = params[:locale]
+    @la = I18n.default_locale
 
     @other_themes = Theme.others(@theme.id)
     @facilitations =  @la == 'ja' ? Facilitations : Facilitations_en
@@ -45,7 +48,7 @@ class ThemesController < ApplicationController
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
 
-    @stamps = stamp_list(params[:locale])
+    @stamps = stamp_list(I18n.default_locale)
 
     # ファシリテータからのお知らせコーナー
     comment = FacilitationInfomation.where(:theme_id => params[:id]).last
@@ -194,7 +197,7 @@ class ThemesController < ApplicationController
     @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page])
     @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
     @other_themes = Theme.others(@theme.id)
-    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
   end
@@ -220,7 +223,7 @@ class ThemesController < ApplicationController
   def search_entry
     @entry = Entry.new
     @issue = Issue.new
-    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
     @page = params[:page] || 1
 
     if params[:search_entry][:order] == 'time'
@@ -262,9 +265,8 @@ class ThemesController < ApplicationController
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
 
-    @stamps = stamp_list(params[:locale])
+    @stamps = stamp_list(I18n.default_locale)
 
-    puts "test" 
 
     @dynamicpoint = 0
     matching_bonus = 0    # キーワードとの一致ボーナス用
@@ -393,8 +395,11 @@ class ThemesController < ApplicationController
     # MeCabによる投稿内容の形態素解析
     # lib/bm25.rbのモジュールを使って形態素解析、単語抽出を行う
     # 同一の単語は1回のみカウント(.uniqにより、重複を許さない)
-    # word = get_nouns(text)  # 英語の時はこっち
-    word = norm_connection2(text).uniq
+    if I18n.default_locale == 'ja'
+      word = norm_connection2(text).uniq # 日本語の時はこっち
+    else
+      word = get_nouns(text) # 英語の時はこっち
+    end
     print "\n 抽出したワードは、#{word}です。\n"
 
     # 抽出したワードを1つずつ読み込んでいく
@@ -473,7 +478,7 @@ class ThemesController < ApplicationController
     puts "獲得した追加ポイント = #{@dynamicpoint}!!"
     puts "----------------------------------------------------------"
 
-    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
     @count = @theme.entries.root.count
 
     respond_to do |format|
@@ -483,7 +488,7 @@ class ThemesController < ApplicationController
         if @new_entry["parent_id"] != nil
           youyaku = Youyaku.new
 
-          if params[:locale] == 'ja'
+          if I18n.default_locale == 'ja'
 
             #　日本語要約
             keywords = Keyword.where(:theme_id => @theme.id)
@@ -539,7 +544,7 @@ class ThemesController < ApplicationController
     @entry = Entry.new
 
     @theme = Theme.find(params[:id])
-    @facilitations =  params[:locale] == 'ja' ? Facilitations : Facilitations_en
+    @facilitations =  I18n.default_locale == 'ja' ? Facilitations : Facilitations_en
 
     respond_to do |format|
       format.js

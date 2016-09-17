@@ -25,8 +25,12 @@ module Bm25
 
     entries.each do |text|
 
-      norms = get_nouns(text.body) # 英語版のときはこっち　(英語)
-      # norms = norm_connection(text.body) # 連結単語取り出し（日本語）
+      if I18n.default_locale == 'ja'
+        norms = norm_connection(text.body) # 連結単語取り出し（日本語）
+      else
+        norms = get_nouns(text.body) # 英語版のときはこっち　(英語)
+      end
+      
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
 
