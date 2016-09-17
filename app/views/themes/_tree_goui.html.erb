@@ -159,13 +159,16 @@
 
         $("#dialog").empty();
 
+        //targetがクリックした親ノードもの
         var target = "#" + "entry-" + id;
+        //target2がクリックしたノードもの
         var target2 = '#reply-modal-' + nid;
-        $(target).find('#childID_'+nid).css('background-color','orange');
+        //$(target).find('#childID_'+nid).css('background-color','orange');
         //いいねボタンの作成
-        var newbutton = $(target).find('#childID_'+nid).find(".actions")
-        $(newbutton).find("a[href *= 'reply-modal']").remove()
-        $(target2).find("div.info-list").append(newbutton);
+        //var newbutton = $(target).find('#childID_'+nid).find(".actions");
+        //返信ボタンを削除
+        // $(newbutton).find("a[href *= 'reply-modal']").remove();
+        // $(target2).find("div.info-list").append(newbutton);
 
 
         // $(target2).find("a[href *= ‘post’]").remove();
@@ -178,6 +181,8 @@
 
 
         // $( "#dialog" ).append('<br>');
+        // $( "#dialog" ).append($(target).html());
+        // $( "#dialog" ).append($("#entry-"+nid).html());
         $( "#dialog" ).append($(target2).html());
         // $( "#dialog" ).append('<hr>');
         var item2 = $('.tag-push').html();
@@ -227,6 +232,12 @@
 
         $(".btn btn-default").click(function(){
         } );
+
+        // $('.actions').click(function(){
+        //   console.log("aaaa")
+        //   // alert('hello');
+        //   $("#dialog").dialog("close");
+        // })
 
       }
 
