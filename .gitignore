@@ -10,6 +10,7 @@
 /public/assets
 .ruby-version
 /config/database.yml
+/config/unicorn.conf.rb
 /app/assets/json/*.json
 /app/assets/json/*.txt
 /python/youyakutest/tools/*.pyc
