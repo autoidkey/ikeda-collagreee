@@ -17,6 +17,6 @@
 /python/*.json
 /python/youyakutest/tools/*.pyc
 /python/youyaku1/input_data
-/python/clustering/file
+/python/clustering/file/*.txt
 /*.pyc
 ,/
