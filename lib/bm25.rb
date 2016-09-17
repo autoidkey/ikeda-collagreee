@@ -25,9 +25,10 @@ module Bm25
 
     entries.each do |text|
 
-      if I18n.default_locale == 'ja'
+      if I18n.default_locale == :ja
         norms = norm_connection(text.body) # 連結単語取り出し（日本語）
       else
+        p I18n.default_locale
         norms = get_nouns(text.body) # 英語版のときはこっち　(英語)
       end
 
