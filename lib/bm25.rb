@@ -30,7 +30,7 @@ module Bm25
       else
         norms = get_nouns(text.body) # 英語版のときはこっち　(英語)
       end
-      
+
       sum_words += all_word_count(text.body) # 全単語数
       # is_agree ||= text.np < 50 ? false : true
 
@@ -430,6 +430,7 @@ module Bm25
       puts line
     end
 
+    EntryClaster.destroy_all
     # pythonで書き込んだfileを読み出す
     File.open("#{path}/file/output.txt") do |file|
       file.each_line do |labmen|
@@ -438,7 +439,12 @@ module Bm25
 
         cl = labmen[0, labmen.index(":")].to_i + 1
         # クラスの0はタイトルのために使うので0にはしない
-        entry.update(claster: cl)
+        # entry.update(claster: cl)　昔の保存方式
+        params = {
+           entry_id: entry.id,
+           coaster: cl,
+        }
+        EntryClaster.new(params).save
       end
     end
 
