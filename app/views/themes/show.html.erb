@@ -4,7 +4,7 @@
 
   <div class="btn-group btn-group-justified" role="group" aria-label="">
 
-    <% if params[:locale] == 'ja' %>
+    <% if I18n.default_locale == :ja  %>
       <div class="btn-group" role="group">
         <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
           <button type="button" class="btn btn-default"><%= t('themes.divergence') %></button>
@@ -22,7 +22,7 @@
           <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
         <% end %>
       </div>
-    <% elsif params[:locale] == 'en' %>
+    <% elsif I18n.default_locale == :en  %>
       <div class="btn-group" role="group">
         <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1?locale=en' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
           <button type="button" class="btn btn-default"><%= t('themes.divergence') %></button>
@@ -109,6 +109,7 @@
 
       <div class="col-md-4">
         <%= render 'theme_info' %>
+        <%= render 'calender' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'like_ranking', users: @users, theme: @theme %>
         <%= render 'user_ranking', users: @users, theme: @theme %>

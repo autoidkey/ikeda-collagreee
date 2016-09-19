@@ -7,6 +7,7 @@
       <thead>
         <tr>
           <th>順位</th>
+          <th>投稿者</th>
           <th>投稿タイトル</th>
           <th>いいね！</th>
         </tr>
@@ -30,7 +31,7 @@
                              placement: "right",
                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + ' / Like ' + user.likes.status_on.count.to_s + t('themes.count')
                            }
-                           ), '/users/' + user.id.to_s %>　<%= entry.title %>
+                           ), '/users/' + user.id.to_s %>　
               <% else %>
               <%= link_to (image_tag user_icon_path(user),
                            class: 'user-icon img-circle set-popover',
@@ -39,9 +40,10 @@
                              placement: "right",
                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + ' / Like ' + user.likes.status_on.count.to_s + t('themes.count')
                            }
-                           ), '/users/' + user.id.to_s + '?locale=en'%>　<%= entry.title %>
+                           ), '/users/' + user.id.to_s + '?locale=en'%>
               <% end %>
             </td>
+            <td><a href="#entry-<%= entry.id %>" class="top-theme"><%= entry.title %></td>
             <td class="rank-score">
               <span class="user-score"><%= entry.all_like_count %></span>
             </td>

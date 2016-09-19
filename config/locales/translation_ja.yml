@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      core_time:
+        theme_id: テーマ
+        start_at: 開始時間
+        end_at: 終了時間
+        notice: 通知
