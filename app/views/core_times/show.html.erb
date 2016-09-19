@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Theme:</strong>
+  <%= @core_time.theme_id %>
+</p>
+
+<p>
+  <strong>Start at:</strong>
+  <%= @core_time.start_at %>
+</p>
+
+<p>
+  <strong>End at:</strong>
+  <%= @core_time.end_at %>
+</p>
+
+<p>
+  <strong>Notice:</strong>
+  <%= @core_time.notice %>
+</p>
+
+<%= link_to 'Edit', edit_core_time_path(@core_time) %> |
+<%= link_to 'Back', core_times_path %>

@@ -1,0 +1,31 @@
+<h1>Listing core_times</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Theme</th>
+      <th>Start at</th>
+      <th>End at</th>
+      <th>Notice</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @core_times.each do |core_time| %>
+      <tr>
+        <td><%= core_time.theme_id %></td>
+        <td><%= core_time.start_at %></td>
+        <td><%= core_time.end_at %></td>
+        <td><%= core_time.notice %></td>
+        <td><%= link_to 'Show', core_time %></td>
+        <td><%= link_to 'Edit', edit_core_time_path(core_time) %></td>
+        <td><%= link_to 'Destroy', core_time, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Core time', new_core_time_path %>

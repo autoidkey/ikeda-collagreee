@@ -1,0 +1,2 @@
+module CoreTimesHelper
+end

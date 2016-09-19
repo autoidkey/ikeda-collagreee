@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :core_times
+
   get 'analysis/index'
 
   resources :thread_classes
