@@ -46,6 +46,9 @@ gem 'spreadsheet'
 
 gem 'rdoc-data', '~> 4.1' #heroku用
 
+gem 'fullcalendar-rails' #カレンダーを表示
+gem 'momentjs-rails'
+
 group :development do
   gem 'bullet'
   gem 'spring', '~> 1.1.2'
