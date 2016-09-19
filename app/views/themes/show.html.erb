@@ -110,6 +110,7 @@
       <div class="col-md-4">
         <%= render 'theme_info' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+        <%= render 'like_ranking', users: @users, theme: @theme %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
         <!-- 議題 -->
