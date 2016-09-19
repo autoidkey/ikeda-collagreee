@@ -46,6 +46,8 @@
       </tbody>
     </table>
 
+    <!-- ポイント履歴が意味ないということで非表示 -->
+    <% if false %>
     <h4><%= t('themes.point_history') %></h4>
     <div style="max-height:300px; overflow-y:scroll;">
       <table height="" class="table">
@@ -75,12 +77,13 @@
                 <% end %>
                 <% when "Likeを削除され" %>
                 <%= t('liked_delated',{id: ap.entry.id,name: ap.like.user.name})%>(Like No.<%= ap.like.id %>)
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-</td>
-</tr>
-<% end %>
-</tbody>
-</table>
-</div>
-</div>
+        </tbody>
+      </table>
+    </div>
+    <% end %>
+  </div>
 </div>

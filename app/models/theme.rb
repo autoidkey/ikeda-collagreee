@@ -62,6 +62,14 @@ class Theme < ActiveRecord::Base
   #   Redis.current.zincrby(POINT_SUM + id.to_s, score, user.id)
   # end
 
+  def like_ranking
+    ranking = Entry.where(theme_id: id, parent_id: nil).sort {|a, b|
+      b.all_like_count <=> a.all_like_count 
+    }
+    ranking.select { |v| v.all_like_count  > 0 }
+
+  end
+
   def score(user)
     Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, 'sum'].join(':'), user.id).to_f
   end

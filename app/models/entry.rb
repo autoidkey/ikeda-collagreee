@@ -241,6 +241,19 @@ class Entry < ActiveRecord::Base
     root_entry.touch
   end
 
+
+  def all_like_count
+    if self.children.count == 0
+      return  self.like_count
+    else
+      sum = 0
+      self.children.each do |entry|
+        sum = sum + entry.all_like_count
+      end
+      return sum
+    end
+  end
+
   # Redis
   def scored(score)
     Redis.current.zadd(EXPERIMENT_NAME + ':entry_points', score, id)
