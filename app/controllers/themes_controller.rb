@@ -503,8 +503,11 @@ class ThemesController < ApplicationController
               s = s + key["score"].to_s + " "
             end
 
+            p "aaaaa"
 
             IO.popen("python #{Rails.root}/python/midashi/comment_manager.py #{s}").each do |line|
+              p "aaa"
+              p line
               youyaku = Youyaku.new(body: line, target_id: @new_entry["id"], theme_id: @theme.id)
             end
 
