@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     end
 
     @themes = Theme.all
+    @core_times = CoreTime.all
 
     comment = FacilitationInfomation.where(:theme_id => params[:id]).last
     if comment != nil

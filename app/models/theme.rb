@@ -8,6 +8,7 @@ class Theme < ActiveRecord::Base
   has_many :likes
   has_many :points
   has_many :point_histories
+  has_many :core_times
   belongs_to :admin, class_name: 'User'
 
   mount_uploader :image, ImageUploader

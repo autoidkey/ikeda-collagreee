@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803152836) do
+ActiveRecord::Schema.define(version: 20160919014544) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 20160803152836) do
     t.datetime "updated_at"
     t.integer  "theme_id"
     t.integer  "entry_id"
+  end
+
+  create_table "core_times", force: true do |t|
+    t.integer  "theme_id"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.boolean  "notice"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: true do |t|
