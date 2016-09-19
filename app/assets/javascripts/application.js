@@ -15,6 +15,8 @@
 //= require jquery.remotipart
 //= require d3
 //= require c3
+//= require moment
+//= require fullcalendar
 //= require turbolinks
 //= require_tree .
 //= require bootstrap-sprockets

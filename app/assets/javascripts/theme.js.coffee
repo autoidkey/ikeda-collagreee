@@ -258,3 +258,6 @@ $(document).on 'ready page:load', ->
         cancelStamp selected
         selected = null
     return
+
+$(document).ready -> 
+ $('#calendar').fullCalendar()
