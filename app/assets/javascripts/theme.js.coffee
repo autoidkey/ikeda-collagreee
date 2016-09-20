@@ -260,34 +260,47 @@ $(document).on 'ready page:load', ->
     return
 
 $(document).ready ->
-  $('#calendar').fullCalendar
-    defaultView: 'agendaWeek'
-    header:
-      left: 'agendaDay agendaWeek month'
-    dayNamesShort: [
-      '日'
-      '月'
-      '火'
-      '水'
-      '木'
-      '金'
-      '土'
-    ]
-    weekNumbers: false
-    buttonIcons: false
-    # 予定の時間の表示の仕方
-    timeFormat: ''
-    # 軸の時間の表示の仕方
-    axisFormat: 'H:mm'
+  if gon?
+    $('#calendar').fullCalendar
+      defaultView: 'agendaWeek'
+      header:
+        left: 'agendaDay agendaWeek month'
+      dayNamesShort: [
+        '日'
+        '月'
+        '火'
+        '水'
+        '木'
+        '金'
+        '土'
+      ]
+      weekNumbers: false
+      buttonIcons: false
+      # 予定の時間の表示の仕方
+      timeFormat: ''
+      # 軸の時間の表示の仕方
+      axisFormat: 'H:mm'
 
-  i = 0
-  while i < gon.core_times.length
+    i = 0
+    console.log gon.theme
+    console.log gon.core_times
+    while i < gon.core_times.length
+      $('#calendar').fullCalendar 'addEventSource', [ {
+        title : 'Core\nTime'
+        start: gon.core_times[i]["start_at"]
+        end: gon.core_times[i]["end_at"]
+        color: '#ff9f89'
+      } ]
+      i++
+
     $('#calendar').fullCalendar 'addEventSource', [ {
-      title : 'Core\nTime'
-      start: gon.core_times[i]["start_at"]
-      end: gon.core_times[i]["end_at"]
+      title : 'Discussion'
+      start: gon.theme["start_at"].substr(0,10)
+      end: gon.theme["end_at"].substr(0,10)
       color: '#ff9f89'
+      allDaySlot: true
     } ]
-    i++
-  return
+
+    return
+  else
 
