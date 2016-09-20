@@ -11,6 +11,7 @@ class ThemesController < ApplicationController
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
+  after_action  :test, only: [:show]
 
   load_and_authorize_resource
 
@@ -24,6 +25,10 @@ class ThemesController < ApplicationController
     p I18n.default_locale
     p I18n.available_locales.map(&:to_s)
     @themes = Theme.all
+  end
+
+  # すぐにテストしたいときに使っている
+  def test
   end
 
   def show
@@ -79,6 +84,7 @@ class ThemesController < ApplicationController
       @tree_type = @tree_type[0][:phase_id]
     end
 
+    gon.core_times = @theme.core_times
 
     #見出しデータの生成
     @youyaku = []
@@ -101,7 +107,6 @@ class ThemesController < ApplicationController
     youyakuDatas.each do |data|
       @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
-
 
 
 

@@ -48,6 +48,7 @@ gem 'rdoc-data', '~> 4.1' #heroku用
 
 gem 'fullcalendar-rails' #カレンダーを表示
 gem 'momentjs-rails'
+gem 'gon' #JSにデータを渡すことができる
 
 group :development do
   gem 'bullet'

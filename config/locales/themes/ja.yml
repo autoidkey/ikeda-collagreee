@@ -68,8 +68,7 @@ ja:
     post_count: '投稿件数'
     overall_point_ranking: '総合ポイントランキング'
     user_title: 'Users / 閲覧ユーザ'
-    main_title_html: "いつでも どこでも 何人でも <br />
-      Web上の議論の場"
+    main_title_html: "いつでも どこでも 何人でも <br />Web上の議論の場"
     login: 'ログイン'
     signup: '新規登録'
     theme_cap: '/テーマ'
@@ -99,4 +98,4 @@ ja:
     liked_no_done: "投稿(No.%{id})が%{name}さんにいいね！されました "
     liked_related_done: "投稿(No.%{id})に関連する投稿が%{name}さんにいいね！されました "
     liked_delated: "投稿(No.%{id})への%{name}さんのいいね！が削除されました "
-    reply_entry_count: "件の返信意見"
+    reply_entry_count: '件の返信意見'
