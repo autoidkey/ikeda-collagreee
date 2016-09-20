@@ -11,7 +11,7 @@ class ThemesController < ApplicationController
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
-  after_action  :test, only: [:show]
+  # after_action  :test, only: [:show]
 
   load_and_authorize_resource
 
@@ -28,8 +28,8 @@ class ThemesController < ApplicationController
   end
 
   # すぐにテストしたいときに使っている
-  def test
-  end
+  # def test
+  # end
 
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
@@ -85,6 +85,7 @@ class ThemesController < ApplicationController
     end
 
     gon.core_times = @theme.core_times
+    gon.theme = @theme
 
     #見出しデータの生成
     @youyaku = []
@@ -688,7 +689,7 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :secret, :body_text, :nolink)
+    params.require(:theme).permit(:title, :body, :color, :admin_id, :image, :point_function, :secret, :body_text, :nolink, :start_at, :end_at)
   end
 
   def entry_params

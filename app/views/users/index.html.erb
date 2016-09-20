@@ -64,6 +64,8 @@
       <th>ID</th>
       <th>Title</th>
       <th>Body</th>
+      <th>start</th>
+      <th>end</th>
       <th>State</th>
       <th>Edit</th>
       <th>DELETE</th>
@@ -76,6 +78,8 @@
         <td><%= theme.id %></td>
         <td><%= theme.title %></td>
         <td><%= theme.body %></td>
+        <td><%= theme.start_at %></td>
+        <td><%= theme.end_at %></td>
         <td><%= secret = theme.secret ? "非公開中" : "公開中" %></td>
         <td><%= link_to "編集する",edit_theme_path(theme.id),class: "btn" %></td>
         <td><%= link_to "消去する",theme_path(theme.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn" %></td>

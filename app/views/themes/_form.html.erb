@@ -9,6 +9,14 @@
         <%= f.label :body_text %><br>
         <%= f.text_area :body_text, :size=>"80x5", class: 'form-control' %>
       </div>
+      <div class="field">
+        <%= f.label :start_at %><br>
+        <%= f.datetime_select :start_at, :minute_step => 10 %>
+      </div>
+      <div class="field">
+        <%= f.label :end_at %><br>
+        <%= f.datetime_select :end_at, :minute_step => 10 %>
+      </div>
       <div class="form-group">
         <%= f.label :point_function %><br>
         <%= f.select :point_function, [['ポイント機能あり', true], ["ポイント機能なし", false]], class: 'form-control' %>
@@ -16,7 +24,7 @@
 
       <div class="form-group">
         <%= f.label :secret %><br>
-        <%= f.select :secret, [['非公開', true], ["公開", false]], class: 'form-control' %>
+        <%= f.select :secret, [ ["公開", false],['非公開', true]], class: 'form-control' %>
       </div>
 
       <!-- 閲覧モードの追加カラムで余ってたnolinkをしよう -->
