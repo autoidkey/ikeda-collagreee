@@ -259,5 +259,35 @@ $(document).on 'ready page:load', ->
         selected = null
     return
 
-$(document).ready -> 
- $('#calendar').fullCalendar()
+$(document).ready ->
+  $('#calendar').fullCalendar
+    defaultView: 'agendaWeek'
+    header:
+      left: 'agendaDay agendaWeek month'
+    dayNamesShort: [
+      '日'
+      '月'
+      '火'
+      '水'
+      '木'
+      '金'
+      '土'
+    ]
+    weekNumbers: false
+    buttonIcons: false
+    # 予定の時間の表示の仕方
+    timeFormat: ''
+    # 軸の時間の表示の仕方
+    axisFormat: 'H:mm'
+
+  i = 0
+  while i < gon.core_times.length
+    $('#calendar').fullCalendar 'addEventSource', [ {
+      title : 'Core\nTime'
+      start: gon.core_times[i]["start_at"]
+      end: gon.core_times[i]["end_at"]
+      color: '#ff9f89'
+    } ]
+    i++
+  return
+
