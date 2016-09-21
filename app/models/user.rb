@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
+  # validates :name, :realname, presence: true
   validates :name, :realname, presence: true
 
   has_many :entries

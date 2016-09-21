@@ -1,6 +1,6 @@
 <div class="hero-image">
   <div class="smoke">
-    <div class="row">
+    <div class="row" style="padding-top: 50px;">
       <div class="col-md-8 col-md-offset-2 hero-content">
         <h1><%= t('themes.main_title_html') %></h1>
       </div>
@@ -18,14 +18,13 @@
   </div>
 </div>
 
-<div class="page-header">
-  <h1>Theme<small><%= t('themes.theme_cap') %></small></h1>
-  <% if user_signed_in? %>
-  <%= link_to t('themes.add_theme'), new_theme_path, { class: 'btn btn-default', id: 'theme_create_btn'} if (user_admin?(current_user) || user_organizer?(current_user)) %>
-  <%= link_to t('themes.edit_theme'), users_path, { class: 'btn btn-default', id: 'theme_create_btn'} if current_user.admin? || current_user.organizer? %>
-  <% end %>
-</div>
-
+<% if user_signed_in? %>
+  <div class="page-header">
+    <h1>Theme<small><%= t('themes.theme_cap') %></small></h1>
+    <%= link_to t('themes.add_theme'), new_theme_path, { class: 'btn btn-default', id: 'theme_create_btn'} if (user_admin?(current_user) || user_organizer?(current_user)) %>
+    <%= link_to t('themes.edit_theme'), users_path, { class: 'btn btn-default', id: 'theme_create_btn'} if current_user.admin? || current_user.organizer? %>
+  </div>
+<% end %>
 
 <% if user_signed_in? %>
   <% @themes.each do |theme| %>

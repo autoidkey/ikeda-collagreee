@@ -19,7 +19,7 @@
 
     <div class="row">
       <div class="col-md-4">
-        <h3>活動割合</h3>
+        <h3><%= t('users.active_rate') %></h3>
         <div id="user-action-chart"></div>
         <table class="table table-striped">
           <tbody>
@@ -34,7 +34,7 @@
 
       </div>
       <div class="col-md-8">
-        <h3>興味のあるキーワード</h3>
+        <h3><%= t('users.user_show_keywords') %></h3>
         <% @keyword.each do |key, value| %>
           <h4>【<%= Theme.find(key).title %>】</h4>
           <% value.sort_by { |k| -k.score }.each_with_index do |word, i| %>
@@ -49,7 +49,7 @@
 
         <hr>
 
-        <h3>投稿一覧</h3>
+        <h3><%= t('users.user_posts') %></h3>
         <div class="user-entries-show">
           <% @user.entries.each do |entry| %>
             <%= render "users/user_entry", child: entry %>

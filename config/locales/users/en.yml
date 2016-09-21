@@ -1,5 +1,8 @@
 en:
   users:
+    active_rate: 'Active Rate'
+    user_show_keywords: 'User Keywords'
+    user_posts: 'User Posts'
     registration:
       edit: "Your Profile"
       create: "New Account"
