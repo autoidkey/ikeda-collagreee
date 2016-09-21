@@ -5,7 +5,7 @@
 	    <%= render 'entry', entry: entry, count_entry: count_entry %>
 	  </div>
 	  <div class="entry-child-count-left" id="entry-child-count<%= entry.id %>">
-	    	<span><%= childlen_count(entry.id, @entry_tree) %><%= t('themes.reply_entry_count') %></span>
+	    	<span><%= childlen_count(entry.id, @entry_tree) %> <%= t('themes.reply_entry_count') %></span>
 	    	<span class="thumb-down info-icon">
 	    		<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 			</span>
