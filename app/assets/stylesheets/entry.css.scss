@@ -67,7 +67,7 @@
 }
 
 .content {
-  margin-left: 115px;
+  margin-left: 110px;
   hr {
     margin: 15px 0;
   }
@@ -118,7 +118,7 @@
 
 .entry-points {
   float: left;
-  margin-left: -115px;
+  margin-left: -105px;
   font-size: 18px;
   font-weight: bold;
   text-align: center;
@@ -227,5 +227,9 @@ button.btn-thread {
     padding: 2px;
 }
 
-
+@media screen and ( max-width:760px ){
+  .child-content {
+    margin-left: 50px;
+  }
+}
 

@@ -115,7 +115,6 @@
       <div class="col-md-4">
         <%= render 'theme_info' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-        <%= render 'like_ranking', users: @users, theme: @theme %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
         <!-- 議題 -->
@@ -130,6 +129,7 @@
         <% else %>
           <%= render 'keywords' %>
         <% end %>
+        <%= render 'like_ranking', users: @users, theme: @theme %>
         <%#= render 'other_themes' %>
         <%= render 'users' %>
         <%= render 'tags' if user_signed_in? && !current_user.normal? %>
@@ -213,16 +213,12 @@
 
           // 対象のエレメント
           var element = $( '#page-top' ) ;
-
           // 現在、表示されているか？
           var visible = element.is( ':visible' ) ;
-
           // 最上部から現在位置までの距離を取得して、変数[now]に格納
           var now = $( window ).scrollTop() ;
-
           // 最下部から現在位置までの距離を計算して、変数[under]に格納
           var under = $( 'body' ).height() - ( now + $(window).height() ) ;
-
           // 最上部から現在位置までの距離(now)が1500以上かつ
           // 最下部から現在位置までの距離(under)が200px以上かつ…
           if( now > 1200 )
@@ -234,7 +230,6 @@
               element.fadeIn( 'slow' ) ;
             }
           }
-
           // 1500px以下かつ
           // 表示状態だったら
           else if( visible )
@@ -242,7 +237,6 @@
             // [#page-top]をゆっくりフェードアウトする
             element.fadeOut( 'slow' ) ;
           }
-
           // フラグを削除
           syncerTimeout = null ;
         } , 1000 ) ;
@@ -331,6 +325,21 @@
     }
     $('#header-time').show();
   }
+
+  // #で始まるアンカーをクリックした場合に処理
+   $('a[href^=#entry]').click(function() {
+      // スクロールの速度
+      var speed = 500; // ミリ秒
+      // アンカーの値取得
+      var href= $(this).attr("href");
+      // 移動先を取得
+      var target = $(href == "#" || href == "" ? 'html' : href);
+      // 移動先を数値で取得
+      var position = target.offset().top - 30;
+      // スムーススクロール
+      $('body,html').animate({scrollTop:position}, speed, 'swing');
+      return false;
+   });
 
 </script>
 

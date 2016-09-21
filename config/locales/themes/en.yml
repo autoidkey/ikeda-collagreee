@@ -88,7 +88,7 @@ en:
     debate: 'Discussion'
     debate_tree: 'Discussion tree'
     debate_tree_edit: 'Edit discussion tree'
-    point_acquired: 'acquired point'
+    point_acquired: 'Acquired Point'
     new: 'new'
     posted: 'posted'
     reply_done: "you replied to %{name}'s post " # "You replied to %{name}'s post."
@@ -96,3 +96,8 @@ en:
     replied_done: "you were replied by %{name} "
     liked_done: "your post liked by %{name} " # "Your post was liked by %{name}."
     reply_entry_count: "Reply Opinions"
+    like_ranking_rank: 'Rank'
+    like_ranking_user: 'User'
+    like_ranking_title: 'Tittle'
+    like_ranking_like: 'Like!'
+    like_ranking_header: 'Ranking Ideas'

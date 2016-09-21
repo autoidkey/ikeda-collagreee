@@ -12,7 +12,7 @@
 
 	<% if smartphone?%><br><% end %>
 	<!-- 作成された時間 -->
-  	<span class="timestamp">・<%= entry.created_at.to_s(:timeline) %></span>
+  	<span class="timestamp"><% if !smartphone?%>・<% end %><%= entry.created_at.to_s(:timeline) %></span>
 
   	<!-- いいねの数 -->
   	<%= t('themes.like') %><span class="like_count info-icon"><%= entry.like_count %><%= t('themes.count') %></span>
