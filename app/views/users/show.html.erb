@@ -5,10 +5,10 @@
       <div class="col-md-12">
         <% if current_user.admin? || current_user.organizer? %>
           <span class="user_keyword">性別：<%= @user.gender=="性別" ? "未選択" : @user.gender %>、</span>
-          <span class="user_keyword">年齢：<%= @user.age=="年齢" ? "未選択" : @user.age %>、</span>
-          <span class="user_keyword">住まい：<%= @user.home=="住まい" ? "未選択" : @user.home %>、</span>
+          <span class="user_keyword">学年：<%= @user.age=="年齢" ? "未選択" : @user.age %>、</span>
+<!--           <span class="user_keyword">住まい：<%= @user.home=="住まい" ? "未選択" : @user.home %>、</span>
           <span class="user_keyword">職業：<%= @user.move=="職業" ? "未選択" : @user.move %>、</span>
-          <span class="user_keyword">参加チーム：<%= @user.group=="参加チーム" ? "未選択" : @user.group %></span>
+          <span class="user_keyword">参加チーム：<%= @user.group=="参加チーム" ? "未選択" : @user.group %></span> -->
         <% end %>
         <%= simple_format(@user.body) %>
       </div>

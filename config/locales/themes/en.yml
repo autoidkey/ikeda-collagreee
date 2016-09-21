@@ -101,3 +101,6 @@ en:
     like_ranking_title: 'Tittle'
     like_ranking_like: 'Like!'
     like_ranking_header: 'Ranking Ideas'
+    entry_child_agree: 'Agree'
+    entry_child_disagree: 'Disagree'
+    entry_child_neither: 'Neither'

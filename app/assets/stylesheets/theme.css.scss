@@ -408,3 +408,17 @@ a#top-theme:active { color:#333333; background-color: #f5f5f5; text-decoration:n
   // left: -20px;
   margin-bottom: 30px;
 }
+
+.child-content .thumb-box {
+    float: left;
+    margin-left: -50px;
+    font-size: 1px;
+    margin-top: 55px;
+    text-align: center;
+    width: 50px;
+}
+
+.entry-body-text {
+  max-height: 220px;
+  overflow: auto;
+}
