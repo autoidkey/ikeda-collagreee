@@ -5,7 +5,7 @@
 # これを基礎ポイントとし、Dpoint(DynamicPoint)を加算する。
 ENTRY_POINT = 10.00
 REPLY_POINT = 5.00
-LIKE_POINT = 1.00
+LIKE_POINT = 5.00
 UNLIKE_POINT = -5.00
 REPLIED_POINT = 15.00
 LIKED_POINT = 5.00
@@ -181,7 +181,8 @@ $(document).on 'click', '.like_button', (e) ->
 
   if status  == 'remove'
     $(@).data('status', 'attach')
-    $(@).text "いいね！"
+    # 変更
+    $(@).text "Like"
 
     like = parseInt($(@).prevAll('.like_count').text()) - 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
@@ -194,7 +195,8 @@ $(document).on 'click', '.like_button', (e) ->
 
   else if status == 'attach'
     $(@).data('status', 'remove')
-    $(@).text "いいね！を取り消す"
+    #　変更
+    $(@).text "Cansel Like"
 
     like = parseInt($(@).prevAll('.like_count').text()) + 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
