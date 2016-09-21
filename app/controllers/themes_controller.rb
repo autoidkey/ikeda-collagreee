@@ -22,8 +22,6 @@ class ThemesController < ApplicationController
   require 'time'
 
   def index
-    p I18n.default_locale
-    p I18n.available_locales.map(&:to_s)
     @themes = Theme.all
   end
 
@@ -70,6 +68,7 @@ class ThemesController < ApplicationController
 
     @user_id = user_id
 
+
     render 'show_no_point' unless @theme.point_function
 
     #以下議論ツリーで使用する投稿一覧
@@ -83,9 +82,6 @@ class ThemesController < ApplicationController
     else
       @tree_type = @tree_type[0][:phase_id]
     end
-
-    gon.core_times = @theme.core_times
-    gon.theme = @theme
 
     #見出しデータの生成
     @youyaku = []

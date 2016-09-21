@@ -1,0 +1,26 @@
+
+<% if @tree_type == 1 %>
+  <div class="phase-top">
+    <% if params[:locale] != 'en' %>
+    <%= image_tag 'phase/phase-top01.png' %>
+    <% else %>
+    <%= image_tag 'phase/phase1_en.png' %>
+    <% end %>
+  </div>
+<% elsif @tree_type == 2 %>
+  <div class="phase-top">
+    <% if params[:locale] != 'en' %>
+    <%= image_tag 'phase/phase-top02.png' %>
+    <% else %>
+    <%= image_tag 'phase/phase2_en.png' %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="phase-top">
+    <% if params[:locale] != 'en' %>
+    <%= image_tag 'phase/phase-top03.png' %>
+    <% else %>
+    <%= image_tag 'phase/phase3_en.png' %>
+    <% end %>
+  </div>
+<% end %>

@@ -45,6 +45,8 @@
   <br />
 <% end %>
 
+<%= render "themes/discussion_phase" %>
+
 
 <!-- roleは役割を表す -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
@@ -74,20 +76,23 @@
           </div>
         <% end %>
 
+        <% if false %>
         <div id="main-form">
           <%= render 'groundrule' %>
         </div>
-
-        <hr />
+        <hr>
+        <% end %>
 
         <div class="well" id="entry_notice">
           <span><%= t('themes.newpost_ga') %></span><span id="entry_notice_count">0</span><%= t('themes.count_arimasu') %>
         </div>
 
         <!-- 検索するビュー -->
-        <div class="well" id="tl-tool">
-          <%= render 'search_form'  %>
-        </div>
+        <% if false %>
+          <div class="well" id="tl-tool">
+            <%= render 'search_form'  %>
+          </div>
+        <% end %>
 
         <div id="top-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
@@ -109,7 +114,6 @@
 
       <div class="col-md-4">
         <%= render 'theme_info' %>
-        <%= render 'calender' %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'like_ranking', users: @users, theme: @theme %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
@@ -302,6 +306,32 @@
       }
     });
   });
+
+  //フェーズの表示
+  var core_times = <%= raw @theme.core_times_check.to_json %>
+
+  if ("now" in core_times) {
+    for (var i = 0; i < core_times["now"].length; i++){
+      dt = new Date(core_times["now"][i]["start_at"])
+      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0")
+      dt = new Date(core_times["now"][i]["end_at"])
+      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0")
+      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px; color: #f39800'>"+text1+" - "+text2+"</span>")
+    }
+    $('#header-time').show();
+  }
+
+  if ("yes" in core_times) {
+    for (var i = 0; i < core_times["yes"].length; i++){
+      dt = new Date(core_times["yes"][i]["start_at"])
+      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0")
+      dt = new Date(core_times["yes"][i]["end_at"])
+      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0")
+      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px;'>"+text1+" - "+text2+"</span>")
+    }
+    $('#header-time').show();
+  }
+
 </script>
 
 <script>
