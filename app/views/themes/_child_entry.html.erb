@@ -5,7 +5,14 @@
       <p class="points-text">points</p>
     </div>
 
+    
     <%= render 'user_icon', entry: child %>
+    <% if child.np == 50 %>
+      <span class="label label-warning thumb-box"><%= t('themes.entry_child_agree') %></span>
+    <% end %>
+    <% if child.np == 100 %>
+      <span class="label label-success thumb-box"><%= t('themes.entry_child_disagree') %></span>
+    <% end %>
 
 
     <div id="childID_<%= child.id %>"　class="<%= 'facilitation-back' if child.facilitation? %>"　>

@@ -306,22 +306,22 @@
 
   if ("now" in core_times) {
     for (var i = 0; i < core_times["now"].length; i++){
-      dt = new Date(core_times["now"][i]["start_at"])
-      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0")
-      dt = new Date(core_times["now"][i]["end_at"])
-      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0")
-      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px; color: #f39800'>"+text1+" - "+text2+"</span>")
+      dt = new Date(core_times["now"][i]["start_at"]);
+      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
+      dt = new Date(core_times["now"][i]["end_at"]);
+      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0");
+      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px; color: #f39800'>"+text1+" - "+text2+"</span>");
     }
     $('#header-time').show();
   }
 
   if ("yes" in core_times) {
     for (var i = 0; i < core_times["yes"].length; i++){
-      dt = new Date(core_times["yes"][i]["start_at"])
-      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0")
-      dt = new Date(core_times["yes"][i]["end_at"])
-      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0")
-      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px;'>"+text1+" - "+text2+"</span>")
+      dt = new Date(core_times["yes"][i]["start_at"]);
+      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
+      dt = new Date(core_times["yes"][i]["end_at"]);
+      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0");
+      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px;'>"+text1+" - "+text2+"</span>");
     }
     $('#header-time').show();
   }
@@ -340,6 +340,19 @@
       $('body,html').animate({scrollTop:position}, speed, 'swing');
       return false;
    });
+
+   // formの文字制限を促進させるjs
+   $('textarea').bind('keydown keyup keypress change',function(){
+      var thisValueLength = $(this).val().length;
+      // $('.count').html(thisValueLength);
+      if(thisValueLength > 200 && thisValueLength < 351 ){
+        $(this).attr('id', 'form-change-color-green');
+      }else if(thisValueLength > 350){
+        $(this).attr('id', 'form-change-color-red');
+      }else{
+        $(this).attr('id', 'entry_body');
+      }
+    });
 
 </script>
 

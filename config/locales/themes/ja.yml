@@ -104,3 +104,6 @@ ja:
     like_ranking_title: '投稿タイトル'
     like_ranking_like: 'いいね！'
     like_ranking_header: 'アイディアランキング'
+    entry_child_agree: '賛成'
+    entry_child_disagree: '反対'
+    entry_child_neither: 'どちらでもない'
