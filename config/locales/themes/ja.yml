@@ -71,7 +71,7 @@ ja:
     main_title_html: "いつでも どこでも 何人でも <br />Web上の議論の場"
     login: 'ログイン'
     signup: '新規登録'
-    theme_cap: '/テーマ'
+    theme_cap: ' / テーマ'
     add_theme: 'テーマ追加'
     edit_theme: 'テーマ編集'
     create_theme: 'テーマ作成'

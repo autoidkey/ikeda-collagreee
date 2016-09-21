@@ -1,5 +1,8 @@
 ja:
   users:
+    active_rate: '活動割合'
+    user_show_keywords: '興味のあるキーワード'
+    user_posts: '投稿一覧'
     registration:
       edit: "アカウント情報編集"
       create: "アカウント新規登録"
