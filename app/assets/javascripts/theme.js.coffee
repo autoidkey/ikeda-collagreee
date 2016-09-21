@@ -259,48 +259,67 @@ $(document).on 'ready page:load', ->
         selected = null
     return
 
-$(document).ready ->
-  if gon?
-    $('#calendar').fullCalendar
-      defaultView: 'agendaWeek'
-      header:
-        left: 'agendaDay agendaWeek month'
-      dayNamesShort: [
-        '日'
-        '月'
-        '火'
-        '水'
-        '木'
-        '金'
-        '土'
-      ]
-      weekNumbers: false
-      buttonIcons: false
-      # 予定の時間の表示の仕方
-      timeFormat: ''
-      # 軸の時間の表示の仕方
-      axisFormat: 'H:mm'
+#カレンダーを作成してみたがイマイチのためお箱入り
+# $(document).ready ->
+#   if gon?
+#     $('#calendar').fullCalendar
+#       defaultView: 'agendaWeek'
+#       header:
+#         left: 'agendaDay agendaWeek month'
+#       dayNamesShort: [
+#         '日'
+#         '月'
+#         '火'
+#         '水'
+#         '木'
+#         '金'
+#         '土'
+#       ]
+#       weekNumbers: false
+#       buttonIcons: false
+#       # 予定の時間の表示の仕方
+#       timeFormat: ''
+#       # 軸の時間の表示の仕方
+#       axisFormat: 'H:mm'
 
-    i = 0
-    console.log gon.theme
-    console.log gon.core_times
-    while i < gon.core_times.length
-      $('#calendar').fullCalendar 'addEventSource', [ {
-        title : 'Core\nTime'
-        start: gon.core_times[i]["start_at"]
-        end: gon.core_times[i]["end_at"]
-        color: '#ff9f89'
-      } ]
-      i++
+#     i = 0
+#     while i < gon.core_times.length
+#       $('#calendar').fullCalendar 'addEventSource', [ {
+#         title : 'Core\nTime'
+#         start: gon.core_times[i]["start_at"]
+#         end: gon.core_times[i]["end_at"]
+#         color: '#3498db'
+#       } ]
+#       i++
 
-    $('#calendar').fullCalendar 'addEventSource', [ {
-      title : 'Discussion'
-      start: gon.theme["start_at"].substr(0,10)
-      end: gon.theme["end_at"].substr(0,10)
-      color: '#ff9f89'
-      allDaySlot: true
-    } ]
 
-    return
-  else
+#     if gon.theme["start_at"]?
+#       $('#calendar').fullCalendar 'addEventSource', [ {
+#         title : 'Discussion'
+#         start: gon.theme["start_at"].substr(0,10)
+#         end: gon.theme["end_at"].substr(0,10)
+#         color: '#ff9f89'
+#       } ]
+#       console.log gon.theme["end_at"].substr(0,10)
+
+#       dt = new Date(gon.theme["start_at"])
+#       dt.setMinutes(dt.getMinutes() + 30);
+#       $('#calendar').fullCalendar 'addEventSource', [ {
+#         title : 'Start'
+#         start: gon.theme["start_at"]
+#         end: dt
+#         color: '#ff9f89'
+#       } ]
+#       dt = new Date(gon.theme["end_at"])
+#       dt.setMinutes(dt.getMinutes() + 30);
+#       $('#calendar').fullCalendar 'addEventSource', [ {
+#         title : 'End'
+#         start: gon.theme["end_at"]
+#         end: dt
+#         color: '#ff9f89'
+#       } ]
+
+
+#     return
+#   else
 
