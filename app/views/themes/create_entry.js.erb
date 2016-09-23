@@ -1,17 +1,25 @@
 // 返信の投稿ボタンを押したときに使用されるjs
-<% @dynamicpoint = @new_entry.theme.core_times? ? @dynamicpoint * 2 : @dynamicpoint %>
+//　返信のポイントはここで調整
+<% entry_point = 10 %>
+<% reply_point = 5 %>
+<% dpoint = @dynamicpoint %>
+
 if(<%= @new_entry.is_root? %>) {
   $('#timeline').prepend($("<%=j render 'panel', entry: @new_entry ,count_entry: 0%>").hide().fadeIn('slow'));
   <% if @new_entry.theme.point_function %>
-    point.entry(<%= @dynamicpoint %>);
+    <% dpoint = @new_entry.theme.core_times? ? (@dynamicpoint + entry_point ) * 2 : @dynamicpoint + entry_point %>
+    point.entry(<%= dpoint %>);
     // point.animation();
   <% end %>
+
 } else if(<%= @new_entry.grandchild? %>) {
   $('#entry-<%= @new_entry.parent_id %> > .replies').prepend($("<%=j render 'child_entry', child: @new_entry %>").hide().fadeIn('slow'));
   <% unless @new_entry.user == @new_entry.parent.user %>
     <% if @new_entry.theme.point_function %>
       point.parent($('#entry-<%= @new_entry.id %>'));
-      point.reply(<%= @dynamicpoint %>);
+      <% dpoint = @new_entry.theme.core_times? ? (@dynamicpoint + reply_point ) * 2 : @dynamicpoint + reply_point %>
+      point.reply(<%= dpoint %>);
+
       // point.animation("reply", <%= @dynamicpoint %>);
     <% end %>
   <% end %>
@@ -21,7 +29,8 @@ if(<%= @new_entry.is_root? %>) {
   <% unless @new_entry.user == @new_entry.parent.user %>
     <% if @new_entry.theme.point_function %>
       point.parent($('#entry-<%= @new_entry.id %>'));
-      point.reply(<%= @dynamicpoint %>);
+      <% dpoint = @new_entry.theme.core_times? ? (@dynamicpoint + reply_point ) * 2 : @dynamicpoint + reply_point %>
+      point.reply(<%= dpoint %>);
       // point.animation("reply", <%= @dynamicpoint %>);
     <% end %>
   <% end %>
