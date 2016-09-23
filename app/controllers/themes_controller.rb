@@ -470,10 +470,10 @@ class ThemesController < ApplicationController
     @dynamicpoint = cut_decimal_point(matching_bonus + nword_bonus + reply_bonus + time_bonus)
 
     # 投稿内容に応じたポイント付与をやめる場合の処理
-    puts "テーマ番号は#{params[:id]}"
-    if params[:id] == "4" # ここを適当に変える
-      @dynamicpoint = 20
-    end
+    # puts "テーマ番号は#{params[:id]}"
+    # if params[:id] == "4" # ここを適当に変える
+    #   @dynamicpoint = 20
+    # end
 
     puts "----------------------------------------------------------"
     puts "獲得した追加ポイント = #{@dynamicpoint}!!"
@@ -486,6 +486,7 @@ class ThemesController < ApplicationController
       if @new_entry.save
 
         #要約文の生成と保存
+        #親の意見に対しては要約しない
         if @new_entry["parent_id"] != nil
           youyaku = Youyaku.new
 

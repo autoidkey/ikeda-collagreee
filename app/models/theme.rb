@@ -86,6 +86,19 @@ class Theme < ActiveRecord::Base
     }
   end
 
+  def core_times?
+    count = 0
+    core_times = self.core_times.sort_by { |v| v.start_at }
+    core_times.group_by { |e| "#{e.start_at  > Time.now}" 
+      if e.end_at  > Time.now
+        if e.start_at < Time.now
+          return true
+        end
+      end   
+    }
+    return false
+  end
+
   def score(user)
     Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, 'sum'].join(':'), user.id).to_f
   end
