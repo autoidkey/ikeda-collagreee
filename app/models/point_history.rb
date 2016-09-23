@@ -48,7 +48,11 @@ class PointHistory < ActiveRecord::Base
               REPLY_POINT + additional_point
             when 3
               REPLIED_POINT + additional_point
+              
             end
+
+    #コアタイムのときにポイントを２倍にする
+    point = entry.theme.core_times? ? point * 2 : point
 
     print "付与されるポイントは、#{point}点！！"
     # 上のやつ
@@ -70,7 +74,8 @@ class PointHistory < ActiveRecord::Base
 
   # 返信された時のポイント付与
   def self.pointing_replied(entry, atype, action)
-    point = REPLIED_POINT
+    #コアタイムのときにポイントを２倍にする
+    point = entry.theme.core_times? ? REPLIED_POINT * 2 : REPLIED_POINT
     params = {
       entry_id: entry.parent.id,
       user_id: entry.parent.user.id,
@@ -90,6 +95,9 @@ class PointHistory < ActiveRecord::Base
 
   #️ いいね！した時のポイント付与
   def self.pointing_like(like)
+    #コアタイムのときにポイントを２倍にする
+    point = like.theme.core_times? ? LIKE_POINT * 2 : LIKE_POINT
+
     params = {
       like_id: like.id,
       entry_id: like.entry.id,
@@ -97,12 +105,12 @@ class PointHistory < ActiveRecord::Base
       theme_id: like.theme.id,
       atype: 0,
       action: 2,
-      point: LIKE_POINT,
+      point: point,
       version_id: like.version_id
     }
 
-    Point.save_like_point(like.theme, LIKE_POINT, like.user)
-    Point.save_theme_point(like.theme, LIKE_POINT, like.user)
+    Point.save_like_point(like.theme, point, like.user)
+    Point.save_theme_point(like.theme, point, like.user)
     PointHistory.save_point(params)
   end
 

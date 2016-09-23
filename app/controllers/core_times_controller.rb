@@ -58,7 +58,7 @@ class CoreTimesController < ApplicationController
   def destroy
     @core_time.destroy
     respond_to do |format|
-      format.html { redirect_to core_times_url, notice: 'Core time was successfully destroyed.' }
+      format.html { redirect_to users_path, notice: 'Core time was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
