@@ -2,6 +2,7 @@
   <% if @status == "remove" %>
     point.unlike();
   <% elsif @status == "attach" %>
-    point.like();
+  	<% @dynamicpoint = @theme.core_times? ? 10 : 5 %>
+    point.like(<%= @dynamicpoint %>);
   <% end %>
 <% end %>

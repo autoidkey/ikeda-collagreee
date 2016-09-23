@@ -3,8 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 # これを基礎ポイントとし、Dpoint(DynamicPoint)を加算する。
-ENTRY_POINT = 10.00
-REPLY_POINT = 5.00
+# ENTRY_POINT = 10.00
+# REPLY_POINT = 5.00
+# create_entry.js.erbで加算しているため
+# いいねはentrys/like.jsで加算している
+ENTRY_POINT = 0
+REPLY_POINT = 0
+
 LIKE_POINT = 5.00
 UNLIKE_POINT = -5.00
 REPLIED_POINT = 15.00
@@ -19,18 +24,31 @@ class @PointCount
     @animation('entry', Dpoint)
 
   reply: (Dpoint) ->
-    point = (parseFloat( $('#reply_point').text() ) + REPLY_POINT + Dpoint).toFixed(1)
+    # point = (parseFloat( $('#reply_point').text() ) + REPLY_POINT + Dpoint).toFixed(1)
+    # $('#reply_point').text(point).hide().fadeIn 'slow'
+    # @sum(REPLY_POINT + Dpoint)
+    # @active(REPLY_POINT + Dpoint)
+    # @animation('reply', Dpoint)
+    console.log(Dpoint)
+    point = (parseFloat( $('#reply_point').text() ) + Dpoint).toFixed(1)
     $('#reply_point').text(point).hide().fadeIn 'slow'
-    @sum(REPLY_POINT + Dpoint)
-    @active(REPLY_POINT + Dpoint)
+    @sum(Dpoint)
+    @active(Dpoint)
     @animation('reply', Dpoint)
 
-  like: ->
-    point = (parseFloat( $('#like_point').text() ) + LIKE_POINT).toFixed(1)
+  like: (Dpoint) ->
+    console.log(Dpoint)
+    point = (parseFloat( $('#like_point').text() ) + Dpoint).toFixed(1)
     $('#like_point').text(point).hide().fadeIn 'slow'
-    @sum(LIKE_POINT)
-    @active(LIKE_POINT)
-    @animation('like')
+    @sum(Dpoint)
+    @active(Dpoint)
+    @animation('like', Dpoint)
+  # like: () ->
+  #   point = (parseFloat( $('#like_point').text() ) + LIKE_POINT).toFixed(1)
+  #   $('#like_point').text(point).hide().fadeIn 'slow'
+  #   @sum(LIKE_POINT)
+  #   @active(LIKE_POINT)
+  #   @animation('like')
 
   unlike: ->
     point = (parseFloat( $('#like_point').text() ) + UNLIKE_POINT).toFixed(1)
@@ -51,9 +69,9 @@ class @PointCount
       when 'entry'
         comment = "You got " + (ENTRY_POINT + Dpoint) + " pts !!"
       when 'reply'
-        comment = "You got " + (REPLY_POINT + Dpoint) + " pts !!"
+        comment = "You got " + (Dpoint) + " pts !!"
       when 'like'
-        comment = "You got " + LIKE_POINT + " pts !!"
+        comment = "You got " + (Dpoint) + " pts !!"
 
     $('#header-alert').css 'display', 'block'
     $('#point-alert').text(comment)
