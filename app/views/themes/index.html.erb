@@ -28,6 +28,10 @@
 
 <% if user_signed_in? %>
   <% @themes.each do |theme| %>
-    <%= render 'theme', theme: theme %>
+    <% if theme.group_id? && current_user.home? %>
+      <% if theme.group_id.to_s == current_user.home.to_s || current_user.admin? %>
+        <%= render 'theme', theme: theme %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

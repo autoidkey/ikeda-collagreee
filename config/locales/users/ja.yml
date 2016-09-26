@@ -11,8 +11,8 @@ ja:
       name: '氏名：'
       gender: '性別：'
       age: '学年：'
-      home: '住まい：'
-      move: '職業：'
+      home: 'グループ：'
+      move: '年齢：'
       icon: 'アイコン：'
       team: '所属している団体、企業：'
       password: "パスワード"

@@ -24,8 +24,9 @@ class User < ActiveRecord::Base
   enum gender: %i(男性 女性)
   enum age: %i(B1 B2 B3 B4 M1 M2)
   # enum age: %i(10代未満 10代 20代 30代 40代 50代 60代 70代以上)
-  enum home: %i(名古屋市内 愛知県内 愛知県外 海外)
-  enum move: %i(事務職 技術職 クリエイティブ職 研究・開発職 経営・マネージメント 主夫・主婦 学生 その他)
+  # enum home: %i(名古屋市内 愛知県内 愛知県外 海外)
+  enum home: %i(0 1 2 3)
+  enum move: %i(18 19 20 21 22 23 24 25)
   enum remind: %i(お知らせメールを受け取る お知らせメールを受け取らない)
   enum mail_format: %i(HTMLメール TEXTメール)
 
