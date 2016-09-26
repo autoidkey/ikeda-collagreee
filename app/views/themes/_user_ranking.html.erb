@@ -13,6 +13,7 @@
       </thead>
       <tbody>
         <% @user_ranking.each_with_index do |user, idx| %>
+          <% if idx == 10 %><% break %><% end %>
           <tr>
             <td class="rank rank-<%= user.rank(@theme) %>" id=""><%= user.rank(@theme) %></td>
             <td class="rank-image">

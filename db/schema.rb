@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160920023841) do
+ActiveRecord::Schema.define(version: 20160926025135) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -220,6 +220,7 @@ ActiveRecord::Schema.define(version: 20160920023841) do
     t.text     "body_text"
     t.datetime "start_at"
     t.datetime "end_at"
+    t.integer  "group_id"
   end
 
   create_table "thread_classes", force: true do |t|
