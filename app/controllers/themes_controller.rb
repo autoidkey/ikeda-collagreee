@@ -50,7 +50,7 @@ class ThemesController < ApplicationController
     current_user.delete_notice(@theme) if user_signed_in?
     @gravatar = gravatar_icon(current_user)
 
-    @stamps = stamp_list(I18n.default_locale)
+    @stamps = stamp_list(params[:locale])
 
     # ファシリテータからのお知らせコーナー
     comment = FacilitationInfomation.where(:theme_id => params[:id]).last
@@ -266,7 +266,7 @@ class ThemesController < ApplicationController
     @new_entry = Entry.new(entry_params)
     @theme = Theme.find(params[:id])
 
-    @stamps = stamp_list(I18n.default_locale)
+    @stamps = stamp_list(params[:locale])
 
 
     @dynamicpoint = 0

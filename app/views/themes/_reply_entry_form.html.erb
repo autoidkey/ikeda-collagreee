@@ -1,6 +1,6 @@
 <%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
-    <%= f.text_area :body, :size=>"80x3",class: 'form-control reply-entry-form', placeholder: 'コメントしましょう', :data => {:id => entry.id} %>
+    <%= f.text_area :body, :size=>"80x3",class: 'form-control reply-entry-form', placeholder: t('themes.do_comment'), :data => {:id => entry.id} %>
   </div>
   <div class="form-group">
     <%= f.file_field :image %>
