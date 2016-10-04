@@ -1,6 +1,12 @@
 
 <div class="info-list">
 
+	<div>
+		<% entry.issues.each do |issue| %>
+	      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+	    <% end %>
+	</div>
+
 	<!-- ユーザー名 -->
 	<span class="user-name">
 	<% if entry.facilitation? %>

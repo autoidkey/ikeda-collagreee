@@ -1,7 +1,9 @@
-<% unless entry.mine?(current_user) %>
-  <% if entry.liked?(current_user) %>
-      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
-  <% else %>
-      <span class="like_button" data-id="<%= entry.id %>" data-status="attach"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.like') %></span>
-  <% end %>
+<% if !@theme.nolink %>
+	<% unless entry.mine?(current_user) %>
+	  <% if entry.liked?(current_user) %>
+	      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
+	  <% else %>
+	      <span class="like_button" data-id="<%= entry.id %>" data-status="attach"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.like') %></span>
+	  <% end %>
+	<% end %>
 <% end %>

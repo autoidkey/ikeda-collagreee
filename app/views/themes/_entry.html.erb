@@ -10,10 +10,6 @@
     <%= render 'user_icon', entry: entry %>
     <%= render 'entry_show', entry: entry %>
 
-    <% entry.issues.each do |issue| %>
-      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
-    <% end %>
-
 
     <!-- 投稿の情報 -->
     <%= render 'information', entry: entry %>
@@ -26,6 +22,9 @@
         <div class="actions">
           <%= render 'reply_button', entry: entry %>
           <%= render 'like_button', entry: entry %>
+          <% if (current_user.admin? || current_user.facilitator?) &&  !@theme.nolink %>
+            <%= render 'tags_add', entry: entry %>
+          <% end %>
         </div>
       <% end %>
 
@@ -40,7 +39,7 @@
       </div>
     </div>
 
-    <% if user_signed_in? %>
+    <% if user_signed_in? && !@theme.nolink %>
       <%= render 'modal_form', child: entry  %>
     <% end %>
 

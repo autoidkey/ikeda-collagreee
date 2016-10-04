@@ -47,6 +47,7 @@
 
 <%= render "themes/discussion_phase" %>
 
+<%= link_to "てすと", vote_entry_path(@theme.id),class: "btn btn-default" %>
 
 <!-- roleは役割を表す -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
@@ -102,7 +103,7 @@
         <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <%= render 'panel', entry: entry, count_entry: i %>
+            <%= render 'panel', entry: entry, count_entry: i ,show_entry: 2%>
           <% end %>
         </div>
 
@@ -115,9 +116,7 @@
 
       <div class="col-md-4">
         <%= render 'theme_info' %>
-<!--         <% if false %>
         <%= render 'like_ranking', users: @users, theme: @theme %>
-        <% end %> -->
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
