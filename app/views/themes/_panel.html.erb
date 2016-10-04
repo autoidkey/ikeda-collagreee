@@ -1,4 +1,4 @@
-<% if count_entry > 2 && entry.thread_entries.count > 0 %>
+<% if count_entry > show_entry && entry.thread_entries.count > 0 %>
 
 	<div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>" entry-id = "<%= entry.id %>" id="entry-top-hidden<%= entry.id %>">
 	  <div class="panel-body">

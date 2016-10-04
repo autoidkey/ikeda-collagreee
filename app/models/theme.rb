@@ -71,6 +71,24 @@ class Theme < ActiveRecord::Base
 
   end
 
+  # def like_ranking_issue
+  #   entries = Entry.where(theme_id: id, parent_id: nil).select { |v| v.all_like_count  > 0 }
+  #   ranking_entries = entries.sort {|a, b|
+  #     b.all_like_count <=> a.all_like_count 
+  #   }
+
+  #   ranking_enties.group_by { |entry| entry.issues.each do |issue|
+  #       issue.name
+  #     end
+  #   }
+
+  #   ranking_enties.group_by { |entry| entry.issues.each do |issue|
+  #       issue.name
+  #     end
+  #   }
+
+  # end
+
   def core_times_check
     core_times = self.core_times.sort_by { |v| v.start_at }
     core_times.group_by { |e| "#{e.start_at  > Time.now}" 

@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <% before_num = 0 %>
-        <% @entry_like_ranking.each_with_index do |entry, idx| %>
+        <% @theme.like_ranking.each_with_index do |entry, idx| %>
           <% if idx > 3  && before_num != entry.all_like_count %>
             <% break %>
           <% end %>

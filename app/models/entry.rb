@@ -233,8 +233,32 @@ class Entry < ActiveRecord::Base
     parent_id.nil?
   end
 
-  def tagging!(tag)
-    issues << tag
+  def tagging!(tags)
+    self.tagged_entries.all.each do |target|
+      flag = true
+      tags.each do |tag|
+        if tag == target
+          flag = false
+        end
+      end
+
+      if flag
+        target.destroy
+      end
+    end
+
+    tags.each do |tag|
+      flag = true
+      self.tagged_entries.all.each do |target|
+        if tag == target
+          flag = false
+        end
+      end
+
+      if flag
+        issues << tag
+      end
+    end
   end
 
   def update_parent_entry_time

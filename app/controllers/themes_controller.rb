@@ -8,10 +8,10 @@ class ThemesController < ApplicationController
   include ApplicationHelper
 
   protect_from_forgery except: :auto_facilitation_test
-  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
+  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :vote_entry]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline]
-  # after_action  :test, only: [:show]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
+  after_action  :test, only: [:show]
 
   load_and_authorize_resource
 
@@ -26,8 +26,8 @@ class ThemesController < ApplicationController
   end
 
   # すぐにテストしたいときに使っている
-  # def test
-  # end
+  def test
+  end
 
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
@@ -104,8 +104,6 @@ class ThemesController < ApplicationController
     youyakuDatas.each do |data|
       @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
-
-
 
   end
 
@@ -508,10 +506,7 @@ class ThemesController < ApplicationController
               s = s + key["score"].to_s + " "
             end
 
-            p "aaaaa"
-
             IO.popen("python #{Rails.root}/python/midashi/comment_manager.py #{s}").each do |line|
-              p "aaa"
               p line
               youyaku = Youyaku.new(body: line, target_id: @new_entry["id"], theme_id: @theme.id)
             end
@@ -543,8 +538,14 @@ class ThemesController < ApplicationController
       end
     end
 
-    p @dynamicpoint
-    p "aaaa"
+  end
+
+  #タグの編集
+  def add_entry_tag
+    tags = Issue.checked(params[:issues])
+    new_entry = Entry.find(params[:entry_id])
+    new_entry.tagging!(Issue.to_object(tags))
+    redirect_to theme_path(params[:theme_id])
   end
 
   def render_new
@@ -608,6 +609,17 @@ class ThemesController < ApplicationController
       @theme.update(secret: true)
     end
     redirect_to users_path
+  end
+
+  def vote_entry
+    @entry = Entry.new
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
+    @theme.nolink = true
+    @entry_tree = Entry.where(:theme_id => @theme.id)
+  end
+
+  def vote_entry_create
+    
   end
 
   def check_new

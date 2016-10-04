@@ -8,4 +8,13 @@ class Issue < ActiveRecord::Base
   def self.checked(params)
     (params || {}).select { |_, v| v == '1' }.keys
   end
+
+  def checked_entry(entry)
+    entry.issues.each do |issue|
+    	if issue.id == self.id
+    		return true
+    	end
+    end
+    return false
+  end
 end

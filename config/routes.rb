@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   post "themes/tree/change_session_year" => 'themes#change_session_year'
   post "themes/tree/tree_log_get" => 'themes#tree_log_get'
   post "themes/change_secret/:id" => "themes#change_secret" ,as: "themes_change_secret"
+  post "themes/add_entry_tag/:id" => "themes#add_entry_tag"
+  get "themes/vote_entry/:id" => "themes#vote_entry",as: "vote_entry"
+  post "themes/vote_entry_create/:id" => "themes#vote_entry_create"
 
   # api
   get 'users' =>  'users#index'
