@@ -8,7 +8,7 @@ class ThemesController < ApplicationController
   include ApplicationHelper
 
   protect_from_forgery except: :auto_facilitation_test
-  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :vote_entry]
+  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
   after_action  :test, only: [:show]
