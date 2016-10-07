@@ -77,23 +77,23 @@
           </div>
         <% end %>
 
-        <% if false %>
+<!--         <% if false %>
         <div id="main-form">
           <%= render 'groundrule' %>
         </div>
         <hr>
-        <% end %>
+        <% end %> -->
 
         <div class="well" id="entry_notice">
           <span><%= t('themes.newpost_ga') %></span><span id="entry_notice_count">0</span><%= t('themes.count_arimasu') %>
         </div>
 
         <!-- 検索するビュー -->
-        <% if false %>
+<!--         <% if false %>
           <div class="well" id="tl-tool">
             <%= render 'search_form'  %>
           </div>
-        <% end %>
+        <% end %> -->
 
         <div id="top-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
@@ -115,6 +115,9 @@
       </div>
 
       <div class="col-md-4">
+        <% if @tree_type == 3 %>
+          <%= render 'vote_ranking', users: @users, theme: @theme %>
+        <% end %>
         <%= render 'theme_info' %>
         <%= render 'like_ranking', users: @users, theme: @theme %>
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>

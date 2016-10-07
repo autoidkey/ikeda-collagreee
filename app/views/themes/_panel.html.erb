@@ -2,7 +2,7 @@
 
 	<div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>" entry-id = "<%= entry.id %>" id="entry-top-hidden<%= entry.id %>">
 	  <div class="panel-body">
-	    <%= render 'entry', entry: entry, count_entry: count_entry %>
+	    <%= render 'entry', entry: entry, count_entry: count_entry, show_entry: show_entry %>
 	  </div>
 	  <div class="entry-child-count-left" id="entry-child-count<%= entry.id %>">
 	    	<span><%= childlen_count(entry.id, @entry_tree) %> <%= t('themes.reply_entry_count') %></span>
@@ -14,7 +14,7 @@
 <% else %>
 	<div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>">
 	  <div class="panel-body">
-	     <%= render 'entry', entry: entry, count_entry: count_entry %>
+	     <%= render 'entry', entry: entry, count_entry: count_entry, show_entry: show_entry %>
 	  </div>
 	</div>
 <% end %>
