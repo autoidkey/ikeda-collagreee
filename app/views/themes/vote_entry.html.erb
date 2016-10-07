@@ -2,7 +2,7 @@
   <div class="col-md-offset-2 col-md-8">
     <div class="panel panel-default">
       <div class="panel-header">
-        <h4 class=""><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>投票フェーズ</h4>
+        <h4 class=""><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 投票フェーズ</h4>
       </div>
       <div class="panel-body">
         気に入った投稿に対してポイントを入れよう
@@ -28,7 +28,7 @@
             	    <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
                 </div>
                 <div class="col-md-2">
-                  <%= select_tag "note[#{entry.id}]", options_for_select(["0","100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"]), class: "vote_form" %>
+                  <%= select_tag "note[#{entry.id}]", options_for_select({"0G" => "0","100G" => "100", "200G" => "200", "300G" => "300", "400G" => "400", "500G" => "500", "600G" => "600", "700G" => "700", "800G" => "800", "900G" => "900", "1000G" => "1000"}), class: "vote_form" %>
                 </div>
               </div>
           	<% end %>
@@ -46,9 +46,6 @@
 
 
 <script>
-  $('.vote_form option:selected').map(function(){
-    console.log($(this).text())
-  });
 
   $("#vote-btn-sub").click(function(){
     alert("合計を1000にしてください")
@@ -60,7 +57,7 @@
     select_sum = 0
     // すべてのセレクターの数値の合計を計算する
     $('.vote_form option:selected').map(function(){
-      select_sum = select_sum + Number($(this).text())
+      select_sum = select_sum + Number($(this).val())
     });
 
     //１０００以上になったらsubmitボタンを使えるようにする
@@ -79,7 +76,7 @@
         $(this).children().remove();
         for (var count = 1000; count > -1 ;count=count-100){
           if((count + select_sum) < 1001){
-            $(this).prepend("<option value="+count+">"+count+"</option>")
+            $(this).prepend("<option value="+count+">"+count+"G</option>")
           }
         }
         $(this).val("0");
@@ -89,7 +86,7 @@
         $(this).children().remove();
         for (var count = 1000; count > -1 ;count=count-100){
           if((count + select_sum - value) < 1001){
-            $(this).prepend("<option value="+count+">"+count+"</option>")
+            $(this).prepend("<option value="+count+">"+count+"G</option>")
           }
         }
         $(this).val(value);
