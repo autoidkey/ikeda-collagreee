@@ -1,9 +1,18 @@
-<% if !@theme.nolink %>
-	<% unless entry.mine?(current_user) %>
+<% if !@theme.nolink %> <!-- 議論を行わない設定のときは非表示 -->
+	<% if !entry.mine?(current_user) %>
 	  <% if entry.liked?(current_user) %>
 	      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
 	  <% else %>
 	      <span class="like_button" data-id="<%= entry.id %>" data-status="attach"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.like') %></span>
 	  <% end %>
+	<% else %>
+		<span class="glyphicon glyphicon-user like_button" aria-hidden="true"></span>
+		<%= link_to "賛同者一覧",
+               class: 'user-icon icon-margin set-popover',
+               data: {
+                 toggle: "popover",
+                 placement: "right",
+                 content: "てすと"
+               } %>
 	<% end %>
 <% end %>
