@@ -15,10 +15,17 @@
     		<div id="timeline">
           <%= form_tag(vote_entry_create_path, method: "POST") do %>
             <%= hidden_field_tag :theme_id, @theme.id %>
-          	<% @entries.each_with_index do |entry, i| %>
+
+            <% before_num = 0 %>
+          	<% @theme.like_ranking.each_with_index do |entry, idx| %>
+              <% if idx > 6  && before_num != entry.all_like_count %>
+                <% break %>
+              <% end %>
+              <% before_num = entry.all_like_count  %>
+
               <div class="row">
                 <div class="col-md-10">
-            	    <%= render 'panel', entry: entry, count_entry: i, show_entry: -1 %>
+            	    <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
                 </div>
                 <div class="col-md-2">
                   <%= select_tag "note[#{entry.id}]", options_for_select(["0","100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"]), class: "vote_form" %>

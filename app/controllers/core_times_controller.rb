@@ -31,6 +31,11 @@ class CoreTimesController < ApplicationController
     respond_to do |format|
       if @core_time.save
         format.html { redirect_to users_path, notice: 'Core time was successfully created.' }
+        if Rails.env.production? # 本番環境用の処理
+          @core_time.theme.users.each do |user|
+            NoticeMailer.core_time_notice(@core_time, user).deliver
+          end
+        end
         format.json { render :show, status: :created, location: @core_time }
       else
         format.html { render :new }

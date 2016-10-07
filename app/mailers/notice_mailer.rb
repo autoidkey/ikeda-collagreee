@@ -81,4 +81,14 @@ class NoticeMailer < ActionMailer::Base
 
     mail to: @to.email, subject: '[COLLAGREE] いいねされました！'
   end
+
+  def core_time_notice(core_time,user)
+    @to = user
+    @core_time = core_time
+    @url = SERVER_URL + '/themes/' + core_time.theme_id.to_s
+
+    mail to: @to.email, subject: '[COLLAGREE] コアタイムのお知らせ!!'
+  end
+
+
 end
