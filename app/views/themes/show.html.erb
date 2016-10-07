@@ -311,7 +311,7 @@
   if ("now" in core_times) {
     for (var i = 0; i < core_times["now"].length; i++){
       dt = new Date(core_times["now"][i]["start_at"]);
-      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
+      var text1 = (dt.getMonth() + 1)+"/"+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
       dt = new Date(core_times["now"][i]["end_at"]);
       var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0");
       $('#core-time-content').append("<span style='margin-right:20px; font-size:22px; color: #f39800'>"+text1+" - "+text2+"</span>");
@@ -322,7 +322,7 @@
   if ("yes" in core_times) {
     for (var i = 0; i < core_times["yes"].length; i++){
       dt = new Date(core_times["yes"][i]["start_at"]);
-      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
+      var text1 = (dt.getMonth() + 1)+"/"+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
       dt = new Date(core_times["yes"][i]["end_at"]);
       var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0");
       $('#core-time-content').append("<span style='margin-right:20px; font-size:22px;'>"+text1+" - "+text2+"</span>");
