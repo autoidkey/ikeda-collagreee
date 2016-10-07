@@ -453,58 +453,58 @@ class AnalysisController < ApplicationController
 
 		# 単語数（指定時間における）
 	  	############################
-	  	times.each do |time|
+	 #  	times.each do |time|
 
-	  		file_name = "entry_word_sum_"
-		  	object = Entry.where(user_id: serch_user)
-		  	interval = 60*time
+	 #  		file_name = "entry_word_sum_"
+		#   	object = Entry.where(user_id: serch_user)
+		#   	interval = 60*time
 
-		  	# 時間ごとの投稿の推移
-	  		date_array = []
-	  		@data_all = []
-	  		start = start_time
-		  	while ((end_time - start) > 0)
-		  		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1))
+		#   	# 時間ごとの投稿の推移
+	 #  		date_array = []
+	 #  		@data_all = []
+	 #  		start = start_time
+		#   	while ((end_time - start) > 0)
+		#   		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1))
 	
-		  		array = []
-		  		count = 0
-		  		t.each do |a|
-		  			words = count_words(a.body)
-		  			p words
-		  			words.each{|key, value|
-					  count = count + value
-					}
-		  		end
+		#   		array = []
+		#   		count = 0
+		#   		t.each do |a|
+		#   			words = count_words(a.body)
+		#   			p words
+		#   			words.each{|key, value|
+		# 			  count = count + value
+		# 			}
+		#   		end
 
-		  		date_array.push({start.to_s(:time) => count})
-		  		# start = start.tomorrow １日毎に集計
-		  		start = start + interval
-		  	end
-		  	@data_all.push(date_array)
+		#   		date_array.push({start.to_s(:time) => count})
+		#   		# start = start.tomorrow １日毎に集計
+		#   		start = start + interval
+		#   	end
+		#   	@data_all.push(date_array)
 
-			logger.info({data: @data_all})
+		# 	logger.info({data: @data_all})
 
 
-			#からむの作成
+		# 	#からむの作成
 
-			file_name = "log/csv2/"+file_name+time.to_s+".csv"
-			File.open(file_name, 'w') {|file|
-			@data_all.each do |data|
+		# 	file_name = "log/csv2/"+file_name+time.to_s+".csv"
+		# 	File.open(file_name, 'w') {|file|
+		# 	@data_all.each do |data|
 
-				sum = 0
-			  		data.each do |d|
-					  	key = d.keys[0]
-					  	# logger.warn key
-					  	# logger.warn d[key]
-					  	sum = sum + d[key]
-					    write = key.to_s+","+d[key].to_s + "\n"
-					    file.write write
-					end
-				file.write "sum,"+sum.to_s+"\n"+"\n"
-			 end
-			}
+		# 		sum = 0
+		# 	  		data.each do |d|
+		# 			  	key = d.keys[0]
+		# 			  	# logger.warn key
+		# 			  	# logger.warn d[key]
+		# 			  	sum = sum + d[key]
+		# 			    write = key.to_s+","+d[key].to_s + "\n"
+		# 			    file.write write
+		# 			end
+		# 		file.write "sum,"+sum.to_s+"\n"+"\n"
+		# 	 end
+		# 	}
 
-		end
+		# end
 		##############################
 
 		# ユーザごとの分析---投稿数
@@ -732,81 +732,81 @@ class AnalysisController < ApplicationController
 
 		# ユーザごとの分析---単語数
 	  	############################
-	  	times.each do |time|
+	 #  	times.each do |time|
 
-	  		file_name = "persons_data_word_"
-	  		user_array = []
-	  		date_array = []
-		  	@data_all = []
-
-
-		  	object = Entry.where(theme_id: serch_theme_id)
-		  	interval = 60*time
-
-		  	# 時間ごとの投稿の推移
-	  		start = start_time
-		  	while ((end_time - start) > 0)
-		  		array = []
-		  		serch_user.each do |user|
-		  			t = object.where(user_id: user ,created_at: start .. (start + interval - 1))
-		  			count = 0
-			  		t.each do |a|
-			  			words = count_words(a.body)
-			  			words.each{|key, value|
-						  count = count + value
-						}
-			  		end
-			  		array.push(count)
-		  		end
-		  		date_array.push({start.to_s(:time) => array})
-		  		start = start + interval
-			end
-
-		  	@data_all.push(date_array)
-
-			logger.info({data: @data_all})
+	 #  		file_name = "persons_data_word_"
+	 #  		user_array = []
+	 #  		date_array = []
+		#   	@data_all = []
 
 
-			file_name = "log/csv2/"+file_name+time.to_s+".csv"
-			File.open(file_name, 'w') {|file|
-				write = "user,"
-			  	serch_user.each do |user|
-			  		write = write + User.find(user).name + ","
-			  	end
-			  	write = write + "\n"
-			  	file.write write
+		#   	object = Entry.where(theme_id: serch_theme_id)
+		#   	interval = 60*time
 
-			  	count_array = []
-			  	serch_user.each_with_index do |user,i|
-			  		count_array[i] = 0
-			  	end
+		#   	# 時間ごとの投稿の推移
+	 #  		start = start_time
+		#   	while ((end_time - start) > 0)
+		#   		array = []
+		#   		serch_user.each do |user|
+		#   			t = object.where(user_id: user ,created_at: start .. (start + interval - 1))
+		#   			count = 0
+		# 	  		t.each do |a|
+		# 	  			words = count_words(a.body)
+		# 	  			words.each{|key, value|
+		# 				  count = count + value
+		# 				}
+		# 	  		end
+		# 	  		array.push(count)
+		#   		end
+		#   		date_array.push({start.to_s(:time) => array})
+		#   		start = start + interval
+		# 	end
 
-				@data_all.each do |data|
+		#   	@data_all.push(date_array)
 
-				  		data.each do |d|
-						  	key = d.keys[0]
-						  	# logger.warn key
-						  	# logger.warn d[key]
+		# 	logger.info({data: @data_all})
 
-						    write = key.to_s+","
-						    d[key].each_with_index do |data, i|
-						    	write = write + data.to_s + ","
-						    	count_array[i] = count_array[i] + data
-						    end
-						    write = write + "\n"
-						    file.write write
-						end
-				end
 
-				write = ","
-				count_array.each do |count|
-					write = write + count.to_s + ","
-				end
-				write = write + "\n"
-				file.write write
-			}
+		# 	file_name = "log/csv2/"+file_name+time.to_s+".csv"
+		# 	File.open(file_name, 'w') {|file|
+		# 		write = "user,"
+		# 	  	serch_user.each do |user|
+		# 	  		write = write + User.find(user).name + ","
+		# 	  	end
+		# 	  	write = write + "\n"
+		# 	  	file.write write
 
-		end
+		# 	  	count_array = []
+		# 	  	serch_user.each_with_index do |user,i|
+		# 	  		count_array[i] = 0
+		# 	  	end
+
+		# 		@data_all.each do |data|
+
+		# 		  		data.each do |d|
+		# 				  	key = d.keys[0]
+		# 				  	# logger.warn key
+		# 				  	# logger.warn d[key]
+
+		# 				    write = key.to_s+","
+		# 				    d[key].each_with_index do |data, i|
+		# 				    	write = write + data.to_s + ","
+		# 				    	count_array[i] = count_array[i] + data
+		# 				    end
+		# 				    write = write + "\n"
+		# 				    file.write write
+		# 				end
+		# 		end
+
+		# 		write = ","
+		# 		count_array.each do |count|
+		# 			write = write + count.to_s + ","
+		# 		end
+		# 		write = write + "\n"
+		# 		file.write write
+		# 	}
+
+		# end
 		##############################
 
 		# ユーザごとの分析---文字の長さ
