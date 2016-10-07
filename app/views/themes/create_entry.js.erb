@@ -5,7 +5,7 @@
 <% dpoint = @dynamicpoint %>
 
 if(<%= @new_entry.is_root? %>) {
-  $('#timeline').prepend($("<%=j render 'panel', entry: @new_entry ,count_entry: 0%>").hide().fadeIn('slow'));
+  $('#timeline').prepend($("<%=j render 'panel', entry: @new_entry ,count_entry: 0, show_entry: 10%>").hide().fadeIn('slow'));
   <% if @new_entry.theme.point_function %>
     <% dpoint = @new_entry.theme.core_times? ? (@dynamicpoint + entry_point ) * 2 : @dynamicpoint + entry_point %>
     point.entry(<%= dpoint %>);
