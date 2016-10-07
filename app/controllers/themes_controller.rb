@@ -27,6 +27,7 @@ class ThemesController < ApplicationController
 
   # すぐにテストしたいときに使っている
   def test
+    p @theme.vote_ranking
   end
 
   def show
@@ -81,6 +82,10 @@ class ThemesController < ApplicationController
       @tree_type = 1
     else
       @tree_type = @tree_type[0][:phase_id]
+      # 合意フェイズの最初に投票画面に遷移する
+      if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id).exists?
+        redirect_to vote_entry_path(@theme.id)
+      end
     end
 
     #見出しデータの生成
@@ -611,6 +616,7 @@ class ThemesController < ApplicationController
     redirect_to users_path
   end
 
+  #投票ページの表示
   def vote_entry
     @entry = Entry.new
     @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
@@ -618,8 +624,15 @@ class ThemesController < ApplicationController
     @entry_tree = Entry.where(:theme_id => @theme.id)
   end
 
+  # 投票データの作成
   def vote_entry_create
-    
+    p params["theme_id"]
+    params["note"].each{|key, value|
+      if value.to_i > 0
+        VoteEntry.create(user_id: current_user.id, entry_id: key.to_i, point: value.to_i, theme_id: params[:theme_id]) 
+      end
+    }
+    redirect_to theme_path(params[:theme_id]),notice: "投票が完了しました。"
   end
 
   def check_new

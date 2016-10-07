@@ -71,6 +71,22 @@ class Theme < ActiveRecord::Base
 
   end
 
+  def vote_ranking
+    votes = VoteEntry.where(theme_id: id)
+    vote_hash = {}
+    votes.group_by { |i| i.entry_id }.each{|key, value|
+      if value.count > 1
+        vote_hash[key] = value.inject { |result, item| result.point + item.point }
+      else
+        vote_hash[key] = value[0].point
+      end
+    }
+    p "aaa"
+    p vote_hash
+    p Hash[ vote_hash.sort_by{ |_, v| -v } ]
+
+  end
+
   # def like_ranking_issue
   #   entries = Entry.where(theme_id: id, parent_id: nil).select { |v| v.all_like_count  > 0 }
   #   ranking_entries = entries.sort {|a, b|
