@@ -216,6 +216,18 @@ button.btn-thread {
   padding-right: 8px;
   padding-left: 8px;
 }
+@media (max-width:780px) {
+  .entry-left{
+    display: table-cell;
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+  .info-list {
+    color: #8899a6;
+    padding-top: 2px;
+    padding-left: 8px;
+  }
+}
 
 .entry-right{
   display: table-cell;

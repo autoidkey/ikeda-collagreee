@@ -47,6 +47,8 @@
 
 <%= render "themes/discussion_phase" %>
 
+
+<!-- フェーズモーダル -->
 <div class="modal wd1">
   <div class="modalBody">
     <p class="close">×</p>
@@ -74,7 +76,7 @@
   </div>
   <div class="modalBK"></div>
 </div>
-
+<!-- フェーズモーダル -->
 
 
 <!-- roleは役割を表す -->
@@ -98,6 +100,10 @@
 
     <div class="row">
       <div class="col-md-8">
+
+        <% if smartphone? %>
+          <%= render 'vote_ranking', users: @users, theme: @theme %>
+        <% end %>
 
         <% if !@theme.nolink %>
           <div id="main-form">
@@ -145,8 +151,10 @@
       </div>
 
       <div class="col-md-4">
-        <% if @tree_type == 3 %>
-          <%= render 'vote_ranking', users: @users, theme: @theme %>
+        <% if !smartphone? %>
+          <% if @tree_type == 3 %>
+            <%= render 'vote_ranking', users: @users, theme: @theme %>
+          <% end %>
         <% end %>
         <%= render 'theme_info' %>
         <%= render 'like_ranking', users: @users, theme: @theme %>
