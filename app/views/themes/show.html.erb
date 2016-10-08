@@ -103,6 +103,7 @@
           <div id="main-form">
             <%= render 'top_form' if user_signed_in? %>
           </div>
+          <hr>
         <% end %>
 
 
@@ -129,7 +130,6 @@
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
 
-        <hr>
         <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
