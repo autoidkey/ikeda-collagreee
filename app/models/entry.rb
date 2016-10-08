@@ -267,15 +267,12 @@ class Entry < ActiveRecord::Base
 
 
   def all_like_count
-    if self.children.count == 0
-      return  self.like_count
-    else
-      sum = 0
-      self.children.each do |entry|
-        sum = sum + entry.all_like_count
-      end
-      return sum
+    sum = 0
+    sum = sum + self.like_count
+    self.children.each do |entry|
+      sum = sum + entry.all_like_count
     end
+    return sum
   end
 
   # Redis
