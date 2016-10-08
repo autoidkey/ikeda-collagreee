@@ -469,3 +469,22 @@ select.vote_form{
   border: none;
   border-radius: 3px;
 }
+
+
+.modal{display:none;}
+.modalBody{position: fixed; z-index:1000; background: white; width:690px; left:50%; top:50%; height: 460px}
+.modalBK{position: fixed; z-index:999; height:100%; width:100%;background:#000; opacity: 0.4;filter: alpha(opacity=90);-moz-opacity:0.90;}
+.btns{font-size: 80px; width:150px; background:#111; height: 150px; line-height:150px; text-align:center; font-family: arial; color: #fff; float: left; margin:10px; cursor: pointer}
+.close{cursor: pointer; font-size: 10px;}
+.modal{width:690px; color: #eee;}
+.modal p{font-size:60px; text-align:justify; padding-right: 15px;}
+.modal h1{font-weight:bold; font-size: 30px;}
+.modalBody{padding: 10px;border-radius: 8px;}
+
+@media (max-width:780px) {
+  .modalBody{position: fixed; z-index:1000; background: white; width:360px; left:50%; top:50%; height: 280px}
+  .modalBK{position: fixed; z-index:999; height:700px; width:100%;background:#000; opacity: 0.4;filter: alpha(opacity=90);-moz-opacity:0.90;}
+  .modal{width:1400px; color: #eee;}
+  .modal p{font-size:40px; text-align:justify; padding-right: 10px;}
+}
+

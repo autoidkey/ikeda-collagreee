@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :points
   has_many :point_histories
   has_many :notices
+  has_many :webviews
 
   enum role: %i(admin facilitator normal organizer)
   enum gender: %i(男性 女性)
