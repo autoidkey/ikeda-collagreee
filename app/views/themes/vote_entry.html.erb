@@ -1,49 +1,110 @@
-<div class="row">
-  <div class="col-md-offset-2 col-md-8">
-    <div class="panel panel-default">
-      <div class="panel-header">
-        <h4 class=""><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> 投票フェーズ</h4>
-      </div>
-      <div class="panel-body">
-        気に入った投稿に対してポイントを入れよう
-      </div>
-    </div>
-
-    <div class="tab-content" id="theme-show">
-      <div class="tab-pane active" id="discussion">
-
-    		<div id="timeline">
-          <%= form_tag(vote_entry_create_path, method: "POST") do %>
-            <%= hidden_field_tag :theme_id, @theme.id %>
-
-            <% before_num = 0 %>
-          	<% @theme.like_ranking.each_with_index do |entry, idx| %>
-              <% if idx > 6  && before_num != entry.all_like_count %>
-                <% break %>
-              <% end %>
-              <% before_num = entry.all_like_count  %>
-
-              <div class="row">
-                <div class="col-md-10">
-            	    <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
-                </div>
-                <div class="col-md-2">
-                  <%= select_tag "note[#{entry.id}]", options_for_select({"0G" => "0","100G" => "100", "200G" => "200", "300G" => "300", "400G" => "400", "500G" => "500", "600G" => "600", "700G" => "700", "800G" => "800", "900G" => "900", "1000G" => "1000"}), class: "vote_form" %>
-                </div>
-              </div>
-          	<% end %>
-
-            <%= submit_tag "投票する",class: "vote-submit-btn",id: "vote-btn-main",style: "display:none" %>
-            <div class="vote-submit-btn" id="vote-btn-sub">投票する</div>
-
-          <% end %>
+<% if !(current_user.admin? || current_user.facilitator?) %>
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-header">
+          <h4 class=""><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> 投票フェーズ</h4>
+        </div>
+        <div class="panel-body">
+          気に入った投稿に対してポイントを入れよう
         </div>
       </div>
+
+      <div class="tab-content" id="theme-show">
+        <div class="tab-pane active" id="discussion">
+
+      		<div id="timeline">
+            <%= form_tag(vote_entry_create_path, method: "POST") do %>
+              <%= hidden_field_tag :theme_id, @theme.id %>
+
+              <% before_num = 0 %>
+            	<% @theme.like_ranking.each_with_index do |entry, idx| %>
+                <% if idx > 6  && before_num != entry.all_like_count %>
+                  <% break %>
+                <% end %>
+                <% before_num = entry.all_like_count  %>
+
+                <div class="row">
+                  <div class="col-md-10">
+              	    <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
+                  </div>
+                  <div class="col-md-2">
+                    <%= select_tag "note[#{entry.id}]", options_for_select({"0G" => "0","100G" => "100", "200G" => "200", "300G" => "300", "400G" => "400", "500G" => "500", "600G" => "600", "700G" => "700", "800G" => "800", "900G" => "900", "1000G" => "1000"}), class: "vote_form" %>
+                  </div>
+                </div>
+            	<% end %>
+
+              <%= submit_tag "投票する",class: "vote-submit-btn",id: "vote-btn-main",style: "display:none" %>
+              <div class="vote-submit-btn" id="vote-btn-sub">投票する</div>
+
+            <% end %>
+          </div>
+        </div>
+      </div>
+
     </div>
-
   </div>
-</div>
+<% else %>
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-header">
+          <h4 class=""><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> 投資するアイディアを選択しよう！！</h4>
+        </div>
+        <div class="panel-body">
+          <p>参加者が投資する意見の対象を選択してください</p>
+          <p>ファシリテータが選択した意見をもとに投資が行われます。</p>
+          <p>いいねの数によって投資対象として良いと思われる意見は自動でチェックされています。ファシリテータがチェックを外すこともできます。</p>
+        </div>
+      </div>
 
+      <div class="tab-content" id="theme-show">
+        <div class="tab-pane active" id="discussion">
+
+          <div id="timeline">
+            <%= form_tag(vote_entry_create_path, method: "POST") do %>
+              <%= hidden_field_tag :theme_id, @theme.id %>
+
+              <% before_num = 0 %>
+
+              <% @theme.like_ranking_check.each_with_index do |entry, idx| %>
+                <!-- ファリテータに任せる -->
+                <% if idx > 6  && before_num != entry.all_like_count %> 
+                  <div class="row">
+                    <div class="col-xs-10">
+                      <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
+                    </div>
+                    <div class="col-xs-2">
+                      <%= check_box_tag 'note[entry][]', entry.id,{:checked => false},class: "vote_form" %>
+                    </div>
+                  </div>
+
+                <!-- 候補としてチェックしておく -->
+                <% else %>
+                  <% before_num = entry.all_like_count  %>
+
+                  <div class="row">
+                    <div class="col-xs-10">
+                      <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
+                    </div>
+                    <div class="col-xs-2">
+                      <%= check_box_tag entry.id , {:checked => true},class: "vote_form" %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <%= submit_tag "投票する",class: "vote-submit-btn",id: "vote-btn-main",style: "display:none" %>
+              <div class="vote-submit-btn" id="vote-btn-sub">決定する</div>
+
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
 
 <script>
 

@@ -68,7 +68,12 @@ class Theme < ActiveRecord::Base
       b.all_like_count <=> a.all_like_count 
     }
     ranking.select { |v| v.all_like_count  > 0 }
+  end
 
+  def like_ranking_check
+    Entry.where(theme_id: id, parent_id: nil).sort {|a, b|
+      b.all_like_count <=> a.all_like_count 
+    }
   end
 
   def vote_ranking
@@ -81,10 +86,7 @@ class Theme < ActiveRecord::Base
         vote_hash[key] = value[0].point
       end
     }
-    p "aaa"
-    p vote_hash
-    p Hash[ vote_hash.sort_by{ |_, v| -v } ]
-
+    vote_hash
   end
 
   # def like_ranking_issue
