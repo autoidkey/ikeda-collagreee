@@ -83,8 +83,10 @@ class ThemesController < ApplicationController
     else
       @tree_type = @tree_type[0][:phase_id]
       # 合意フェイズの最初に投票画面に遷移する
-      if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id).exists?
-        redirect_to vote_entry_path(@theme.id)
+      if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id, theme_id: @theme.id).exists?
+        if @theme.vote_ranking.count > 0
+          redirect_to vote_entry_path(@theme.id)
+        end
       end
     end
 

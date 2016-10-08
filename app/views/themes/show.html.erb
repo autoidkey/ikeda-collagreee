@@ -70,9 +70,9 @@
 <div class="modal wd3">
   <div class="modalBody">
     <p class="close">×</p>
-    <p>
+    <div>
       <%= image_tag "phase/phase-modal-03.png",class: "img-responsive" %>
-    </p>
+    </div>
   </div>
   <div class="modalBK"></div>
 </div>
@@ -139,7 +139,7 @@
         <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <%= render 'panel', entry: entry, count_entry: i ,show_entry: 2%>
+            <%= render 'panel', entry: entry, count_entry: i ,show_entry: 3 %>
           <% end %>
         </div>
 

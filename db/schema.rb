@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007045458) do
+ActiveRecord::Schema.define(version: 20161008153049) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -36,6 +36,13 @@ ActiveRecord::Schema.define(version: 20161007045458) do
     t.datetime "updated_at"
     t.integer  "theme_id"
     t.integer  "entry_id"
+  end
+
+  create_table "clusters", force: true do |t|
+    t.integer  "entry_id"
+    t.integer  "cla"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "core_times", force: true do |t|
@@ -207,7 +214,7 @@ ActiveRecord::Schema.define(version: 20161007045458) do
 
   create_table "themes", force: true do |t|
     t.string   "title"
-    t.string   "body"
+    t.text     "body"
     t.string   "color"
     t.boolean  "facilitation",   default: false
     t.boolean  "nolink",         default: false
@@ -271,8 +278,9 @@ ActiveRecord::Schema.define(version: 20161007045458) do
     t.integer  "remind",                 default: 0
     t.integer  "mail_format",            default: 0
     t.string   "image"
-    t.string   "group"
     t.text     "body"
+    t.integer  "team"
+    t.string   "group"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -285,6 +293,7 @@ ActiveRecord::Schema.define(version: 20161007045458) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "theme_id"
+    t.boolean  "targer"
   end
 
   create_table "webviews", force: true do |t|
