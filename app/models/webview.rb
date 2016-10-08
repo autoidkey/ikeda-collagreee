@@ -1,5 +1,7 @@
 class Webview < ActiveRecord::Base
 
+    belongs_to :user
+
     def self.count_up(user_id,theme_id)
         params =  {
           user_id: user_id,

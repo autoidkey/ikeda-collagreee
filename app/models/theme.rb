@@ -133,6 +133,22 @@ class Theme < ActiveRecord::Base
     return false
   end
 
+  def check_phase(user)
+    phase = Phase.all.where(:theme_id => id).order(:created_at).reverse_order[0]
+    if !user.webviews.order(:created_at).reverse_order[1].nil?
+      if user.webviews.order(:created_at).reverse_order[1].created_at < phase.created_at
+        p "aaaa"
+        p "fff"
+        return true
+      else
+        return false
+      end
+    else
+      p "aaaa"
+      return true
+    end
+  end
+
   def score(user)
     Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, 'sum'].join(':'), user.id).to_f
   end

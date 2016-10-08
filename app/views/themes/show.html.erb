@@ -47,6 +47,35 @@
 
 <%= render "themes/discussion_phase" %>
 
+<div class="modal wd1">
+  <div class="modalBody">
+    <p class="close">×</p>
+    <p>
+      <%= image_tag "phase/phase-modal-01.png",class: "img-responsive" %>
+    </p>
+  </div>
+  <div class="modalBK"></div>
+</div>
+<div class="modal wd2">
+  <div class="modalBody">
+    <p class="close">×</p>
+    <p>
+      <%= image_tag "phase/phase-modal-02.png",class: "img-responsive" %>
+    </p>
+  </div>
+  <div class="modalBK"></div>
+</div>
+<div class="modal wd3">
+  <div class="modalBody">
+    <p class="close">×</p>
+    <p>
+      <%= image_tag "phase/phase-modal-03.png",class: "img-responsive" %>
+    </p>
+  </div>
+  <div class="modalBK"></div>
+</div>
+
+
 
 <!-- roleは役割を表す -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
@@ -358,6 +387,18 @@
       }else{
         $(this).attr('id', 'entry_body');
       }
+    });
+
+    if(<%= @theme.check_phase(current_user) %>){
+      wn = '.wd' + <%= @tree_type %>;
+      var mW = $(wn).find('.modalBody').innerWidth() / 2;
+      var mH = $(wn).find('.modalBody').innerHeight() / 2;
+      $(wn).find('.modalBody').css({'margin-left':-mW,'margin-top':-mH});
+      $(wn).fadeIn(500);
+    }
+
+    $('.close,.modalBK').click(function(){
+      $(wn).fadeOut(500);
     });
 
 </script>

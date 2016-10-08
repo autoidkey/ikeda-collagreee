@@ -11,7 +11,7 @@ class ThemesController < ApplicationController
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
-  after_action  :test, only: [:show]
+  # after_action  :test, only: [:show]
 
   load_and_authorize_resource
 
@@ -579,6 +579,7 @@ class ThemesController < ApplicationController
 
     respond_to do |format|
       if @theme.save
+        Phase.create(:theme_id => @theme.id, :phase_id => 1)
         format.html { redirect_to @theme, notice: 'テーマを作成しました' }
         format.json { render action: 'show', status: :created, location: @theme }
       else
