@@ -154,7 +154,7 @@
       <div class="col-md-4">
         <% if !smartphone? %>
           <!-- 実験のため -->
-          <% if @tree_type == 3 && current_user.home.to_i < 2 %>
+          <% if @tree_type == 3 && @theme.group_id > 1 %>
             <%= render 'vote_ranking', users: @users, theme: @theme %>
           <% end %>
         <% end %>
@@ -162,7 +162,7 @@
         <%= render 'theme_info' %>
 
         <!-- 実験のため -->
-        <% if current_user.home.to_i < 2 %>
+        <% if @theme.group_id > 1 %>
           <%= render 'like_ranking', users: @users, theme: @theme %>
         <% end %>
 
