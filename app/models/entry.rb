@@ -9,6 +9,7 @@ class Entry < ActiveRecord::Base
   has_many :point_histories, class_name: 'PointHistory', foreign_key: 'entry_id'
   has_many :point_histories_reply, class_name: 'PointHistory', foreign_key: 'reply_id'
   has_many :notices
+  has_many :vote_entries
 
   validates :body, presence: true
   validates :title, presence: true, if: :is_root?
