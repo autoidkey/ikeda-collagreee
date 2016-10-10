@@ -217,7 +217,7 @@ class ThemesController < ApplicationController
     @phase = Phase.new(:phase_id => params[:phase],:theme_id => params[:id])
     respond_to do |format|
       if @phase.save
-        format.html { redirect_to @theme, notice: t('controllers.change_phase') }
+        format.html { redirect_to theme_path(params[:id]), notice: t('controllers.change_phase') }
         format.json { render action: 'show', status: :created, location: @theme }
       else
         format.html { render action: 'new' }
