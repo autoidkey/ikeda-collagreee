@@ -7,12 +7,15 @@
 	  <% end %>
 	<% else %>
 		<span class="glyphicon glyphicon-user like_button" aria-hidden="true"></span>
-		<%= link_to "賛同者一覧",
-               class: 'user-icon icon-margin set-popover',
-               data: {
-                 toggle: "popover",
-                 placement: "right",
-                 content: "てすと"
-               } %>
+		<span rel="tooltip"
+		  data-toggle="tooltip"
+		  data-placement="right"
+		  data-html="true"
+		  title="<% entry.likes.each do |like| %>
+		  <%= like.user.name %>, 
+		  <% end %>"
+		  class="like_button">
+		  いいね一覧
+		</span>
 	<% end %>
 <% end %>
