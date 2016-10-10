@@ -17,19 +17,13 @@
             <%= form_tag(vote_entry_create_path, method: "POST") do %>
               <%= hidden_field_tag :theme_id, @theme.id %>
 
-              <% before_num = 0 %>
-            	<% @theme.like_ranking.each_with_index do |entry, idx| %>
-                <% if idx > 6  && before_num != entry.all_like_count %>
-                  <% break %>
-                <% end %>
-                <% before_num = entry.all_like_count  %>
-
+            	<% @theme.vote_entries.each do |vote, idx| %>
                 <div class="row">
                   <div class="col-md-10">
-              	    <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
+              	    <%= render 'panel', entry: vote.entry, count_entry: 6, show_entry: -1 %>
                   </div>
                   <div class="col-md-2">
-                    <%= select_tag "note[#{entry.id}]", options_for_select({"0G" => "0","100G" => "100", "200G" => "200", "300G" => "300", "400G" => "400", "500G" => "500", "600G" => "600", "700G" => "700", "800G" => "800", "900G" => "900", "1000G" => "1000"}), class: "vote_form" %>
+                    <%= select_tag "note[#{vote.entry.id}]", options_for_select({"0G" => "0","100G" => "100", "200G" => "200", "300G" => "300", "400G" => "400", "500G" => "500", "600G" => "600", "700G" => "700", "800G" => "800", "900G" => "900", "1000G" => "1000"}), class: "vote_form" %>
                   </div>
                 </div>
             	<% end %>
@@ -44,6 +38,7 @@
 
     </div>
   </div>
+<!-- ファシリテータの洗濯用 -->
 <% else %>
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
@@ -62,7 +57,7 @@
         <div class="tab-pane active" id="discussion">
 
           <div id="timeline">
-            <%= form_tag(vote_entry_create_path, method: "POST") do %>
+            <%= form_tag(vote_entry_check_path, method: "POST") do %>
               <%= hidden_field_tag :theme_id, @theme.id %>
 
               <% before_num = 0 %>
@@ -75,7 +70,7 @@
                       <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
                     </div>
                     <div class="col-xs-2">
-                      <%= check_box_tag 'note[entry][]', entry.id,{:checked => false},class: "vote_form" %>
+                      <%= check_box_tag "entry[#{entry.id}]" ,false, false, class: "vote_check" %>
                     </div>
                   </div>
 
@@ -88,14 +83,13 @@
                       <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
                     </div>
                     <div class="col-xs-2">
-                      <%= check_box_tag entry.id , {:checked => true},class: "vote_form" %>
+                      <%= check_box_tag "entry[#{entry.id}]" ,true, true, class: "vote_check" %>
                     </div>
                   </div>
                 <% end %>
               <% end %>
 
-              <%= submit_tag "投票する",class: "vote-submit-btn",id: "vote-btn-main",style: "display:none" %>
-              <div class="vote-submit-btn" id="vote-btn-sub">決定する</div>
+              <%= submit_tag "投票する",class: "vote-submit-btn" %>
 
             <% end %>
           </div>

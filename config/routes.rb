@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   post "themes/add_entry_tag/:id" => "themes#add_entry_tag"
   get "themes/vote_entry/:id" => "themes#vote_entry",as: "vote_entry"
   post "themes/vote_entry_create/:id" => "themes#vote_entry_create" ,as: "vote_entry_create"
-
+  post "themes/vote_entry_check/:id" => "themes#vote_entry_check" ,as: "vote_entry_check"
   # api
   get 'users' =>  'users#index'
   get 'users/:id' =>  'users#show'

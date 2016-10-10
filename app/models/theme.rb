@@ -9,6 +9,7 @@ class Theme < ActiveRecord::Base
   has_many :points
   has_many :point_histories
   has_many :core_times, dependent: :destroy 
+  has_many :vote_entries
   belongs_to :admin, class_name: 'User'
 
   mount_uploader :image, ImageUploader
@@ -83,7 +84,9 @@ class Theme < ActiveRecord::Base
       if value.count > 1
         vote_hash[key] = value.inject { |result, item| result.point + item.point }
       else
-        vote_hash[key] = value[0].point
+        if !value[0].targer
+          vote_hash[key] = value[0].point
+        end
       end
     }
     vote_hash

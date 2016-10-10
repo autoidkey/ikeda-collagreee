@@ -13,7 +13,7 @@ class ThemesController < ApplicationController
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
   # after_action  :test, only: [:show]
 
-  load_and_authorize_resource
+  # load_and_authorize_resource
 
   include Bm25
   include Stamp
@@ -84,9 +84,9 @@ class ThemesController < ApplicationController
       @tree_type = @tree_type[0][:phase_id]
       # 合意フェイズの最初に投票画面に遷移する
       if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id, theme_id: @theme.id).exists?
-        if @theme.vote_ranking.count > 0
+        # if @theme.vote_ranking.count > 0
           redirect_to vote_entry_path(@theme.id)
-        end
+        # end
       end
     end
 
@@ -629,11 +629,18 @@ class ThemesController < ApplicationController
 
   # 投票データの作成
   def vote_entry_create
-    p params["theme_id"]
     params["note"].each{|key, value|
       if value.to_i > 0
         VoteEntry.create(user_id: current_user.id, entry_id: key.to_i, point: value.to_i, theme_id: params[:theme_id]) 
       end
+    }
+    redirect_to theme_path(params[:theme_id]),notice: "投票が完了しました。"
+  end
+
+  # 投票データの作成
+  def vote_entry_check
+    params["entry"].each{|key, value|
+        VoteEntry.create(user_id: current_user.id, entry_id: key.to_i, point: 0, theme_id: params[:theme_id], targer: true) 
     }
     redirect_to theme_path(params[:theme_id]),notice: "投票が完了しました。"
   end
