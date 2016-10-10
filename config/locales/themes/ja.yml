@@ -103,7 +103,7 @@ ja:
     like_ranking_user: '投稿者'
     like_ranking_title: '投稿タイトル'
     like_ranking_like: 'いいね！'
-    like_ranking_header: 'アイデアランキング'
+    like_ranking_header: '投稿ランキング'
     entry_child_agree: '賛成'
     entry_child_disagree: '反対'
     entry_child_neither: 'どちらでもない'
