@@ -94,6 +94,7 @@
   <% end %>
 </ul>
 
+
 <!-- Tab panes -->
 <div class="tab-content" id="theme-show">
   <div class="tab-pane active" id="discussion">
@@ -152,12 +153,19 @@
 
       <div class="col-md-4">
         <% if !smartphone? %>
-          <% if @tree_type == 3 %>
+          <!-- 実験のため -->
+          <% if @tree_type == 3 && current_user.home.to_i > 1 %>
             <%= render 'vote_ranking', users: @users, theme: @theme %>
           <% end %>
         <% end %>
+
         <%= render 'theme_info' %>
-        <%= render 'like_ranking', users: @users, theme: @theme %>
+
+        <!-- 実験のため -->
+        <% if current_user.home.to_i > 1 %>
+          <%= render 'like_ranking', users: @users, theme: @theme %>
+        <% end %>
+
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
@@ -408,6 +416,11 @@
     $('.close,.modalBK').click(function(){
       $(wn).fadeOut(500);
     });
+
+    // ツールチップ
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
 
 </script>
 

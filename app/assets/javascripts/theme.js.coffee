@@ -200,7 +200,8 @@ $(document).on 'click', '.like_button', (e) ->
   if status  == 'remove'
     $(@).data('status', 'attach')
     # 変更
-    $(@).text "Like"
+    # $(@).text "Like"
+    $(@).text "いいね！"
 
     like = parseInt($(@).prevAll('.like_count').text()) - 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
@@ -214,7 +215,8 @@ $(document).on 'click', '.like_button', (e) ->
   else if status == 'attach'
     $(@).data('status', 'remove')
     #　変更
-    $(@).text "Cansel Like"
+    # $(@).text "Cancel Like"
+    $(@).text "いいねを取り消す！"
 
     like = parseInt($(@).prevAll('.like_count').text()) + 1
     $(@).prevAll('.like_count').text(like).hide().fadeIn 'slow'
