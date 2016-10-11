@@ -592,6 +592,7 @@ class ThemesController < ApplicationController
   end
 
   def update
+    @theme = Theme.find(params[:id])
     respond_to do |format|
       if @theme.update(theme_params)
         format.html { redirect_to :root, notice: 'theme was successfully updated.' }
