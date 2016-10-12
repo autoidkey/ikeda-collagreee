@@ -103,7 +103,10 @@
       <div class="col-md-8">
 
         <% if smartphone? %>
-          <%= render 'vote_ranking', users: @users, theme: @theme %>
+          <!-- 実験のため -->
+          <% if @tree_type == 3 && @theme.group_id > 1 %>
+            <%= render 'vote_ranking', users: @users, theme: @theme %>
+          <% end %>
         <% end %>
 
         <% if !@theme.nolink %>
