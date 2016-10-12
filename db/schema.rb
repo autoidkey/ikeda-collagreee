@@ -38,13 +38,6 @@ ActiveRecord::Schema.define(version: 20161008153049) do
     t.integer  "entry_id"
   end
 
-  create_table "clusters", force: true do |t|
-    t.integer  "entry_id"
-    t.integer  "cla"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "core_times", force: true do |t|
     t.integer  "theme_id"
     t.datetime "start_at"
@@ -214,7 +207,7 @@ ActiveRecord::Schema.define(version: 20161008153049) do
 
   create_table "themes", force: true do |t|
     t.string   "title"
-    t.text     "body"
+    t.string   "body"
     t.string   "color"
     t.boolean  "facilitation",   default: false
     t.boolean  "nolink",         default: false
@@ -278,9 +271,8 @@ ActiveRecord::Schema.define(version: 20161008153049) do
     t.integer  "remind",                 default: 0
     t.integer  "mail_format",            default: 0
     t.string   "image"
-    t.text     "body"
-    t.integer  "team"
     t.string   "group"
+    t.text     "body"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
