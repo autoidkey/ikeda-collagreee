@@ -81,9 +81,9 @@ class Theme < ActiveRecord::Base
     votes = VoteEntry.where(theme_id: id)
     vote_hash = {}
     votes.group_by { |i| i.entry_id }.each{|key, value|
-      if value.count > 1
+      if value.count > 2
         vote_hash[key] = value.inject { |result, item| 
-          if !item.point.nil?
+          if !item.point.present?
             result.point + item.point 
           else
             result.point
