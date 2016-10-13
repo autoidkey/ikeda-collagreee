@@ -82,7 +82,13 @@ class Theme < ActiveRecord::Base
     vote_hash = {}
     votes.group_by { |i| i.entry_id }.each{|key, value|
       if value.count > 1
-        vote_hash[key] = value.inject { |result, item| result.point + item.point }
+        vote_hash[key] = value.inject { |result, item| 
+          if !item.point.nil?
+            result.point + item.point 
+          else
+            result.point
+          end
+        }
       else
         if !value[0].targer
           vote_hash[key] = value[0].point
