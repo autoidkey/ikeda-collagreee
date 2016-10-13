@@ -94,7 +94,7 @@ class Theme < ActiveRecord::Base
         end
       end
     }
-    Hash[ vote_hash.sort.reverse ]
+    Hash[ vote_hash.sort_by{ |_, v| -v } ]
   end
 
   # def like_ranking_issue
