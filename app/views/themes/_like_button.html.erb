@@ -11,9 +11,19 @@
 		  data-toggle="tooltip"
 		  data-placement="right"
 		  data-html="true"
-		  title="<% entry.likes.each do |like| %>
-		  <%= like.user.name %>, 
-		  <% end %>"
+		  title="
+		  <% if entry.likes.count != 0  %>
+			  <% entry.likes.each_with_index do |like, i| %>
+			  	<% if i != 0 %>
+			  		<%= like.user.name %>
+			  	<% else %>
+			  		、<%= like.user.name %>
+			  	<% end %>
+			  <% end %>
+		  <% else %>
+		  	なし
+		  <% end %>
+		  "
 		  class="like_button">
 		  いいね一覧
 		</span>
