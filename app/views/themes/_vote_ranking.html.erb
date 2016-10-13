@@ -18,7 +18,7 @@
         <% @theme.vote_ranking.each{|key, value| %>
           <% idx = idx + 1 %>
           <% entry = Entry.find(key) %>
-          <% if idx > 4  && before_num != entry.all_like_count %>
+          <% if idx > 5  && before_num != entry.all_like_count %>
             <% break %>
           <% end %>
           <% before_num = entry.all_like_count  %>
