@@ -82,7 +82,7 @@ class Theme < ActiveRecord::Base
     vote_hash = {}
     votes.group_by { |i| i.entry_id }.each{|key, value|
       p value
-      if value.count > 2
+      if value.count > 1
         c = 0
         value.each do |v|
           c = c + v.point
