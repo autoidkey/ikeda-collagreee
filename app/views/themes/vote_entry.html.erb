@@ -20,7 +20,7 @@
             <%= form_tag(vote_entry_create_path, method: "POST") do %>
               <%= hidden_field_tag :theme_id, @theme.id %>
 
-            	<% @theme.vote_entries.each do |vote, idx| %>
+            	<% @theme.vote_entries_disp.each do |vote, idx| %>
                 <div class="row">
                   <div class="col-md-10">
               	    <%= render 'panel', entry: vote.entry, count_entry: 6, show_entry: -1 %>
@@ -92,7 +92,7 @@
                 <% end %>
               <% end %>
 
-              <%= submit_tag "投票する",class: "vote-submit-btn" %>
+              <%= submit_tag "確定する",class: "vote-submit-btn" %>
 
             <% end %>
           </div>

@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   # validates :name, :realname, presence: true
-  validates :name, :realname, presence: true
+  validates :name, :realname, :group, presence: true
 
   has_many :entries
   has_many :activities
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   enum role: %i(admin facilitator normal organizer)
   enum gender: %i(男性 女性)
-  enum age: %i(B1 B2 B3 B4 M1 M2)
+  enum age: %i(学生 社会人)
   # enum age: %i(10代未満 10代 20代 30代 40代 50代 60代 70代以上)
   # enum home: %i(名古屋市内 愛知県内 愛知県外 海外)
   enum home: %i(0 1 2 3)

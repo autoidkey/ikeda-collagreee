@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :theme_id %><br>
-    <%= f.select :theme_id, @themes.map{|r| [r.title, r.id]} %>
+    <%= f.select :theme_id, Theme.all.map{|r| [r.title, r.id]} %>
   </div>
   <div class="field">
     <%= f.label :start_at %><br>
@@ -23,13 +23,14 @@
     <%= f.label :end_at %><br>
     <%= f.datetime_select :end_at, :minute_step => 10 %>
   </div>
-  <% if !@core_time.notice %>
+<!--   <% if !@core_time.notice %>
     <div class="field">
       <%= f.label :notice %><br>
       <%= f.check_box :notice %>
     </div>
-  <% end %>
-  <div class="">
+  <% end %> -->
+  <br>
+  <div class="field">
     <%= f.submit '作成', class: 'btn btn-default' %>
   </div>
 <% end %>

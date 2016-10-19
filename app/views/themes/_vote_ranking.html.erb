@@ -3,7 +3,7 @@
     <h4 class=""><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 現在の投資状況</h4>
   </div>
   <div class="panel-body">
-    <table class="table table-striped ranking-table">
+    <table class="table table-striped ranking-table" style="margin-bottom: 0px;">
       <thead>
         <tr>
           <th><%= t('themes.like_ranking_rank') %></th>
@@ -20,8 +20,9 @@
           <% entry = Entry.find(key) %>
           <% if idx > 5  && before_num != entry.all_like_count %>
             <% break %>
+          <% else %>
+            <% before_num = entry.all_like_count  %>
           <% end %>
-          <% before_num = entry.all_like_count  %>
           <% user = entry.user %>
           <tr>
             <td class="rank rank-<%= idx+1 %>" id=""><%= idx %></td>
@@ -46,7 +47,7 @@
                            ), '/users/' + user.id.to_s + '?locale=en'%>
               <% end %>
             </td>
-            <td><a href="#entry-<%= entry.id %>" class="top-theme"><%= entry.title %></td>
+            <td><a href="#entry-<%= entry.id %>" class="top-theme" style="font-size: 18px;"><%= entry.title %></td>
             <td class="rank-score">
               <span class="user-score"><%= value %>G</span>
             </td>
