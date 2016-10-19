@@ -103,9 +103,10 @@
       <div class="col-md-8">
 
         <% if smartphone? %>
-          <!-- 実験のため -->
-          <% if @tree_type == 3 && @theme.group_id > 1 %>
+          <% if @tree_type == 3 %>
             <%= render 'vote_ranking', users: @users, theme: @theme %>
+          <% elsif @tree_type == 2 %>
+            <%= render 'like_ranking', users: @users, theme: @theme %>
           <% end %>
         <% end %>
 
@@ -156,18 +157,15 @@
 
       <div class="col-md-4">
         <% if !smartphone? %>
-          <!-- 実験のため -->
-          <% if @tree_type == 3 && @theme.group_id > 1 %>
+          <% if @tree_type == 3 %>
             <%= render 'vote_ranking', users: @users, theme: @theme %>
+            <%= render 'like_ranking', users: @users, theme: @theme %>
+          <% elsif @tree_type == 2 %>
+            <%= render 'like_ranking', users: @users, theme: @theme %>
           <% end %>
         <% end %>
 
         <%= render 'theme_info' %>
-
-        <!-- 実験のため -->
-        <% if @theme.group_id > 1 %>
-          <%= render 'like_ranking', users: @users, theme: @theme %>
-        <% end %>
 
         <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
         <%= render 'user_ranking', users: @users, theme: @theme %>

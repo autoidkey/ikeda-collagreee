@@ -15,12 +15,12 @@ class CoreTimesController < ApplicationController
   # GET /core_times/new
   def new
     @core_time = CoreTime.new
-    @themes = Theme.all
+    set_graph_data
   end
 
   # GET /core_times/1/edit
   def edit
-    @themes = Theme.all
+    set_graph_data
   end
 
   # POST /core_times
@@ -65,6 +65,20 @@ class CoreTimesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_path, notice: 'Core time was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def set_graph_data
+    @date_array = {}
+    start = Time.now - 3*24*60*60 #過去三日の値を集計
+    end_time = Time.now
+    interval = 60*60
+    while ((end_time - start) > 0)
+      t = Webview.where(created_at: start .. (start + interval - 1)).count
+      @date_array[start.strftime("%H:00")] = t
+      # start = start.tomorrow １日毎に集計
+      start = start + interval
+      p @date_array
     end
   end
 

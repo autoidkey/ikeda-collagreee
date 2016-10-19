@@ -97,6 +97,10 @@ class Theme < ActiveRecord::Base
     Hash[ vote_hash.sort_by{ |_, v| -v } ]
   end
 
+  def vote_entries_disp
+    VoteEntry.where(theme_id: id, targer: true)
+  end
+
   # def like_ranking_issue
   #   entries = Entry.where(theme_id: id, parent_id: nil).select { |v| v.all_like_count  > 0 }
   #   ranking_entries = entries.sort {|a, b|

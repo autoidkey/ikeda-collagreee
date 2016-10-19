@@ -42,6 +42,8 @@ gem 'ransack'
 
 gem 'ots' #英語の要約
 
+gem "chartkick"  #グラフの作成
+
 gem 'spreadsheet'
 
 gem 'rdoc-data', '~> 4.1' #heroku用
@@ -58,6 +60,7 @@ group :development do
   gem 'pry-rails', '~> 0.3.2'
   gem 'pry'
   gem 'pry-doc'
+  gem 'pry-byebug'
   gem 'hirb'
   gem 'hirb-unicode'
   gem 'sextant'
