@@ -79,10 +79,12 @@
       <!--   <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div> -->
       <!-- <% end %> -->
 
+      <% if false %>
       <div class="form-group">
         <%= f.label :current_password, t('users.registration.current_password') %>
         <%= f.password_field :current_password, autocomplete: "off", class: 'form-control' %>
       </div>
+      <% end %>
 
       <div><%= f.submit t('users.registration.update'), class: 'btn btn-default login-btn' %></div>
     <% end %>

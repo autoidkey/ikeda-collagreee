@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   resources :facilitation_keywords
 
   ActiveAdmin.routes(self)
-  devise_for :users, :controllers => {:sessions => 'sessions'}
+  devise_for :users, :controllers => {
+    :sessions => 'users/sessions',
+    :registrations => "users/registrations"
+  }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -82,6 +85,7 @@ Rails.application.routes.draw do
   get 'thread_classes/all/:id' => 'thread_classes#all',as: "thread_classes_all"
   post 'thread_classes/set/:id' => 'thread_classes#set'
   patch 'thread_classes/set/:id' => 'thread_classes#set'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
