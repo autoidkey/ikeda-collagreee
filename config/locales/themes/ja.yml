@@ -81,10 +81,10 @@ ja:
     next: '次へ'
     divergence: '発散フェーズ'
     convergence: '収束フェーズ'
-    consensus: '合意フェーズ'
+    consensus: '評価フェーズ'
     switch_divergence: "発散フェーズモードに切り替えてもよろしいですか？"
     switch_convergence: "収束フェーズモードに切り替えてもよろしいですか？"
-    switch_consensus: "合意フェーズモードに切り替えてもよろしいですか？"
+    switch_consensus: "評価フェーズモードに切り替えてもよろしいですか？"
     debate: '議論'
     debate_tree: '議論ツリー'
     debate_tree_edit: '議論ツリー編集'

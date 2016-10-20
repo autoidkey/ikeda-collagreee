@@ -71,16 +71,19 @@ class CoreTimesController < ApplicationController
   end
 
   def set_graph_data
-    @date_array = {}
-    start = Time.now - 3*24*60*60 #過去三日の値を集計
-    end_time = Time.now
     interval = 60*60
-    while ((end_time - start) > 0)
-      t = Webview.where(created_at: start .. (start + interval - 1)).count
-      @date_array[start.strftime("%H:00")] = t
-      # start = start.tomorrow １日毎に集計
-      start = start + interval
-      p @date_array
+    @graph_hash = {}
+    Theme.all.each do |theme|
+      start = Time.now - 3*24*60*60 #過去三日の値を集計
+      end_time = Time.now
+      date_array = {}
+      while ((end_time - start) > 0)
+        t = Webview.where(theme_id: theme.id,created_at: start .. (start + interval - 1)).count
+        date_array[start.strftime("%H:00")] = t
+        # start = start.tomorrow １日毎に集計
+        start = start + interval
+      end
+      @graph_hash[theme.title] = date_array
     end
   end
 
