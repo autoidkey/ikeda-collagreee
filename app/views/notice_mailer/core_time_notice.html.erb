@@ -926,8 +926,11 @@ a:hover{color:#30495c !important}.wrapper .logo div{color:#41637e}.wrapper .logo
                           <tbody><tr>
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
 
+            <h3 style="Margin-top: 0;color: #555;font-weight: normal;font-size: 32px;line-height: 42px;Margin-bottom: 5px;font-family: Arial, Georgia,serif;text-align: center">
+            	コアタイム
+            </h3>
             <h3 style="Margin-top: 0;color: #555;font-weight: normal;font-size: 32px;line-height: 42px;Margin-bottom: 20px;font-family: Arial, Georgia,serif;text-align: center">
-            	コアタイム：<%= @core_time.start_at %>〜<%= @core_time.end_at %>
+                  <%= @core_time.start_at.strftime('%m/%d %H:%M')  %>〜<%= @core_time.end_at.strftime('%m/%d %H:%M')  %>
             </h3>
 
                             </td>
@@ -952,12 +955,11 @@ a:hover{color:#30495c !important}.wrapper .logo div{color:#41637e}.wrapper .logo
                           <tbody><tr>
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
 
-                              <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 32px;text-align: center">
+                              <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 10px;text-align: center">
                               	コアタイムとは？
                               </p>
             <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 15px;line-height: 32px;Margin-bottom: 32px;text-align: center">
-            	コアタイムはファシリテータがいる時間です。
-				また、コアタイム中はポイントが２倍もらえます。
+            	コアタイムとは、皆さんで議論を盛り上げる時間です。<br>コアタイムの間は獲得ポイントが2倍になるので、ぜひ議論に参加してみましょう！
             </p>
 
 
