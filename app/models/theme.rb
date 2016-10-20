@@ -65,10 +65,20 @@ class Theme < ActiveRecord::Base
   # end
 
   def like_ranking
+    hash = {}
     ranking = Entry.where(theme_id: id, parent_id: nil).sort {|a, b|
       b.all_like_count <=> a.all_like_count 
     }
-    ranking.select { |v| v.all_like_count  > 0 }
+    hash["すべて"] = ranking.select { |v| v.all_like_count  > 0 }
+    Issue.where(theme_id: id).each do |issue|
+      ranking = issue.entries.sort {|a, b|
+        b.all_like_count <=> a.all_like_count 
+      }
+      if ranking.count > 0
+        hash[issue.name] = ranking.select { |v| v.all_like_count  > 0 }
+      end
+    end
+    hash
   end
 
   def like_ranking_check

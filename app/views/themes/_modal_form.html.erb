@@ -1,17 +1,15 @@
-<div class="modal-window <%= 'modal-window-mobile' if smartphone? %>" id="reply-modal-<%= child.id %>">
+<div class="modal-window <%= 'modal-window-mobile' if smartphone? %>" id="reply-modal-<%= child.id %>" style="overflow: scroll;">
   <div class="modal_close"></div>
   <div class="reply-modal-parent">
     <div class="content" id="modal-window-content">
       <%= render 'themes/user_icon', entry: child %>
       
-      <!-- 仕方がなくまるまる追加どうにかしたい  entry_show.html -->
       <%= render 'entry_show', entry: child %>
 
-      <!-- 仕方がなくまるまる追加  entry_show.html -->
 
-    <div class="info-list">
-      <%= render 'themes/information', entry: child %>
-    </div>
+      <div class="info-list">
+        <%= render 'themes/information', entry: child %>
+      </div>
 
     </div>
   </div>

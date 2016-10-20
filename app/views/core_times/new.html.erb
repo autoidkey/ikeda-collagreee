@@ -6,9 +6,23 @@
 			<%= render 'form' %>
 			<%= link_to 'Back', users_path %>
 
-
-			<%= line_chart @date_array, label: "閲覧数" %>
-			<div class="text-center">過去3日間の参加者の各時間における閲覧数</div>
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				<% @graph_hash.each_with_index do |(key, value), i| %>
+				 	<div class="panel panel-default">
+					    <div class="panel-heading" role="tab" id="heading<%= i %>">
+					      	<h4 class="panel-title">
+					        	<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%= i %>" aria-expanded="true" aria-controls="collapseOne"><%= key %></a>
+					      	</h4>
+					    </div>
+				   		<div id="collapse<%= i %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%= i %>">
+				      		<div class="panel-body">
+				        		<%= line_chart value, label: "閲覧数" %>
+								<div class="text-center">過去3日間の参加者の各時間における閲覧数</div>
+				    		</div>
+				    	</div>
+				  	</div>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </div>
