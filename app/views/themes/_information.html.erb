@@ -1,11 +1,34 @@
 
 <div class="info-list">
 
-	<div>
-		<% entry.issues.each do |issue| %>
-	      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+	<!-- 論点タグ -->
+	<% if entry.parent_id == nil %>
+		<% if current_user.admin? || current_user.facilitator? %>
+			<div style="color:#8899a6">
+				<%= form_tag(controller: :themes, action: :add_entry_tag ,method: "post") do %>
+					<% if @theme.issues.count != 0 %>
+					      <% @theme.issues.each do |issue| %>
+					        <%= check_box 'issues', issue.id, checked: issue.checked_entry(entry) %>
+					        <% if issue.checked_entry(entry) %>
+					        	<span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px"><%= issue.name %></span>
+					        <% else %>
+					        	<span style="margin-right:10px"><%= issue.name %></span>
+					        <% end %>
+					      <% end %>
+						<%= hidden_field_tag :theme_id, @theme.id %>
+						<%= hidden_field_tag :entry_id, entry.id %>
+
+						<%= submit_tag "論点編集", class: 'btn btn-default btn-sm' %>
+					<% end %>
+				<% end %>
+			</div>
+		<% else %>
+			<% entry.issues.each do |issue| %>
+		      <span class="label label-default issue-label" data-id="<%= issue.id %>"><%= issue.name %></span>
+		    <% end %>
 	    <% end %>
-	</div>
+	<% end %>
+	<!-- 論点タグ -->
 
 	<!-- ユーザー名 -->
 	<span class="user-name">

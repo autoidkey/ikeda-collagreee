@@ -22,8 +22,10 @@
         <div class="actions">
           <%= render 'reply_button', entry: entry %>
           <%= render 'like_button', entry: entry %>
-          <% if (current_user.admin? || current_user.facilitator?) &&  !@theme.nolink %>
+          <% if false %>
+<!--           <% if (current_user.admin? || current_user.facilitator?) &&  !@theme.nolink %>
             <%= render 'tags_add', entry: entry %>
+          <% end %> -->
           <% end %>
         </div>
       <% end %>
