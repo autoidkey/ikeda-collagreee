@@ -10,7 +10,7 @@ class IssuesController < ApplicationController
         format.html { redirect_to theme_path(@issue.theme), notice: t('controllers.create_tag') }
         format.json { render action: 'show', status: :created, location: @issue }
       else
-        format.html { render action: 'new' }
+        format.html { redirect_to theme_path(@issue.theme), notice: "タグの作成に失敗" }
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
