@@ -507,3 +507,8 @@ input.btn.btn-default.btn-sm {
   font-size: 14px;
 }
 
+.modal-body-max {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
