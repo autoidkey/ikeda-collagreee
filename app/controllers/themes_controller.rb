@@ -8,9 +8,9 @@ class ThemesController < ApplicationController
   include ApplicationHelper
 
   protect_from_forgery except: :auto_facilitation_test
-  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1]
+  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry, :search_entry]
   # after_action  :test, only: [:show]
 
   # load_and_authorize_resource
@@ -233,17 +233,18 @@ class ThemesController < ApplicationController
     @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
     @page = params[:page] || 1
 
-    if params[:search_entry][:order] == 'time'
-      @entries = @theme.sort_by_new(params[:search_entry][:issues])
-    elsif params[:search_entry][:order] == 'popular'
-      @entries = @theme.sort_by_reply(params[:search_entry][:issues])
-    elsif params[:search_entry][:order] == 'point'
-      @entries = @theme.sort_by_points(params[:search_entry][:issues])
-    end
+    # if params[:search_entry][:order] == 'time'
+    #   @entries = @theme.sort_by_new(params[:search_entry][:issues])
+    # elsif params[:search_entry][:order] == 'popular'
+    #   @entries = @theme.sort_by_reply(params[:search_entry][:issues])
+    # elsif params[:search_entry][:order] == 'point'
+    #   @entries = @theme.sort_by_points(params[:search_entry][:issues])
+    # end
+    @entries = @theme.sort_by_new(params[:search_entry][:issues])
 
     # @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
     @entries = Kaminari.paginate_array(@entries).page(params[:page])
-
+    
     respond_to do |format|
       format.js
     end
@@ -663,10 +664,10 @@ class ThemesController < ApplicationController
     render 'point_graph', formats: [:json], handlers: [:jbuilder]
   end
 
-  def user_point_ranking
-    @ranking = @theme.point_ranking
-    render 'user_point_ranking', formats: [:json], handlers: [:jbuilder]
-  end
+  # def user_point_ranking
+  #   @ranking = @theme.point_ranking
+  #   render 'user_point_ranking', formats: [:json], handlers: [:jbuilder]
+  # end
 
   def json_user_point
     @point_history = current_user.point_history(@theme).includes(entry: [:user]).includes(like: [:user]).includes(reply: [:user])

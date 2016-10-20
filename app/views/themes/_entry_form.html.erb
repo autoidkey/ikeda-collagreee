@@ -11,11 +11,11 @@
 
   <% if @theme.issues.count != 0 %>
     <div class="form-group">
-    投稿と関係あるキーワードにはチェックしましょう
+    【投稿と関係ある論点にチェックしましょう】
     <br>
       <% @theme.issues.each do |issue| %>
         <%= check_box 'issues', issue.id %>
-        <label><%= issue.name %>　</label>
+        <label class="label label-default" style="margin-right:5px"><%= issue.name %></label>
       <% end %>
     </div>
   <% end %>

@@ -1,7 +1,7 @@
 <% @entries.each_with_index do |entry, i| %>
   <div class="panel panel-default" id="entry-<%= entry.id %>">
     <div class="panel-body">
-      <%= render 'entry', entry: entry %>
+      <%= render 'entry', entry: entry, count_entry: 0, show_entry: 0 %>
     </div>
   </div>
 <% end %>
