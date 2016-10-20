@@ -14,7 +14,7 @@
 		  title="
 		  <% if entry.likes.count != 0  %>
 			  <% entry.likes.each_with_index do |like, i| %>
-			  	<% if i != 0 %>
+			  	<% if i == 0 %>
 			  		<%= like.user.name %>
 			  	<% else %>
 			  		、<%= like.user.name %>
