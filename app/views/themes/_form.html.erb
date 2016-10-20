@@ -33,10 +33,12 @@
         <%= f.select :nolink, [["議論", false], ['閲覧のみ', true]], class: 'form-control' %>
       </div>
 
+      <% if false %>
       <div class="form-group">
         <%= f.label :group_id %><br>
         <%= f.select :group_id, [0,1,2,3], class: 'form-control' %>
       </div>
+      <% end %>
 
       <div id="form-group">
         <%= f.file_field :image %>
