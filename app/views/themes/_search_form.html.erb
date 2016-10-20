@@ -1,12 +1,14 @@
 <%= form_for @search_entry, :url => {controller: "themes", action: "search_entry", id: @theme.id}, html: {method: :get}, :remote => true do |f| %>
+<% if false %>
 <%= t('themes.sort') %>
   <%= f.radio_button :order, 'time', {:checked => true} %> <%= t('themes.new') %>
   <!-- <%= f.radio_button :order, 'popular' %> 返信数 -->
-  <%= f.radio_button :order, 'point' %> <%= t('themes.point') %>
+  <%= f.radio_button :order, 'point' %> <%= t('themes.point') %> 
+<% end %>
 
 <%= t('themes.narrow') %>
   <% @theme.issues.each do |issue| %>
-    <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <%= issue.name %>
+    <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <span class="label label-default" style="margin-right:5px"><%= issue.name %></span>
   <% end %>
   <%= f.hidden_field :theme_id, { :value => @theme.id } %>
 
