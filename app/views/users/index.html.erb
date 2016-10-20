@@ -108,11 +108,9 @@
       <th>email</th>
       <th>本名</th>
       <th>ユーザ名</th>
-      <th>gender</th>
-      <th>age</th>
-      <th>年齢</th>
-      <th>グループ</th>
-      <td>ひとこと</td>
+      <th>性別</th>
+      <th>職業</th>
+      <th>住まい(市町村)</th>
       <td>Last Login</td>
     </tr>
   </thead>
@@ -127,9 +125,7 @@
         <td><%= user.name %></td>
         <td><%= user.gender %></td>
         <td><%= user.age %></td>
-        <td><%= user.move %></td>
-        <td><%= user.home %></td>
-        <td><%= user.body %></td>
+        <td><%= user.group %></td>
         <td><%= user.current_sign_in_at %></td>
       </tr>
     <% end %>
