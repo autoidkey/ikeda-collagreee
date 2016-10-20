@@ -133,7 +133,7 @@
         </div>
 
         <!-- 検索するビュー -->
-        <% if true %>
+        <% if @theme.issues.count != 0 %>
           <div class="well" id="tl-tool">
             <%= render 'search_form'  %>
           </div>
