@@ -3,7 +3,7 @@
 
 	<!-- 論点タグ -->
 	<% if entry.parent_id == nil %>
-		<% if current_user.admin? || current_user.facilitator? %>
+		<% if (current_user.admin? || current_user.facilitator?) && @vote_phase.nil? %>
 			<div style="color:#8899a6">
 				<%= form_tag(controller: :themes, action: :add_entry_tag ,method: "post") do %>
 					<% if @theme.issues.count != 0 %>
