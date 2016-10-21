@@ -147,13 +147,13 @@ a#navbar-brand-top:visited { background-color: transparent; text-decoration:none
 a#navbar-brand-top:hover { background-color: transparent; text-decoration:none }
 a#navbar-brand-top:active { background-color: transparent; text-decoration:none }
 
-// div#header-time {
-//   margin-top: -20px;
-//   width: 100%;
-//   background-color: #f0f0f0;
-//   color: #428bca;
-//   display: inline-block;
-//   font-weight: bold;
-//   margin-bottom: 20px;
-//   display: none;
-// }
+div#header-time {
+  // margin-top: -20px;
+  // width: 100%;
+  // background-color: #f0f0f0;
+  // color: #428bca;
+  // display: inline-block;
+  // font-weight: bold;
+  // margin-bottom: 20px;
+  display: none;
+}
