@@ -64,6 +64,7 @@
               <%= hidden_field_tag :theme_id, @theme.id %>
 
               <% before_num = 0 %>
+              <% @vote_phase = true %>
 
               <% @theme.like_ranking_check.each_with_index do |entry, idx| %>
                 <!-- ファリテータに任せる -->

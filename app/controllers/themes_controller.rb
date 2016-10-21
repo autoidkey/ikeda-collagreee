@@ -228,6 +228,7 @@ class ThemesController < ApplicationController
   end
 
   def search_entry
+    @stamps = stamp_list(params[:locale])
     @entry = Entry.new
     @issue = Issue.new
     @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
