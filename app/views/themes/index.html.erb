@@ -28,7 +28,7 @@
 
 <% if user_signed_in? %>
   <% @themes.each do |theme| %>
-    <% if (user_admin?(current_user) || user_organizer?(current_user)) %>
+    <% if theme.group_id.to_s == current_user.home.to_s || (user_admin?(current_user) || user_organizer?(current_user)) || true %>
       <% if !theme.secret %>
         <%= render 'theme', theme: theme %>
       <% end %>
