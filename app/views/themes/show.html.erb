@@ -95,14 +95,31 @@
 <!-- フェーズモーダル -->
 
 
-<!-- roleは役割を表す -->
+<!-- タブの表示 -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
+
   <li class="active"><a href="#discussion" role="tab" data-toggle="tab" id="discussion-nav-btn"><%= t('themes.debate') %></a></li>
+
+  <% if user_signed_in? %>
+    <% if smartphone? %>
+      <li><a href="#theme" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">テーマ</a></li>
+    <% end %>
+  <% end %>
+
   <li><a href="#infomation" role="tab" data-toggle="tab"><%= t('themes.ranking') %></a></li>
+
   <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn"><%= t('themes.debate_tree') %></a></li>
+
 <!--   <% if current_user.admin? || current_user.facilitator? %>
     <li><%= link_to t('themes.debate_tree_edit'), thread_classes_all_path(@theme.id) %></li>
   <% end %> -->
+
+  <% if user_signed_in? %>
+    <% if smartphone? %>
+      <li><a href="#keyword" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">キーワード</a></li>
+    <% end %>
+  <% end %>
+
 </ul>
 
 
@@ -176,10 +193,7 @@
           <% end %>
         <% end %>
 
-        <%= render 'theme_info' %>
 
-        <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-        <%= render 'user_ranking', users: @users, theme: @theme %>
         <%#= render 'activity' if user_signed_in? %>
         <!-- 議題 -->
         <%# if smartphone? %>
@@ -188,14 +202,15 @@
           <%#= render 'facilitation_keywords' %>
         <%# end %>
         <!-- キーワード -->
-        <% if smartphone? %>
-          <%= render 'keywords_mobile' %>
-        <% else %>
+        <% if !smartphone? %>
+          <%= render 'theme_info' %>
+          <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+          <%= render 'user_ranking', users: @users, theme: @theme %>
           <%= render 'keywords' %>
+          <%#= render 'other_themes' %>
+          <%= render 'users' %>
+          <%= render 'tags' if user_signed_in? && !current_user.normal? %>
         <% end %>
-        <%#= render 'other_themes' %>
-        <%= render 'users' %>
-        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
       </div>
     </div>
 
@@ -205,12 +220,6 @@
   <!-- ランキンングについて -->
   <div class="tab-pane" id="infomation">
     <div class="row">
-      <div class="col-md-6">
-        <%= render 'user_ranking', users: @users, theme: @theme %>
-      </div>
-      <div class="col-md-6">
-        <%= render 'user_ranking', users: @users, theme: @theme %>
-      </div>
       <% if user_signed_in? %>
         <% if smartphone? %>
           <div class="col-md-6">
@@ -218,6 +227,12 @@
           </div>
         <% end %>
       <% end %>
+      <div class="col-md-6">
+        <%= render 'user_ranking', users: @users, theme: @theme %>
+      </div>
+      <div class="col-md-6">
+        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+      </div>
     </div>
   </div>
 
@@ -227,6 +242,26 @@
     <div class="row">
       <div class="col-md-12">
         <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
+      </div>
+    </div>
+  </div>
+
+  <!-- テーマについて -->
+  <div class="tab-pane" id="theme">
+    <div class="row">
+      <div class="col-md-12">
+        <%= render 'theme_info' %>
+        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
+        <%= render 'users' %>
+      </div>
+    </div>
+  </div>
+
+  <!-- キーワードについて -->
+  <div class="tab-pane" id="keyword">
+    <div class="row">
+      <div class="col-md-12">
+        <%= render 'keywords' %>
       </div>
     </div>
   </div>
