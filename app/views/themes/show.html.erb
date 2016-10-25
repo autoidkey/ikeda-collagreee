@@ -114,12 +114,6 @@
     <li><%= link_to t('themes.debate_tree_edit'), thread_classes_all_path(@theme.id) %></li>
   <% end %> -->
 
-  <% if user_signed_in? %>
-    <% if smartphone? %>
-      <li><a href="#keyword" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">キーワード</a></li>
-    <% end %>
-  <% end %>
-
 </ul>
 
 
@@ -251,17 +245,9 @@
     <div class="row">
       <div class="col-md-12">
         <%= render 'theme_info' %>
-        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
-        <%= render 'users' %>
-      </div>
-    </div>
-  </div>
-
-  <!-- キーワードについて -->
-  <div class="tab-pane" id="keyword">
-    <div class="row">
-      <div class="col-md-12">
         <%= render 'keywords' %>
+        <%= render 'users' %>
+        <%= render 'tags' if user_signed_in? && !current_user.normal? %>
       </div>
     </div>
   </div>
