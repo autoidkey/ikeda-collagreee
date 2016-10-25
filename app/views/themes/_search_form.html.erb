@@ -7,6 +7,7 @@
 <% end %>
 
 <%= t('themes.narrow') %>
+  <% if smartphone? %><br><% end %>
   <% @theme.issues.each do |issue| %>
     <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <span class="label label-default" style="margin-right:5px"><%= issue.name %></span>
   <% end %>

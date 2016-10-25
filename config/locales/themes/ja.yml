@@ -5,7 +5,7 @@ ja:
     opinion_body: 'あなたはどんな意見ですか'
     post: '投稿'
     ranking_title: '投稿ランキング！'
-    ranking: '順位'
+    ranking: 'ポイント'
     post_user: '投稿ユーザー'
     point: 'ポイント'
     facilitator: 'ファシリテーター'
@@ -86,7 +86,7 @@ ja:
     switch_convergence: "収束フェーズモードに切り替えてもよろしいですか？"
     switch_consensus: "評価フェーズモードに切り替えてもよろしいですか？"
     debate: '議論'
-    debate_tree: '議論ツリー'
+    debate_tree: 'ツリー'
     debate_tree_edit: '議論ツリー編集'
     point_acquired: '獲得ポイント'
     new: '新着'
