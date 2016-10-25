@@ -30,7 +30,7 @@ class CoreTimesController < ApplicationController
 
     respond_to do |format|
       if @core_time.save
-        format.html { redirect_to users_path, notice: 'Core time was successfully created.' }
+        format.html { redirect_to theme_path(@core_time.theme_id), notice: 'Core time was successfully created.' }
         if Rails.env.production? # 本番環境用の処理
           @core_time.theme.users.each do |user|
             if user.remind == 'お知らせメールを受け取る'
