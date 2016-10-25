@@ -103,11 +103,6 @@
 <!--   <% if current_user.admin? || current_user.facilitator? %>
     <li><%= link_to t('themes.debate_tree_edit'), thread_classes_all_path(@theme.id) %></li>
   <% end %> -->
-  <% if user_signed_in? %>
-    <% if smartphone? %>
-      <li><a href="#get-point" role="tab" data-toggle="tab"><%= t('themes.point_acquired') %></a></li>
-    <% end %>
-  <% end %>
 </ul>
 
 
@@ -214,8 +209,15 @@
         <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
       <div class="col-md-6">
-        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+        <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
+      <% if user_signed_in? %>
+        <% if smartphone? %>
+          <div class="col-md-6">
+            <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 
