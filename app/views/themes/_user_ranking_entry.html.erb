@@ -16,6 +16,7 @@
 
       <tbody>
         <% users.each_with_index do |user, idx| %>
+          <% if user.entries.where(theme_id: theme, facilitation: false).count == 0 %><% break %><% end %>
           <tr>
             <td class="rank rank-<%= idx + 1%>" id=""><%= idx + 1 %></td>
             <td class="rank-image">
