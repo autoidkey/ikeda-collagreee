@@ -7,7 +7,7 @@
     <% if current_user.admin? || current_user.facilitator? %>
       <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
         <li class="active"><a href="#facilitation" role="tab" data-toggle="tab"><%= t('themes.facilitation') %></a></li>
-        <li><a href="#post" role="tab" data-toggle="tab"><%= t('themes.post') %></a></li>
+        <li><a href="#core_time" role="tab" data-toggle="tab">コアタイム</a></li>
       </ul>
     <% end %>
 
@@ -17,13 +17,13 @@
         <div class="tab-pane facilitation-tab active" id="facilitation">
           <%= render 'facilitation_form' %>
         </div>
-        <div class="tab-pane" id="post">
-          <%= render 'entry_form' %>
+        <div class="tab-pane" id="core_time">
+          <%= render '/core_times/form_theme',core_time: CoreTime.new %>
         </div>
         <% else %>
-        <div class="tab-pane active" id="post">
-          <%= render 'entry_form' %>
-        </div>
+          <div class="tab-pane active" id="post">
+            <%= render 'entry_form' %>
+          </div>
       <% end %>
     </div>
   </div>

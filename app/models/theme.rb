@@ -170,6 +170,21 @@ class Theme < ActiveRecord::Base
     end
   end
 
+  def core_time_value
+    interval = 60*60
+    theme = Theme.find(id)
+    start = Time.now - 3*24*60*60 #過去三日の値を集計
+    end_time = Time.now
+    date_array = {}
+    while ((end_time - start) > 0)
+      t = Webview.where(theme_id: theme.id,created_at: start .. (start + interval - 1)).count
+      date_array[start.strftime("%H:00")] = t
+      # start = start.tomorrow １日毎に集計
+      start = start + interval
+    end
+    return date_array
+  end
+
   def score(user)
     Redis.current.zscore([EXPERIMENT_NAME, THEME_POINT, id.to_s, 'sum'].join(':'), user.id).to_f
   end

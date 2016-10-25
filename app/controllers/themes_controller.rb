@@ -232,6 +232,8 @@ class ThemesController < ApplicationController
     @entry = Entry.new
     @issue = Issue.new
     @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @core_time = CoreTime.new
+
     @page = params[:page] || 1
 
     # if params[:search_entry][:order] == 'time'
