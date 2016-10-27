@@ -1,0 +1,31 @@
+
+<div class="info-list">
+
+	<div>
+		<% entry.issues.each do |issue| %>
+      		<span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px">
+      			<%= issue.name %>
+      		</span>
+    	<% end %>
+	</div>
+	<!-- 論点タグ -->
+
+	<!-- ユーザー名 -->
+	<span class="user-name">
+	<% if entry.facilitation? %>
+	  <%= t('themes.facilitator') %>
+	<% else %>
+	  <%= entry.user.name %>
+	<% end %>
+	</span>
+
+	<% if smartphone?%><br><% end %>
+	<!-- 作成された時間 -->
+  	<span class="timestamp"><% if !smartphone?%>・<% end %><%= entry.created_at.to_s(:timeline) %></span>
+
+  	<!-- いいねの数 -->
+  	<%= t('themes.like') %><span class="like_count info-icon"><%= entry.like_count %><%= t('themes.count') %></span>
+
+  	<!-- エントリーのid -->
+  	<span class="entry-number"><%= t('themes.post_no') %><%= entry.id %></span>
+</div>
