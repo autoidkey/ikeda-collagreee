@@ -14,6 +14,9 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
+    if !user_signed_in?
+      redirect_to root_path, notice: 'You need log in.'
+    end
     @question = Question.new
   end
 
