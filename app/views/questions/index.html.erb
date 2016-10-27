@@ -1,0 +1,57 @@
+<h1>Listing questions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Live</th>
+      <th>City name 1</th>
+      <th>City reason 1</th>
+      <th>City name 2</th>
+      <th>City reason 2</th>
+      <th>City name 3</th>
+      <th>City reason 3</th>
+      <th>City name 4</th>
+      <th>City reason 4</th>
+      <th>City name 5</th>
+      <th>City reason 5</th>
+      <th>City name 6</th>
+      <th>City reason 6</th>
+      <th>Q1</th>
+      <th>Q2</th>
+      <th>Q3 1</th>
+      <th>Q3 2</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= question.live %></td>
+        <td><%= question.city_name_1 %></td>
+        <td><%= question.city_reason_1 %></td>
+        <td><%= question.city_name_2 %></td>
+        <td><%= question.city_reason_2 %></td>
+        <td><%= question.city_name_3 %></td>
+        <td><%= question.city_reason_3 %></td>
+        <td><%= question.city_name_4 %></td>
+        <td><%= question.city_reason_4 %></td>
+        <td><%= question.city_name_5 %></td>
+        <td><%= question.city_reason_5 %></td>
+        <td><%= question.city_name_6 %></td>
+        <td><%= question.city_reason_6 %></td>
+        <td><%= question.q1 %></td>
+        <td><%= question.q2 %></td>
+        <td><%= question.q3_1 %></td>
+        <td><%= question.q3_2 %></td>
+        <td><%= link_to 'Show', question %></td>
+        <td><%= link_to 'Edit', edit_question_path(question) %></td>
+        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Question', new_question_path %>

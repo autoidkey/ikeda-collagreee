@@ -1,0 +1,58 @@
+<%= form_for(@question) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+        <li>入力ミスがあります。赤色のフォームを確認してください</li>
+        <li>選択されていないフォームか入力がないフォームがあります</li>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field" style="margin-bottom: 30px">
+    <h4>1. あなたは現在、実家暮らしですか。それとも一人暮らしをしていますか。</h4>
+    <%= f.select :live, ["実家暮らし","一人暮らし"],class: 'form-control' %>
+  </div>
+
+  <div class="field" style="margin-bottom: 30px">
+    <h4>2. 本日ご紹介のあった街の中で、あなたが「住みたいと思った街」と「遊びに行きたいと思った街」をそれぞれ、下記の対象地区から3つあげてくふぁさい。また、その理由をプレゼンの内容を踏まえ、ご記入ください。</h4>
+    <%= f.label "◼︎住みたいと思った街3つ" %><br>
+    <%= f.select :city_name_1, ["高蔵寺ニュータウン","小牧駅周辺","犬山城下町","太田川駅周辺", "東岡崎駅周辺","刈谷駅周辺","安城駅周辺","豊橋駅周辺","豊川駅周"],:prompt => "住みたい街", class: 'form-control', placeholder: "理由" %>
+    <%= f.text_area :city_reason_1,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+    <%= f.select :city_name_2, ["高蔵寺ニュータウン","小牧駅周辺","犬山城下町","太田川駅周辺", "東岡崎駅周辺","刈谷駅周辺","安城駅周辺","豊橋駅周辺","豊川駅周"],:prompt => "住みたい街",class: 'form-control' %>
+    <%= f.text_area :city_reason_2,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+    <%= f.select :city_name_3, ["高蔵寺ニュータウン","小牧駅周辺","犬山城下町","太田川駅周辺", "東岡崎駅周辺","刈谷駅周辺","安城駅周辺","豊橋駅周辺","豊川駅周"],:prompt => "住みたい街",class: 'form-control' %>
+    <%= f.text_area :city_reason_3,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+
+    <%= f.label "◼︎遊びに行きたいと思った街3つ" %><br>
+    <%= f.select :city_name_4, ["高蔵寺ニュータウン","小牧駅周辺","犬山城下町","太田川駅周辺", "東岡崎駅周辺","刈谷駅周辺","安城駅周辺","豊橋駅周辺","豊川駅周"],:prompt => "遊びに行きたい街", class: 'form-control', placeholder: "理由" %>
+    <%= f.text_area :city_reason_4,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+    <%= f.select :city_name_5, ["高蔵寺ニュータウン","小牧駅周辺","犬山城下町","太田川駅周辺", "東岡崎駅周辺","刈谷駅周辺","安城駅周辺","豊橋駅周辺","豊川駅周"],:prompt => "遊びに行きたい街",class: 'form-control' %>
+    <%= f.text_area :city_reason_5,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+    <%= f.select :city_name_6, ["高蔵寺ニュータウン","小牧駅周辺","犬山城下町","太田川駅周辺", "東岡崎駅周辺","刈谷駅周辺","安城駅周辺","豊橋駅周辺","豊川駅周"],:prompt => "遊びに行きたい街",class: 'form-control' %>
+    <%= f.text_area :city_reason_6,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+  </div>
+
+  <div class="field">
+    <h4>3. あなたが大好きな“地元のモノ”を教えて下さい。食や文化、風景など自由に記述して下さい。</h4>
+    <%= f.text_area :q1,rows: 3,class: 'form-control', placeholder: "例 : ○○うどん、○○祭、○○駅、○○の夜景など" %><br>
+  </div>
+  <div class="field">
+    <h4>4. あなたがお気に入りのお出かけスポットを教えて下さい。地元等にかかわらず、自由に記述して下さい</h4>
+    <%= f.text_area :q2,rows: 3,class: 'form-control', placeholder: "例 : 飲食店、行楽スポット、本屋など" %><br>
+  </div>
+  <div class="field">
+    <h4>5. あなたは、今後も自分が生まれ育った地元に住み続けたいですか。また、その理由もご記入ください。</h4>
+    <%= f.select :q3_1, ["はい","いいえ"],class: 'form-control' %>
+    <%= f.text_area :q3_2,rows: 3,class: 'form-control', placeholder: "理由" %><br>
+  </div>
+
+
+  <%= f.hidden_field :user_id, { :value => current_user.id } %>
+
+  <div class="actions">
+    <%= f.submit "回答する",class: 'btn btn-default' %>
+  </div>
+<% end %>
