@@ -1,6 +1,6 @@
 <%= form_for(@question) do |f| %>
   <% if @question.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" style="width:100%;">
       <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
 
       <ul>

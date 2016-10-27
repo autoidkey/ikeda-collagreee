@@ -24,6 +24,7 @@
       <%= f.hidden_field :realname, { :value => "なし" } %>
       <% end %>
 
+      <% if false %>
       <div class="form-group">
         <%= f.label :gender, t('users.registration.gender') %>
         <%= f.select :gender, User.genders.keys.to_a, {}, { class: "form-control" } %>
@@ -33,11 +34,14 @@
         <%= f.label :group, "住まい(市町村)" %>
         <%= f.text_field :group, { class: "form-control" } %>
       </div>
+      <% end %>
 
+      <% if false %>
       <div class="form-group">
         <%= f.label :age, "職業" %>
         <%= f.select :age, User.ages.keys.to_a, {}, { class: "form-control" } %>
       </div>
+      <% end %>
 
 <!--       <div class="form-group">
         <%= f.label :gender, t('users.registration.gender') %>
