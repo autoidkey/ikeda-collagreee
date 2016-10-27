@@ -33,7 +33,7 @@ class ThemesController < ApplicationController
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
-    if Time.now > Time.local(2016, 10, 27, 14, 00, 00)
+    if Time.now > Time.local(2016, 10, 28, 14, 30, 00)
       if current_user.age == "学生" && !Question.exists?(user_id: current_user.id)
         redirect_to new_question_path
       end
