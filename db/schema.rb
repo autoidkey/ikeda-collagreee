@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161008153049) do
+ActiveRecord::Schema.define(version: 20161027070757) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -196,6 +196,29 @@ ActiveRecord::Schema.define(version: 20161008153049) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sum"
+  end
+
+  create_table "questions", force: true do |t|
+    t.string   "live"
+    t.string   "city_name_1"
+    t.text     "city_reason_1"
+    t.string   "city_name_2"
+    t.text     "city_reason_2"
+    t.string   "city_name_3"
+    t.text     "city_reason_3"
+    t.string   "city_name_4"
+    t.text     "city_reason_4"
+    t.string   "city_name_5"
+    t.text     "city_reason_5"
+    t.string   "city_name_6"
+    t.text     "city_reason_6"
+    t.text     "q1"
+    t.text     "q2"
+    t.string   "q3_1"
+    t.text     "q3_2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "tagged_entries", force: true do |t|
