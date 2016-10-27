@@ -49,6 +49,39 @@
     <%= f.text_area :q3_2,rows: 3,class: 'form-control', placeholder: "理由" %><br>
   </div>
 
+  <% city = {"高蔵寺ニュータウン"=>:c1,"小牧駅周辺"=>:c2,"犬山城下町"=>:c3,"太田川駅周辺"=>:c4, "東岡崎駅周辺"=>:c5,"刈谷駅周辺"=>:c6,"安城駅周辺"=>:c7,"豊橋駅周辺"=>:c8,"豊川駅周"=>:c9 } %>
+  <div class="field" style="margin-bottom: 30px" %>
+    <h4>6. あなたはそれぞれの街について、どの程度なじみがありますか。</h4>
+    <table class="table table-hover text-center" style="table-layout:fixed;">
+      <thead >
+        <tr style="width:50px;">
+          <th></th>
+          <th class="text-center">全くなじみがない<br>1</th>
+          <th class="text-center">2</th>
+          <th class="text-center">3</th>
+          <th class="text-center">どちらでもない<br>4</th>
+          <th class="text-center">5</th>
+          <th class="text-center">6</th>
+          <th class="text-center">非常になじみがある<br>7</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% city.each{| key, value | %>
+          <tr>
+            <td><%= key %></td>
+            <td><%= f.radio_button value, 1  %></td>
+            <td><%= f.radio_button value, 2  %></td>
+            <td><%= f.radio_button value, 3  %></td>
+            <td><%= f.radio_button value, 4  %></td>
+            <td><%= f.radio_button value, 5  %></td>
+            <td><%= f.radio_button value, 6  %></td>
+            <td><%= f.radio_button value, 7  %></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
 
   <%= f.hidden_field :user_id, { :value => current_user.id } %>
 
