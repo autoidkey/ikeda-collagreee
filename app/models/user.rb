@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   # validates :name, :realname, presence: true
-  validates :name, :group, presence: true
+  validates :name, presence: true
 
   has_many :entries
   has_many :activities
