@@ -33,7 +33,6 @@ class ThemesController < ApplicationController
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
-
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
     @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(15)
