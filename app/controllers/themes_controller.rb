@@ -97,27 +97,27 @@ class ThemesController < ApplicationController
     
     end
 
-    #見出しデータの生成
-    @youyaku = []
-    youyakuDatas = Youyaku.where(:theme_id => @theme.id)
-    youyakuDatas.each do |data|
-      @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
-    end
+    # #見出しデータの生成
+    # @youyaku = []
+    # youyakuDatas = Youyaku.where(:theme_id => @theme.id)
+    # youyakuDatas.each do |data|
+    #   @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
+    # end
 
 
-    #クラスタリングのjsonを作成
-    @themes_claster = []
-    EntryClaster.all.each do |cla|
-      @themes_claster.push({ :cla => cla["coaster"], :id => cla["entry_id"]})
-    end
+    # #クラスタリングのjsonを作成
+    # @themes_claster = []
+    # EntryClaster.all.each do |cla|
+    #   @themes_claster.push({ :cla => cla["coaster"], :id => cla["entry_id"]})
+    # end
 
 
-    #スレッド要約データの生成
-    @youyaku_thread = []
-    youyakuDatas = Youyakudata.where(:theme_id => params[:id])
-    youyakuDatas.each do |data|
-      @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
-    end
+    # #スレッド要約データの生成
+    # @youyaku_thread = []
+    # youyakuDatas = Youyakudata.where(:theme_id => params[:id])
+    # youyakuDatas.each do |data|
+    #   @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
+    # end
 
   end
 
