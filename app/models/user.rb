@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
   AFTER_0130 = 'after_0130'
   EXPERIMENT_NAME = 'load_test'
 
+  scope :theme_entries, ->(theme) { where(entry_id: entry, status: 1) }
+
   def entry_point(theme)
     points.user_point(theme).present? ? points.user_point(theme).last.entry : 0.0
   end
@@ -272,6 +274,10 @@ class User < ActiveRecord::Base
     result = update_attributes(params, *options)
     clean_up_passwords
     result
+  end
+
+  def theme_entries(theme)
+    entries.in_theme(theme)
   end
 
 end

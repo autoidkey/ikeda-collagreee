@@ -17,6 +17,7 @@ class Entry < ActiveRecord::Base
   default_scope -> { order('updated_at DESC') }
   scope :asc, -> { order('created_at ASC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
+  scope :theme_user_entries, ->(theme) { includes(likes).where(theme_id: theme) }
   scope :children, ->(parent_id) { where(parent_id: parent_id).includes(:likes) }
   scope :root, -> { where(parent_id: nil) }
   scope :sort_time, -> { order('updated_at DESC') }
@@ -215,13 +216,12 @@ class Entry < ActiveRecord::Base
   end
 
   def all_like_count
-    self.likes.count
-    # sum = 0
-    # sum = sum + self.like_count
-    # self.children.each do |entry|
-    #   sum = sum + entry.all_like_count
-    # end
-    # return sum
+    sum = 0
+    sum = sum + likes.size
+    children.each do |entry|
+      sum = sum + entry.likes.size
+    end
+    return sum
   end
 
   def positive?
