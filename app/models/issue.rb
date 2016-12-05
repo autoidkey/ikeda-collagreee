@@ -11,8 +11,8 @@ class Issue < ActiveRecord::Base
     (params || {}).select { |_, v| v == '1' }.keys
   end
 
-  def checked_entry(entry)
-    entry.issues.each do |issue|
+  def checked_entry(entry,issues)
+    issues.each do |issue|
     	if issue.id == self.id
     		return true
     	end

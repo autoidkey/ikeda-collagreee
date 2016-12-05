@@ -128,7 +128,9 @@
           <% if @tree_type == 3 %>
             <%= render 'vote_ranking', users: @users, theme: @theme %>
           <% elsif @tree_type == 2 %>
+          <% if false %>
             <%= render 'like_ranking', users: @users, theme: @theme %>
+          <% end %>
           <% end %>
         <% end %>
 
@@ -179,6 +181,7 @@
 
       </div>
 
+
       <div class="col-md-4">
         <% if !smartphone? %>
           <% if @tree_type == 3 %>
@@ -227,7 +230,7 @@
         <%= render 'user_ranking', users: @users, theme: @theme %>
       </div>
       <div class="col-md-6">
-        <%= render 'user_ranking_entry', users: @users_entry, theme: @theme %>
+        <%= render 'user_ranking_entry', users: @theme.user_entry_count, theme: @theme %>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@
 
 		  <% if @theme.issues.count != 0 %>
 		      <% @theme.issues.each do |issue| %>
-		        <%= check_box 'issues', issue.id, checked: issue.checked_entry(entry) %>
+		        <%= check_box 'issues', issue.id, checked: issue.checked_entry(entry,@theme.issues) %>
 		        <%= issue.name %>　
 		      <% end %>
 		  <% end %>

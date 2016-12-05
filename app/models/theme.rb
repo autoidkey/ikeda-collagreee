@@ -66,16 +66,17 @@ class Theme < ActiveRecord::Base
 
   def like_ranking
     hash = {}
-    ranking = Entry.where(theme_id: id, parent_id: nil).sort {|a, b|
-      b.all_like_count <=> a.all_like_count 
+    ranking = Entry.where(theme_id: id, parent_id: nil).includes(:likes).sort {|a, b|
+      b.likes.count <=> a.likes.count
     }
     hash["すべて"] = ranking.select { |v| v.all_like_count  > 0 }
-    Issue.where(theme_id: id).each do |issue|
+
+    Issue.where(theme_id: id).includes(entries: :likes).each do |issue|
       ranking = issue.entries.sort {|a, b|
-        b.all_like_count <=> a.all_like_count 
+        b.likes.count <=> a.likes.count
       }
       if ranking.count > 0
-        hash[issue.name] = ranking.select { |v| v.all_like_count  > 0 }
+        hash[issue.name] = ranking.select { |v| v.likes.count > 0 }
       end
     end
     hash
@@ -183,6 +184,11 @@ class Theme < ActiveRecord::Base
       start = start + interval
     end
     return date_array
+  end
+
+  # ユーザ数だけクエリーを発行
+  def user_entry_count
+    self.users.sort_by { |u| -u.entries.where(theme_id: id, facilitation: false).count }
   end
 
   def score(user)

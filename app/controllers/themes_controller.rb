@@ -10,7 +10,7 @@ class ThemesController < ApplicationController
   protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry, :search_entry]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
   # after_action  :test, only: [:show]
 
   # load_and_authorize_resource
@@ -33,15 +33,15 @@ class ThemesController < ApplicationController
   def show
     #NoticeMailer.delay.facilitate_join_notice("title","test title","test body") # メールの送信
 
-    if Time.now > Time.local(2016, 10, 28, 14, 30, 00)
-      if current_user.age == "学生" && !Question.exists?(user_id: current_user.id)
-        redirect_to new_question_path
-      end
-    end
+    # if Time.now > Time.local(2016, 10, 28, 14, 30, 00)
+    #   if current_user.age == "学生" && !Question.exists?(user_id: current_user.id)
+    #     redirect_to new_question_path
+    #   end
+    # end
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).includes(:likes).in_theme(@theme.id).root.page(params[:page]).per(50)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -66,7 +66,6 @@ class ThemesController < ApplicationController
     else
       @f_comment = t('controllers.greet')
     end
-    puts t('controllers.comment_from_facilitator')
 
     # ウェブアクセスをカウントアップ
     # TODO:該当グループ以外のテーマを閲覧した時は除外する
@@ -96,6 +95,10 @@ class ThemesController < ApplicationController
       end
     
     end
+
+    #@entry_like_ranking = @theme.like_ranking
+    #@users_entry = @theme.joins.includes(:user).map(&:user).includes(:entries).sort_by { |u| -u.entries.where(theme_id: @theme, facilitation: false).count }
+    
 
     # #見出しデータの生成
     # @youyaku = []
@@ -728,9 +731,9 @@ class ThemesController < ApplicationController
   end
 
   def set_ranking
-    @users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme, facilitation: false).count }
+    #@users_entry = @theme.joins.includes(:user).map(&:user).sort_by { |u| -u.entries.where(theme_id: @theme, facilitation: false).count }
     @user_ranking = @theme.point_ranking
-    @entry_like_ranking = @theme.like_ranking
+    #@entry_like_ranking = @theme.like_ranking
     @user_ranking_before_0130 = @theme.point_ranking_before_0130
     @user_ranking_after_0130 = @theme.point_ranking_after_0130
   end

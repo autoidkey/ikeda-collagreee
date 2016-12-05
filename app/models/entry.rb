@@ -17,7 +17,7 @@ class Entry < ActiveRecord::Base
   default_scope -> { order('updated_at DESC') }
   scope :asc, -> { order('created_at ASC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
-  scope :children, ->(parent_id) { where(parent_id: parent_id) }
+  scope :children, ->(parent_id) { where(parent_id: parent_id).includes(:likes) }
   scope :root, -> { where(parent_id: nil) }
   scope :sort_time, -> { order('updated_at DESC') }
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
@@ -106,7 +106,7 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user)
+    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user).includes(:likes)
   end
 
   def thread_childrens
@@ -197,12 +197,31 @@ class Entry < ActiveRecord::Base
     self.user == user
   end
 
+  # def liked?(user)
+  #   Like.liked_user(user, self).present?
+  # end
+
   def liked?(user)
-    Like.liked_user(user, self).present?
+    self.likes.each do |like|
+      if like.user_id == user.id
+        return true
+      end
+    end
+    return false
   end
 
   def like_count
-    Like.all_likes(self).count
+    self.likes.count
+  end
+
+  def all_like_count
+    self.likes.count
+    # sum = 0
+    # sum = sum + self.like_count
+    # self.children.each do |entry|
+    #   sum = sum + entry.all_like_count
+    # end
+    # return sum
   end
 
   def positive?
@@ -266,15 +285,6 @@ class Entry < ActiveRecord::Base
     root_entry.touch
   end
 
-
-  def all_like_count
-    sum = 0
-    sum = sum + self.like_count
-    self.children.each do |entry|
-      sum = sum + entry.all_like_count
-    end
-    return sum
-  end
 
   # Redis
   def scored(score)
