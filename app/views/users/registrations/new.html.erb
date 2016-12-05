@@ -28,30 +28,22 @@
         <%= f.select :gender, User.genders.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :group, "住まい(市町村)" %>
-        <%= f.text_field :group, { class: "form-control" } %>
-      </div>
 
       <div class="form-group">
-        <%= f.label :age, "職業" %>
+        <%= f.label :age, "年齢" %>
         <%= f.select :age, User.ages.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
-<!--       <div class="form-group">
-        <%= f.label :move, t('users.registration.move') %>
-        <%= f.select :move, User.moves.keys.to_a, {}, { class: "form-control" } %>
-      </div> -->
-
-<!--       <div class="form-group">
-        <%= f.label :group, t('users.registration.team') %>
-        <%= f.text_field :group, { class: "form-control" } %>
+      <div class="form-group">
+        <%= f.label :home, '住まい' %>
+        <%= f.select :home, User.homes.keys.to_a, {}, { class: "form-control" } %>
       </div>
 
       <div class="form-group">
-        <%= f.label :body, 'ひとこと：(公開)' %>
-        <%= f.text_area :body, autocomplete: "off", class: 'form-control',row: 3 %>
-      </div> -->
+        <%= f.label :move, '職業' %>
+        <%= f.select :move, User.moves.keys.to_a, {}, { class: "form-control" } %>
+      </div>
+
 
 <!--       <div class="form-group">
         <%= f.label :gender, t('users.registration.gender') %>

@@ -8,8 +8,8 @@
 				<%= form_tag(controller: :themes, action: :add_entry_tag ,method: "post") do %>
 					<% if @theme.issues.count != 0 %>
 					      <% @theme.issues.each do |issue| %>
-					        <%= check_box 'issues', issue.id, checked: issue.checked_entry(entry) %>
-					        <% if issue.checked_entry(entry) %>
+					        <%= check_box 'issues', issue.id, checked: issue.checked_entry(entry,@theme.issues) %>
+					        <% if issue.checked_entry(entry,@theme.issues) %>
 					        	<span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px"><%= issue.name %></span>
 					        <% else %>
 					        	<span style="margin-right:10px"><%= issue.name %></span>
@@ -48,7 +48,7 @@
   	<span class="timestamp"><% if !smartphone?%>・<% end %><%= entry.created_at.to_s(:timeline) %></span>
 
   	<!-- いいねの数 -->
-  	<%= t('themes.like') %><span class="like_count info-icon"><%= entry.like_count %><%= t('themes.count') %></span>
+  	<%= t('themes.like') %><span class="like_count info-icon"><%= entry.likes.count %><%= t('themes.count') %></span>
 
   	<!-- エントリーのid -->
   	<span class="entry-number"><%= t('themes.post_no') %><%= entry.id %></span>

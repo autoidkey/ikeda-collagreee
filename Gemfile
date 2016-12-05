@@ -75,6 +75,8 @@ group :development, :test do
   gem 'guard', '~> 2.6.0'
   gem 'guard-rspec', '~> 4.2.8'
   gem 'timecop'
+  gem 'bullet'
+  gem 'activerecord-cause'
 end
 
 # Use unicorn as the app server
