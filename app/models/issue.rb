@@ -11,12 +11,15 @@ class Issue < ActiveRecord::Base
     (params || {}).select { |_, v| v == '1' }.keys
   end
 
-  def checked_entry(entry,issues)
-    issues.each do |issue|
-    	if issue.id == self.id
-    		return true
-    	end
-    end
-    return false
+  def checked_entry(entry)
+    # issues.each do |issue|
+    # 	if issue.id == self.id
+    # 		return true
+    # 	end
+    # end
+    # return false
+    entries.include?(entry)
+
   end
+
 end

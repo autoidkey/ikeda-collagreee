@@ -9,11 +9,17 @@
           <th><%= t('themes.keyword') %></th>
         </tr>
       </thead>
+
+      <% count = 0 %>
       <tbody>
         <% @keyword.each_with_index do |(key, val), idx| %>
           <tr>
             <td class="wordlist">
                 <% val.each do |wordlist| %>
+                  <% count = count + 1 %>
+                  <% if count > 100 %>
+                    <% break %>
+                  <% end %>
                   <span class="keyword-<%= idx %>">
                     <%= wordlist[:word] %>
                   </span>

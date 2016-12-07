@@ -55,6 +55,7 @@ module ApplicationHelper
     end
   end
 
+  #ここはこれでいいのでは？
   def childlen_count(id,entry)
     count = 0
     serchlist = []

@@ -1,5 +1,5 @@
 <% if !@theme.nolink %> <!-- 議論を行わない設定のときは非表示 -->
-	<% if !entry.mine?(current_user) %>
+	<% if entry.user.id == current_user.id %>
 	  <% if entry.liked?(current_user) %>
 	      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
 	  <% else %>
@@ -12,7 +12,7 @@
 		  data-placement="right"
 		  data-html="true"
 		  title="
-		  <% if entry.likes.count != 0  %>
+		  <% if entry.like_count != 0  %>
 			  <% entry.likes.each_with_index do |like, i| %>
 			  	<% if i == 0 %>
 			  		<%= like.user.name %>

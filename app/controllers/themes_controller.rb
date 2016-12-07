@@ -41,7 +41,7 @@ class ThemesController < ApplicationController
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(:likes).in_theme(@theme.id).root.page(params[:page]).per(50)
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -96,31 +96,30 @@ class ThemesController < ApplicationController
     
     end
 
-    #@entry_like_ranking = @theme.like_ranking
-    #@users_entry = @theme.joins.includes(:user).map(&:user).includes(:entries).sort_by { |u| -u.entries.where(theme_id: @theme, facilitation: false).count }
+    @entry_like_ranking = @theme.like_ranking
     
 
-    # #見出しデータの生成
-    # @youyaku = []
-    # youyakuDatas = Youyaku.where(:theme_id => @theme.id)
-    # youyakuDatas.each do |data|
-    #   @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
-    # end
+    #見出しデータの生成
+    @youyaku = []
+    youyakuDatas = Youyaku.where(:theme_id => @theme.id)
+    youyakuDatas.each do |data|
+      @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
+    end
 
 
-    # #クラスタリングのjsonを作成
-    # @themes_claster = []
-    # EntryClaster.all.each do |cla|
-    #   @themes_claster.push({ :cla => cla["coaster"], :id => cla["entry_id"]})
-    # end
+    #クラスタリングのjsonを作成
+    @themes_claster = []
+    EntryClaster.all.each do |cla|
+      @themes_claster.push({ :cla => cla["coaster"], :id => cla["entry_id"]})
+    end
 
 
-    # #スレッド要約データの生成
-    # @youyaku_thread = []
-    # youyakuDatas = Youyakudata.where(:theme_id => params[:id])
-    # youyakuDatas.each do |data|
-    #   @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
-    # end
+    #スレッド要約データの生成
+    @youyaku_thread = []
+    youyakuDatas = Youyakudata.where(:theme_id => params[:id])
+    youyakuDatas.each do |data|
+      @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
+    end
 
   end
 
