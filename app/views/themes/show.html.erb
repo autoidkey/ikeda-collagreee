@@ -168,7 +168,7 @@
         <!-- それぞれの記事を表示するビュー -->
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <%= render 'panel', entry: entry, count_entry: i ,show_entry: 3 %>
+            <%= raw render_panel(entry, i, 4) %>
           <% end %>
         </div>
 
