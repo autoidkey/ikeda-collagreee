@@ -20,7 +20,6 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap-sprockets
-//= require jquery-ui/slider
 //= require jquery.autopager-1.0.0
 //= require jquery.leanModal.min
 //= require jquery-ui
