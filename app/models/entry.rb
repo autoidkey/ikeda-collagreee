@@ -18,7 +18,7 @@ class Entry < ActiveRecord::Base
   scope :asc, -> { order('created_at ASC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :theme_user_entries, ->(theme) { includes(likes).where(theme_id: theme) }
-  scope :children, ->(parent_id) { where(parent_id: parent_id).includes(:likes) }
+  scope :children, ->(parent_id) { where(parent_id: parent_id).includes(likes: :user)}
   scope :root, -> { where(parent_id: nil) }
   scope :sort_time, -> { order('updated_at DESC') }
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
@@ -107,11 +107,11 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user).includes(:likes)
+    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user).includes(likes: :user)
   end
 
   def thread_childrens
-    Entry.unscoped.order('id ASC').children(id).includes(:user)
+    Entry.unscoped.order('id ASC').children(id).includes(:user).includes(likes: :user)
   end
 
   def thread_np_count
@@ -145,7 +145,7 @@ class Entry < ActiveRecord::Base
   end
 
   def logging_point(additional_point)
-    puts "追加ポイントを受信:#{additional_point}ポイント!!"
+    #puts "追加ポイントを受信:#{additional_point}ポイント!!"
     unless facilitation?
       action = self.is_root? ? 0 : 1
       if action == 0 # 0はPost
@@ -203,7 +203,7 @@ class Entry < ActiveRecord::Base
   # end
 
   def liked?(user)
-    self.likes.each do |like|
+    likes.each do |like|
       if like.user_id == user.id
         return true
       end
@@ -212,7 +212,11 @@ class Entry < ActiveRecord::Base
   end
 
   def like_count
-    self.likes.count
+    if likes.loaded?
+      likes.to_a.count
+    else
+      likes.count
+    end
   end
 
   def all_like_count
@@ -251,6 +255,15 @@ class Entry < ActiveRecord::Base
 
   def is_root?
     parent_id.nil?
+  end
+
+  def issue?(issue)
+    issues.each do |i|
+      if i.id == issue.id
+        return true
+      end
+    end
+    return false
   end
 
   def tagging!(tags)
