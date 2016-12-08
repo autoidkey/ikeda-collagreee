@@ -34,7 +34,7 @@ class CoreTimesController < ApplicationController
         if Rails.env.production? # 本番環境用の処理
           @core_time.theme.users.each do |user|
             if user.remind == 'お知らせメールを受け取る'
-              NoticeMailer.core_time_notice(@core_time, user).deliver
+              NoticeMailer.core_time_notice(@core_time, user).deliver_now
             end
           end
         end
