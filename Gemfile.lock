@@ -378,7 +378,6 @@ DEPENDENCIES
   rails-i18n (~> 4.0.0)
   rails_12factor
   rails_autolink
-  rake (< 11.0)
   ransack
   rdoc-data (~> 4.1)
   redis

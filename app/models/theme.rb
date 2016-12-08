@@ -108,7 +108,7 @@ class Theme < ActiveRecord::Base
   end
 
   def vote_entries_disp
-    VoteEntry.where(theme_id: id, targer: true)
+    VoteEntry.where(theme_id: id, targer: true).includes(entry: [:user, :issues])
   end
 
   # def like_ranking_issue
