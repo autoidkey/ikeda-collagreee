@@ -185,16 +185,16 @@ class PointHistory < ActiveRecord::Base
       if point_history.theme.point_function
         case point_history.action
         when '返信され'
-          NoticeMailer.reply_notice(point_history).deliver_now
+          NoticeMailer.reply_notice(point_history).deliver
         when 'Likeされ'
-          NoticeMailer.like_notice(point_history).deliver_now if point_history.depth == 0
+          NoticeMailer.like_notice(point_history).deliver if point_history.depth == 0
         end
       else
         case point_history.action
         when '返信され'
-          NoticeMailer.reply_notice_no_point(point_history).deliver_now
+          NoticeMailer.reply_notice_no_point(point_history).deliver
         when 'Likeされ'
-          NoticeMailer.like_notice_no_point(point_history).deliver_now if point_history.depth == 0
+          NoticeMailer.like_notice_no_point(point_history).deliver if point_history.depth == 0
         end
       end
     end

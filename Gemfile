@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
 # ruby '2.1.2'
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.1.2'
 gem 'mysql2', '0.3.17'
 gem 'mysql'
 gem 'sass-rails', '~> 5.0.1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
+gem 'rake', '< 11.0'
 
 gem 'jquery-rails', '~> 3.0.0'
 gem 'jquery-ui-rails'
