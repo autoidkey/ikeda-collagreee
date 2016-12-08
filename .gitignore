@@ -20,3 +20,4 @@
 /python/clustering/file/*.txt
 /*.pyc
 ,/
+/.idea
