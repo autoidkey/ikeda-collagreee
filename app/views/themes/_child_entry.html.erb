@@ -5,8 +5,22 @@
       <p class="points-text">points</p>
     </div>
 
-    
-    <%= render 'user_icon', entry: child %>
+    <!--user_icon    -->
+    <% if child.facilitation? %>
+        <%= image_tag 'faci_icon_round.png', class: 'user-icon icon-margin' %>
+    <% else %>
+        <%= link_to (image_tag user_icon_path(child.user),
+                               class: 'user-icon icon-margin set-popover',
+                               data: {
+                                   toggle: "popover",
+                                   placement: "right",
+                                   content: child.user.name.to_s + '｜' + t('themes.post') + ' ' + child.user.entries.count.to_s + ' / Like ' +child.user.likes.status_on.count.to_s + t('themes.count')
+                               }
+                    ), '/users/' + child.user.id.to_s %>
+    <% end %>
+    <!--user_icon    -->
+
+
     <% if child.np == 50 %>
       <span class="label label-warning thumb-box"><%= t('themes.entry_child_agree') %></span>
     <% end %>
@@ -18,11 +32,74 @@
     <div id="childID_<%= child.id %>"　class="<%= 'facilitation-back' if child.facilitation? %>"　>
       <%= render 'entry_show', entry: child %>
 
-      <%= render 'information', entry: child %>
+      <!--information-->
+      <div class="info-list">
+        <!-- 論点タグ -->
+        <% if child.parent_id == nil %>
+            <% if (current_user.admin? || current_user.facilitator?) && @vote_phase.nil? %>
+                <div style="color:#8899a6">
+                  <%= form_tag(controller: :themes, action: :add_entry_tag, method: "post") do %>
+                      <% if @theme.issues.size != 0 %>
+                          <% @theme.issues.each do |issue| %>
+                              <% if child.issue?(issue) %>
+                                  <%= check_box 'issues', issue.id, checked: true %>
+                                  <span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px"><%= issue.name %></span>
+                              <% else %>
+                                  <%= check_box 'issues', issue.id, checked: false %>
+                                  <span style="margin-right:10px"><%= issue.name %></span>
+                              <% end %>
+                          <% end %>
+                          <%= hidden_field_tag :theme_id, @theme.id %>
+                          <%= hidden_field_tag :entry_id, child.id %>
+
+                          <%= submit_tag "論点編集", class: 'btn btn-default btn-sm' %>
+                      <% end %>
+                  <% end %>
+                </div>
+            <% else %>
+                <div>
+                  <% child.issues.each do |issue| %>
+		      		<span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px">
+		      			<%= issue.name %>
+		      		</span>
+                  <% end %>
+                </div>
+            <% end %>
+        <% end %>
+        <!-- 論点タグ -->
+
+        <!-- ユーザー名 -->
+        <span class="user-name">
+        <% if child.facilitation? %>
+          <%= t('themes.facilitator') %>
+        <% else %>
+          <%= child.user.name %>
+        <% end %>
+        </span>
+
+        <% if smartphone? %><br>
+        <% end %>
+        <!-- 作成された時間 -->
+        <span class="timestamp"><% if !smartphone? %>・
+              <% end %><%= child.created_at.to_s(:timeline) %></span>
+
+        <!-- いいねの数 -->
+        <%= t('themes.like') %><span class="like_count info-icon"><%= child.like_count %><%= t('themes.count') %></span>
+
+        <!-- エントリーのid -->
+        <span class="entry-number"><%= t('themes.post_no') %><%= child.id %></span>
+      </div>
+      <!--information-->
 
       <% if user_signed_in? %>
         <div class="actions">
-          <%= render 'reply_button', entry: child %>
+          <!--reply_button-->
+          <% if !@theme.nolink %>
+              <a rel="leanModal" href="#reply-modal-<%= child.id %>">
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="reply_button" data-id="<%= child.id %>"> <%= t('themes.do_reply') %></span>
+              </a>
+          <% end %>
+          <!--reply_button-->
           <%= render 'like_button', entry: child %>
         </div>
       <% end %>
@@ -37,7 +114,42 @@
     </div>
 
     <% if user_signed_in? && !@theme.nolink %>
-      <%= render 'modal_form', child: child  %>
+        <!--moal_form-->
+        <div class="modal-window <%= 'modal-window-mobile' if smartphone? %>" id="reply-modal-<%= child.id %>">
+          <div class="modal_close"></div>
+          <div class="reply-modal-parent">
+            <div class="content modal-body-max" id="modal-window-content">
+              <%= render 'themes/user_icon', entry: child %>
+              <%= render 'entry_show', entry: child %>
+
+              <div class="info-list">
+                <%= render 'themes/information', entry: child %>
+              </div>
+
+            </div>
+          </div>
+          <hr/>
+
+          <!-- ファシリテータか一般ユーザーの投稿かを選択 -->
+          <% if current_user.admin? || current_user.facilitator? %>
+
+              <div class="tab-content">
+                <div class="tab-pane active facilitation-tab" id="facilitation<%= child.id %>">
+                  <%= render 'themes/reply_facilitation_form', {entry: child, k: child.id} %>
+                </div>
+              </div>
+          <% else %>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div class="tab-pane active reply-tab" id="post<%= child.id %>">
+                  <%= render 'themes/reply_entry_form', {entry: child} %>
+                </div>
+              </div>
+
+          <% end %>
+        </div>
+        <!--modal_dorm-->
     <% end %>
   </div>
 </div>

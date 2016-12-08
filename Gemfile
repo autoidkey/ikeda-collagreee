@@ -61,7 +61,8 @@ group :development do
   gem 'pry-rails', '~> 0.3.2'
   gem 'pry'
   gem 'pry-doc'
-  # gem 'pry-byebug'
+  gem 'pry-byebug'
+  gem 'rb-readline' #上のため
   gem 'hirb'
   gem 'hirb-unicode'
   gem 'sextant'
