@@ -1,4 +1,3 @@
-
 <div class="content">
   <div class="entry-box post-content" id="entry-<%= entry.id %>" data-id="<%= entry.id %>">
 
@@ -7,44 +6,153 @@
       <p class="points-text">points</p>
     </div>
 
-    <%= render 'user_icon', entry: entry %>
+    <!--ユーザーアイコン-->
+    <% if entry.facilitation? %>
+        <%= image_tag 'faci_icon_round.png', class: 'user-icon icon-margin' %>
+    <% else %>
+        <%= link_to (image_tag user_icon_path(entry.user),
+                               class: 'user-icon icon-margin set-popover',
+                               data: {
+                                   toggle: "popover",
+                                   placement: "right",
+                                   content: entry.user.name.to_s + '｜' + t('themes.post') + ' ' + entry.user.entries.count.to_s + ' / Like ' +entry.user.likes.status_on.count.to_s + t('themes.count')
+                               }
+                    ), '/users/' + entry.user.id.to_s %>
+    <% end %>
+    <!--ユーザーアイコン-->
+
     <%= render 'entry_show', entry: entry %>
 
 
-    <!-- 投稿の情報 -->
-    <%= render 'information', entry: entry %>
+    <!-- 投稿の情報 information-->
+    <div class="info-list">
 
+      <!-- 論点タグ -->
+      <% if entry.parent_id == nil %>
+          <% if (current_user.admin? || current_user.facilitator?) && @vote_phase.nil? %>
+              <div style="color:#8899a6">
+                <%= form_tag(controller: :themes, action: :add_entry_tag, method: "post") do %>
+                    <% if @theme.issues.size != 0 %>
+                        <% @theme.issues.each do |issue| %>
+                            <% if entry.issue?(issue) %>
+                                <%= check_box 'issues', issue.id, checked: true %>
+                                <span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px"><%= issue.name %></span>
+                            <% else %>
+                                <%= check_box 'issues', issue.id, checked: false %>
+                                <span style="margin-right:10px"><%= issue.name %></span>
+                            <% end %>
+                        <% end %>
+                        <%= hidden_field_tag :theme_id, @theme.id %>
+                        <%= hidden_field_tag :entry_id, entry.id %>
+
+                        <%= submit_tag "論点編集", class: 'btn btn-default btn-sm' %>
+                    <% end %>
+                <% end %>
+              </div>
+          <% else %>
+              <div>
+                <% entry.issues.each do |issue| %>
+		      		<span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px">
+		      			<%= issue.name %>
+		      		</span>
+                <% end %>
+              </div>
+          <% end %>
+      <% end %>
+      <!-- 論点タグ -->
+
+      <!-- ユーザー名 -->
+      <span class="user-name">
+        <% if entry.facilitation? %>
+          <%= t('themes.facilitator') %>
+        <% else %>
+          <%= entry.user.name %>
+        <% end %>
+      </span>
+
+      <% if smartphone? %><br>
+      <% end %>
+      <!-- 作成された時間 -->
+      <span class="timestamp">
+        <% if !smartphone? %>・
+            <% end %><%= entry.created_at.to_s(:timeline) %>
+      </span>
+
+      <!-- いいねの数 -->
+      <%= t('themes.like') %><span class="like_count info-icon"><%= entry.like_count %><%= t('themes.count') %></span>
+
+      <!-- エントリーのid -->
+      <span class="entry-number"><%= t('themes.post_no') %><%= entry.id %></span>
+    </div>
+    <!-- 投稿の情報 information-->
 
 
     <!-- いいねボタンと返信ボタン -->
-    <% #unless entry.facilitation %>
-      <% if user_signed_in? %>
+    <% #unless entry.facilitation   %>
+    <% if user_signed_in? %>
         <div class="actions">
-          <%= render 'reply_button', entry: entry %>
-          <%= render 'like_button', entry: entry %>
-          <% if false %>
-<!--           <% if (current_user.admin? || current_user.facilitator?) &&  !@theme.nolink %>
-            <%= render 'tags_add', entry: entry %>
-          <% end %> -->
+          <!--返信ボタン-->
+          <% if !@theme.nolink %>
+              <a rel="leanModal" href="#reply-modal-<%= entry.id %>">
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="reply_button" data-id="<%= entry.id %>"> <%= t('themes.do_reply') %></span>
+              </a>
           <% end %>
+          <!--返信ボタン-->
+          <%= render 'like_button', entry: entry %>
         </div>
-      <% end %>
+    <% end %>
 
 
     <!-- スレッドの子供の記事を表示していく -->
-    <div class="children" id="entry-<%= entry.id %>" style="<%='margin-left: -20px;' if smartphone? %>" >
-      <div id = "<%= "child-entry-hidden#{entry.id}" if count_entry > show_entry %>">
+    <div class="children" id="entry-<%= entry.id %>" style="<%= 'margin-left: -20px;' if smartphone? %>">
+      <div id="<%= "child-entry-hidden#{entry.id}" if count_entry > show_entry %>">
         <% entry.thread_entries.each do |child| %>
-          <hr>
-          <%= render 'child_entry', child: child %>
+            <hr>
+            <%= render 'child_entry', child: child %>
         <% end %>
       </div>
     </div>
 
+    <!--モーダルフォーム-->
     <% if user_signed_in? && !@theme.nolink %>
-      <%= render 'modal_form', child: entry  %>
-    <% end %>
+        <div class="modal-window <%= 'modal-window-mobile' if smartphone? %>" id="reply-modal-<%= child.id %>">
+          <div class="modal_close"></div>
+          <div class="reply-modal-parent">
+            <div class="content modal-body-max" id="modal-window-content">
+              <%= render 'themes/user_icon', entry: child %>
 
+              <%= render 'entry_show', entry: child %>
+
+
+              <div class="info-list">
+                <%= render 'themes/information', entry: child %>
+              </div>
+
+            </div>
+          </div>
+          <hr/>
+
+          <!-- ファシリテータか一般ユーザーの投稿かを選択 -->
+          <% if current_user.admin? || current_user.facilitator? %>
+
+              <div class="tab-content">
+                <div class="tab-pane active facilitation-tab" id="facilitation<%= child.id %>">
+                  <%= render 'themes/reply_facilitation_form', {entry: child, k: child.id} %>
+                </div>
+              </div>
+          <% else %>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div class="tab-pane active reply-tab" id="post<%= child.id %>">
+                  <%= render 'themes/reply_entry_form', {entry: child} %>
+                </div>
+              </div>
+
+          <% end %>
+        </div>
+    <% end %>
+    <!--モーダルフォーム-->
 
   </div>
 </div>

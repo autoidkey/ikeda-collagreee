@@ -7,11 +7,8 @@
 	  <% end %>
 	<% else %>
 		<span class="glyphicon glyphicon-user like_button" aria-hidden="true"></span>
-		<span rel="tooltip"
-		  data-toggle="tooltip"
-		  data-placement="right"
-		  data-html="true"
-		  title="
+        <span rel="tooltip" data-toggle="tooltip" data-placement="right" data-html="true"
+              title="
 		  <% if entry.like_count != 0  %>
 			  <% entry.likes.each_with_index do |like, i| %>
 			  	<% if i == 0 %>
@@ -24,7 +21,7 @@
 		  	なし
 		  <% end %>
 		  "
-		  class="like_button">
+              class="like_button">
 		  いいね一覧
 		</span>
 	<% end %>
