@@ -166,11 +166,7 @@
         </div>
 
         <!-- それぞれの記事を表示するビュー -->
-        <div id="timeline">
-          <% @entries.each_with_index do |entry, i| %>
-            <%= raw render_panel(entry, i, 4) %>
-          <% end %>
-        </div>
+        <%= render "panel" %>
 
         <div id="icon-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
