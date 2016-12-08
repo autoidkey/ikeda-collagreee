@@ -1,5 +1,5 @@
 <% if !@theme.nolink %> <!-- 議論を行わない設定のときは非表示 -->
-	<% if entry.user.id != current_user.id %>
+	<% if entry.user_id != current_user.id %>
 	  <% if entry.liked?(current_user) %>
 	      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
 	  <% else %>
