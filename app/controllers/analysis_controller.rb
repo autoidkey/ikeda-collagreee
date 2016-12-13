@@ -5,18 +5,18 @@ class AnalysisController < ApplicationController
 	def index
 
 		# fix_time
-	  	serch_theme_id = 13
-	  	times = [60] ##配列で管理 10~13
+	  	serch_theme_id = 2
+	  	times = [60*24,60*3] ##配列で管理 10~13 分で記入
 	  	serch_user_id = User.pluck(:id) ##データを取る参加者
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44,100,84,31,32,10,11,12,13,99]
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44]
-	  	remove_user = [1,46]
+	  	remove_user = [1,3,8]
 	  	# serch_user_id = [20,5,3,48,1]
 	  	# serch_user_id = [92,19,17,15,58]
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
-	  	start_time =  Time.local(2016, 10, 11, 0, 0, 0)
-	  	end_time = Time.local(2016, 10, 15, 0, 0, 0)
+	  	start_time =  Time.local(2016, 10, 28, 15, 0, 0)
+	  	end_time = Time.local(2016, 11, 4, 18, 0, 0)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
@@ -545,7 +545,7 @@ class AnalysisController < ApplicationController
 			File.open(file_name, 'w') {|file|
 				write = "user,"
 			  	serch_user.each do |user|
-			  		write = write + User.find(user).name + ","
+			  		write = write + User.find(user).id.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -619,7 +619,7 @@ class AnalysisController < ApplicationController
 			File.open(file_name, 'w') {|file|
 				write = "user,"
 			  	serch_user.each do |user|
-			  		write = write + User.find(user).name + ","
+			  		write = write + User.find(user).id.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -693,7 +693,7 @@ class AnalysisController < ApplicationController
 			File.open(file_name, 'w') {|file|
 				write = "user,"
 			  	serch_user.each do |user|
-			  		write = write + User.find(user).name + ","
+			  		write = write + User.find(user).id.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -851,7 +851,7 @@ class AnalysisController < ApplicationController
 			File.open(file_name, 'w') {|file|
 				write = "user,"
 			  	serch_user.each do |user|
-			  		write = write + User.find(user).name + ","
+			  		write = write + User.find(user).id.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -926,7 +926,7 @@ class AnalysisController < ApplicationController
 			File.open(file_name, 'w') {|file|
 				write = "user,"
 			  	serch_user.each do |user|
-			  		write = write + User.find(user).name + ","
+			  		write = write + User.find(user).id.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
