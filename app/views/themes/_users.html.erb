@@ -10,7 +10,7 @@
                             data: {
                               toggle: "popover",
                               placement: "bottom",
-                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + ' / Like ' + user.likes.status_on.count.to_s + t('themes.count')
+                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entry_count.to_s + ' / Like ' + user.like_count.to_s + t('themes.count')
                             }
                             ), '/users/' + user.id.to_s %>
       <% else %>
@@ -19,7 +19,7 @@
                             data: {
                               toggle: "popover",
                               placement: "bottom",
-                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + ' / Like ' + user.likes.status_on.count.to_s + t('themes.count')
+                              content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entry_count.to_s + ' / Like ' + user.like_count.to_s + t('themes.count')
                             }
                             ), '/users/' + user.id.to_s + '?locale=en'%>
       <% end %>

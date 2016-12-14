@@ -79,8 +79,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-    config.after_initialize do
-    Bullet.enable  = true   # bullet を有効にする
+  config.after_initialize do
+    Bullet.enable  = false   # bullet を有効にする
 
     # 以下はN+1問題を発見した時のユーザーへの通知方法
     Bullet.alert   = true   # ブラウザのJavaScriptアラート
@@ -101,10 +101,10 @@ Rails.application.configure do
     #Bullet.stacktrace_includes = [ 'your_gem', 'your_middleware' ]
   end
 
-  ActiveRecord::Cause.match_paths = [
-    /spec\/spec_helper/,
-  ] # default is []
-  ActiveRecord::Cause.log_with_sql = true # default is false
-  ActiveRecord::Cause.log_mode = :all # default is :single
+  # ActiveRecord::Cause.match_paths = [
+  #   /spec\/spec_helper/,
+  # ] # default is []
+  # ActiveRecord::Cause.log_with_sql = true # default is false
+  # ActiveRecord::Cause.log_mode = :all # default is :single
 
 end

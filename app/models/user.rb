@@ -280,4 +280,20 @@ class User < ActiveRecord::Base
     entries.in_theme(theme)
   end
 
+  def entry_count
+    if entries.loaded?
+      entries.to_a.count
+    else
+      entries.count
+    end
+  end
+
+  def like_count
+    if likes.loaded?
+      likes.to_a.count
+    else
+      likes.count
+    end
+  end
+
 end

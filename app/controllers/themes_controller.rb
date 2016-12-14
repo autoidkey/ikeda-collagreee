@@ -695,7 +695,7 @@ class ThemesController < ApplicationController
   end
 
   def set_theme
-    @theme = Theme.find(params[:id])
+    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
   end
 
   def set_keyword
