@@ -16,7 +16,8 @@
 
       <tbody>
         <% users.each_with_index do |user, idx| %>
-          <% if user.entries.where(theme_id: theme, facilitation: false).count == 0 %><% break %><% end %>
+          <% user_count = user.entry_count %>
+          <% if user_count == 0 %><% break %><% end %>
           <tr>
             <td class="rank rank-<%= idx + 1%>" id=""><%= idx + 1 %></td>
             <td class="rank-image">
@@ -25,13 +26,13 @@
                            data: {
                              toggle: "popover",
                              placement: "right",
-                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user.entries.count.to_s + t('themes.count_like') + user.likes.status_on.count.to_s + t('themes.count')
+                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user_count.to_s + t('themes.count_like') + user.likes.status_on.count.to_s + t('themes.count')
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>
             <td class="rank-score">
               <span class="user-score">
-                <%= user.entries.where(theme_id: theme, facilitation: false).count %>
+                <%= user_count %>
               </span>
               <%= t('themes.count') %></td>
           </tr>

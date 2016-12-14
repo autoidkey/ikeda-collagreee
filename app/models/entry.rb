@@ -1,7 +1,7 @@
 class Entry < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
   belongs_to :theme, touch: true
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
@@ -24,6 +24,7 @@ class Entry < ActiveRecord::Base
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
   scope :search_issues, ->(issues) { select { |e| issues.map{|i| e.tagged_entries.map { |t| t.issue_id.to_s }.include?(i) }.include?(true) } if issues.present? }
   scope :latest, -> { order('created_at DESC') }
+  scope :to_entry_count, ->(id) { where(theme_id: id, facilitation: false) }
   
   # before_create :check_created_at_and_updated_at
 

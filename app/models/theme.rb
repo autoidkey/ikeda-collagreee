@@ -187,7 +187,8 @@ class Theme < ActiveRecord::Base
 
   # ユーザ数だけクエリーを発行
   def user_entry_count
-    users.sort_by { |u| -u.entries.where(theme_id: id, facilitation: false).to_a.count }
+    # users.sort_by { |u| -u.entries.where(theme_id: id, facilitation: false).to_a.count }
+    users.sort_by { |u| -u.entry_count }
   end
 
   def score(user)
