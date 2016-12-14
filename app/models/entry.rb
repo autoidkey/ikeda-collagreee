@@ -1,7 +1,7 @@
 class Entry < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
-  belongs_to :user, :counter_cache => true
+  belongs_to :user
   belongs_to :theme, touch: true
   has_many :issues, through: :tagged_entries
   has_many :tagged_entries
