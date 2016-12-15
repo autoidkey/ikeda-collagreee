@@ -41,7 +41,7 @@ class ThemesController < ApplicationController
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(200)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
