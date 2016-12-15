@@ -26,7 +26,7 @@
                            data: {
                              toggle: "popover",
                              placement: "right",
-                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user_count.to_s + t('themes.count_like') + user.likes.status_on.count.to_s + t('themes.count')
+                             content: user.name.to_s + '｜' + t('themes.post') + ' ' + user_count.to_s + t('themes.count_like') + user.like_count.to_s + t('themes.count')
                            }
                            ), '/users/' + user.id.to_s %>　<%= user.name %>
             </td>
