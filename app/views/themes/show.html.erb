@@ -1,4 +1,3 @@
-
 <div id="header-time">
   <div class="panel panel-default">
     <div class="panel-header" style="background-color: #f39800;">
@@ -108,7 +107,9 @@
 
   <li><a href="#infomation" role="tab" data-toggle="tab"><%= t('themes.ranking') %></a></li>
 
+  <% if !smartphone? %>
   <li><a href="#tree" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn"><%= t('themes.debate_tree') %></a></li>
+  <% end %>
 
 <!--   <% if current_user.admin? || current_user.facilitator? %>
     <li><%= link_to t('themes.debate_tree_edit'), thread_classes_all_path(@theme.id) %></li>
