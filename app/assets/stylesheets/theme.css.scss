@@ -498,6 +498,12 @@ select.vote_form{
   .modalBK{position: fixed; z-index:999; height:700px; width:100%;background:#000; opacity: 0.4;filter: alpha(opacity=90);-moz-opacity:0.90;}
   .modal{width:1400px; color: #eee;}
   .modal p{font-size:40px; text-align:justify; padding: 0px 10px;}
+
+  .smoke {
+    background: rgba(0, 0, 0, 0.2);
+    padding-bottom: 5em;
+    min-height: 200px;
+  }
 }
 
 input.btn.btn-default.btn-sm {

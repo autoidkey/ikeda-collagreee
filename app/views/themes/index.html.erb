@@ -2,7 +2,11 @@
   <div class="smoke">
     <div class="row" style="padding-top: 50px;">
       <div class="col-md-8 col-md-offset-2 hero-content">
-        <h1><%= t('themes.main_title_html') %></h1>
+        <% if !smartphone? %>
+          <h1><%= t('themes.main_title_html') %></h1>
+        <% else %>
+          <h1 style="font-size:28px;line-height:1.6;"><%= t('themes.main_title_html') %></h1>
+        <% end %>
       </div>
       <% unless user_signed_in? %>
         <div class="col-md-6 col-md-offset-3 hero-login">

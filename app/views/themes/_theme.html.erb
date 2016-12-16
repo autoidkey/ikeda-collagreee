@@ -3,6 +3,7 @@
     <div class="panel-heading">
       <span style="margin-right:18px; font-size:20px; font-weight: bold;"><%= link_to theme.title, theme, data={"no-turbolink" => true ,id: "top-theme"} %></span> 
       <% if theme.start_at? %>
+        <% if smartphone? %><br><% end %>
         <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
         <%= theme.start_at.strftime("%m.%d %H:%M") %> - <%= theme.end_at.strftime("%m.%d %H:%M") %>
       <% end %>
@@ -11,6 +12,7 @@
     <div class="panel-heading">
       <span style="margin-right:18px; font-size:20px; font-weight: bold;"><%= theme.title%></span> 
       <% if theme.start_at? %>
+        <% if smartphone? %><br><% end %>
         <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
         <%= theme.start_at.strftime("%m.%d %H:%M") %> - <%= theme.end_at.strftime("%m.%d %H:%M") %>
       <% end %>

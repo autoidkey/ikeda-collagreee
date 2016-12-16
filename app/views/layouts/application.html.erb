@@ -17,39 +17,73 @@
   </head>
 
   <body class="<%= 'mobile' if smartphone? %>">
-    <%= render 'layouts/header' %>
 
-    <div class="container-fluid">
-      <% flash.each do |key, value| %>
-        <%= content_tag(:div, value, class: "alert alert-#{key}") %>
-      <% end %>
-
-      <%= yield %>
-
-      <%= render 'layouts/footer' %>
-      <%#= debug(params) if Rails.env.development?  %>
+      <%= render 'layouts/header' %>
+      <div id="loader-bg">
+      <div id="loader">
+        <img src="/images/img-loading.gif" width="80" height="80" alt="Now Loading..." />
+        <p>Now Loading...</p>
+      </div>
     </div>
 
-<!--     <script>
+    <div id="wrap">
+
+      <div class="container-fluid">
+        <% flash.each do |key, value| %>
+          <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+        <% end %>
+
+        <%= yield %>
+
+        <%= render 'layouts/footer' %>
+        <%#= debug(params) if Rails.env.development?  %>
+      </div>
+
+  <!--     <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-45388387-1', 'auto');
+        ga('send', 'pageview');
+
+      </script> -->
+      <script>
+
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-45388387-1', 'auto');
+      ga('create', 'UA-60670262-1', 'auto');
       ga('send', 'pageview');
 
-    </script> -->
-    <script>
-
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-60670262-1', 'auto');
-  ga('send', 'pageview');
-</script>
+      $(function() {
+        var h = $(window).height();
+       
+        $('#wrap').css('display','none');
+        $('#loader-bg ,#loader').height(h).css('display','block');
+      });
+       
+      $(window).load(function () { //全ての読み込みが完了したら実行
+        $('#loader-bg').delay(900).fadeOut(800);
+        $('#loader').delay(600).fadeOut(300);
+        $('#wrap').css('display', 'block');
+      });
+       
+      //10秒たったら強制的にロード画面を非表示
+      $(function(){
+        setTimeout('stopload()',10000);
+      });
+       
+      function stopload(){
+        $('#wrap').css('display','block');
+        $('#loader-bg').delay(900).fadeOut(800);
+        $('#loader').delay(600).fadeOut(300);
+      }
+    </script>
+  </div>
 
   </body>
 </html>
