@@ -1,3 +1,5 @@
+<%= paginate @entries %>
+
 <% show_entry = 4 %>
 <div id="timeline">
   <% @entries.each_with_index do |entry, i| %>
@@ -23,3 +25,4 @@
       <% end %>
   <% end %>
 </div>
+<%= paginate @entries %>
