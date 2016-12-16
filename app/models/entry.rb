@@ -108,11 +108,11 @@ class Entry < ActiveRecord::Base
   end
 
   def thread_entries
-    Entry.unscoped.order('id ASC').children(root_entry.id).includes(:user).includes(likes: :user)
+    Entry.unscoped.order('id ASC').children(root_entry.id).includes(likes: :user).includes(user: [:likes,:entries])
   end
 
   def thread_childrens
-    Entry.unscoped.order('id ASC').children(id).includes(:user).includes(likes: :user)
+    Entry.unscoped.order('id ASC').children(id).includes(likes: :user).includes(user: [:likes,:entries])
   end
 
   def thread_np_count
