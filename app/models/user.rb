@@ -284,7 +284,7 @@ class User < ActiveRecord::Base
     if entries.loaded?
       entries.to_a.count
     else
-      entries.count
+      entries.size
     end
   end
 
@@ -292,7 +292,7 @@ class User < ActiveRecord::Base
     if likes.loaded?
       likes.to_a.count
     else
-      likes.count
+      likes.size
     end
   end
 
