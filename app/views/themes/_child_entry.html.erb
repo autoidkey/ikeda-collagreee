@@ -14,7 +14,7 @@
                                data: {
                                    toggle: "popover",
                                    placement: "right",
-                                   content: child.user.name.to_s + '｜' + t('themes.post') + ' ' + child.user.entries.count.to_s + ' / Like ' +child.user.likes.status_on.count.to_s + t('themes.count')
+                                   content: child.user.name.to_s + '｜' + t('themes.post') + ' ' + child.user.entry_count.to_s + ' / Like ' +child.user.like_count.to_s + t('themes.count')
                                }
                     ), '/users/' + child.user.id.to_s %>
     <% end %>

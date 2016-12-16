@@ -281,19 +281,11 @@ class User < ActiveRecord::Base
   end
 
   def entry_count
-    if entries.loaded?
       entries.to_a.count
-    else
-      entries.size
-    end
   end
 
   def like_count
-    if likes.loaded?
       likes.to_a.count
-    else
-      likes.size
-    end
   end
 
 end
