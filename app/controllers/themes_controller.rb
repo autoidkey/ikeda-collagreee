@@ -236,6 +236,7 @@ class ThemesController < ApplicationController
   end
 
   def search_entry
+    @theme = Theme.includes(users: [:entries, :likes]).find(params[:search_entry][:theme_id])
     @stamps = stamp_list(params[:locale])
     @entry = Entry.new
     @issue = Issue.new
