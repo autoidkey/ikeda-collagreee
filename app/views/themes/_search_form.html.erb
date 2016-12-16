@@ -7,11 +7,25 @@
 <% end %>
 
 <%= t('themes.narrow') %>
-  <% if smartphone? %><br><% end %>
-  <% @theme.issues.each do |issue| %>
-    <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <span class="label label-default" style="margin-right:5px"><%= issue.name %></span>
+  <% if !smartphone? %>
+  	<br>
+	  <% @theme.issues.each do |issue| %>
+	    <%= f.check_box :issues, {multiple: true}, issue.id, nil %> <span class="label label-default" style="margin-right:5px"><%= issue.name %></span>
+	  <% end %>
+	  <%= f.hidden_field :theme_id, { :value => @theme.id } %>
+	  
+	  <%= f.submit t('themes.search'), class: 'btn btn-default', id: 'search-button' %>
+  <% else %>
+  	<div class="row">
+  		<% @theme.issues.each do |issue| %>
+  			<div class="col-xs-6">
+	    		<%= f.check_box :issues, {multiple: true}, issue.id, nil %> <span class="label label-default" style="margin-right:5px"><%= issue.name %></span>
+	    	</div>
+	  	<% end %>
+	</div>
+	<%= f.hidden_field :theme_id, { :value => @theme.id } %>
+	<br>
+	<%= f.submit t('themes.search'), class: 'btn btn-default', id: 'search-button' %>
+  	
   <% end %>
-  <%= f.hidden_field :theme_id, { :value => @theme.id } %>
-
-  <%= f.submit t('themes.search'), class: 'btn btn-default', id: 'search-button' %>
 <% end %>

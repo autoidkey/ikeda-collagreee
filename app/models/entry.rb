@@ -18,7 +18,7 @@ class Entry < ActiveRecord::Base
   scope :asc, -> { order('created_at ASC') }
   scope :in_theme, ->(theme) { where(theme_id: theme) }
   scope :theme_user_entries, ->(theme) { includes(likes).where(theme_id: theme) }
-  scope :children, ->(parent_id) { where(parent_id: parent_id).includes(likes: :user)}
+  scope :children, ->(parent_id) { where(parent_id: parent_id).includes(likes: :user).includes(user: [:likes,:entries])}
   scope :root, -> { where(parent_id: nil) }
   scope :sort_time, -> { order('updated_at DESC') }
   # scope :popular, -> { sort_by { |e| Entry.children(e.id).count}.reverse }
