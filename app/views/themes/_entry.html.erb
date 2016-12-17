@@ -115,7 +115,7 @@
 
     <!--モーダルフォーム-->
     <% if user_signed_in? && !@theme.nolink %>
-      <%= render 'modal_form', child: entry  %>
+      <%= raw render_modal_form(entry) %>
     <% end %>
 
     <!--モーダルフォーム-->
