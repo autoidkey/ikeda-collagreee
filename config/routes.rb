@@ -34,7 +34,8 @@ Rails.application.routes.draw do
   post 'themes/create_entry/:id' => 'themes#create_entry'
   post 'themes/:id' => 'themes#show'
   get 'themes/order/:id' => 'themes#order'
-  get 'themes/search_entry/:id' => 'themes#search_entry'
+  get 'themes/search_entry/:id' => 'themes#search_entry' ,as: "serch_entry"
+  get 'themes/search_entry_like/:id' => 'themes#search_entry_like' ,as: "serch_entry_like"
   get 'themes/check_new/:id' => 'themes#check_new'
   get 'themes/:id/point_graph' => 'themes#point_graph'
   get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'
