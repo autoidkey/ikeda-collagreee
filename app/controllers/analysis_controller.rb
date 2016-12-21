@@ -5,18 +5,18 @@ class AnalysisController < ApplicationController
 	def index
 
 		# fix_time
-	  	serch_theme_id = 2
-	  	times = [60*24,60*3] ##配列で管理 10~13 分で記入
+	  	serch_theme_id = 1
+	  	times = [60*24] ##配列で管理 10~13 分で記入
 	  	serch_user_id = User.pluck(:id) ##データを取る参加者
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44,100,84,31,32,10,11,12,13,99]
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44]
-	  	remove_user = [1,3,8]
+	  	remove_user = [1,2]
 	  	# serch_user_id = [20,5,3,48,1]
 	  	# serch_user_id = [92,19,17,15,58]
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
-	  	start_time =  Time.local(2016, 10, 28, 15, 0, 0)
-	  	end_time = Time.local(2016, 11, 4, 18, 0, 0)
+	  	start_time =  Time.local(2016, 12, 12, 0, 0, 0)
+	  	end_time = Time.local(2016, 12, 21, 0, 0, 0)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
@@ -131,7 +131,7 @@ class AnalysisController < ApplicationController
 	  		start = start_time
 		  	while ((end_time - start) > 0)
 		  		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1)).count
-		  		date_array.push({start.to_s(:time) => t})
+		  		date_array.push({start.to_s => t})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -177,7 +177,7 @@ class AnalysisController < ApplicationController
 	  		start = start_time
 		  	while ((end_time - start) > 0)
 		  		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1)).count
-		  		date_array.push({start.to_s(:time) => t})
+		  		date_array.push({start.to_s => t})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -209,6 +209,143 @@ class AnalysisController < ApplicationController
 		end
 		#############################
 
+		#論点タグの時間ごと
+	  	###########################
+	  	times.each do |time|
+
+	  		file_name = "issue"
+		  	object = TaggedEntry.all
+		  	colum = Issue.pluck(:id)
+		  	interval = 60*time
+
+		  	# 時間ごとの投稿の推移
+	  		date_array = []
+	  		@data_all = []
+	  		start = start_time
+		  	while ((end_time - start) > 0)
+		  		array = []
+		  		colum.each do |col|
+			  		t = object.where(issue_id: col,created_at: start .. (start + interval - 1)).count
+			  		array.push(t)
+			  	end
+			  	date_array.push({start.to_s => array})
+		  		# start = start.tomorrow １日毎に集計
+		  		start = start + interval
+		  	end
+		  	@data_all.push(date_array)
+
+			logger.info({data: @data_all})
+
+
+			#からむの作成
+
+			file_name = "log/csv2/"+file_name+time.to_s+".csv"
+			File.open(file_name, 'w') {|file|
+			@data_all.each do |data|
+
+				write = ","
+				colum.each do |issue|
+					write = write + Issue.find(issue).name.encode!("Shift_JIS") + ","
+				end
+				file.write write + "\n"
+
+				p data
+		  		data.each do |d|
+				  	key = d.keys[0]
+				  	# logger.warn key
+				  	# logger.warn d[key]
+				    write = key.to_s+","
+				    sum = 0
+				    d[key].each do |t|
+				    	write = write + t.to_s + ","
+				    	sum = sum + t
+				    end
+				    file.write write + sum.to_s + "\n"
+				end
+
+				write = ","
+				sum = 0
+				colum.each do |issue|
+					write = write + TaggedEntry.where(issue_id: issue).count.to_s + ","
+					sum = sum + TaggedEntry.where(issue_id: issue).count
+				end
+				file.write write + sum.to_s + "\n"
+				
+			 end
+			}
+
+		end
+		#############################
+
+		#それぞれのユーザ論点タグ
+	  	###########################
+	  	times.each do |time|
+
+	  		file_name = "person_issue"
+		  	object = TaggedEntry.all
+		  	interval = 60*time
+		  	colum = Issue.pluck(:id)
+		  	# 時間ごとの投稿の推移
+	  		date_array = []
+	  		@data_all = []
+	  		start = start_time
+
+		  	serch_user.each do |user|
+
+		  		array = []
+
+		  		colum.each do |col|
+		  			sum = 0
+		  			object.where(issue_id: col).each do |issue|
+		  				if issue.entry.user_id == user
+		  					sum = sum + 1
+		  				end
+			  		end
+			  		array.push(sum)
+		  		end
+		  		date_array.push({user.to_s => array})
+
+		  	end
+
+		  	@data_all.push(date_array)
+
+			logger.info({data: @data_all})
+
+
+			#からむの作成
+
+			file_name = "log/csv2/"+file_name+time.to_s+".csv"
+			File.open(file_name, 'w') {|file|
+			@data_all.each do |data|
+
+				write = ","
+				colum.each do |issue|
+					write = write + Issue.find(issue).name + ","
+				end
+				file.write write + "\n"
+
+				p data
+		  		data.each do |d|
+				  	key = d.keys[0]
+				  	# logger.warn key
+				  	# logger.warn d[key]
+				    write = key.to_s+","
+				    sum = 0
+				    d[key].each do |t|
+				    	write = write + t.to_s + ","
+				    	sum = sum + t
+				    end
+				    file.write write + sum.to_s + "\n"
+				end
+
+
+				
+			 end
+			}
+
+		end
+		#############################
+
 		#閲覧数の時間ごと
 	  	###########################
 	  	times.each do |time|
@@ -223,7 +360,7 @@ class AnalysisController < ApplicationController
 	  		start = start_time
 		  	while ((end_time - start) > 0)
 		  		t = object.where(theme_id: serch_theme_id ,created_at: start .. (start + interval - 1)).count
-		  		date_array.push({start.to_s(:time) => t})
+		  		date_array.push({start.to_s => t})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -273,7 +410,7 @@ class AnalysisController < ApplicationController
 		  		entries.each do |entry|
 		  			length_count = length_count + entry.body.length
 		  		end
-		  		date_array.push({start.to_s(:time) => length_count})
+		  		date_array.push({start.to_s => length_count})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -318,7 +455,7 @@ class AnalysisController < ApplicationController
 	  		start = start_time
 		  	while ((end_time - start) > 0)
 		  		t = object.where(theme_id: serch_theme_id ,parent_id: nil ,created_at: start .. (start + interval - 1)).count
-		  		date_array.push({start.to_s(:time) => t})
+		  		date_array.push({start.to_s => t})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -366,7 +503,7 @@ class AnalysisController < ApplicationController
 		  			array.push(a.user_id)
 		  		end
 
-		  		date_array.push({start.to_s(:time) => array.uniq.count})
+		  		date_array.push({start.to_s => array.uniq.count})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -419,7 +556,7 @@ class AnalysisController < ApplicationController
 		  			array.push(a.user_id)
 		  		end
 
-		  		date_array.push({start.to_s(:time) => array.uniq.count})
+		  		date_array.push({start.to_s => array.uniq.count})
 		  		# start = start.tomorrow １日毎に集計
 		  		start = start + interval
 		  		logger.info({time: start.to_s})
@@ -530,7 +667,7 @@ class AnalysisController < ApplicationController
 		  			t = object.where(user_id: user ,created_at: start .. (start + interval - 1))
 			  		array.push(t.count)
 		  		end
-		  		date_array.push({start.to_s(:time) => array})
+		  		date_array.push({start.to_s => array})
 		  		start = start + interval
 			end
 
@@ -543,9 +680,16 @@ class AnalysisController < ApplicationController
 
 			file_name = "log/csv2/"+file_name+time.to_s+".csv"
 			File.open(file_name, 'w') {|file|
-				write = "user,"
+				write = "user_id,"
 			  	serch_user.each do |user|
 			  		write = write + User.find(user).id.to_s + ","
+			  	end
+			  	write = write + "\n"
+			  	file.write write
+
+			  	write = "username,"
+			  	serch_user.each do |user|
+			  		write = write + User.find(user).name.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -604,7 +748,7 @@ class AnalysisController < ApplicationController
 		  			t = object.where(user_id: user ,created_at: start .. (start + interval - 1))
 			  		array.push(t.count)
 		  		end
-		  		date_array.push({start.to_s(:time) => array})
+		  		date_array.push({start.to_s => array})
 		  		start = start + interval
 			end
 
@@ -617,9 +761,16 @@ class AnalysisController < ApplicationController
 
 			file_name = "log/csv2/"+file_name+time.to_s+".csv"
 			File.open(file_name, 'w') {|file|
-				write = "user,"
+				write = "user_id,"
 			  	serch_user.each do |user|
 			  		write = write + User.find(user).id.to_s + ","
+			  	end
+			  	write = write + "\n"
+			  	file.write write
+
+			  	write = "username,"
+			  	serch_user.each do |user|
+			  		write = write + User.find(user).name.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -678,7 +829,7 @@ class AnalysisController < ApplicationController
 		  			t = object.where(user_id: user ,created_at: start .. (start + interval - 1))
 			  		array.push(t.count)
 		  		end
-		  		date_array.push({start.to_s(:time) => array})
+		  		date_array.push({start.to_s => array})
 		  		start = start + interval
 			end
 
@@ -691,9 +842,16 @@ class AnalysisController < ApplicationController
 
 			file_name = "log/csv2/"+file_name+time.to_s+".csv"
 			File.open(file_name, 'w') {|file|
-				write = "user,"
+				write = "user_id,"
 			  	serch_user.each do |user|
 			  		write = write + User.find(user).id.to_s + ","
+			  	end
+			  	write = write + "\n"
+			  	file.write write
+
+			  	write = "username,"
+			  	serch_user.each do |user|
+			  		write = write + User.find(user).name.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -836,7 +994,7 @@ class AnalysisController < ApplicationController
 			  		end
 			  		array.push(count)
 		  		end
-		  		date_array.push({start.to_s(:time) => array})
+		  		date_array.push({start.to_s => array})
 		  		start = start + interval
 			end
 
@@ -849,9 +1007,16 @@ class AnalysisController < ApplicationController
 
 			file_name = "log/csv2/"+file_name+time.to_s+".csv"
 			File.open(file_name, 'w') {|file|
-				write = "user,"
+				write = "user_id,"
 			  	serch_user.each do |user|
 			  		write = write + User.find(user).id.to_s + ","
+			  	end
+			  	write = write + "\n"
+			  	file.write write
+
+			  	write = "username,"
+			  	serch_user.each do |user|
+			  		write = write + User.find(user).name.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -911,7 +1076,7 @@ class AnalysisController < ApplicationController
 		  			t = object.where(user_id: user ,parent_id: nil ,created_at: start .. (start + interval - 1))
 			  		array.push(t.count)
 		  		end
-		  		date_array.push({start.to_s(:time) => array})
+		  		date_array.push({start.to_s => array})
 		  		start = start + interval
 			end
 
@@ -924,9 +1089,16 @@ class AnalysisController < ApplicationController
 
 			file_name = "log/csv2/"+file_name+time.to_s+".csv"
 			File.open(file_name, 'w') {|file|
-				write = "user,"
+				write = "user_id,"
 			  	serch_user.each do |user|
 			  		write = write + User.find(user).id.to_s + ","
+			  	end
+			  	write = write + "\n"
+			  	file.write write
+
+			  	write = "username,"
+			  	serch_user.each do |user|
+			  		write = write + User.find(user).name.to_s + ","
 			  	end
 			  	write = write + "\n"
 			  	file.write write
@@ -1106,4 +1278,20 @@ class AnalysisController < ApplicationController
 		# end
 		
 	end
+
+	# def child_entry_count(entry, user)
+	# 	count = 0
+	# 	if entry.user_id == user
+	# 		count = count + 1
+	# 	end
+
+	# 	if entry.children.count > 0
+
+	# 		entry.children.each do |e|
+	# 			count = count + child_entry_count(e, user)
+	# 		end
+	# 	end
+
+	# 	return count
+	# end
 end

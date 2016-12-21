@@ -32,7 +32,7 @@
               <% end %>
             <% else %>
               <% if theme.image? %>
-                <%= image_tag theme.image.url(:theme_thumb) %>
+                <%= image_tag theme.image.url(:theme_thumb),class: "top-theme" %>
               <% else %>
                 <%= image_tag 'noimage.gif' %>
               <% end %>
