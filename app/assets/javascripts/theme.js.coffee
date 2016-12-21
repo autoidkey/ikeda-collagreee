@@ -175,6 +175,7 @@ $(document).on 'click', '#next a', (e) ->
 $(document).on 'click', '#search-button', (e) ->
   $('#top-loading').css "display", "block"
   $('#timeline').css "opacity", "0.5"
+  $('html,body').animate scrollTop: $('#top-loading').offset().top
 
 $(document).on 'submit', '.reply-tab #new_entry', (e) ->
   if $(@).find('#entry_body').val() == ''
