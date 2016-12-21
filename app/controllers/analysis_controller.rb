@@ -16,7 +16,7 @@ class AnalysisController < ApplicationController
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
 	  	start_time =  Time.local(2016, 12, 12, 0, 0, 0)
-	  	end_time = Time.local(2016, 12, 21, 0, 0, 0)
+	  	end_time = Time.local(2016, 12, 13, 0, 0, 0)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
@@ -115,6 +115,25 @@ class AnalysisController < ApplicationController
 		# end
 
 		##############################
+
+		file_name = "entry_sort"
+		entries = Entry.sort_time.all.in_theme(serch_theme_id).root
+		@array = []
+		entries.each do |entry|
+			child_entry_array(entry)
+		end
+		p @array
+
+		file_name = "log/csv2/"+file_name+".csv"
+
+		File.open(file_name, 'w') {|file|
+			file.write "id,title,body,created_at,\n"
+
+			@array.each do |data|
+				file.write data[0].to_s+","+data[1].to_s+","+data[2].to_s+","+data[3].to_s+",\n"
+			end
+		}
+
 
 
 	  	#いいねの時間ごと
@@ -1294,4 +1313,23 @@ class AnalysisController < ApplicationController
 
 	# 	return count
 	# end
+
+	def child_entry_array(entry)
+		if entry.title.nil?
+			title = ""
+		else
+			title = entry.title.gsub(/(\r\n|\r|\n|\f)/,"")
+		end
+
+		if entry.body.nil?
+			body = ""
+		else
+			body = entry.body.gsub(/(\r\n|\r|\n|\f)/,"")
+		end
+
+		@array.push([entry.id, title, body , entry.created_at])
+		entry.children.each do |e|
+			child_entry_array(e)
+		end
+	end
 end

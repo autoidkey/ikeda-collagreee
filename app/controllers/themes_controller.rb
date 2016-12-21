@@ -8,7 +8,7 @@ class ThemesController < ApplicationController
   include ApplicationHelper
 
   protect_from_forgery except: :auto_facilitation_test
-  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry]
+  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry, :search_entry_like]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
   # after_action  :test, only: [:show]
@@ -261,6 +261,35 @@ class ThemesController < ApplicationController
       format.js
     end
   end
+
+  def search_entry_like
+    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
+    @stamps = stamp_list(params[:locale])
+    @entry = Entry.new
+    @issue = Issue.new
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @core_time = CoreTime.new
+
+    @page = params[:page] || 1
+
+    # if params[:search_entry][:order] == 'time'
+    #   @entries = @theme.sort_by_new(params[:search_entry][:issues])
+    # elsif params[:search_entry][:order] == 'popular'
+    #   @entries = @theme.sort_by_reply(params[:search_entry][:issues])
+    # elsif params[:search_entry][:order] == 'point'
+    #   @entries = @theme.sort_by_points(params[:search_entry][:issues])
+    # end
+
+    # @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
+    @entries = Entry.where(id: params[:entry_id]).page(params[:page])
+    p @entries
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
 
   # 小数点第2位以下を切り捨てるメソッド
   def cut_decimal_point(float)

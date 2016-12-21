@@ -30,7 +30,7 @@
             <tbody>
               <% before_num = 0 %>
               <% value.each_with_index do |entry, idx| %>
-                <% if idx > 4  && before_num != entry.all_like_count %>
+                <% if idx > 6  && before_num != entry.all_like_count %>
                   <% break %>
                 <% end %>
                 <% before_num = entry.all_like_count  %>
@@ -58,9 +58,10 @@
                                  ), '/users/' + user.id.to_s + '?locale=en'%>
                     <% end %>
                   </td>
-                  <td><a href="#entry-<%= entry.id %>" class="top-theme" style="font-size: 18px;"><%= entry.title %></td>
+                  <td style="font-size: 18px;">
+                    <%= link_to entry.title, serch_entry_like_path(@theme.id, entry_id: entry.id),remote: true ,class: "top-theme", id: 'search-button' %></td>
                   <td class="rank-score">
-                    <span class="user-score"><%= entry.all_like_count %></span>
+                    <span class="user-score"><%= entry.likes.to_a.count %></span>
                   </td>
                 </tr>
               <% end %>
