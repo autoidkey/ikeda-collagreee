@@ -41,7 +41,7 @@ class ThemesController < ApplicationController
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(20)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -287,6 +287,27 @@ class ThemesController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def insert_entry
+
+    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
+    @stamps = stamp_list(params[:locale])
+    @entry = Entry.new
+    @issue = Issue.new
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @core_time = CoreTime.new
+
+    @page = 1
+
+    p "test"
+
+    @entries = Entry.find(params[:entry])
+    # @entries = Entry.where(id: params[:entry]).page(params[:page])
+
+    p @entries
+    render partial: '/themes/entry', locals: { entry: @entries, count_entry: 1 ,show_entry: 3}
+
   end
 
 
