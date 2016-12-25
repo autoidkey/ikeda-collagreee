@@ -167,7 +167,8 @@
         </div>
 
         <!-- それぞれの記事を表示するビュー -->
-        <%= render "panel" %>
+        <div id="test"></div>
+        <%= render "panel_new" %>
 
         <div id="icon-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
@@ -348,7 +349,7 @@
         }
     ) ;
 
-    $('[id^=entry-top-hidden]')
+    $('[id^=entry-child-count]')
     // マウスポインターが画像に乗った時の動作
     .mouseover(function(e) {
         $(this).css('opacity','0.5');
@@ -362,12 +363,31 @@
         $(this).css('cursor','default');
     });
 
-    $('[id^=entry-top-hidden]').click(function(){
-      $("#child-entry-hidden"+$(this).attr('entry-id')).show();
+    $('[id^=entry-child-count]').click(function(){
       $('#entry-child-count'+$(this).attr('entry-id')).remove();
       $('#entry-top-hidden'+$(this).attr('entry-id')).unbind();
       $(this).css('opacity','1');
       $(this).css('cursor','default');
+      $('#entry-show-'+$(this).attr('entry-id')).append("<div class='text-center'><img alt='Icon loading' src='/assets/theme/icon-loading.gif' /></div>");
+      console.log(this)
+
+      // アクションを実行する
+      $.ajax({
+          url: "/themes/insert_entry/<%= @theme.id %>",
+          type: "GET",
+          data: {
+                  entry: $(this).attr('entry-id')
+                  },
+          success: function(data) {
+            $("#entry-show-"+data.match(/\d+/)[0]).html(data);
+            slider.set();
+            modal.set();
+          },
+          error: function(data) {
+            alert("errror");
+          }
+      });
+
     });
 
     $('[id^=child-entry-hidden]').hide();

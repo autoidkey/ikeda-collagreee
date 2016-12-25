@@ -5,17 +5,18 @@
   <% @entries.each_with_index do |entry, i| %>
       <% if i > show_entry && entry.children.present? %>
 
-          <div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>" entry-id="<%= entry.id %>" id="entry-top-hidden<%= entry.id %>">
-            <div class="panel-body">
-              <%= raw render_entry(entry, i, show_entry) %>
-            </div>
-            <div class="entry-child-count-left" id="entry-child-count<%= entry.id %>">
-              <span><%= childlen_count(entry.id, @entry_tree) %> <%= t('themes.reply_entry_count') %></span>
+        <div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>" entry-id="<%= entry.id %>" id="entry-top-hidden<%= entry.id %>">
+          <div class="panel-body">
+            <%= raw render_entry(entry, i, show_entry) %>
+          </div>
+          <div class="entry-child-count-left" id="entry-child-count<%= entry.id %>">
+            <span><%= childlen_count(entry.id, @entry_tree) %> <%= t('themes.reply_entry_count') %></span>
             <span class="thumb-down info-icon">
               <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-          </span>
-            </div>
+            </span>
           </div>
+        </div>
+        
       <% else %>
           <div class="panel panel-default entry-panel <%= 'facilitation-back' if entry.facilitation %>" data-id="<%= entry.id %>">
             <div class="panel-body">

@@ -16,7 +16,7 @@ class AnalysisController < ApplicationController
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
 	  	start_time =  Time.local(2016, 12, 12, 0, 0, 0)
-	  	end_time = Time.local(2016, 12, 13, 0, 0, 0)
+	  	end_time = Time.local(2016, 12, 23, 0, 0, 0)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
