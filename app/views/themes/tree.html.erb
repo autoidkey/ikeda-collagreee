@@ -97,18 +97,18 @@
 <!-- タブの表示 -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
 
-  <li class="active tab-click"><%= link_to t('themes.debate') , theme_path(@theme.id) %></li>
+  <li class="tab-click"><%= link_to t('themes.debate') , theme_path(@theme.id) %></li>
 
   <% if user_signed_in? %>
     <% if smartphone? %>
-      <li><a href="#theme" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">テーマ</a></li>
+      <li><%= link_to "テーマ" , theme_point_path(@theme.id) %><a href="#theme" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">テーマ</a></li>
     <% end %>
   <% end %>
 
   <li class="tab-click"><%= link_to t('themes.ranking') , theme_point_path(@theme.id) %></li>
 
   <% if !smartphone? %>
-    <li class="tab-click"><%= link_to t('themes.debate_tree') , theme_tree_path(@theme.id) %></li>
+    <li class="active tab-click"><%= link_to t('themes.debate_tree') , theme_tree_path(@theme.id) %></li>
   <% end %>
 
 <!--   <% if current_user.admin? || current_user.facilitator? %>
@@ -116,108 +116,10 @@
   <% end %> -->
 
 </ul>
-<!-- タブの表示 -->
 
 
 <!-- Tab panes -->
 <div class="tab-content" id="theme-show">
-  <div class="tab-pane active" id="discussion">
-
-    <div class="row">
-      <div class="col-md-8">
-
-        <% if smartphone? %>
-          <% if @tree_type == 3 %>
-            <%= render 'vote_ranking', users: @users, theme: @theme %>
-          <% elsif @tree_type == 2 %>
-            <%= render 'like_ranking', users: @users, theme: @theme %>
-          <% end %>
-        <% end %>
-
-        <% if !@theme.nolink %>
-          <div id="main-form">
-            <%= render 'top_form' if user_signed_in? %>
-          </div>
-          <hr>
-        <% end %>
-
-
-        <% if false %>
-<!--         <div id="main-form">
-          <%= render 'groundrule' %>
-        </div>
-        <hr> -->
-        <% end %>
-
-
-        <div class="well" id="entry_notice">
-          <span><%= t('themes.newpost_ga') %></span><span id="entry_notice_count">0</span><%= t('themes.count_arimasu') %>
-        </div>
-
-        <!-- 検索するビュー -->
-        <% if @theme.issues.count != 0 %>
-          <div class="well" id="tl-tool">
-            <%= render 'search_form'  %>
-          </div>
-        <% end %>
-
-        <div id="top-loading">
-          <%= image_tag 'theme/icon-loading.gif' %>
-        </div>
-
-        <!-- それぞれの記事を表示するビュー -->
-        <div id="test"></div>
-        <%= render "panel_new" %>
-
-        <div id="icon-loading">
-          <%= image_tag 'theme/icon-loading.gif' %>
-        </div>
-
-
-
-      </div>
-
-
-      <div class="col-md-4">
-        <% if !smartphone? %>
-          <% if @tree_type == 3 %>
-            <%= render 'vote_ranking', users: @users, theme: @theme %>
-            <%= render 'like_ranking', users: @users, theme: @theme %>
-          <% elsif @tree_type == 2 %>
-            <%= render 'like_ranking', users: @users, theme: @theme %>
-          <% end %>
-        <% end %>
-
-
-        <%#= render 'activity' if user_signed_in? %>
-        <!-- 議題 -->
-        <%# if smartphone? %>
-          <%#= render 'facilitation_keywords_mobile' %>
-        <%# else %>
-          <%#= render 'facilitation_keywords' %>
-        <%# end %>
-        <!-- キーワード -->
-        <% if !smartphone? %>
-          <%= render 'theme_info' %>
-          <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-          <%= render 'user_ranking', users: @users, theme: @theme %>
-          <%= render 'keywords' %>
-          <%#= render 'other_themes' %>
-          <!-- ユーザのアイコン -->
-          <div class="panel panel-default" id="panel-users-show" theme-id="<%= @theme.id %>">
-            <div class="panel-header">
-              <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= t('themes.user_title') %></h4>
-            </div>
-          </div>
-          <!-- ユーザのアイコン -->
-          <%= render 'tags' if user_signed_in? && !current_user.normal? %>
-        <% end %>
-      </div>
-    </div>
-
-
-  </div>
-
 
   <!-- テーマについて -->
   <% if smartphone? %>
@@ -227,7 +129,7 @@
           <%= render 'theme_info' %>
           <%= render 'keywords' %>
           <!-- ユーザのアイコン -->
-          <div class="panel panel-default" id="panel-users-show" theme-id="<%= @theme.id %>">
+          <div class="panel panel-default" id="panel-users-show">
             <div class="panel-header">
               <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= t('themes.user_title') %></h4>
             </div>
@@ -238,42 +140,27 @@
       </div>
     </div>
   <% end %>
+  
+  <!-- 議論ツリーについて -->
+  <div class="tab-pane active" id="tree">
+    <div class="row">
+      <div class="col-md-12">
+        <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
+      </div>
+    </div>
+  </div>
 
 
-  <% if user_signed_in? %>
-    <% unless smartphone? %>
-      <div class="tab-pane" id="point_graph">
-        <div class="row">
-          <div class="col-md-6" id="user_point_graph">
-          </div>
-        </div>
-      </div>
-    <% else %>
-      <div class="tab-pane" id="get-point">
-        <div class="row">
-          <div class="col-md-6">
-            <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
 
 </div>
 
-<% if !smartphone? %>
-  <!--議論ツリーへ移動するボタン-->
-  <div id="page-top" class="page-top">
-    <p><a href="#tree" id="move-page-top" class="move-page-top" role="tab" data-toggle="tab" action="signed_in"><%= t('themes.debate_tree') %></a></p>
-  </div>
-<% end %>
 
 <%= render 'render_c3' %>
+
 
 <%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'theme_custom.js', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag 'mobile.css' if smartphone? %>
-
 
 <script>
   //フェーズの表示

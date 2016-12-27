@@ -10,7 +10,8 @@ class ThemesController < ApplicationController
   protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry, :search_entry_like]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show, :only_timeline, :vote_entry]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show,:point, :tree, :only_timeline, :vote_entry]
+  before_action :set_insert, only: [:insert_entry, :insert_users, :search_entry_like, :search_entry]
   # after_action  :test, only: [:show]
 
   # load_and_authorize_resource
@@ -121,6 +122,94 @@ class ThemesController < ApplicationController
       @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
 
+  end
+
+  def point
+    @issue = Issue.new
+  end
+
+  def tree
+        @entry = Entry.new
+    # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(20)
+
+    @search_entry = SearchEntry.new
+    @issue = Issue.new
+
+    @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
+
+    @la = I18n.default_locale == :ja ? "ja" : "en"
+
+    @other_themes = Theme.others(@theme.id)
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+
+    @theme.join!(current_user) if user_join?
+    current_user.delete_notice(@theme) if user_signed_in?
+    @gravatar = gravatar_icon(current_user)
+
+    @stamps = stamp_list(params[:locale])
+
+    # ファシリテータからのお知らせコーナー
+    comment = FacilitationInfomation.where(:theme_id => params[:id]).last
+    if comment != nil
+      @f_comment = comment[:body]
+    else
+      @f_comment = t('controllers.greet')
+    end
+
+    # ウェブアクセスをカウントアップ
+    # TODO:該当グループ以外のテーマを閲覧した時は除外する
+    user_id = user_signed_in? ? current_user.id : nil
+    Webview.count_up(user_id,@theme.id)
+
+    @user_id = user_id
+
+
+    render 'show_no_point' unless @theme.point_function
+
+    #以下議論ツリーで使用する投稿一覧
+    @entry_tree = Entry.where(:theme_id => @theme.id)
+    @classes = ThreadClass.where(:theme_id => @theme.id)
+
+    #他のでも使用できるファシリテータが選んだフェーズナンバー
+    @tree_type = Phase.all.where(:theme_id => params[:id]).order(:created_at).reverse_order
+    if @tree_type[0] == nil then
+      @tree_type = 1
+    else
+      @tree_type = @tree_type[0][:phase_id]
+      # 合意フェイズの最初に投票画面に遷移する
+      if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id, theme_id: @theme.id).exists?
+        if !(@facilitator && VoteEntry.where(theme_id: @theme.id).exists?) #ファシリテータはすでに誰かが投稿してたら選択の変更はできない
+          redirect_to vote_entry_path(@theme.id)
+        end
+      end
+    
+    end
+
+    @entry_like_ranking = @theme.like_ranking
+    
+
+    #見出しデータの生成
+    @youyaku = []
+    youyakuDatas = Youyaku.where(:theme_id => @theme.id)
+    youyakuDatas.each do |data|
+      @youyaku << {"id" => data["target_id"] , "text" => data["body"]}
+    end
+
+
+    #クラスタリングのjsonを作成
+    @themes_claster = []
+    EntryClaster.all.each do |cla|
+      @themes_claster.push({ :cla => cla["coaster"], :id => cla["entry_id"]})
+    end
+
+
+    #スレッド要約データの生成
+    @youyaku_thread = []
+    youyakuDatas = Youyakudata.where(:theme_id => params[:id])
+    youyakuDatas.each do |data|
+      @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
+    end
   end
 
   def change_session_year
@@ -236,13 +325,6 @@ class ThemesController < ApplicationController
   end
 
   def search_entry
-    @theme = Theme.includes(users: [:entries, :likes]).find(params[:search_entry][:theme_id])
-    @stamps = stamp_list(params[:locale])
-    @entry = Entry.new
-    @issue = Issue.new
-    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
-    @core_time = CoreTime.new
-
     @page = params[:page] || 1
 
     # if params[:search_entry][:order] == 'time'
@@ -263,13 +345,6 @@ class ThemesController < ApplicationController
   end
 
   def search_entry_like
-    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
-    @stamps = stamp_list(params[:locale])
-    @entry = Entry.new
-    @issue = Issue.new
-    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
-    @core_time = CoreTime.new
-
     @page = params[:page] || 1
 
     # if params[:search_entry][:order] == 'time'
@@ -282,49 +357,22 @@ class ThemesController < ApplicationController
 
     # @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
     @entries = Entry.where(id: params[:entry_id]).page(params[:page])
-    p @entries
-    
     respond_to do |format|
       format.js
     end
   end
 
   def insert_entry
-    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
-    @stamps = stamp_list(params[:locale])
-    @entry = Entry.new
-    @issue = Issue.new
-    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
-    @core_time = CoreTime.new
-
     @page = 1
-
-    p "test"
-
     @entries = Entry.find(params[:entry])
     # @entries = Entry.where(id: params[:entry]).page(params[:page])
 
-    p @entries
     render partial: '/themes/entry', locals: { entry: @entries, count_entry: 1 ,show_entry: 3}
-
   end
 
   def insert_users
-    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
-    @stamps = stamp_list(params[:locale])
-    @entry = Entry.new
-    @issue = Issue.new
-    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
-    @core_time = CoreTime.new
-
     @page = 1
-
-    p "test"
-
-    @entries = Entry.find(params[:entry])
     # @entries = Entry.where(id: params[:entry]).page(params[:page])
-
-    p @entries
     render partial: '/themes/users'
   end
 
@@ -790,6 +838,15 @@ class ThemesController < ApplicationController
         liked: current_user.redis_liked_point(@theme)
       }
     end
+  end
+
+  def set_insert
+    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
+    @stamps = stamp_list(params[:locale])
+    @entry = Entry.new
+    @issue = Issue.new
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @core_time = CoreTime.new
   end
 
 

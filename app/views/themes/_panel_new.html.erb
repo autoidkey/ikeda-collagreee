@@ -9,7 +9,7 @@
         <div class="panel-body" id="entry-show-<%= entry.id %>">
           <%= render "entry_new", entry: entry %>
         </div>
-        <div class="entry-child-count-left" id="entry-child-count<%= entry.id %>" entry-id="<%= entry.id %>">
+        <div class="entry-child-count-left" id="entry-child-count<%= entry.id %>" entry-id="<%= entry.id %>" theme-id="<%= @theme.id %>">
           <span><%= childlen_count(entry.id, @entry_tree) %> <%= t('themes.reply_entry_count') %></span>
           <span class="thumb-down info-icon">
             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>

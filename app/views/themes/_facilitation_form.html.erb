@@ -13,9 +13,20 @@
     <div class="form-group">
     【投稿と関係ある論点にチェックしましょう】
     <br>
-      <% @theme.issues.each do |issue| %>
-        <%= check_box 'issues', issue.id %>
-        <label class="label label-default" style="margin-right:5px"><%= issue.name %></label>
+      <% if smartphone? %>
+        <div class="row">
+          <% @theme.issues.each do |issue| %>
+            <div class="col-xs-6">
+              <%= check_box 'issues', issue.id %>
+              <label class="label label-default" style="margin-right:5px"><%= issue.name %></label>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <% @theme.issues.each do |issue| %>
+          <%= check_box 'issues', issue.id %>
+          <label class="label label-default" style="margin-right:5px"><%= issue.name %></label>
+        <% end %>
       <% end %>
     </div>
   <% end %>
