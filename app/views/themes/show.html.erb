@@ -204,7 +204,6 @@
           <%= render 'user_ranking', users: @users, theme: @theme %>
           <%= render 'keywords' %>
           <%#= render 'other_themes' %>
-
           <!-- ユーザのアイコン -->
           <div class="panel panel-default" id="panel-users-show">
             <div class="panel-header">
@@ -212,7 +211,6 @@
             </div>
           </div>
           <!-- ユーザのアイコン -->
-
           <%= render 'tags' if user_signed_in? && !current_user.normal? %>
         <% end %>
       </div>
@@ -257,7 +255,13 @@
         <div class="col-md-12">
           <%= render 'theme_info' %>
           <%= render 'keywords' %>
-          <%= render 'users' %>
+          <!-- ユーザのアイコン -->
+          <div class="panel panel-default" id="panel-users-show">
+            <div class="panel-header">
+              <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= t('themes.user_title') %></h4>
+            </div>
+          </div>
+          <!-- ユーザのアイコン -->
           <%= render 'tags' if user_signed_in? && !current_user.normal? %>
         </div>
       </div>
