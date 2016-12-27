@@ -166,14 +166,18 @@
         </div>
 
         <!-- それぞれの記事を表示するビュー -->
-        <div id="test"></div>
-        <%= render "panel_new" %>
+        <%= paginate @entries %>
+        <div id="timeline">
+          <% @entries.each_with_index do |entry| %>
+            <%= render "panel_new" , entry: entry%>
+          <% end %>
+        </div>
+        <%= paginate @entries %>
+
 
         <div id="icon-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
-
-
 
       </div>
 

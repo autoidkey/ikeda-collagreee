@@ -82,9 +82,17 @@ class Theme < ActiveRecord::Base
 
 
   def like_ranking_check
-    Entry.where(theme_id: id, parent_id: nil).sort {|a, b|
-      b.all_like_count <=> a.all_like_count 
+    check_entry = []
+    Entry.where(theme_id: id, parent_id: nil).includes(:likes).each do |entry|
+      if entry.like_count > 0
+        check_entry.push(entry)
+      end
+    end
+
+    check_entry.sort {|a, b|
+      b.like_count <=> a.like_count
     }
+    
   end
 
   def vote_ranking
