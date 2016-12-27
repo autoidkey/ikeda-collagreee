@@ -31,7 +31,7 @@
                 </div>
             	<% end %>
 
-              <%= submit_tag "投票する",class: "vote-submit-btn",id: "vote-btn-main",style: "display:none" %>
+              <%= submit_tag "投票する",class: "vote-submit-btn pege-load-click",id: "vote-btn-main",style: "display:none" %>
               <div class="vote-submit-btn" id="vote-btn-sub">投票する</div>
 
             <% end %>
@@ -117,7 +117,7 @@
     alert("合計を1000にしてください")
   });
 
-    var select_sum = 0
+  var select_sum = 0
   // セレクターの変更があったとき
   $(".vote_form").change(function(){
     select_sum = 0
@@ -125,7 +125,17 @@
     $('.vote_form option:selected').map(function(){
       select_sum = select_sum + Number($(this).val())
     });
-        // セレクターの選択できる値を変更する
+
+    //１０００以上になったらsubmitボタンを使えるようにする
+    if(select_sum > 999){
+      $("#vote-btn-sub").hide();
+      $("#vote-btn-main").show();
+    }else{
+      $("#vote-btn-main").hide();
+      $("#vote-btn-sub").show();
+    }
+
+    // セレクターの選択できる値を変更する
     $('.vote_form').map(function(){
       // まだ変更してないセレクターの選択できる値を変更する
       if($(this).val()=="0"){
@@ -150,7 +160,8 @@
     });
 
   });
-    $("#vote-submit-btn").click(function(){
+
+  $("#vote-submit-btn").click(function(){
     select_sum = 0
     // すべてのセレクターの数値の合計を計算する
     $('.vote_form option:selected').map(function(){
@@ -161,15 +172,4 @@
       $("#vote-submit-btn").unbind();
     }
   })
-
-
-  //１０００以上になったらsubmitボタンを使えるようにする
-  if(select_sum > 999){
-    $("#vote-btn-sub").hide();
-    $("#vote-btn-main").show();
-  }else{
-    $("#vote-btn-main").hide();
-    $("#vote-btn-sub").show();
-  }
-
 </script>
