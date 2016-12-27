@@ -204,7 +204,15 @@
           <%= render 'user_ranking', users: @users, theme: @theme %>
           <%= render 'keywords' %>
           <%#= render 'other_themes' %>
-          <%= render 'users' %>
+
+          <!-- ユーザのアイコン -->
+          <div class="panel panel-default" id="panel-users-show">
+            <div class="panel-header">
+              <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= t('themes.user_title') %></h4>
+            </div>
+          </div>
+          <!-- ユーザのアイコン -->
+
           <%= render 'tags' if user_signed_in? && !current_user.normal? %>
         <% end %>
       </div>
@@ -349,6 +357,7 @@
         }
     ) ;
 
+    // 記事を追加で表示する
     $('[id^=entry-child-count]')
     // マウスポインターが画像に乗った時の動作
     .mouseover(function(e) {
@@ -391,6 +400,30 @@
     });
 
     $('[id^=child-entry-hidden]').hide();
+    // 記事を追加で表示する
+
+
+    // ユーザアイコンを表示
+    $('#panel-users-show').on('inview', function(e) {
+      $('#panel-users-show').append("<div class='text-center'><img alt='Icon loading' src='/icon-loading.gif' /></div>");
+       //ブラウザの表示域に表示されたときに実行する処理
+      $.ajax({
+          url: "/themes/insert_users/<%= @theme.id %>",
+          type: "GET",
+          data: {
+            entry: 2
+                  },
+          success: function(data) {
+            $("#panel-users-show").replaceWith(data);
+          },
+          error: function(data) {
+            alert("errror");
+          }
+      });
+      $(this).off(e);
+    });
+    // ユーザアイコンを表示
+
 
   });
 

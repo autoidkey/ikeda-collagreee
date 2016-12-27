@@ -290,7 +290,6 @@ class ThemesController < ApplicationController
   end
 
   def insert_entry
-
     @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
     @stamps = stamp_list(params[:locale])
     @entry = Entry.new
@@ -308,6 +307,25 @@ class ThemesController < ApplicationController
     p @entries
     render partial: '/themes/entry', locals: { entry: @entries, count_entry: 1 ,show_entry: 3}
 
+  end
+
+  def insert_users
+    @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
+    @stamps = stamp_list(params[:locale])
+    @entry = Entry.new
+    @issue = Issue.new
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @core_time = CoreTime.new
+
+    @page = 1
+
+    p "test"
+
+    @entries = Entry.find(params[:entry])
+    # @entries = Entry.where(id: params[:entry]).page(params[:page])
+
+    p @entries
+    render partial: '/themes/users'
   end
 
 
