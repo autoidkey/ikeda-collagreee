@@ -5,8 +5,8 @@ class AnalysisController < ApplicationController
 	def index
 
 		# fix_time
-	  	serch_theme_id = 1
-	  	times = [60*24] ##配列で管理 10~13 分で記入
+	  	serch_theme_id = 2
+	  	times = [60,60*24,60*3] ##配列で管理 10~13 分で記入
 	  	serch_user_id = User.pluck(:id) ##データを取る参加者
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44,100,84,31,32,10,11,12,13,99]
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44]
@@ -15,8 +15,8 @@ class AnalysisController < ApplicationController
 	  	# serch_user_id = [92,19,17,15,58]
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
-	  	start_time =  Time.local(2016, 12, 12, 0, 0, 0)
-	  	end_time = Time.local(2016, 12, 23, 0, 0, 0)
+	  	start_time =  Time.local(2016, 10, 28, 0, 0, 0)
+	  	end_time = Time.local(2016, 11, 5, 0, 0, 0)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
@@ -114,6 +114,140 @@ class AnalysisController < ApplicationController
 
 		# end
 
+		# 各スレッドの移り変わりグラフ化よう
+		###########################
+	  	times.each do |time|
+
+	  		file_name = "entry_change_g"
+		  	object = Entry.sort_time.all.in_theme(serch_theme_id).root
+		  	interval = 60*time
+		  	# 時間ごとの投稿の推移
+	  		date_array = []
+	  		@data_all = []
+	  		start = start_time
+
+			#からむの作成
+
+			file_name = "log/csv2/"+file_name+time.to_s+".csv"
+
+			File.open(file_name, 'w') {|file|
+				file.write ","
+				while ((end_time - start) > 0)
+					file.write start.to_s + ","
+			  		# start = start.tomorrow １日毎に集計
+			  		start = start + interval
+			  	end
+			  	file.write "\n"
+
+				object.each do |entry|
+					# 最初の行はカウントを行う
+					file.write entry.id.to_s + ","
+
+					start = start_time
+					@child_entries = []
+					@child_entries = child_entry_array2(entry)
+					while ((end_time - start) > 0)
+						count = 0
+
+						@child_entries.each do |e|
+							if e.created_at > start && e.created_at < (start + interval)
+								count = count + 1
+							end
+						end
+
+				  		start = start + interval
+
+				  		file.write count.to_s + ","
+				  	end
+
+				  	file.write "\n"
+
+			 	end
+			}
+
+		end
+		#############################
+
+		# 各スレッドの移り変わり
+		###########################
+	  	times.each do |time|
+
+	  		file_name = "entry_change_del"
+		  	object = Entry.sort_time.all.in_theme(serch_theme_id).root
+		  	interval = 60*time
+		  	# 時間ごとの投稿の推移
+	  		date_array = []
+	  		@data_all = []
+	  		start = start_time
+
+			#からむの作成
+
+			file_name = "log/csv2/"+file_name+time.to_s+".csv"
+
+			File.open(file_name, 'w') {|file|
+				file.write ","
+				while ((end_time - start) > 0)
+					file.write start.to_s + ","
+			  		# start = start.tomorrow １日毎に集計
+			  		start = start + interval
+			  	end
+			  	file.write "\n"
+
+				object.each do |entry|
+					# 最初の行はカウントを行う
+					file.write entry.id.to_s + ","
+
+					start = start_time
+					@child_entries = []
+					@child_entries = child_entry_array2(entry)
+					while ((end_time - start) > 0)
+						body = ""
+
+						@child_entries.each do |e|
+							if e.created_at > start && e.created_at < (start + interval)
+								body = body + e.id.to_s + "，"
+							end
+						end
+
+				  		start = start + interval
+
+				  		file.write body + ","
+				  	end
+
+				  	file.write "\n"
+
+
+				  	# 次は内容を記載する
+				  	file.write entry.title.to_s + ","
+
+					start = start_time
+					@child_entries = []
+					@child_entries = child_entry_array2(entry)
+					while ((end_time - start) > 0)
+						body = ""
+
+						@child_entries.each do |e|
+							if e.created_at > start && e.created_at < (start + interval)
+								body = body + e.body.gsub(/(\r\n|\r|\n|\f)/,"") + "||"
+							end
+						end
+
+				  		start = start + interval
+
+				  		file.write body + ","
+				  	end
+
+				  	file.write "\n"
+
+
+
+			 	end
+			}
+
+		end
+		#############################
+
+		# 各投稿を実際に表示されているように並び替える
 		##############################
 
 		file_name = "entry_sort"
@@ -296,6 +430,7 @@ class AnalysisController < ApplicationController
 		end
 		#############################
 
+
 		#それぞれのユーザ論点タグ
 	  	###########################
 	  	times.each do |time|
@@ -364,6 +499,8 @@ class AnalysisController < ApplicationController
 
 		end
 		#############################
+
+
 
 		#閲覧数の時間ごと
 	  	###########################
@@ -1330,6 +1467,13 @@ class AnalysisController < ApplicationController
 		@array.push([entry.id, title, body , entry.created_at])
 		entry.children.each do |e|
 			child_entry_array(e)
+		end
+	end
+
+	def child_entry_array2(entry)
+		entry.children.each do |e|
+			@child_entries.push(e)
+			child_entry_array2(e)
 		end
 	end
 end

@@ -7,7 +7,7 @@
     remote:        data-remote
 -%>
 <% unless current_page.last? %>
-<li class="next_page">
+<li class="next_page tab-click">
   <%= link_to_unless current_page.last?, "次へ", url, :rel => 'next', :remote => remote %>
 </li>
 <% end %>

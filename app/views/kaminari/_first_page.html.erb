@@ -7,7 +7,7 @@
     remote:        data-remote
 -%>
 <% unless current_page.first? %>
-<li class="first">
+<li class="first tab-click">
   <%= link_to_unless current_page.first?, "最初", url, :remote => remote %>
 </li>
 <% end %>
