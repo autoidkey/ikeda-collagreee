@@ -47,7 +47,7 @@
                            ), '/users/' + user.id.to_s + '?locale=en'%>
               <% end %>
             </td>
-            <td><a href="#entry-<%= entry.id %>" class="top-theme" style="font-size: 18px;"><%= entry.title %></td>
+            <td><%= link_to entry.title, serch_entry_like_path(@theme.id, entry_id: entry.id),remote: true ,class: "top-theme", id: 'search-button' %></td>
             <td class="rank-score">
               <span class="user-score"><%= value %>G</span>
             </td>

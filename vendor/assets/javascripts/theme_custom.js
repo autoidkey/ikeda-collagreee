@@ -127,6 +127,11 @@ $( function(){
     $('#wrap').css('display','none');
     $('#loader-bg ,#loader').height(h).css('display','block');
   });
+  $('.pege-load-click').click(function(e) {
+    var h = $(window).height();
+    $('#wrap').css('display','none');
+    $('#loader-bg ,#loader').height(h).css('display','block');
+  });
   //　ページの移動のロード画面表示
 
 });
