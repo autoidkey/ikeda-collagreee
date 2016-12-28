@@ -99,7 +99,6 @@ class Theme < ActiveRecord::Base
     votes = VoteEntry.where(theme_id: id)
     vote_hash = {}
     votes.group_by { |i| i.entry_id }.each{|key, value|
-      p value
       if value.count > 1
         c = 0
         value.each do |v|

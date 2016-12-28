@@ -18,12 +18,13 @@
         <% @theme.vote_ranking.each{|key, value| %>
           <% idx = idx + 1 %>
           <% entry = Entry.find(key) %>
-          <% if idx > 8  && before_num != entry.all_like_count %>
+          <% if idx > 10  && before_num != entry.like_count %>
             <% break %>
           <% else %>
-            <% before_num = entry.all_like_count  %>
+            <% before_num = entry.like_count  %>
           <% end %>
           <% user = entry.user %>
+
           <tr>
             <td class="rank rank-<%= idx+1 %>" id=""><%= idx %></td>
             <td class="rank-image">
@@ -47,7 +48,7 @@
                            ), '/users/' + user.id.to_s + '?locale=en'%>
               <% end %>
             </td>
-            <td><%= link_to entry.title, serch_entry_like_path(@theme.id, entry_id: entry.id),remote: true ,class: "top-theme", id: 'search-button' %></td>
+            <td><%= link_to entry.title, serch_entry_vote_path(@theme.id, entry_id: entry.id),remote: true ,class: "top-theme", id: 'search-button' %></td>
             <td class="rank-score">
               <span class="user-score"><%= value %>G</span>
             </td>

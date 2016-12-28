@@ -8,10 +8,10 @@ class ThemesController < ApplicationController
   include ApplicationHelper
 
   protect_from_forgery except: :auto_facilitation_test
-  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry, :search_entry_like]
+  before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry, :search_entry_like, :search_entry_vote]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show,:point, :tree, :only_timeline, :vote_entry]
-  before_action :set_insert, only: [:insert_entry, :insert_users, :search_entry_like, :search_entry]
+  before_action :set_insert, only: [:insert_entry, :insert_users, :search_entry_like, :search_entry_vote, :search_entry]
   # after_action  :test, only: [:show]
 
   # load_and_authorize_resource
@@ -121,6 +121,8 @@ class ThemesController < ApplicationController
     youyakuDatas.each do |data|
       @youyaku_thread << {"target_id" => data["target_id"] , "parent_id" => data["thread_id"] , "body" => data["body"]}
     end
+
+    @chart = VoteEntry.where("point > 0").group(:entry_id).count
 
   end
 
@@ -346,17 +348,22 @@ class ThemesController < ApplicationController
 
   def search_entry_like
     @page = params[:page] || 1
-
-    # if params[:search_entry][:order] == 'time'
-    #   @entries = @theme.sort_by_new(params[:search_entry][:issues])
-    # elsif params[:search_entry][:order] == 'popular'
-    #   @entries = @theme.sort_by_reply(params[:search_entry][:issues])
-    # elsif params[:search_entry][:order] == 'point'
-    #   @entries = @theme.sort_by_points(params[:search_entry][:issues])
-    # end
-
-    # @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
     @entries = Entry.where(id: params[:entry_id]).page(params[:page])
+    respond_to do |format|
+      format.js
+    end
+  end
+  def search_entry_vote
+    @page = params[:page] || 1
+    @entries = Entry.where(id: params[:entry_id]).page(params[:page])
+
+    @chart = {}
+    @sum = 0
+    VoteEntry.where(["point > 0 and entry_id = :id", {id: params[:entry_id]}]).includes(:user).each do |vote|
+      @chart[vote.user.name] = vote.point
+      @sum = @sum + vote.point
+    end
+
     respond_to do |format|
       format.js
     end
