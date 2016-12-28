@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'themes/insert_entry/:id' => 'themes#insert_entry' 
   get 'themes/insert_users/:id' => 'themes#insert_users' 
   get 'themes/search_entry_like/:id' => 'themes#search_entry_like' ,as: "serch_entry_like"
+  get 'themes/search_entry_vote/:id' => 'themes#search_entry_vote' ,as: "serch_entry_vote"
   get 'themes/check_new/:id' => 'themes#check_new'
   get 'themes/:id/point_graph' => 'themes#point_graph'
   get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'

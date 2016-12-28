@@ -1,0 +1,13 @@
+if(<%= @page == 1 %>) {
+  $('#timeline').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+  $('#timeline').prepend($("<%=j render 'chart_grap', chart: @chart, sum: @sum %>").hide().fadeIn('slow'));
+} else {
+  $('#timeline').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+}
+
+$('#top-loading').css('display','none');
+$('#timeline').css('opacity','1.0');
+
+$('#next').html($("<%=j render 'pagenation' %>"))
+slider.set();
+modal.set();
