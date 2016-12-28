@@ -42,7 +42,7 @@ class ThemesController < ApplicationController
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(20)
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(100)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -131,7 +131,7 @@ class ThemesController < ApplicationController
   def tree
         @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(20)
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(100)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
