@@ -29,9 +29,8 @@
 
       <!-- 論点タグ -->
       <% if entry.parent_id == nil %>
-          <% if (current_user.admin? || current_user.facilitator?) && @vote_phase.nil? %>
               <div style="color:#8899a6">
-                <%= form_tag(controller: :themes, action: :add_entry_tag, method: "post") do %>
+                <% form_tag(controller: :themes, action: :add_entry_tag, method: "post") do %>
                     <% if @theme.issues.size != 0 %>
                         <% @theme.issues.each do |issue| %>
                             <% if entry.issue?(issue) %>
@@ -49,15 +48,6 @@
                     <% end %>
                 <% end %>
               </div>
-          <% else %>
-              <div>
-                <% entry.issues.each do |issue| %>
-		      		<span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px">
-		      			<%= issue.name %>
-		      		</span>
-                <% end %>
-              </div>
-          <% end %>
       <% end %>
       <!-- 論点タグ -->
 
