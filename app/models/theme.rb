@@ -69,12 +69,12 @@ class Theme < ActiveRecord::Base
     ranking = self.entries.where(parent_id: nil).includes(:likes).includes(:user).sort_by { |u| -u.likes.to_a.count }
 
 
-    hash["すべて"] = ranking.select { |v| v.likes.to_a.count  > 0 }
+    hash["すべて"] = ranking
 
     Issue.where(theme_id: id).includes(entries: [:likes,:user]).each do |issue|
       ranking = issue.entries.sort_by { |u| -u.likes.to_a.count }
       if ranking.count > 0
-        hash[issue.name] = ranking.select { |v| v.likes.to_a.count > 0 }
+        hash[issue.name] = ranking
       end
     end
     hash
