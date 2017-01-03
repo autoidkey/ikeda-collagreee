@@ -84,7 +84,7 @@ class Theme < ActiveRecord::Base
   def like_ranking_check
     check_entry = []
     Entry.where(theme_id: id, parent_id: nil).includes(:likes).each do |entry|
-      if entry.like_count > 0
+      if entry.like_count > -1
         check_entry.push(entry)
       end
     end
