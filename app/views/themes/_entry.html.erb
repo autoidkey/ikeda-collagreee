@@ -29,25 +29,28 @@
 
       <!-- 論点タグ -->
       <% if entry.parent_id == nil %>
-              <div style="color:#8899a6">
-                <% form_tag(controller: :themes, action: :add_entry_tag, method: "post") do %>
-                    <% if @theme.issues.size != 0 %>
-                        <% @theme.issues.each do |issue| %>
-                            <% if entry.issue?(issue) %>
-                                <%= check_box 'issues', issue.id, checked: true %>
-                                <span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px"><%= issue.name %></span>
-                            <% else %>
-                                <%= check_box 'issues', issue.id, checked: false %>
-                                <span style="margin-right:10px"><%= issue.name %></span>
-                            <% end %>
-                        <% end %>
-                        <%= hidden_field_tag :theme_id, @theme.id %>
-                        <%= hidden_field_tag :entry_id, entry.id %>
+          <% if (current_user.admin? || current_user.facilitator?) && @vote_phase.nil? %>
+              <div style="color:#8899a6;">
+                <% form_tag(themes_add_entry_tag_path, method: 'post' ) do %>
+                  <% if @theme.issues.size != 0 %>
+                      <% @theme.issues.each do |issue| %>
+                          <% if entry.issue?(issue) %>
+                              <%= check_box 'issues', issue.id, checked: true %>
+                              <span class="label label-default issue-label" data-id="<%= issue.id %>" style="margin-right:10px"><%= issue.name %></span>
+                          <% else %>
+                              <%= check_box 'issues', issue.id, checked: false %>
+                              <span style="margin-right:10px"><%= issue.name %></span>
+                          <% end %>
+                      <% end %>
 
-                        <%= submit_tag "論点編集", class: 'btn btn-default btn-sm' %>
-                    <% end %>
+                      <%= hidden_field_tag :theme_id, @theme.id %>
+                      <%= hidden_field_tag :entry_id, entry.id %>
+
+                      <%= submit_tag "論点編集", class: 'btn btn-default btn-sm' %>
+                  <% end %>
                 <% end %>
               </div>
+          <% end %>
       <% end %>
       <!-- 論点タグ -->
 

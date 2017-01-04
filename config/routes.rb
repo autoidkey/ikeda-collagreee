@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get 'themes/insert_entry/:id' => 'themes#insert_entry' 
   get 'themes/insert_users/:id' => 'themes#insert_users' 
   get 'themes/search_entry_like/:id' => 'themes#search_entry_like' ,as: "serch_entry_like"
+  get 'themes/search_entry_vote/:id' => 'themes#search_entry_vote' ,as: "serch_entry_vote"
   get 'themes/check_new/:id' => 'themes#check_new'
   get 'themes/:id/point_graph' => 'themes#point_graph'
   get 'themes/:id/user_point_ranking' => 'themes#user_point_ranking'
@@ -58,7 +59,7 @@ Rails.application.routes.draw do
   post "themes/tree/change_session_year" => 'themes#change_session_year'
   post "themes/tree/tree_log_get" => 'themes#tree_log_get'
   post "themes/change_secret/:id" => "themes#change_secret" ,as: "themes_change_secret"
-  post "themes/add_entry_tag/:id" => "themes#add_entry_tag"
+  post "themes/add_entry_tag/:id" => "themes#add_entry_tag" ,as: "themes_add_entry_tag"
   get "themes/vote_entry/:id" => "themes#vote_entry",as: "vote_entry"
   post "themes/vote_entry_create/:id" => "themes#vote_entry_create" ,as: "vote_entry_create"
   post "themes/vote_entry_check/:id" => "themes#vote_entry_check" ,as: "vote_entry_check"

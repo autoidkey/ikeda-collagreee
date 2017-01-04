@@ -22,7 +22,7 @@ $( function(){
         var under = $( 'body' ).height() - ( now + $(window).height() ) ;
         // 最上部から現在位置までの距離(now)が1500以上かつ
         // 最下部から現在位置までの距離(under)が200px以上かつ…
-        if( now > 1200 )
+        if( now > 2000 )
         {
           // 非表示状態だったら
           if( !visible )
@@ -123,6 +123,11 @@ $( function(){
 
   //　ページの移動のロード画面表示
   $('.tab-click').click(function(e) {
+    var h = $(window).height();
+    $('#wrap').css('display','none');
+    $('#loader-bg ,#loader').height(h).css('display','block');
+  });
+  $('.pege-load-click').click(function(e) {
     var h = $(window).height();
     $('#wrap').css('display','none');
     $('#loader-bg ,#loader').height(h).css('display','block');
