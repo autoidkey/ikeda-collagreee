@@ -679,10 +679,23 @@ class ThemesController < ApplicationController
 
   #タグの編集
   def add_entry_tag
+    @theme = Theme.find(params[:id])
+    @stamps = stamp_list(params[:locale])
+    @entry = Entry.new
+    @issue = Issue.new
+    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @core_time = CoreTime.new
+
     tags = Issue.checked(params[:issues])
-    new_entry = Entry.find(params[:entry_id])
-    new_entry.tagging!(Issue.to_object(tags))
-    redirect_to theme_path(params[:theme_id])
+    @new_entry = Entry.find(params[:entry_id])
+    @new_entry.tagging!(Issue.to_object(tags))
+    # redirect_to theme_path(params[:theme_id])
+
+
+    respond_to do |format|
+      format.js
+    end
+
   end
 
   def render_new
