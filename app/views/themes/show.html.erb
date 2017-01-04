@@ -11,6 +11,7 @@
   </div>
 </div>
 
+
 <!-- user_admin?メッソドがへルパーメッソドのコントローラーにある　 -->
 <!-- roleが０だとmodelのuseをみるとemnuでをadminになるようになっている！！　だからroleが０だとtrueで以下が表示される -->
 <% if user_admin?(current_user) %>
@@ -126,6 +127,21 @@
     <div class="row">
       <div class="col-md-8">
 
+        <% if smartphone? %>
+          <% if @tree_type == 3 %>
+            <%= render 'vote_ranking', users: @users, theme: @theme %>
+          <% elsif @tree_type == 2 %>
+            <%= render 'like_ranking', users: @users, theme: @theme %>
+          <% end %>
+        <% end %>
+
+        <% if !@theme.nolink %>
+          <div id="main-form">
+            <%= render 'top_form' if user_signed_in? %>
+          </div>
+          <hr>
+        <% end %>
+
 
         <% if false %>
 <!--         <div id="main-form">
@@ -151,19 +167,31 @@
         </div>
 
         <!-- それぞれの記事を表示するビュー -->
-        <div id="test"></div>
-        <%= render "panel_new" %>
+        <%= paginate @entries %>
+        <div id="timeline">
+          <% @entries.each_with_index do |entry| %>
+            <%= render "panel_new" , entry: entry%>
+          <% end %>
+        </div>
+        <%= paginate @entries %>
+
 
         <div id="icon-loading">
           <%= image_tag 'theme/icon-loading.gif' %>
         </div>
 
-
-
       </div>
 
 
       <div class="col-md-4">
+        <% if !smartphone? %>
+          <% if @tree_type == 3 %>
+            <%= render 'vote_ranking', users: @users, theme: @theme %>
+            <%= render 'like_ranking', users: @users, theme: @theme %>
+          <% elsif @tree_type == 2 %>
+            <%= render 'like_ranking', users: @users, theme: @theme %>
+          <% end %>
+        <% end %>
 
 
         <%#= render 'activity' if user_signed_in? %>
@@ -180,7 +208,12 @@
           <%= render 'user_ranking', users: @users, theme: @theme %>
           <%= render 'keywords' %>
           <%#= render 'other_themes' %>
- 
+          <!-- ユーザのアイコン -->
+          <div class="panel panel-default" id="panel-users-show" theme-id="<%= @theme.id %>">
+            <div class="panel-header">
+              <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= t('themes.user_title') %></h4>
+            </div>
+          </div>
           <!-- ユーザのアイコン -->
           <%= render 'tags' if user_signed_in? && !current_user.normal? %>
         <% end %>
@@ -199,7 +232,11 @@
           <%= render 'theme_info' %>
           <%= render 'keywords' %>
           <!-- ユーザのアイコン -->
-
+          <div class="panel panel-default" id="panel-users-show" theme-id="<%= @theme.id %>">
+            <div class="panel-header">
+              <h4 class=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <%= t('themes.user_title') %></h4>
+            </div>
+          </div>
           <!-- ユーザのアイコン -->
           <%= render 'tags' if user_signed_in? && !current_user.normal? %>
         </div>
