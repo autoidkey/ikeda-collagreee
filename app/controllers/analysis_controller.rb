@@ -2,6 +2,25 @@ class AnalysisController < ApplicationController
 	include Bm25
 	require 'csv'
 
+	def graph
+		@array = []
+		object = Entry.sort_time.all.in_theme(2).root
+		object.each do |entry|
+			@child_entries = []
+			child_entry_array3(entry)
+			@child_entries.each do |e|
+				@array.push([entry.title, e.created_at, e.created_at + 5.minute])
+			end
+		end
+
+		@array2 = []
+		a = TaggedEntry.all
+		a.each do |t|
+			@array2.push([t.issue.name, t.entry.created_at, t.entry.created_at + 1.minute])
+		end
+
+	end
+
 	def index
 
 		# fix_time
@@ -1474,6 +1493,13 @@ class AnalysisController < ApplicationController
 		entry.children.each do |e|
 			@child_entries.push(e)
 			child_entry_array2(e)
+		end
+	end
+
+	def child_entry_array3(e)
+		@child_entries.push(e)
+		e.children.each do |e|
+			child_entry_array3(e)
 		end
 	end
 end

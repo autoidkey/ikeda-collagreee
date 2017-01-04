@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :core_times
 
   get 'analysis/index'
+  get 'analysis/graph'
 
   resources :thread_classes
   resources :facilitation_infomations
