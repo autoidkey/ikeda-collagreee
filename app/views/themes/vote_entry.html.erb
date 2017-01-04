@@ -23,7 +23,7 @@
             	<% @theme.vote_entries_disp.each do |vote, idx| %>
                 <div class="row">
                   <div class="col-md-10">
-              	    <%= render 'panel', entry: vote.entry, count_entry: 6, show_entry: -1 %>
+              	    <%= render "panel_new" , entry: vote.entry %>
                   </div>
                   <div class="col-md-2">
                     <%= select_tag "note[#{vote.entry.id}]", options_for_select({"0G" => "0","100G" => "100", "200G" => "200", "300G" => "300", "400G" => "400", "500G" => "500", "600G" => "600", "700G" => "700", "800G" => "800", "900G" => "900", "1000G" => "1000"}), class: "vote_form" %>
@@ -31,7 +31,7 @@
                 </div>
             	<% end %>
 
-              <%= submit_tag "投票する",class: "vote-submit-btn",id: "vote-btn-main",style: "display:none" %>
+              <%= submit_tag "投票する",class: "vote-submit-btn pege-load-click",id: "vote-btn-main",style: "display:none" %>
               <div class="vote-submit-btn" id="vote-btn-sub">投票する</div>
 
             <% end %>
@@ -41,7 +41,7 @@
 
     </div>
   </div>
-<!-- ファシリテータの洗濯用 -->
+<!-- ファシリテータの専用 -->
 <% else %>
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
@@ -68,10 +68,10 @@
 
               <% @theme.like_ranking_check.each_with_index do |entry, idx| %>
                 <!-- ファリテータに任せる -->
-                <% if idx > 6  && before_num != entry.all_like_count %> 
+                <% if idx > 6  && before_num != entry.like_count %> 
                   <div class="row">
                     <div class="col-xs-10">
-                      <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
+                      <%= render "panel_new" , entry: entry%>
                     </div>
                     <div class="col-xs-2">
                       <%= check_box_tag "entry[#{entry.id}]" ,false, false, class: "vote_check" %>
@@ -80,11 +80,11 @@
 
                 <!-- 候補としてチェックしておく -->
                 <% else %>
-                  <% before_num = entry.all_like_count  %>
+                  <% before_num = entry.like_count  %>
 
                   <div class="row">
                     <div class="col-xs-10">
-                      <%= render 'panel', entry: entry, count_entry: idx, show_entry: -1 %>
+                      <%= render "panel_new" , entry: entry%>
                     </div>
                     <div class="col-xs-2">
                       <%= check_box_tag "entry[#{entry.id}]" ,true, true, class: "vote_check" %>
@@ -103,6 +103,13 @@
     </div>
   </div>
 <% end %>
+
+
+
+<%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'theme_custom.js', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'mobile.css' if smartphone? %>
+
 
 <script>
 
@@ -165,166 +172,4 @@
       $("#vote-submit-btn").unbind();
     }
   })
-
-
-
-  // 議論ツリー移動ボタンよう
-  // グローバル変数
-  var syncerTimeout = null ;
-  // 一連の処理
-  $( function(){
-    // スクロールイベントの設定
-    $( window ).scroll( function()
-    {
-      // 1秒ごとに処理
-      if( syncerTimeout == null )
-      {
-        // セットタイムアウトを設定
-        syncerTimeout = setTimeout( function(){
-
-          // 対象のエレメント
-          var element = $( '#page-top' ) ;
-          // 現在、表示されているか？
-          var visible = element.is( ':visible' ) ;
-          // 最上部から現在位置までの距離を取得して、変数[now]に格納
-          var now = $( window ).scrollTop() ;
-          // 最下部から現在位置までの距離を計算して、変数[under]に格納
-          var under = $( 'body' ).height() - ( now + $(window).height() ) ;
-          // 最上部から現在位置までの距離(now)が1500以上かつ
-          // 最下部から現在位置までの距離(under)が200px以上かつ…
-          if( now > 1200 )
-          {
-            // 非表示状態だったら
-            if( !visible )
-            {
-              // [#page-top]をゆっくりフェードインする
-              element.fadeIn( 'slow' ) ;
-            }
-          }
-          // 1500px以下かつ
-          // 表示状態だったら
-          else if( visible )
-          {
-            // [#page-top]をゆっくりフェードアウトする
-            element.fadeOut( 'slow' ) ;
-          }
-          // フラグを削除
-          syncerTimeout = null ;
-        } , 1000 ) ;
-      }
-    } ) ;
-
-    // クリックイベントを設定する
-    $( '#move-page-top' ).click(
-        function()
-        {
-          // スムーズにスクロールする
-          $( 'html,body' ).animate( {scrollTop:0} , 'slow' ) ;
-          $("#tree-nav-btn").parents('li').addClass("active");
-          $("#discussion-nav-btn").parents('li').removeClass("active");
-        }
-    ) ;
-
-    $('[id^=entry-top-hidden]')
-    // マウスポインターが画像に乗った時の動作
-    .mouseover(function(e) {
-        $(this).css('opacity','0.5');
-        // $(this).css('background','#e1e8ed');
-        $(this).css('cursor','pointer');
-    })
-    // マウスポインターが画像から外れた時の動作
-    .mouseout(function(e) {
-      $(this).css('opacity','1');
-        // $(this).css('background','white');
-        $(this).css('cursor','default');
-    });
-
-    $('[id^=entry-top-hidden]').click(function(){
-      $("#child-entry-hidden"+$(this).attr('entry-id')).show();
-      $('#entry-child-count'+$(this).attr('entry-id')).remove();
-      $('#entry-top-hidden'+$(this).attr('entry-id')).unbind();
-      $(this).css('opacity','1');
-      $(this).css('cursor','default');
-    });
-
-    $('[id^=child-entry-hidden]').hide();
-
-  });
-
-  $(window).bind("beforeunload", function() {
-
-    var user = <%= raw current_user.id.to_json %>;
-    var theme = <%= raw @theme.id.to_json %>;
-
-    $.ajax({
-      url: "tree/change_session_year",
-      type: "POST",
-      data: {user_id : user,
-        theme: theme,
-        flag: true,
-      },
-      dataType: "html",
-      success: function(data) {
-      },
-      error: function(data) {
-        console.log(data);
-      }
-    });
-  });
-
-  //フェーズの表示
-  var core_times = <%= raw @theme.core_times_check.to_json %>
-
-  if ("now" in core_times) {
-    for (var i = 0; i < core_times["now"].length; i++){
-      dt = new Date(core_times["now"][i]["start_at"]);
-      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
-      dt = new Date(core_times["now"][i]["end_at"]);
-      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0");
-      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px; color: #f39800'>"+text1+" - "+text2+"</span>");
-    }
-    $('#header-time').show();
-  }
-
-  if ("yes" in core_times) {
-    for (var i = 0; i < core_times["yes"].length; i++){
-      dt = new Date(core_times["yes"][i]["start_at"]);
-      var text1 = (dt.getMonth() + 1)+"."+(dt.getDate())+" "+(dt.getHours())+":"+(dt.getMinutes()+"0");
-      dt = new Date(core_times["yes"][i]["end_at"]);
-      var text2 = (dt.getHours())+":"+(dt.getMinutes()+"0");
-      $('#core-time-content').append("<span style='margin-right:20px; font-size:22px;'>"+text1+" - "+text2+"</span>");
-    }
-    $('#header-time').show();
-  }
-
-  // #で始まるアンカーをクリックした場合に処理
-   $('a[href^=#entry]').click(function() {
-      // スクロールの速度
-      var speed = 500; // ミリ秒
-      // アンカーの値取得
-      var href= $(this).attr("href");
-      // 移動先を取得
-      var target = $(href == "#" || href == "" ? 'html' : href);
-      // 移動先を数値で取得
-      var position = target.offset().top - 30;
-      // スムーススクロール
-      $('body,html').animate({scrollTop:position}, speed, 'swing');
-      return false;
-   });
-
-   // formの文字制限を促進させるjs
-   $('textarea').bind('keydown keyup keypress change',function(){
-      var thisValueLength = $(this).val().length;
-      // $('.count').html(thisValueLength);
-      if(thisValueLength > 200 && thisValueLength < 351 ){
-        $(this).attr('id', 'form-change-color-green');
-      }else if(thisValueLength > 350){
-        $(this).attr('id', 'form-change-color-red');
-      }else{
-        $(this).attr('id', 'entry_body');
-      }
-    });
-
-
-
 </script>

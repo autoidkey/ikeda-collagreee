@@ -69,12 +69,12 @@ class Theme < ActiveRecord::Base
     ranking = self.entries.where(parent_id: nil).includes(:likes).includes(:user).sort_by { |u| -u.likes.to_a.count }
 
 
-    hash["すべて"] = ranking.select { |v| v.likes.to_a.count  > 0 }
+    hash["すべて"] = ranking
 
     Issue.where(theme_id: id).includes(entries: [:likes,:user]).each do |issue|
       ranking = issue.entries.sort_by { |u| -u.likes.to_a.count }
       if ranking.count > 0
-        hash[issue.name] = ranking.select { |v| v.likes.to_a.count > 0 }
+        hash[issue.name] = ranking
       end
     end
     hash
@@ -82,16 +82,23 @@ class Theme < ActiveRecord::Base
 
 
   def like_ranking_check
-    Entry.where(theme_id: id, parent_id: nil).sort {|a, b|
-      b.all_like_count <=> a.all_like_count 
+    check_entry = []
+    Entry.where(theme_id: id, parent_id: nil).includes(:likes).each do |entry|
+      if entry.like_count > -1
+        check_entry.push(entry)
+      end
+    end
+
+    check_entry.sort {|a, b|
+      b.like_count <=> a.like_count
     }
+    
   end
 
   def vote_ranking
     votes = VoteEntry.where(theme_id: id)
     vote_hash = {}
     votes.group_by { |i| i.entry_id }.each{|key, value|
-      p value
       if value.count > 1
         c = 0
         value.each do |v|
