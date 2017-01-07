@@ -46,7 +46,9 @@ class UsersController < ApplicationController
     theme = Theme.find(params[:theme_id])
     body = params[:body]
     theme.users.each do |user|
-      NoticeMailer.notice_free(body, theme.id, user).deliver
+      if user.id > 55 || user.id == 1
+        NoticeMailer.delay.notice_free(body, theme.id, user).deliver
+      end
     end
 
     redirect_to users_path
