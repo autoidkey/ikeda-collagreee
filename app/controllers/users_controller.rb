@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     body = params[:body]
     theme.users.each do |user|
       if user.id > 55 || user.id == 1
-        NoticeMailer.delay.notice_free(body, theme.id, user).deliver
+        NoticeMailer.notice_free(body, theme.id, user).deliver_later
       end
     end
 
