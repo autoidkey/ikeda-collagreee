@@ -43,14 +43,12 @@ class UsersController < ApplicationController
   end
 
   def user_mail
-    theme_id = params[:theme_id]
+    theme = Theme.find(params[:theme_id])
     body = params[:body]
-    p theme_id
-    p body
-    p User.find(1).email
-    p "afafa"
+    theme.users.each do |user|
+      NoticeMailer.notice_free(body, theme.id, user).deliver
+    end
 
-    NoticeMailer.notice_free(body, theme_id, User.find(1))
     redirect_to users_path
     
   end
