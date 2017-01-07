@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   post "themes/change_secret/:id" => "themes#change_secret" ,as: "themes_change_secret"
   post "themes/add_entry_tag/:id" => "themes#add_entry_tag" ,as: "themes_add_entry_tag"
   get "themes/vote_entry/:id" => "themes#vote_entry",as: "vote_entry"
+  get "themes/vote_entry_show/:id" => "themes#vote_entry_show",as: "vote_entry_show"
   post "themes/vote_entry_create/:id" => "themes#vote_entry_create" ,as: "vote_entry_create"
   post "themes/vote_entry_check/:id" => "themes#vote_entry_check" ,as: "vote_entry_check"
   # api
@@ -70,6 +71,8 @@ Rails.application.routes.draw do
   post 'users/delete_notice' =>  'users#delete_notice'
   post 'users/read_reply_notice' =>  'users#read_reply_notice'
   post 'users/read_like_notice' =>  'users#read_like_notice'
+
+  post 'users/user_mail' =>  'users#user_mail',as: "user_mail"
 
   # home routes
   get 'homes/collagree'

@@ -1,3 +1,5 @@
+
+
 <div id="header-time">
   <div class="panel panel-default">
     <div class="panel-header" style="background-color: #f39800;">
@@ -60,36 +62,17 @@
 <% end %>
 
 
-<!-- 議論フェーズの画像を表示 -->
 <%= render "themes/discussion_phase" %>
-
-<!-- フェーズをモーダルで表示 -->
 <%= render "themes/modal_phase" %>
-
-
 
 <!-- タブの表示 -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
 
-  <li class="active tab-click"><%= link_to t('themes.debate') , theme_path(@theme.id) %></li>
-
-  <% if user_signed_in? %>
-    <% if smartphone? %>
-      <li><a href="#theme" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">テーマ</a></li>
-    <% end %>
-  <% end %>
-
-  <li class="tab-click"><%= link_to t('themes.ranking') , theme_point_path(@theme.id) %></li>
-
-  <% if !smartphone? %>
-    <li class="tab-click"><%= link_to t('themes.debate_tree') , theme_tree_path(@theme.id) %></li>
-  <% end %>
-
-<!--   <% if current_user.admin? || current_user.facilitator? %>
-    <li><%= link_to t('themes.debate_tree_edit'), thread_classes_all_path(@theme.id) %></li>
-  <% end %> -->
+  <li class="tab-click"><%= link_to "投資", vote_entry_path(@theme.id) %></li>
+  <li class="active"><a>議論</a></li>
 
 </ul>
+<br>
 <!-- タブの表示 -->
 
 
@@ -100,12 +83,20 @@
     <div class="row">
       <div class="col-md-8">
 
+        <div class="panel panel-default">
+          <div class="panel-header" style="background-color:#f39800;">
+            <h4 class=""><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> アイデアに投資してみよう！</h4>
+          </div>
+          <div class="panel-body">
+            ここからは合意フェイズです。まずは、今までの議論の中で気に入ったアイデアに、投資をしてみましょう。<br>
+   一人当たり1000Gまで投資することができるので、自由に振り分けてください。<br>
+  「投票する」ボタンを押すと、議論画面に移り、投資結果が表示されます。<br>
+  この結果を踏まえ、最終的な合意形成を行います。<br>
+          </div>
+        </div>
+
         <% if smartphone? %>
-          <% if @tree_type == 3 %>
-            <%= render 'vote_ranking', users: @users, theme: @theme %>
-          <% elsif @tree_type == 2 %>
-            <%= render 'like_ranking', users: @users, theme: @theme %>
-          <% end %>
+          <%= render 'like_ranking', users: @users, theme: @theme %>
         <% end %>
 
         <% if !@theme.nolink %>
@@ -158,12 +149,7 @@
 
       <div class="col-md-4">
         <% if !smartphone? %>
-          <% if @tree_type == 3 %>
-            <%= render 'vote_ranking', users: @users, theme: @theme %>
             <%= render 'like_ranking', users: @users, theme: @theme %>
-          <% elsif @tree_type == 2 %>
-            <%= render 'like_ranking', users: @users, theme: @theme %>
-          <% end %>
         <% end %>
 
 
@@ -281,7 +267,7 @@ if ("yes" in core_times) {
 }
 
   if(<%= @theme.check_phase(current_user) %>){
-    wn = '.wd' + <%= @tree_type %>;
+    wn = '.wd' + 2;
     var mW = $(wn).find('.modalBody').innerWidth() / 2;
     var mH = $(wn).find('.modalBody').innerHeight() / 2;
     $(wn).find('.modalBody').css({'margin-left':-mW,'margin-top':-mH});
@@ -292,10 +278,18 @@ if ("yes" in core_times) {
     $(wn).fadeOut(500);
   });
 
+  $(function(){
+    setInterval(function(){
+      $('.actions').css('display','none') 
+    },1000);
+  });
+
   // ツールチップ
   $(function () {
+
     $('[data-toggle="tooltip"]').tooltip()
   })
+
 </script>
 
 <script>

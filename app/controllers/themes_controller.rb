@@ -10,7 +10,7 @@ class ThemesController < ApplicationController
   protect_from_forgery except: :auto_facilitation_test
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry, :search_entry_like, :search_entry_vote]
   before_action :authenticate_user!, only: %i(create, new)
-  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show,:point, :tree, :only_timeline, :vote_entry]
+  before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show,:point, :tree, :only_timeline, :vote_entry, :vote_entry_show]
   before_action :set_insert, only: [:insert_entry, :insert_users, :search_entry_like, :search_entry_vote, :search_entry]
   # after_action  :test, only: [:show]
 
@@ -42,7 +42,7 @@ class ThemesController < ApplicationController
 
     @entry = Entry.new
     # @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
-    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(100)
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(20)
 
     @search_entry = SearchEntry.new
     @issue = Issue.new
@@ -776,6 +776,33 @@ class ThemesController < ApplicationController
     @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
     @theme.nolink = true
     @entry_tree = Entry.where(:theme_id => @theme.id)
+
+    @tree_type = Phase.all.where(:theme_id => @theme.id).order(:created_at).reverse_order
+
+    user_id = user_signed_in? ? current_user.id : nil
+    Webview.count_up(user_id,@theme.id)
+  
+  end
+
+  def vote_entry_show
+    @entry = Entry.new
+    @entries = Entry.sort_time.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(50)
+    @theme.nolink = true
+    @entry_tree = Entry.where(:theme_id => @theme.id)
+
+    @tree_type = Phase.all.where(:theme_id => @theme.id).order(:created_at).reverse_order
+
+    user_id = user_signed_in? ? current_user.id : nil
+    Webview.count_up(user_id,@theme.id)
+    
+    @theme.nolink = true
+    @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(20)
+    @search_entry = SearchEntry.new
+    @issue = Issue.new
+
+    @facilitator = current_user.role == 'admin' || current_user.role == 'facilitator' if user_signed_in?
+
+    @la = I18n.default_locale == :ja ? "ja" : "en"
   end
 
   # 投票データの作成

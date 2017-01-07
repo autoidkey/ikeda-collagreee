@@ -61,6 +61,14 @@ class NoticeMailer < ActionMailer::Base
     mail to: @to.email, subject: '[COLLAGREE] いいねポイント獲得！'
   end
 
+  def notice_free(body, theme_id, user)
+    @to = user
+    @body = body
+    @url = SERVER_URL + '/themes/' + theme_id.to_s
+
+    mail to: @to.email, subject: '[COLLAGREE] お知らせ'
+  end
+
   def reply_notice_no_point(point_history)
     @entry = point_history.entry
     @reply = point_history.reply
