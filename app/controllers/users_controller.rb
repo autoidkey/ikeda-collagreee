@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   include Bm25
 
   def index
+    @entry = Entry.new
+
     if current_user.admin?
       @q = User.where.not(role: 0).ransack(params[:q])
       @users = @q.result
@@ -40,6 +42,19 @@ class UsersController < ApplicationController
     ]
   end
 
+  def user_mail
+    theme_id = params[:theme_id]
+    body = params[:body]
+    p theme_id
+    p body
+    p User.find(1).email
+    p "afafa"
+
+    NoticeMailer.notice_free(body, theme_id, User.find(1))
+    redirect_to users_path
+    
+  end
+
   # idとroleの値の組を送る
   def update
     params[:users].each do |(id, value)|
@@ -68,4 +83,6 @@ class UsersController < ApplicationController
     render nothing: true
     current_user.read_like_notice(params[:theme_id])
   end
+
+
 end
