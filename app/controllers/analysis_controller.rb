@@ -24,8 +24,8 @@ class AnalysisController < ApplicationController
 	def index
 
 		# fix_time
-	  	serch_theme_id = 2
-	  	times = [60,60*24,60*3] ##配列で管理 10~13 分で記入
+	  	serch_theme_id = 1
+	  	times = [60*24] ##配列で管理 10~13 分で記入
 	  	serch_user_id = User.pluck(:id) ##データを取る参加者
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44,100,84,31,32,10,11,12,13,99]
 	  	# remove_user = [1,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,34,35,36,37,38,39,40,41,42,43,44]
@@ -34,8 +34,8 @@ class AnalysisController < ApplicationController
 	  	# serch_user_id = [92,19,17,15,58]
 	  	# start_time = Time.local(2015, 12, 15, 0, 0, 0)
 	  	# end_time = Time .local(2016, 1, 6, 0, 0, 0)
-	  	start_time =  Time.local(2016, 10, 28, 0, 0, 0)
-	  	end_time = Time.local(2016, 11, 5, 0, 0, 0)
+	  	start_time =  Time.local(2016, 12, 12, 0, 0, 0)
+	  	end_time = Time.local(2017, 1, 10, 0, 0, 0)
 
 	  	# object = Entry.all
 	  	# object = Entry.where.not(user_id: remove_user)
