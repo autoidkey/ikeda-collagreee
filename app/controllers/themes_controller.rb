@@ -89,7 +89,7 @@ class ThemesController < ApplicationController
     else
       @tree_type = @tree_type[0][:phase_id]
       # 合意フェイズの最初に投票画面に遷移する
-      if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id, theme_id: @theme.id).exists? && @theme.nolink
+      if @tree_type == 3 && !VoteEntry.where(user_id: current_user.id, theme_id: @theme.id).exists? && !@theme.nolink
         if !(@facilitator && VoteEntry.where(theme_id: @theme.id).exists?) #ファシリテータはすでに誰かが投稿してたら選択の変更はできない
           redirect_to vote_entry_path(@theme.id)
         end
