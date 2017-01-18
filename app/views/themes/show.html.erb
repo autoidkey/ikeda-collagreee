@@ -296,6 +296,49 @@ if ("yes" in core_times) {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
+
+  // 新しい投稿があるかの確認
+  // 修正　非同期で新しい意見を表示するようにしたい
+  // 修正　タブのところに（１）と出したい
+  // assets/custom.jsに移行したい
+  $(function(){
+    var entry_count = <%= @theme.entries.count.to_json %>
+    var entry_count2 = entry_count
+    setInterval(function(){
+      $.ajax({
+        url: "/api/entries/"+"<%= @theme.id %>",
+        type: "GET",
+        success: function(data) {
+          if(entry_count != data){
+            count =  data - entry_count2
+            entry_count = data
+            $("#header-alert").show();
+            comment = count+"件の新しい意見を表示";
+            $("#header-alert").addClass("reload_entry_head");
+            $('#point-alert').text(comment);
+
+            $(".reload_entry_head").click(function () {
+              var h = $(window).height();
+              $('#wrap').css('display','none');
+              $("#header-alert").hide();
+              $('#loader-bg ,#loader').height(h).css('display','block');
+              location.reload();
+            });
+
+            // setTimeout(function(){
+            //   $("#header-alert").hide();
+            // },4000);
+          }
+        },
+        error: function(data) {
+      }
+    });
+    },10000);
+  });
+
+
+  // 新しい投稿があるかの確認
+
 </script>
 
 <script>
