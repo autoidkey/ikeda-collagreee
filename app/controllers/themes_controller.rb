@@ -631,42 +631,42 @@ class ThemesController < ApplicationController
 
         #要約文の生成と保存
         #親の意見に対しては要約しない
-        if @new_entry["parent_id"] != nil
-          youyaku = Youyaku.new
+        # if @new_entry["parent_id"] != nil
+        #   youyaku = Youyaku.new
 
-          if I18n.default_locale == :ja
+        #   if I18n.default_locale == :ja
 
-            #　日本語要約
-            keywords = Keyword.where(:theme_id => @theme.id)
-            entryies = Entry.where(:theme_id => @theme.id)
+        #     #　日本語要約
+        #     keywords = Keyword.where(:theme_id => @theme.id)
+        #     entryies = Entry.where(:theme_id => @theme.id)
 
-            s = ""
-            parent_tex = change_text(search_id(@new_entry["parent_id"],entryies)["body"])
-            midashi_tex = change_text(@new_entry["body"])
-            s = midashi_tex+" "+parent_tex+" "
+        #     s = ""
+        #     parent_tex = change_text(search_id(@new_entry["parent_id"],entryies)["body"])
+        #     midashi_tex = change_text(@new_entry["body"])
+        #     s = midashi_tex+" "+parent_tex+" "
 
-            keywords.each do |key|
-              s = s + change_text(key["word"])+" "
-              s = s + key["score"].to_s + " "
-            end
+        #     keywords.each do |key|
+        #       s = s + change_text(key["word"])+" "
+        #       s = s + key["score"].to_s + " "
+        #     end
 
-            IO.popen("python #{Rails.root}/python/midashi/comment_manager.py #{s}").each do |line|
-              youyaku = Youyaku.new(body: line, target_id: @new_entry["id"], theme_id: @theme.id)
-            end
+        #     IO.popen("python #{Rails.root}/python/midashi/comment_manager.py #{s}").each do |line|
+        #       youyaku = Youyaku.new(body: line, target_id: @new_entry["id"], theme_id: @theme.id)
+        #     end
 
-          else
-            #  英語要約
-            article = OTS.parse(@new_entry["body"])
-            rate = 60 * 100 / @new_entry["body"].length
-            youyaku = Youyaku.new(body: article.summarize(percent: rate)[0][:sentence], target_id: @new_entry["id"], theme_id: @theme.id)
-          end
+        #   else
+        #     #  英語要約
+        #     article = OTS.parse(@new_entry["body"])
+        #     rate = 60 * 100 / @new_entry["body"].length
+        #     youyaku = Youyaku.new(body: article.summarize(percent: rate)[0][:sentence], target_id: @new_entry["id"], theme_id: @theme.id)
+        #   end
 
-        else
-          youyaku = Youyaku.new(body: nil, target_id: @new_entry["id"], theme_id: @theme.id)
-        end
+        # else
+        #   youyaku = Youyaku.new(body: nil, target_id: @new_entry["id"], theme_id: @theme.id)
+        # end
 
-        youyaku.save
-        # ここまで要約
+        # youyaku.save
+        # # ここまで要約
 
 
         print "#エントリーをセーブ"
