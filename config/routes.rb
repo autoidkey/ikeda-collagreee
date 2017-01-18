@@ -64,6 +64,11 @@ Rails.application.routes.draw do
   get "themes/vote_entry_show/:id" => "themes#vote_entry_show",as: "vote_entry_show"
   post "themes/vote_entry_create/:id" => "themes#vote_entry_create" ,as: "vote_entry_create"
   post "themes/vote_entry_check/:id" => "themes#vote_entry_check" ,as: "vote_entry_check"
+
+  namespace :api, { format: 'json' } do
+    resources :entries
+  end
+
   # api
   get 'users' =>  'users#index'
   get 'users/:id' =>  'users#show'
