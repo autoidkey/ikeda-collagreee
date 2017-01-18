@@ -65,6 +65,8 @@ Rails.application.routes.draw do
   post "themes/vote_entry_create/:id" => "themes#vote_entry_create" ,as: "vote_entry_create"
   post "themes/vote_entry_check/:id" => "themes#vote_entry_check" ,as: "vote_entry_check"
 
+  get "themes/show_only/:id" => "themes#show_only" ,as: "theme_show_only"
+
   namespace :api, { format: 'json' } do
     resources :entries
   end
