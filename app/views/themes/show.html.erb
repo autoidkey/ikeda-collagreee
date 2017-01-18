@@ -302,21 +302,24 @@ if ("yes" in core_times) {
   // 修正　タブのところに（１）と出したい
   // assets/custom.jsに移行したい
   $(function(){
-    var entry_count = <%= @theme.entries.count.to_json %>
-    var entry_count2 = entry_count
+
+    var now = new Date();
+
     setInterval(function(){
       $.ajax({
         url: "/api/entries/"+"<%= @theme.id %>",
         type: "GET",
+        data: {
+          time: now
+                },
         success: function(data) {
-          if(entry_count != data){
-            count =  data - entry_count2
-            entry_count = data
-            $("#header-alert").show();
-            comment = count+"件の新しい意見を表示";
+
+          if(data > 0){
+            comment = data+"件の新しい意見を表示";
             $("#header-alert").addClass("reload_entry_head");
             $('#point-alert').text(comment);
 
+            // 上のバーをクリックしたら更新する
             $(".reload_entry_head").click(function () {
               var h = $(window).height();
               $('#wrap').css('display','none');
@@ -324,6 +327,7 @@ if ("yes" in core_times) {
               $('#loader-bg ,#loader').height(h).css('display','block');
               location.reload();
             });
+            // 上のバーをクリックしたら更新する
 
             // setTimeout(function(){
             //   $("#header-alert").hide();
@@ -335,7 +339,6 @@ if ("yes" in core_times) {
     });
     },10000);
   });
-
 
   // 新しい投稿があるかの確認
 
