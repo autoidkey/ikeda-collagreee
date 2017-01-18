@@ -1,0 +1,111 @@
+<!-- 議論フェーズの画像を表示 -->
+<%= render "themes/discussion_phase" %>
+
+
+<!-- Tab panes -->
+<div class="tab-content" id="theme-show">
+  <div class="tab-pane active" id="discussion">
+
+    <div class="row">
+      <div class="col-md-8">
+
+
+
+        <div id="top-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+
+        <!-- それぞれの記事を表示するビュー -->
+        <div id="timeline">
+          <% @entries.each_with_index do |entry| %>
+            <%= render 'panel_js', entry: entry ,count_entry: 0, show_entry: 1 %>
+          <% end %>
+        </div>
+
+
+        <div id="icon-loading">
+          <%= image_tag 'theme/icon-loading.gif' %>
+        </div>
+
+      </div>
+
+
+      <div class="col-md-4">
+
+        <%#= render 'activity' if user_signed_in? %>
+        <!-- 議題 -->
+        <%# if smartphone? %>
+          <%#= render 'facilitation_keywords_mobile' %>
+        <%# else %>
+          <%#= render 'facilitation_keywords' %>
+        <%# end %>
+        <% if !smartphone? %>
+          <%= render 'theme_info' %>
+          <%= render 'user_ranking', users: @users, theme: @theme %>
+          <%#= render 'other_themes' %>
+        <% end %>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+
+</div>
+
+<%= render 'render_c3' %>
+
+<%= javascript_include_tag 'pnotify.custom.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'theme_custom.js', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'mobile.css' if smartphone? %>
+
+
+
+<script>
+    modal.set();
+
+    // 新しい投稿をリロード
+    $(function(){
+      var now = "<%= Time.now %>";
+
+      setInterval(function(){
+        $.ajax({
+          url: "/api/entries/"+"<%= @theme.id %>"+"/edit",
+          type: "GET",
+          data: {
+            time: now
+                  },
+          success: function(data) {
+            console.log(data)
+            console.log("<%= @new_entry.to_json %>")
+
+            if(data > 0){
+              comment = data+"件の新しい意見を表示";
+              $("#header-alert").addClass("reload_entry_head");
+              $('#point-alert').text(comment);
+
+              // 上のバーをクリックしたら更新する
+              $(".reload_entry_head").click(function () {
+                var h = $(window).height();
+                $('#wrap').css('display','none');
+                $("#header-alert").hide();
+                $('#loader-bg ,#loader').height(h).css('display','block');
+                location.reload();
+              });
+              // 上のバーをクリックしたら更新する
+
+              // setTimeout(function(){
+              //   $("#header-alert").hide();
+              // },4000);
+            }
+          },
+          error: function(data) {
+        }
+      });
+      },5000);
+    });
+    // 新しい投稿をリロード
+
+</script>

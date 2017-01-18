@@ -303,7 +303,7 @@ if ("yes" in core_times) {
   // assets/custom.jsに移行したい
   $(function(){
 
-    var now = new Date();
+    var now = "<%= Time.now %>";
 
     setInterval(function(){
       $.ajax({
