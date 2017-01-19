@@ -18,6 +18,7 @@
 
       <span class="glyphicon glyphicon-user"></span> <%= @theme.joins.count %>
       <span class="glyphicon glyphicon-comment"></span> <%= @theme.entries.count %>
+      <br>
       <% if @theme.start_at? %>
         <span class="glyphicon glyphicon-time"></span> <%= @theme.start_at.strftime("%m.%d %H:%M") %> - <%= @theme.end_at.strftime("%m.%d %H:%M") %>
       <% end %>

@@ -6,19 +6,13 @@
         <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
       </button>
       <a class="navbar-brand" id="navbar-brand-top" href="<%= root_path %>">
-        <%= image_tag 'collagree_title.png' , class: 'collagree-title' %>
+        <%= image_tag 'collagree_title2.png' , class: 'collagree-title' %>
       </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to t('layouts.header.management'), homes_about_path %></li>
-        <% if params[:locale]=="en" %>
-          <li><%= link_to t('layouts.header.operation'), '/collagree_guidance.pdf' %></li>
-        <% else %>
-          <li><%= link_to t('layouts.header.operation'), '/new_help.pdf' %></li>
-        <% end %>
 
         <% if user_signed_in? %>
           <li class='nav-user-icon'><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
