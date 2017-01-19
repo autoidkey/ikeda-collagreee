@@ -31,11 +31,6 @@
         <% end %>
       </div>
 
-      <div class="btn-group" role="group">
-        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3', method: :post, data: { confirm: t('themes.switch_consensus') } do %>
-          <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
-        <% end %>
-      </div>
     <% elsif I18n.default_locale == :en  %>
       <div class="btn-group" role="group">
         <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/1?locale=en' , method: :post, data: { confirm: t('themes.switch_divergence') } do %>
@@ -49,11 +44,6 @@
         <% end %>
       </div>
 
-      <div class="btn-group" role="group">
-        <%= link_to '/themes/' + @theme.id.to_s + '/update_phase'+'/3?locale=en', method: :post, data: { confirm: t('themes.switch_consensus') } do %>
-          <button type="button" class="btn btn-default"><%= t('themes.consensus') %></button>
-        <% end %>
-      </div>
     <% end %>
   </div>
   <br />
