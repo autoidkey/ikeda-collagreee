@@ -14,6 +14,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
 
+        <li><%= link_to t('layouts.header.operation'), '/new_help.pdf' %></li>
+
+
         <% if user_signed_in? %>
           <li class='nav-user-icon'><%= image_tag user_icon_path(current_user), class: 'user-icon img-circle' %></li>
           <li><%= link_to t('layouts.header.greet',{name: current_user.name}), edit_user_registration_path %></li>
@@ -23,11 +26,6 @@
         <% else %>
           <li><%= link_to t('layouts.header.signup'), new_user_registration_path %></li>
           <li><%= link_to t('layouts.header.login'), new_user_session_path %></li>
-        <% end %>
-        <% if params[:locale] != 'en' %>
-          <li><%= link_to 'English', "#{request.path}?locale=en" %></li>
-        <% else %>
-          <li><%= link_to 'Japanese', "#{request.path}" %> </li>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
