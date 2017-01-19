@@ -90,7 +90,6 @@ $( function(){
           modal.set();
         },
         error: function(data) {
-          alert("errror");
         }
     });
 

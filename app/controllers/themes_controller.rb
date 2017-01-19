@@ -11,7 +11,7 @@ class ThemesController < ApplicationController
   before_action :set_theme, only: [:point_graph, :user_point_ranking, :check_new_message_2015_1, :search_entry, :search_entry_like, :search_entry_vote]
   before_action :authenticate_user!, only: %i(create, new)
   before_action :set_theme, :set_keyword, :set_facilitation_keyword, :set_point, :set_activity, :set_ranking, only: [:show,:point, :tree, :only_timeline, :vote_entry, :vote_entry_show, :show_only]
-  before_action :set_insert, only: [:insert_entry, :insert_users, :search_entry_like, :search_entry_vote, :search_entry]
+  before_action :set_insert, only: [:insert_entry, :insert_users , :search_entry_like, :search_entry_vote, :search_entry]
   # after_action  :test, only: [:show]
 
   # load_and_authorize_resource
@@ -389,6 +389,22 @@ class ThemesController < ApplicationController
     render partial: '/themes/users'
   end
 
+  def insert_entries
+    if Entry.where(["created_at > ? and theme_id = ?", params[:time], params[:id]]).count == 0
+      render json: 0
+    else
+
+      @theme = Theme.includes(users: [:entries, :likes]).find(params[:id])
+      @stamps = stamp_list(params[:locale])
+      @entry = Entry.new
+      @issue = Issue.new
+      @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+      @core_time = CoreTime.new
+
+      @entries = Entry.sort_time.all.includes(:user).includes(likes: :user).includes(:issues).in_theme(params[:id]).root.page(params[:page]).per(20)
+      render partial: '/themes/timelines', locals: { entries: @entries}
+    end
+  end
 
 
   # 小数点第2位以下を切り捨てるメソッド
