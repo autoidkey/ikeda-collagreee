@@ -303,11 +303,11 @@ if ("yes" in core_times) {
   // assets/custom.jsに移行したい
   $(function(){
 
-    var now = "<%= Time.now %>";
+    var now = moment().format("YYYY-MM-DD HH:mm:ss dddd");
 
     setInterval(function(){
       $.ajax({
-        url: "/api/entries/"+"<%= @theme.id %>",
+        url: "/api/entries/"+"<%= @theme.id.to_json %>",
         type: "GET",
         data: {
           time: now

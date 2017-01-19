@@ -2,12 +2,9 @@ module Api
   class EntriesController < ApplicationController
 
     def edit
-      @new_entry = Entry.where(["created_at > ? and theme_id = ? and user_id != ?", params[:time], params[:id], current_user.id])
-      p @new_entry
-      p "aaaa"
-      p @new_entry.count
-
-      render json: @new_entry.count
+      p Entry.last.id
+      p Entry.first
+      render json: Entry.first.parent_id
     end
 
     def show
