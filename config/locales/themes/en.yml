@@ -103,4 +103,7 @@ en:
     like_ranking_header: 'Ranking Ideas'
     entry_child_agree: 'Agree'
     entry_child_disagree: 'Disagree'
+    entry_form_tag_description: '【Please check the issue tags】'
     entry_child_neither: 'Neither'
+    coretime: 'Coretime'
+    edit_issue: 'Edit Issue'

@@ -107,3 +107,6 @@ ja:
     entry_child_agree: '賛成'
     entry_child_disagree: '反対'
     entry_child_neither: 'どちらでもない'
+    entry_form_tag_description: '【投稿と関係ある論点にチェックしましょう】'
+    coretime: 'コアタイム'
+    edit_issue: '論点編集'

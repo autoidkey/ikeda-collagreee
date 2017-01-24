@@ -13,6 +13,7 @@
         </div>
 
         <!-- それぞれの記事を表示するビュー -->
+        <% current_user.role=2 %>
         <div id="timeline">
           <%= render 'themes/timelines', entries: @entries %>
           <%= paginate @entries %>
