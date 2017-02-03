@@ -303,12 +303,11 @@ if ("yes" in core_times) {
           time: now
                 },
         success: function(data) {
-
           if(data > 0){
             comment = data+"件の新しい意見を表示";
             $("#header-alert").addClass("reload_entry_head");
             $('#point-alert').text(comment);
-
+            $("#header-alert").show();
             // 上のバーをクリックしたら更新する
             $(".reload_entry_head").click(function () {
               var h = $(window).height();
