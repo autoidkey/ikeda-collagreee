@@ -52,7 +52,7 @@ en:
     do_reply: 'reply'
     do_comment: 'comment'
     move_bar: '※ adjust the rate of your agreement'
-    facilitation: 'facilitation'
+    facilitation: 'Facilitation'
     sort: "[sorting]" # I would use English brackets, if possible. For example, "(sorting)" or "[sorting]"
     whats_new: "What's New"
     narrow: "[narrowing]" # See above
