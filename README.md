@@ -15,8 +15,8 @@ $ bundle install --path vendor/bundle
 * db作成
 
 ```
-$ bundle exec db:create
-$ bundle exec db:migrate
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
 ```
 
 `config/database.yml`の`username`と`password`は自分の設定をする
