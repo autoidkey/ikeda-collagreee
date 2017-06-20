@@ -4,22 +4,49 @@ class AnalysisController < ApplicationController
 	require 'spreadsheet'
 
 	def facilitator
-		book = Spreadsheet::Workbook.new
-		sheet = book.create_worksheet
-		# いろいろな方法でデータを入れられる
-		# 計算式は入力できない
-		sheet.row(0).concat %w{day hour value}
+		# book = Spreadsheet::Workbook.new
+		# sheet = book.create_worksheet
+		# # いろいろな方法でデータを入れられる
+		# # 計算式は入力できない
+		# sheet.row(0).concat %w{day hour value}
 
 		row = 24
 		@row = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-
-		User.all.each_with_index do |u, i|
-			sheet[i+1,0] = i / row + 1
-			sheet[i+1,1] = i % row + 1
-			sheet[i+1,2] = 20
+		@col = [1,2,3,4,5,6]
+		CSV.open("public/log/entries.tsv", "w", :col_sep => "\t") do |io|
+		  io.puts(["day","hour","value"]) # 見出し
+		  User.all.each_with_index do |u, i|
+		  	a = i / row + 1
+			b = i % row + 1
+			c = u.entries.count
+		  	io.puts([a,b,c])
+		  end
 		end
+		CSV.open("public/log/likes.tsv", "w", :col_sep => "\t") do |io|
+		  io.puts(["day","hour","value"]) # 見出し
+		  User.all.each_with_index do |u, i|
+		  	a = i / row + 1
+			b = i % row + 1
+			c = u.likes.count
+		  	io.puts([a,b,c])
+		  end
+		end
+		CSV.open("public/log/webviews.tsv", "w", :col_sep => "\t") do |io|
+		  io.puts(["day","hour","value"]) # 見出し
+		  User.all.each_with_index do |u, i|
+		  	a = i / row + 1
+			b = i % row + 1
+			c = u.webviews.count
+		  	io.puts([a,b,c])
+		  end
+		end
+		# User.all.each_with_index do |u, i|
+		# 	sheet[i+1,0] = i / row + 1
+		# 	sheet[i+1,1] = i % row + 1
+		# 	sheet[i+1,2] = 20
+		# end
 
-		book.write('/log/test.csv')
+		# book.write('public/log/test.tsv')
 	end
 
 	def graph
