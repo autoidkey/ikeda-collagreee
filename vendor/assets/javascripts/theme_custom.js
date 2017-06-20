@@ -77,9 +77,17 @@ $( function(){
     $(this).css('cursor','default');
     $('#entry-show-'+$(this).attr('entry-id')).append("<div class='text-center'><img alt='Icon loading' src='/icon-loading.gif' /></div>");
 
+    // 言語の取得
+    var lang = 'ja';
+    var match = location.search.match(/locale=(.*?)(&|$)/);
+    if(match) {
+        lang = decodeURIComponent(match[1]);
+    }
+
+
     // アクションを実行する
     $.ajax({
-        url: "/themes/insert_entry/"+$(this).attr('theme-id'),
+        url: "/themes/insert_entry/"+$(this).attr('theme-id')+"?locale="+lang,
         type: "GET",
         data: {
                 entry: $(this).attr('entry-id')
@@ -102,9 +110,18 @@ $( function(){
   // ユーザアイコンを表示
   $('#panel-users-show').on('inview', function(e) {
     $('#panel-users-show').append("<div class='text-center'><img alt='Icon loading' src='/icon-loading.gif' /></div>");
-     //ブラウザの表示域に表示されたときに実行する処理
+     //ブラウザの表示域に表示されたときに実行する処理Edit
+
+    // 言語の取得
+    var lang = 'ja';
+    var match = location.search.match(/locale=(.*?)(&|$)/);
+    if(match) {
+        lang = decodeURIComponent(match[1]);
+    }
+
+
     $.ajax({
-        url: "/themes/insert_users/"+$(this).attr('theme-id'),
+        url: "/themes/insert_users/"+$(this).attr('theme-id')+"?locale="+lang,
         type: "GET",
         data: {
           entry: 2

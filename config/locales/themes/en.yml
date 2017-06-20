@@ -52,7 +52,7 @@ en:
     do_reply: 'reply'
     do_comment: 'comment'
     move_bar: '※ adjust the rate of your agreement'
-    facilitation: 'facilitation'
+    facilitation: 'Facilitation'
     sort: "[sorting]" # I would use English brackets, if possible. For example, "(sorting)" or "[sorting]"
     whats_new: "What's New"
     narrow: "[narrowing]" # See above
@@ -103,4 +103,7 @@ en:
     like_ranking_header: 'Ranking Ideas'
     entry_child_agree: 'Agree'
     entry_child_disagree: 'Disagree'
+    entry_form_tag_description: '【Please check the issue tags】'
     entry_child_neither: 'Neither'
+    coretime: 'Coretime'
+    edit_issue: 'Edit Issue'

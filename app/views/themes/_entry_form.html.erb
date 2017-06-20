@@ -1,7 +1,7 @@
 <%= form_for @entry, url: {controller: :themes, action: :create_entry}, remote: true do |f| %>
   <div class="form-group">
     <% if smartphone? %>
-      <%= f.text_field :title , class: 'form-control', placeholder: "意見のタイトルを入力してください（20字以内）", rows: 2 %>
+      <%= f.text_field :title , class: 'form-control', placeholder: t('themes.opinion_title'), rows: 2 %>
     <% else %>
       <%= f.text_field :title , class: 'form-control', placeholder: t('themes.opinion_title'), rows: 2 %>
     <% end %>
@@ -15,7 +15,7 @@
 
   <% if @theme.issues.count != 0 %>
     <div class="form-group">
-    【投稿と関係ある論点にチェックしましょう】
+      <%= t('themes.entry_form_tag_description') %>
     <br>
       <% if smartphone? %>
         <div class="row">

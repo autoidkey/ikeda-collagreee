@@ -1,7 +1,7 @@
 <div id="header-time">
   <div class="panel panel-default">
     <div class="panel-header" style="background-color: #f39800;">
-      <h4 class=""><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Core Time / コアタイム<span style="font-size:14px">　期間中に投稿すると、獲得ポイントが2倍になります！</span></h4>
+      <h4 class=""><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Core Time <span style="font-size:14px">　During the core time, points are doubled!!</span></h4>
     </div>
     <div class="panel-body">
       <div class="time-content" style="margin:-10px 10px -5px" id = "core-time-content">
@@ -43,9 +43,11 @@
 <!-- 議論フェーズの画像を表示 -->
 <%= render "themes/discussion_phase" %>
 
+
+<% if false %>
 <!-- フェーズをモーダルで表示 -->
 <%= render "themes/modal_phase" %>
-
+<% end %>
 
 
 <!-- タブの表示 -->
@@ -236,7 +238,8 @@
 <script>
   //フェーズの表示
 var core_times = <%= raw @theme.core_times_check.to_json %>
-var weekDayList = [ "㊐", "㊊", "㊋", "㊌", "㊍", "㊎", "㊏" ] ;
+// var weekDayList = [ "㊐", "㊊", "㊋", "㊌", "㊍", "㊎", "㊏" ] ;
+var weekDayList = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ] ;
 
 if ("now" in core_times) {
   for (var i = 0; i < core_times["now"].length; i++){

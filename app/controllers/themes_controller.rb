@@ -46,7 +46,7 @@ class ThemesController < ApplicationController
     @la = I18n.default_locale == :ja ? "ja" : "en"
 
     @other_themes = Theme.others(@theme.id)
-    @facilitations =  I18n.default_locale == :ja ? Facilitations : Facilitations_en
+    @facilitations = params[:locale] == "ja" ? Facilitations : Facilitations_en
 
     @theme.join!(current_user) if user_join?
     current_user.delete_notice(@theme) if user_signed_in?
@@ -388,6 +388,7 @@ class ThemesController < ApplicationController
   end
 
   def insert_entries
+
     if Entry.where(["created_at > ? and theme_id = ?", params[:time], params[:id]]).count == 0
       render json: 0
     else

@@ -7,7 +7,7 @@
     <% if current_user.admin? || current_user.facilitator? %>
       <ul class="nav nav-pills nav-collagree margin-bottom" role="tablist">
         <li class="active"><a href="#facilitation" role="tab" data-toggle="tab"><%= t('themes.facilitation') %></a></li>
-        <li><a href="#core_time" role="tab" data-toggle="tab">コアタイム</a></li>
+        <li><a href="#core_time" role="tab" data-toggle="tab"><%= t('themes.coretime') %></a></li>
       </ul>
     <% end %>
 
