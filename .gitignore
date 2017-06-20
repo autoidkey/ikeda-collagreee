@@ -16,10 +16,10 @@
 /python/youyakutest/tools/*.pyc
 /python/*.json
 /python/youyakutest/tools/*.pyc
-/python/youyaku0/input_data
-/python/youyaku0/output_data
-/python/youyaku1/input_data
-/python/youyaku1/output_data
+/python/youyaku0/input_data/*.csv
+/python/youyaku0/output_data/*.csv
+/python/youyaku1/input_data/*.csv
+/python/youyaku1/output_data/*.csv
 /python/clustering/file/*.txt
 /*.pyc
 ,/
