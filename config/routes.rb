@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get 'analysis/index'
   get 'analysis/graph'
+  get 'analysis/facilitator'
 
   resources :thread_classes
   resources :facilitation_infomations

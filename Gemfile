@@ -54,6 +54,8 @@ gem 'fullcalendar-rails' #カレンダーを表示
 gem 'momentjs-rails'
 gem 'gon' #JSにデータを渡すことができる
 
+gem 'spreadsheet'
+
 group :development do
   gem 'spring', '~> 1.1.2'
   gem 'spring-commands-rspec'
