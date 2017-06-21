@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
   namespace :api, { format: 'json' } do
     resources :entries
+    get "facilitation/reload_graph" => "facilitation#reload_graph"
   end
 
   # api

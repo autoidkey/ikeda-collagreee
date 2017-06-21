@@ -134,4 +134,20 @@
         .on("click", function(d) {
           heatmapChart(d);
         });
+
+
+    setInterval(function(){
+      $.ajax({
+        url: "/api/facilitation/reload_graph",
+        type: "GET",
+        success: function(data) {
+          heatmapChart(datasets[0]);
+        },
+        error: function(data) {
+          console.log(data)
+        }
+    });
+    },10000);
+
+
     </script>
