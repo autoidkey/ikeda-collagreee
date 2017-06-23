@@ -21,7 +21,7 @@
 /python/youyaku1/input_data/*.csv
 /python/youyaku1/output_data/*.csv
 /python/clustering/file/*.txt
-/public/log/
+/public/log
 /*.pyc
 ,/
 /.idea
