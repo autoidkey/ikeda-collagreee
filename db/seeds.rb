@@ -38,3 +38,8 @@ ods.each do |sheet|
   	pass = sheet[2]
   	User.create(:name => name,realname: name, email: email, password: pass, role: 2)
 end
+
+3.times do |i|
+	num = i + 1
+	User.create(:name => "admin#{num}",realname: "admin#{num}", email: "admin#{num}@admin.co.jp", password: "123456", role: 0)
+end
