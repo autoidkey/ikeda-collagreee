@@ -55,6 +55,8 @@ gem 'momentjs-rails'
 gem 'gon' #JSにデータを渡すことができる
 
 gem 'spreadsheet'
+gem 'rubyXL'
+gem 'roo'
 
 group :development do
   gem 'spring', '~> 1.1.2'

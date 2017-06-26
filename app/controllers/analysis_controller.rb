@@ -28,7 +28,9 @@ class AnalysisController < ApplicationController
 		  	for r in 1..@hashmap["row"]
 		  		if User.exists?(:col => c, :row => r)
 		  			user = User.where(:col => c, :row => r)[0]
-		  			io.puts([c, r, user.entries.count, user.name])
+		  			ran = rand(3) + r/3 + c%10 #とりあえず user.entries.count
+
+		  			io.puts([c, r, ran, user.name])
 		  		end
 		  	end
 		  end
