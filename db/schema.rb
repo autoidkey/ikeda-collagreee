@@ -228,33 +228,6 @@ ActiveRecord::Schema.define(version: 20170623045552) do
     t.integer  "c7"
     t.integer  "c8"
     t.integer  "c9"
-    t.integer  "c10"
-    t.integer  "c11"
-    t.integer  "c12"
-    t.integer  "c13"
-    t.integer  "c14"
-    t.integer  "c15"
-    t.integer  "c16"
-    t.integer  "c17"
-    t.integer  "c18"
-    t.integer  "c19"
-    t.integer  "c20"
-    t.integer  "c21"
-    t.integer  "c22"
-    t.integer  "c23"
-    t.integer  "c24"
-    t.integer  "c25"
-    t.integer  "c26"
-    t.integer  "c27"
-    t.string   "age"
-    t.string   "gender"
-    t.integer  "c28"
-    t.integer  "c29"
-    t.integer  "c30"
-    t.integer  "c31"
-    t.integer  "c32"
-    t.integer  "c33"
-    t.integer  "theme_id"
   end
 
   create_table "tagged_entries", force: true do |t|
@@ -263,33 +236,6 @@ ActiveRecord::Schema.define(version: 20170623045552) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "taggings", force: true do |t|
-    t.integer  "tag_id"
-    t.integer  "taggable_id"
-    t.string   "taggable_type"
-    t.integer  "tagger_id"
-    t.string   "tagger_type"
-    t.string   "context",       limit: 128
-    t.datetime "created_at"
-  end
-
-  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
-  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
-  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
-  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
-  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
-
-  create_table "tags", force: true do |t|
-    t.string  "name"
-    t.integer "taggings_count", default: 0
-  end
-
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "themes", force: true do |t|
     t.string   "title"

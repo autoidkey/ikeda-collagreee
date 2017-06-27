@@ -98,7 +98,7 @@
 
     <!-- スレッドの子供の記事を表示していく -->
     <div class="children" id="entry-<%= entry.id %>" style="<%= 'margin-left: -20px;' if smartphone? %>">
-      <div id="<%= "child-entry-hidden#{entry.id}" if count_entry > show_entry %>">
+      <div id="<%= "child-entry-hidden#{entry.id}" %>">
         <% entry.thread_entries.each do |child| %>
             <hr>
             <%= render 'child_entry', child: child %>
