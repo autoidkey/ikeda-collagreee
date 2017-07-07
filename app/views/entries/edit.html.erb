@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+      <%= form_for @entry do |f| %>
+        <div class="form-group">
+          <%= f.text_area :body,rows: 10, class: 'form-control reply-entry-form', placeholder: t('entries.comment'), :data => {:id => @entry.id} %>
+        </div>
+        <%= f.submit t('entries.post'), class: 'btn btn-default' %>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+

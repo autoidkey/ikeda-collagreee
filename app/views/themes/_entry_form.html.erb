@@ -10,7 +10,7 @@
     <%= f.text_area :body ,rows: 3, class: 'form-control', placeholder: t('themes.opinion_body') %>
   </div>
   <div class="form-group">
-    <%= f.file_field :image %>FileFormat：jpg jpeg gif png
+    <%= f.file_field :image %><span style="color: #8899a6">FileFormat：jpg jpeg gif png</span>
   </div>
 
   <% if @theme.issues.count != 0 %>

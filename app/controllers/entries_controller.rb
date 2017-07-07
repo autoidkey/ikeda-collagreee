@@ -1,8 +1,26 @@
 class EntriesController < ApplicationController
-   before_action :authenticate_user!
-   load_and_authorize_resource
+   # before_action :authenticate_user!
+   # load_and_authorize_resource
 
    include Np
+
+  def edit
+      @entry = Entry.find(params[:id])
+   end
+
+   def update
+    @entry = Entry.find(params[:id])
+    respond_to do |format|
+      if @entry.update(entry_params)
+        format.html { redirect_to theme_path(@entry.theme_id), notice: 'Entry was successfully updated.' }
+        format.json { render :show, status: :ok, location: @entry }
+      else
+        format.html { render :edit }
+        format.json { render json: @entry.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
    def create
      @entry = Entry.new(entry_params)

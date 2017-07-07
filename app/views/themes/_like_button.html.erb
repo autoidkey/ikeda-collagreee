@@ -1,28 +1,9 @@
 <% if !@theme.nolink %> <!-- 議論を行わない設定のときは非表示 -->
 	<% if entry.user_id != current_user.id %>
 	  <% if entry.liked?(current_user) %>
-	      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.cancel_like') %></span>
+	      <span class="like_button" data-id="<%= entry.id %>" data-status="remove"><%= t('themes.cancel_like') %></span>
 	  <% else %>
 	      <span class="like_button" data-id="<%= entry.id %>" data-status="attach"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <%= t('themes.like') %></span>
 	  <% end %>
-	<% else %>
-		<span class="glyphicon glyphicon-user like_button" aria-hidden="true"></span>
-        <span rel="tooltip" data-toggle="tooltip" data-placement="right" data-html="true"
-              title="
-		  <% if entry.like_count != 0  %>
-			  <% entry.likes.each_with_index do |like, i| %>
-			  	<% if i == 0 %>
-			  		<%= like.user.name %>
-			  	<% else %>
-			  		、<%= like.user.name %>
-			  	<% end %>
-			  <% end %>
-		  <% else %>
-		  	なし
-		  <% end %>
-		  "
-              class="like_button">
-		  いいね一覧
-		</span>
 	<% end %>
 <% end %>
