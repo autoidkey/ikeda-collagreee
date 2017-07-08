@@ -19,7 +19,7 @@ module Clockwork
   end
 
   # every(30.minute, YouyakuJob.new) スレッドの要約が動かない状態！ここ直したい
-  every(40.minute, KeywordJob.new) 
+  every(5.minute, KeywordJob.new) 
   every(120.minute, ClusterJob.new)
   every(60.minute, UserKeywordJob.new)
   every(60.minute, PointJob.new)

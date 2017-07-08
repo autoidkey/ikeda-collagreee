@@ -190,14 +190,14 @@ $( function(){
  });
 
  // formの文字制限を促進させるjs
- $('textarea').bind('keydown keyup keypress change',function(){
-    var thisValueLength = $(this).val().length;
-    // $('.count').html(thisValueLength);
-    if(thisValueLength > 200 && thisValueLength < 351 ){
-      $(this).attr('id', 'form-change-color-green');
-    }else if(thisValueLength > 350){
-      $(this).attr('id', 'form-change-color-red');
-    }else{
-      $(this).attr('id', 'entry_body');
-    }
-  });
+ // $('textarea').bind('keydown keyup keypress change',function(){
+ //    var thisValueLength = $(this).val().length;
+ //    // $('.count').html(thisValueLength);
+ //    if(thisValueLength > 200 && thisValueLength < 351 ){
+ //      $(this).attr('id', 'form-change-color-green');
+ //    }else if(thisValueLength > 350){
+ //      $(this).attr('id', 'form-change-color-red');
+ //    }else{
+ //      $(this).attr('id', 'entry_body');
+ //    }
+ //  });

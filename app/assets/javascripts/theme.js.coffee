@@ -185,7 +185,7 @@ $(document).on 'submit', '.reply-tab #new_entry', (e) ->
 
 $(document).on 'submit', '#main-form form', (e) ->
   if $(@).find('#entry_title').val() == '' || $(@).find('#entry_body').val() == ''
-    alert 'タイトルと本文を入力してください'
+    alert 'Please entry title and body!!'
   else
     $(@).find('textarea, :text, :image').val ''
 

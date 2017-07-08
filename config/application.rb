@@ -16,7 +16,7 @@ module NewCollagree
     config.app_generators.scaffold_controller = :scaffold_controller
 
     config.autoload_paths += %W(#{config.root}/lib)
-    config.time_zone = 'Tokyo'
+    config.time_zone = 'Beijing'
     config.active_record.default_timezone = :local
 
     # devise settings
