@@ -290,7 +290,7 @@ if ("yes" in core_times) {
   // assets/custom.jsに移行したい
   $(function(){
 
-    var now = moment().format("YYYY-MM-DD HH:mm:ss dddd");
+    var now = moment().add("hours", -1).format("YYYY-MM-DD HH:mm:ss dddd");
 
     setInterval(function(){
       $.ajax({

@@ -179,13 +179,13 @@ $(document).on 'click', '#search-button', (e) ->
 
 $(document).on 'submit', '.reply-tab #new_entry', (e) ->
   if $(@).find('#entry_body').val() == ''
-    alert '意見を入力してください'
+    alert 'Please enter your opinion!!'
   else
   $(@).find('textarea, :text, :image').val ''
 
 $(document).on 'submit', '#main-form form', (e) ->
   if $(@).find('#entry_title').val() == '' || $(@).find('#entry_body').val() == ''
-    alert 'Please entry title and body!!'
+    alert 'Please enter title and body!!'
   else
     $(@).find('textarea, :text, :image').val ''
 
