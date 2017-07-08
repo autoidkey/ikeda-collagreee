@@ -7,6 +7,7 @@ module Api
 
     def show
       if user_signed_in?
+        p params[:time]
         @entries = Entry.where(["created_at > ? and theme_id = ? and user_id != ?", params[:time], params[:id], current_user.id])
         render json: @entries.count
       end
