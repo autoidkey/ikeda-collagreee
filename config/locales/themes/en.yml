@@ -66,7 +66,7 @@ en:
     three_point_ranking: 'third point ranking'
     post_count_ranking: 'Post ranking'
     post_count: 'post counts'
-    overall_point_ranking: 'Overall point ranking'
+    overall_point_ranking: 'Overall Point Ranking'
     user_title: 'Users'
     main_title_html: "Discussions on the Web"
     login: 'Login'
@@ -107,3 +107,4 @@ en:
     entry_child_neither: 'Neither'
     coretime: 'Coretime'
     edit_issue: 'Edit Issue'
+    your_point_is: 'Your Discussion Point'
