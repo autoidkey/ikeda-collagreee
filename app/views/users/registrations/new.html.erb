@@ -10,7 +10,7 @@
         <%= f.email_field :email, autofocus: true, class: 'form-control' %>
       </div>
 
-      <% if false %>
+      <% if true %>
         <div class="form-group">
           <%= f.label :name, t('users.registration.nickname') %>
           <%= f.text_field :name, autocomplete: "off", class: 'form-control' %>
@@ -23,8 +23,6 @@
       </div> -->
       <% if true %>
         <%= f.hidden_field :realname, { :value => "なし" } %>
-        <% num = rand(1500) + 100 %>
-        <%= f.hidden_field :name, { :value => "ICA-"+num.to_s } %>
       <% end %>
 
       <% if false %>
