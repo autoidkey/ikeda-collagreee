@@ -49,22 +49,21 @@
 <%= render "themes/modal_phase" %>
 <% end %>
 
-
 <!-- タブの表示 -->
 <ul class="nav nav-pills nav-collagree" role="tablist">
 
-  <li class="active tab-click"><%= link_to t('themes.debate') , theme_path(@theme.id) %></li>
+  <li class="active"><a href="#theme-show" role="tab" data-toggle="tab"><%= t('themes.debate') %></a></li>
 
   <% if user_signed_in? %>
     <% if smartphone? %>
-      <li><a href="#theme" role="tab" data-toggle="tab" action="signed_in" id="tree-nav-btn">テーマ</a></li>
+      <li><a href="#theme" role="tab" data-toggle="tab" ><%= t('themes.debate_theme') %></a></li>
     <% end %>
   <% end %>
 
-  <li class="tab-click"><%= link_to t('themes.ranking') , theme_point_path(@theme.id) %></li>
+  <li><a href="#infomation" aria-controls="infomation" role="tab" data-toggle="tab"><%= t('themes.ranking') %></a></li>
 
   <% if !smartphone? %>
-    <li class="tab-click"><%= link_to t('themes.debate_tree') , theme_tree_path(@theme.id) %></li>
+    <li><a href="#tree" aria-controls="tree" role="tab" data-toggle="tab"><%= t('themes.debate_tree') %></a></li>
   <% end %>
 
 <!--   <% if current_user.admin? || current_user.facilitator? %>
@@ -76,8 +75,8 @@
 
 
 <!-- Tab panes -->
-<div class="tab-content" id="theme-show">
-  <div class="tab-pane active" id="discussion">
+<div class="tab-content">
+  <div class="tab-pane active" id="theme-show" role="tabpanel">
 
     <div class="row">
       <div class="col-md-8">
@@ -222,6 +221,34 @@
       </div>
     <% end %>
   <% end %>
+
+  <!-- ランキンングについて -->
+  <div class="tab-pane active" id="infomation">
+    <div class="row">
+      <% if user_signed_in? %>
+        <% if smartphone? %>
+          <div class="col-md-6">
+            <%= render 'point', user: current_user, theme: @theme, point_list: @point_list if user_signed_in? %>
+          </div>
+        <% end %>
+      <% end %>
+      <div class="col-md-6">
+        <%= render 'user_ranking', users: @users, theme: @theme %>
+      </div>
+      <div class="col-md-6">
+        <%= render 'user_ranking_entry', users: @theme.user_entry_count, theme: @theme %>
+      </div>
+    </div>
+  </div>
+
+  <!-- 議論ツリーについて -->
+  <div class="tab-pane active" id="tree">
+    <div class="row">
+      <div class="col-md-12">
+        <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
+      </div>
+    </div>
+  </div>
 
 </div>
 

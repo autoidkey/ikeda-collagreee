@@ -86,7 +86,8 @@ en:
     switch_convergence: "Are you sure you want to switch to the convergence phase?" # See above
     switch_consensus: "Are you sure you want to switch to the consensus phase?" # See above
     debate: 'Discussion'
-    debate_tree: 'Discussion tree'
+    debate_theme: 'Theme'
+    debate_tree: 'Discussion Tree'
     debate_tree_edit: 'Edit discussion tree'
     point_acquired: 'Acquired Point'
     new: 'new'
