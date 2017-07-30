@@ -223,7 +223,7 @@
   <% end %>
 
   <!-- ランキンングについて -->
-  <div class="tab-pane active" id="infomation">
+  <div class="tab-pane" id="infomation">
     <div class="row">
       <% if user_signed_in? %>
         <% if smartphone? %>
@@ -242,7 +242,7 @@
   </div>
 
   <!-- 議論ツリーについて -->
-  <div class="tab-pane active" id="tree">
+  <div class="tab-pane" id="tree">
     <div class="row">
       <div class="col-md-12">
         <%= render 'user_tree' ,action: :"signed_in", theme: @theme , entries: @entries , entryAll: @entry_tree,youyaku: @youyaku ,type: @tree_type ,claster: @themes_claster ,fas: @facilitator,user: @user_id, youyaku_thread: @youyaku_thread, classes: @classes %>
