@@ -1,5 +1,5 @@
 if(<%= @type == "1" %>) {
-	$('#tree-data').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
+	$('#dialog').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
 } else {
 	if(<%= @page == 1 %>) {
 	  $('#timeline').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
