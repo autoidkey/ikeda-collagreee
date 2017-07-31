@@ -344,19 +344,24 @@ class ThemesController < ApplicationController
 
     # @entries = Kaminari.paginate_array(@entries).page(params[:page]).per(10)
     @entries = Kaminari.paginate_array(@entries).page(params[:page])
-    
+
     respond_to do |format|
       format.js
     end
   end
 
   def search_entry_like
+    p "ddddd"
+    @type = params[:type] || 2
+    p @type
     @page = params[:page] || 1
     @entries = Entry.where(id: params[:entry_id]).page(params[:page])
     respond_to do |format|
       format.js
     end
   end
+
+
   def search_entry_vote
     @page = params[:page] || 1
     @entries = Entry.where(id: params[:entry_id]).page(params[:page])

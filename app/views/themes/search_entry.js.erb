@@ -4,12 +4,6 @@ if(<%= @page == 1 %>) {
   $('#timeline').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
 }
 
-if(<%= @page == 1 %>) {
-  $('#dialog').html($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
-} else {
-  $('#dialog').append($("<%=j render 'sort_tl', entry: @entry %>").hide().fadeIn('slow'));
-}
-
 $('#top-loading').css('display','none');
 $('#timeline').css('opacity','1.0');
 
