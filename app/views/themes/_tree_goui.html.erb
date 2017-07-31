@@ -170,6 +170,7 @@
        });
 
         $("#tree-panel").css('opacity','0.5')
+        console.log("click on")
 
 
         // $('.actions').click(function(){
@@ -185,7 +186,7 @@
             entry_id: nid
                   },
           success: function(data) {
-
+            console.log('success!!')
             $("#tree-panel").css('opacity','1')
 
             $("#dialog").empty();
