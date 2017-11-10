@@ -124,7 +124,7 @@
         <%= paginate @entries %>
         <div id="timeline">
           <% @entries.each_with_index do |entry, i| %>
-            <% if i > 2 %>
+            <% if i > 100 %>
               <%= render "panel_new" , entry: entry %>
             <% else %>
               <%= render "panel_top" , entry: entry %>
