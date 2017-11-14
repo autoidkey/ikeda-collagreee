@@ -71,6 +71,9 @@ Rails.application.routes.draw do
   post "themes/vote_entry_check/:id" => "themes#vote_entry_check" ,as: "vote_entry_check"
 
   get "themes/show_only/:id" => "themes#show_only" ,as: "theme_show_only"
+  #add by ikeda 
+  get "themes/threads/:id" => "themes#all_entry"
+  #post "thmes/post/submit" => 
 
   namespace :api, { format: 'json' } do
     resources :entries

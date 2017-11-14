@@ -301,6 +301,12 @@ class ThemesController < ApplicationController
     end
   end
 
+  #add by ikeda
+  def all_entry
+    theme_id = params[:theme_id]
+    render json: Entry.where(theme_id: params[:id]), status: :unprocessable_entity
+  end
+
   def only_timeline
     @entry = Entry.new
     # @entries = Entry.all.includes(:user).includes(:issues).in_theme(@theme.id).root.page(params[:page]).per(10)
